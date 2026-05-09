@@ -40,7 +40,7 @@
 
 ## File conventions
 - Section components in `components/sections/`, primitives in `components/ui/`, motion wrappers in `components/motion/`
-- Step components for the intake wizard in `components/onboard/`, prefixed `Step`
+- Wizard lives in `components/onboard/`: `WizardShell.tsx` (chrome), `WelcomeScreen.tsx`/`SubmittedScreen.tsx` (bookends), `StepXxx.tsx` (one per step), `_primitives.tsx` (shared step UI library)
 - One component per file, PascalCase
 - Pages in `app/`, use `page.tsx`
 - Shared types in `lib/types.ts`
@@ -67,9 +67,24 @@
 
 ## Known gaps to be aware of
 - `lib/api.ts` is a stub — see Forms section above
-- Two onboarding routes exist (`/onboard` and `/onboarding`). The canonical one is `/onboard` (Tailwind + modular step components). `DorzaOnboarding.tsx` and `/onboarding` are an older alternate — do not add features to both.
-- `components/Footer.tsx` and `components/Nav.tsx` at the top level are older duplicates; the homepage uses the ones in `components/sections/`
+- The `/onboard` wizard never submits anywhere — Step 10 just transitions to `SubmittedScreen` (UI-only). When wiring real submission, the same static-export constraint applies — use a third-party endpoint.
+- `components/Footer.tsx` and `components/Nav.tsx` at the top level are dead code (zero imports) — homepage uses the `components/sections/` versions. Safe to delete.
 - Design tokens are duplicated in `tailwind.config.ts` and `app/globals.css` — change both together
+
+## Added by codebase-onboarding 2026-05-09
+
+### Onboarding wizard architecture
+- `app/onboard/page.tsx` is the single owner of `useReducer(reducer, initialState)`, the phase state (`"welcome" | "wizard" | "submitted"`), the step index, and `validate(currentStep)`. All wizard behaviour flows through here.
+- Step components are **dumb** — they receive `{ state, dispatch, errors }` and compose UI from `_primitives.tsx`. They don't own state, they don't validate, they don't render their own chrome.
+- **Shared step UI lives in `components/onboard/_primitives.tsx`** — `StepLayout`, `Field`, `FieldGrid`, `Input`, `Textarea`, `Chip`, `ChipRow`, `OptionCard`, `OptionGrid`, `Toggle`, `Eyebrow`, `MonoBadge`, `SectionRule`, `stepEyebrow()`. When adding wizard UI, **extend these primitives** rather than introducing ad-hoc inputs inside a `StepXxx.tsx`.
+- Wizard chrome (top bar, sidebar stepper, mobile dot progress, bottom nav with progress bar) is in `WizardShell.tsx`. Don't duplicate any of it inside step components.
+- Adding a new field to `OnboardState` requires updates in **four** places: `lib/types.ts`, `initialState` in `app/onboard/page.tsx`, the relevant `StepXxx.tsx`, and `lib/generateMarkdown.ts`.
+
+### Validation
+- Only Steps 1, 3, and 9 currently validate (business name/owner/phone, ≥1 service, package selected). Backwards step jumps allowed; forward jumps blocked. To change this, edit `validate()` in `app/onboard/page.tsx` — don't move validation into step components.
+
+### Removed
+- The old `/app/onboarding` route and `components/DorzaOnboarding.tsx` (inline-styled monolith) are gone. `/onboard` is canonical — do not recreate the alternate.
 
 ## Client website builds (future)
 - Each client site is a separate repo generated from templates in `/templates`
