@@ -1,14 +1,27 @@
 "use client";
 
+import { Check } from "lucide-react";
 import type { OnboardState, OnboardAction } from "@/lib/types";
+import { Chip, ChipRow, Field, Input, StepLayout } from "./_primitives";
 
 interface Props {
   state: OnboardState;
   dispatch: React.Dispatch<OnboardAction>;
 }
 
-const platforms = ["Instagram", "Facebook", "TikTok", "LinkedIn"];
-const frequencies = ["3x/week standard", "5x/week pro"] as const;
+const platforms = ["Instagram", "Facebook", "TikTok", "LinkedIn"] as const;
+const frequencies = [
+  {
+    value: "3x/week standard" as const,
+    label: "3× per week",
+    desc: "Standard cadence",
+  },
+  {
+    value: "5x/week pro" as const,
+    label: "5× per week",
+    desc: "Pro cadence — more reach",
+  },
+];
 const contentTypes = [
   "Promos",
   "Tips & education",
@@ -16,132 +29,102 @@ const contentTypes = [
   "Seasonal",
   "Customer reviews",
   "Local area",
-];
+] as const;
 const approvalOptions = [
-  { value: "Auto-post", desc: "We post without approval" },
-  { value: "WhatsApp approval", desc: "We send drafts via WhatsApp" },
-  { value: "Dashboard review", desc: "You review in a dashboard" },
-];
+  "Auto-post",
+  "WhatsApp approval",
+  "Dashboard review",
+] as const;
 
 export default function StepSocialMedia({ state, dispatch }: Props) {
   const update = (field: keyof OnboardState, value: unknown) =>
     dispatch({ type: "UPDATE_FIELD", field, value });
 
   return (
-    <div className="space-y-5">
-      <h2 className="font-display font-bold text-2xl text-dark">
-        Social media
-      </h2>
+    <StepLayout
+      eyebrow="08 — Social rhythm"
+      title="How should your social run?"
+      lead="We post on your behalf. You choose the cadence and what gets posted."
+    >
+      <Field label="Platforms to manage">
+        <ChipRow
+          options={platforms}
+          isSelected={(v) => state.socialPlatforms.includes(v)}
+          onToggle={(v) =>
+            dispatch({ type: "TOGGLE_SOCIAL_PLATFORM", platform: v })
+          }
+          size="sm"
+        />
+      </Field>
 
-      <div>
-        <label className="block text-sm font-medium text-dark mb-2">
-          Platforms
-        </label>
+      <Field label="Posting frequency">
+        <div className="flex flex-col gap-2">
+          {frequencies.map((f) => {
+            const on = state.postingFrequency === f.value;
+            return (
+              <button
+                key={f.value}
+                type="button"
+                onClick={() => update("postingFrequency", f.value)}
+                className={`text-left rounded-[14px] border-[1.5px] px-4 py-3.5 flex justify-between items-center transition-colors duration-200 ease-dorza ${
+                  on
+                    ? "bg-primary-tint border-primary"
+                    : "bg-white border-border hover:border-primary-light"
+                }`}
+              >
+                <div>
+                  <div className="text-[14px] font-semibold text-dark">
+                    {f.label}
+                  </div>
+                  <div className="text-[12px] text-text-muted mt-0.5">
+                    {f.desc}
+                  </div>
+                </div>
+                {on && (
+                  <span className="w-[22px] h-[22px] rounded-full bg-primary text-white inline-flex items-center justify-center flex-shrink-0">
+                    <Check size={12} />
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </Field>
+
+      <Field label="What kind of content?">
+        <ChipRow
+          options={contentTypes}
+          isSelected={(v) => state.contentTypes.includes(v)}
+          onToggle={(v) =>
+            dispatch({ type: "TOGGLE_CONTENT_TYPE", contentType: v })
+          }
+          size="sm"
+        />
+      </Field>
+
+      <Field label="Approval process">
         <div className="flex flex-wrap gap-2">
-          {platforms.map((p) => (
-            <button
-              key={p}
-              type="button"
-              onClick={() =>
-                dispatch({ type: "TOGGLE_SOCIAL_PLATFORM", platform: p })
-              }
-              className={`h-9 px-4 rounded-full text-sm font-medium border transition-colors ${
-                state.socialPlatforms.includes(p)
-                  ? "bg-primary text-white border-primary"
-                  : "bg-white text-dark border-border hover:border-primary/40"
-              }`}
-            >
-              {p}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-dark mb-2">
-          Posting frequency
-        </label>
-        <div className="flex gap-2">
-          {frequencies.map((f) => (
-            <button
-              key={f}
-              type="button"
-              onClick={() => update("postingFrequency", f)}
-              className={`h-10 px-4 rounded-btn text-sm font-medium border transition-colors ${
-                state.postingFrequency === f
-                  ? "bg-primary text-white border-primary"
-                  : "bg-white text-dark border-border hover:border-primary/40"
-              }`}
-            >
-              {f}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-dark mb-2">
-          Content types
-        </label>
-        <div className="flex flex-wrap gap-2">
-          {contentTypes.map((ct) => (
-            <button
-              key={ct}
-              type="button"
-              onClick={() =>
-                dispatch({ type: "TOGGLE_CONTENT_TYPE", contentType: ct })
-              }
-              className={`h-9 px-4 rounded-full text-sm font-medium border transition-colors ${
-                state.contentTypes.includes(ct)
-                  ? "bg-primary text-white border-primary"
-                  : "bg-white text-dark border-border hover:border-primary/40"
-              }`}
-            >
-              {ct}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-dark mb-2">
-          Approval process
-        </label>
-        <div className="grid sm:grid-cols-3 gap-2">
           {approvalOptions.map((a) => (
-            <button
-              key={a.value}
-              type="button"
-              onClick={() => update("approvalProcess", a.value)}
-              className={`text-left p-4 rounded-card border transition-colors ${
-                state.approvalProcess === a.value
-                  ? "bg-primary-light border-primary"
-                  : "bg-white border-border hover:border-primary/40"
-              }`}
+            <Chip
+              key={a}
+              selected={state.approvalProcess === a}
+              onClick={() => update("approvalProcess", a)}
+              size="md"
             >
-              <span className="block text-sm font-semibold text-dark">
-                {a.value}
-              </span>
-              <span className="block text-xs text-text-muted mt-0.5">
-                {a.desc}
-              </span>
-            </button>
+              {a}
+            </Chip>
           ))}
         </div>
-      </div>
+      </Field>
 
-      <div>
-        <label className="block text-sm font-medium text-dark mb-1">
-          Topics to avoid
-        </label>
-        <input
-          type="text"
-          placeholder="Any topics or themes to stay away from"
+      <Field label="Topics to avoid" optional>
+        <Input
+          placeholder="No politics, no diet talk, etc."
           value={state.avoidTopics}
           onChange={(e) => update("avoidTopics", e.target.value)}
-          className="w-full h-12 px-4 border border-border rounded-btn text-dark text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
         />
-      </div>
-    </div>
+      </Field>
+    </StepLayout>
   );
 }
+

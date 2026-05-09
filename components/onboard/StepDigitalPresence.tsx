@@ -1,6 +1,7 @@
 "use client";
 
 import type { OnboardState, OnboardAction } from "@/lib/types";
+import { Chip, Field, Input, StepLayout, Textarea } from "./_primitives";
 
 interface Props {
   state: OnboardState;
@@ -14,95 +15,78 @@ export default function StepDigitalPresence({ state, dispatch }: Props) {
     dispatch({ type: "UPDATE_FIELD", field, value });
 
   return (
-    <div className="space-y-5">
-      <h2 className="font-display font-bold text-2xl text-dark">
-        Digital presence
-      </h2>
-
-      <div>
-        <label className="block text-sm font-medium text-dark mb-1">
-          Existing website URL
-        </label>
-        <input
+    <StepLayout
+      eyebrow="02 — Where you're at online"
+      title="What's already out there?"
+      lead="So we know what to keep, fix, or build from scratch. Skip anything you don't have."
+    >
+      <Field label="Existing website" optional>
+        <Input
           type="url"
-          placeholder="https://"
+          placeholder="https:// or 'none'"
           value={state.existingWebsite}
           onChange={(e) => update("existingWebsite", e.target.value)}
-          className="w-full h-12 px-4 border border-border rounded-btn text-dark text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
         />
-      </div>
+      </Field>
 
-      <div>
-        <label className="block text-sm font-medium text-dark mb-2">
-          Google Business profile?
-        </label>
+      <Field label="Google Business listing?">
         <div className="flex gap-2">
           {googleOptions.map((opt) => (
-            <button
+            <Chip
               key={opt}
-              type="button"
+              selected={state.googleBusiness === opt}
               onClick={() => update("googleBusiness", opt)}
-              className={`h-10 px-4 rounded-btn text-sm font-medium border transition-colors ${
-                state.googleBusiness === opt
-                  ? "bg-primary text-white border-primary"
-                  : "bg-white text-dark border-border hover:border-primary/40"
-              }`}
+              size="md"
+              className="flex-1"
             >
               {opt}
-            </button>
+            </Chip>
           ))}
         </div>
-      </div>
+      </Field>
 
-      <div>
-        <label className="block text-sm font-medium text-dark mb-1">
-          Instagram handle
-        </label>
-        <input
-          type="text"
-          placeholder="@"
-          value={state.instagramHandle}
-          onChange={(e) => update("instagramHandle", e.target.value)}
-          className="w-full h-12 px-4 border border-border rounded-btn text-dark text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
-        />
-      </div>
+      <Field label="Instagram" optional>
+        <div className="flex items-center border border-border bg-white rounded-[12px] overflow-hidden focus-within:border-primary focus-within:shadow-[0_0_0_4px_rgba(212,132,90,0.12)] transition-all duration-200 ease-dorza">
+          <span className="px-3.5 h-12 inline-flex items-center text-text-muted text-[15px] border-r border-border">
+            @
+          </span>
+          <input
+            type="text"
+            value={state.instagramHandle}
+            onChange={(e) => update("instagramHandle", e.target.value)}
+            placeholder="yourhandle"
+            className="flex-1 h-12 px-3.5 bg-transparent text-[15px] text-dark outline-none placeholder:text-text-muted"
+          />
+        </div>
+      </Field>
 
-      <div>
-        <label className="block text-sm font-medium text-dark mb-1">
-          Facebook page
-        </label>
-        <input
-          type="text"
+      <Field label="Facebook page" optional>
+        <Input
+          placeholder="facebook.com/yourpage or 'none'"
           value={state.facebookPage}
           onChange={(e) => update("facebookPage", e.target.value)}
-          className="w-full h-12 px-4 border border-border rounded-btn text-dark text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
         />
-      </div>
+      </Field>
 
-      <div>
-        <label className="block text-sm font-medium text-dark mb-1">
-          Other platforms
-        </label>
-        <input
-          type="text"
-          placeholder="e.g. TikTok, YouTube, LinkedIn"
+      <Field label="Other platforms" optional>
+        <Input
+          placeholder="TikTok, YouTube, LinkedIn"
           value={state.otherPlatforms}
           onChange={(e) => update("otherPlatforms", e.target.value)}
-          className="w-full h-12 px-4 border border-border rounded-btn text-dark text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
         />
-      </div>
+      </Field>
 
-      <div>
-        <label className="block text-sm font-medium text-dark mb-1">
-          Biggest frustration with your current online presence
-        </label>
-        <textarea
+      <Field
+        label="Biggest frustration with your current setup"
+        helper="Be honest — what's not working?"
+        optional
+      >
+        <Textarea
           rows={3}
           value={state.biggestFrustration}
           onChange={(e) => update("biggestFrustration", e.target.value)}
-          className="w-full px-4 py-3 border border-border rounded-btn text-dark text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary resize-none"
         />
-      </div>
-    </div>
+      </Field>
+    </StepLayout>
   );
 }

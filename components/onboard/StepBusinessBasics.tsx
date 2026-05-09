@@ -1,15 +1,24 @@
 "use client";
 
 import type { OnboardState, OnboardAction, BusinessType } from "@/lib/types";
+import {
+  Field,
+  FieldGrid,
+  Input,
+  OptionCard,
+  OptionGrid,
+  StepLayout,
+  Textarea,
+} from "./_primitives";
 
-const businessTypes: BusinessType[] = [
-  "Tradie",
-  "Cafe/Restaurant",
-  "Salon/Beauty",
-  "Fitness/Wellness",
-  "Retail",
-  "Professional Services",
-  "Other",
+const businessTypes: { id: BusinessType; example: string }[] = [
+  { id: "Tradie", example: "Plumber, electrician, builder" },
+  { id: "Cafe/Restaurant", example: "Cafe, bakery, bar" },
+  { id: "Salon/Beauty", example: "Hair, nails, skin" },
+  { id: "Fitness/Wellness", example: "Gym, yoga, physio" },
+  { id: "Retail", example: "Boutique, florist, gifts" },
+  { id: "Professional Services", example: "Accounting, legal, consulting" },
+  { id: "Other", example: "Tell us in your own words" },
 ];
 
 const nichePlaceholders: Record<string, string> = {
@@ -33,162 +42,107 @@ export default function StepBusinessBasics({ state, dispatch, errors }: Props) {
     dispatch({ type: "UPDATE_FIELD", field, value });
 
   return (
-    <div className="space-y-5">
-      <h2 className="font-display font-bold text-2xl text-dark">
-        Business basics
-      </h2>
-
-      <div>
-        <label className="block text-sm font-medium text-dark mb-1">
-          Business name *
-        </label>
-        <input
-          type="text"
+    <StepLayout
+      eyebrow="01 — The basics"
+      title="Tell us about your business"
+      lead="The essentials. We'll use these everywhere — your site, your Google listing, your invoices."
+    >
+      <Field label="Business name" error={errors.businessName}>
+        <Input
           value={state.businessName}
           onChange={(e) => update("businessName", e.target.value)}
-          className="w-full h-12 px-4 border border-border rounded-btn text-dark text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
         />
-        {errors.businessName && (
-          <p className="text-red-500 text-xs mt-1">{errors.businessName}</p>
-        )}
-      </div>
+      </Field>
 
-      <div>
-        <label className="block text-sm font-medium text-dark mb-1">
-          Owner name *
-        </label>
-        <input
-          type="text"
-          value={state.ownerName}
-          onChange={(e) => update("ownerName", e.target.value)}
-          className="w-full h-12 px-4 border border-border rounded-btn text-dark text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
-        />
-        {errors.ownerName && (
-          <p className="text-red-500 text-xs mt-1">{errors.ownerName}</p>
-        )}
-      </div>
+      <FieldGrid>
+        <Field label="Your name" error={errors.ownerName}>
+          <Input
+            value={state.ownerName}
+            onChange={(e) => update("ownerName", e.target.value)}
+          />
+        </Field>
+        <Field label="Phone" error={errors.phone}>
+          <Input
+            type="tel"
+            value={state.phone}
+            onChange={(e) => update("phone", e.target.value)}
+            placeholder="0413 902 184"
+          />
+        </Field>
+      </FieldGrid>
 
-      <div>
-        <label className="block text-sm font-medium text-dark mb-2">
-          Business type
-        </label>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+      <Field label="What kind of business is it?">
+        <OptionGrid cols={2}>
           {businessTypes.map((t) => (
-            <button
-              key={t}
-              type="button"
-              onClick={() => update("businessType", t)}
-              className={`h-11 px-3 rounded-btn text-sm font-medium border transition-colors ${
-                state.businessType === t
-                  ? "bg-primary text-white border-primary"
-                  : "bg-white text-dark border-border hover:border-primary/40"
-              }`}
-            >
-              {t}
-            </button>
+            <OptionCard
+              key={t.id}
+              selected={state.businessType === t.id}
+              onClick={() => update("businessType", t.id)}
+              title={t.id}
+              desc={t.example}
+            />
           ))}
-        </div>
+        </OptionGrid>
         {state.businessType === "Other" && (
-          <input
-            type="text"
+          <Input
+            className="mt-3"
             placeholder="Specify your business type"
             value={state.customBusinessType}
             onChange={(e) => update("customBusinessType", e.target.value)}
-            className="w-full h-12 px-4 mt-2 border border-border rounded-btn text-dark text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
           />
         )}
-      </div>
+      </Field>
 
-      <div>
-        <label className="block text-sm font-medium text-dark mb-1">
-          Niche
-        </label>
-        <input
-          type="text"
+      <Field label="Specific niche" optional>
+        <Input
           placeholder={
-            nichePlaceholders[state.businessType || "Other"] || "Describe your niche"
+            nichePlaceholders[state.businessType || "Other"] ||
+            "Describe your niche"
           }
           value={state.niche}
           onChange={(e) => update("niche", e.target.value)}
-          className="w-full h-12 px-4 border border-border rounded-btn text-dark text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
         />
-      </div>
+      </Field>
 
-      <div>
-        <label className="block text-sm font-medium text-dark mb-1">
-          ABN (optional)
-        </label>
-        <input
-          type="text"
-          value={state.abn}
-          onChange={(e) => update("abn", e.target.value)}
-          className="w-full h-12 px-4 border border-border rounded-btn text-dark text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
-        />
-      </div>
+      <FieldGrid>
+        <Field label="Suburb">
+          <Input
+            value={state.suburb}
+            onChange={(e) => update("suburb", e.target.value)}
+          />
+        </Field>
+        <Field label="Email">
+          <Input
+            type="email"
+            value={state.email}
+            onChange={(e) => update("email", e.target.value)}
+          />
+        </Field>
+      </FieldGrid>
 
-      <div>
-        <label className="block text-sm font-medium text-dark mb-1">
-          Street address
-        </label>
-        <input
-          type="text"
+      <Field label="Street address" optional>
+        <Input
           value={state.streetAddress}
           onChange={(e) => update("streetAddress", e.target.value)}
-          className="w-full h-12 px-4 border border-border rounded-btn text-dark text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
         />
-      </div>
+      </Field>
 
-      <div>
-        <label className="block text-sm font-medium text-dark mb-1">
-          Suburb
-        </label>
-        <input
-          type="text"
-          value={state.suburb}
-          onChange={(e) => update("suburb", e.target.value)}
-          className="w-full h-12 px-4 border border-border rounded-btn text-dark text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
-        />
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-dark mb-1">
-          Phone *
-        </label>
-        <input
-          type="tel"
-          value={state.phone}
-          onChange={(e) => update("phone", e.target.value)}
-          className="w-full h-12 px-4 border border-border rounded-btn text-dark text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
-        />
-        {errors.phone && (
-          <p className="text-red-500 text-xs mt-1">{errors.phone}</p>
-        )}
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-dark mb-1">
-          Email
-        </label>
-        <input
-          type="email"
-          value={state.email}
-          onChange={(e) => update("email", e.target.value)}
-          className="w-full h-12 px-4 border border-border rounded-btn text-dark text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
-        />
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-dark mb-1">
-          Opening hours
-        </label>
-        <textarea
-          rows={3}
+      <Field label="Opening hours" optional>
+        <Textarea
+          rows={2}
+          placeholder="e.g. Mon–Fri 8am–5pm, Sat 9am–1pm"
           value={state.openingHours}
           onChange={(e) => update("openingHours", e.target.value)}
-          placeholder="e.g. Mon-Fri 8am-5pm, Sat 9am-1pm"
-          className="w-full px-4 py-3 border border-border rounded-btn text-dark text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary resize-none"
         />
-      </div>
-    </div>
+      </Field>
+
+      <Field label="ABN" optional>
+        <Input
+          placeholder="11 222 333 444"
+          value={state.abn}
+          onChange={(e) => update("abn", e.target.value)}
+        />
+      </Field>
+    </StepLayout>
   );
 }
