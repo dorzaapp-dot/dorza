@@ -29,13 +29,13 @@ const steps: Step[] = [
   {
     num: "02",
     title: "We build everything",
-    desc: "Our team — backed by AI — builds your website, sets up Google Business, and prepares your social profiles. Done in 24–48 hours, no back-and-forth.",
+    desc: "Our team — backed by AI — builds your website, sets up Google Business, and prepares your social profiles. Done end-to-end, no back-and-forth.",
     visual: <BuildShowcaseVisual />,
   },
   {
     num: "03",
     title: "You review and approve",
-    desc: "We send you a link to preview everything. You ask for changes, we make them — usually same day. When you're happy, you say go.",
+    desc: "We send you a link to preview everything. You ask for changes, we make them quickly. When you're happy, you say go.",
     visual: <ReviewVisual />,
   },
   {
@@ -358,7 +358,7 @@ function BuildShowcaseVisual() {
           Building
         </span>
         <span className="font-mono text-[10px] text-text-muted">
-          24–48 hrs
+          End-to-end
         </span>
       </div>
       <div className="grid grid-cols-3 gap-2.5">

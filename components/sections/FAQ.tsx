@@ -12,15 +12,11 @@ const faqs = [
   },
   {
     q: "I've been burned by agencies before — why is this different?",
-    a: "We get it. Most agencies overpromise, underdeliver, and disappear for weeks. With Dorza, you see a working website within 24 hours of signing up — not a proposal, not a mood board. If you're not happy, you don't pay for the next month. Simple.",
+    a: "We get it. Most agencies overpromise, underdeliver, and go quiet. With Dorza, you see a real working website — not a proposal, not a mood board. If you're not happy, you don't pay for the next month. Simple.",
   },
   {
     q: "I don't have time for this.",
-    a: "Good — you don't need to make time. We handle everything. You fill out a 5-minute form, review what we build, and say go. After that, we run it. You'll hear from us once a month with a performance report.",
-  },
-  {
-    q: "How fast is 'live in 24 hours' really?",
-    a: "We mean it. After you submit your intake form, your website is live within 24 hours. Google Business setup takes another 24-48 hours (Google has its own timeline). Social media profiles are live same day.",
+    a: "Good — you don't need to make time. We handle everything. You fill out a short form, review what we build, and say go. After that, we run it. You'll hear from us once a month with a performance report.",
   },
   {
     q: "What if I want to cancel?",

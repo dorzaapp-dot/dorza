@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, ChevronRight } from "lucide-react";
+import { Check, ChevronRight, Clock } from "lucide-react";
 import { Eyebrow } from "./_primitives";
 
 interface Props {
@@ -46,13 +46,11 @@ export default function WelcomeScreen({
               <br />
               your business
               <br />
-              <em className="text-primary-dark not-italic font-display">online</em>{" "}
-              this week.
+              <em className="text-primary-dark not-italic font-display">online</em>.
             </h1>
             <p className="text-[16px] md:text-[19px] text-text-secondary leading-[1.55] max-w-[480px]">
-              Ten short steps. We use your answers to build your site, set up
-              your Google profile, and plan your first month of content. About
-              8 minutes.
+              Nine short steps. We use your answers to build your site, set up
+              your Google profile, and plan your first month of content.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 mt-9">
@@ -77,9 +75,9 @@ export default function WelcomeScreen({
 
           <div className="hidden md:flex gap-8 mt-12">
             {[
-              { label: "Time", value: "≈ 8 min" },
-              { label: "First draft", value: "5 days" },
+              { label: "Steps", value: "9" },
               { label: "Save & resume", value: "Anytime" },
+              { label: "Founding offer", value: "50% off setup" },
             ].map((s) => (
               <div key={s.label}>
                 <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-text-muted">
@@ -95,25 +93,19 @@ export default function WelcomeScreen({
 
         {/* Right — visual cards */}
         <div className="bg-primary-tint border-t md:border-t-0 md:border-l border-border px-6 py-10 md:px-12 md:py-12 flex flex-col gap-4 justify-center">
-          {/* Sarah card */}
+          {/* Contact promise */}
           <div className="bg-white border border-border rounded-[20px] p-4 md:p-5 flex items-center gap-3.5">
-            <span className="w-10 h-10 rounded-full bg-accent text-white inline-flex items-center justify-center font-display text-[18px] flex-shrink-0">
-              S
+            <span className="w-10 h-10 rounded-full bg-accent text-white inline-flex items-center justify-center flex-shrink-0">
+              <Clock size={18} />
             </span>
             <div className="flex-1 min-w-0">
               <div className="text-[13px] font-semibold text-dark">
-                Sarah Mehta
+                We&apos;ll be in touch
               </div>
-              <div className="text-[12px] text-text-muted">
-                Your Dorza lead · replies in &lt;24h
+              <div className="text-[12px] text-text-muted leading-snug">
+                Dorza will contact you within 72 hours of submitting your brief.
               </div>
             </div>
-            <button
-              type="button"
-              className="h-9 px-4 bg-white border border-border hover:bg-surface text-dark text-[13px] font-semibold rounded-full transition-colors flex-shrink-0"
-            >
-              Message
-            </button>
           </div>
 
           {/* What you'll need */}
@@ -143,7 +135,7 @@ export default function WelcomeScreen({
               50% off setup, locked-in pricing for 12 months.
             </div>
             <div className="text-[13px] text-white/65 mt-2">
-              Auto-applied at checkout if you submit before Friday.
+              Auto-applied at checkout for the first 20 Sydney clients.
             </div>
           </div>
         </div>

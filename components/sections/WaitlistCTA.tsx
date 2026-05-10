@@ -67,7 +67,7 @@ export default function WaitlistCTA() {
             </h2>
             <p className="text-[17px] md:text-[18px] leading-relaxed tracking-[-0.01em] text-white/60 max-w-md mx-auto">
               Join the first 20 founding clients in Sydney and lock in 50% off
-              your setup. Your new website ships within 24 hours of saying yes.
+              your setup.
             </p>
           </Reveal>
 
@@ -187,7 +187,7 @@ function Confirmation() {
         Welcome to the front of the queue.
       </h3>
       <p className="text-white/60 text-[15px] leading-relaxed">
-        We&rsquo;ll be in touch within 24 hours from a real Sydney human.
+        Dorza will contact you within 72 hours — from a real Sydney human.
       </p>
     </motion.div>
   );

@@ -82,7 +82,7 @@ const SITES: Site[] = [
   },
 ];
 
-const CYCLE_MS = 4500;
+const CYCLE_MS = 3600;
 
 export default function HeroBrowserMockup() {
   const shouldReduce = useReducedMotion();
@@ -230,21 +230,6 @@ export default function HeroBrowserMockup() {
           </div>
         </div>
       </Tilt>
-
-      {/* Floating "Live in 24h" badge — stays anchored, doesn't tilt */}
-      <motion.div
-        initial={shouldReduce ? {} : { opacity: 0, scale: 0.85 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5, delay: 1.0, ease: DORZA_EASE }}
-        className="absolute -top-3 -right-3 md:-top-4 md:-right-4 bg-primary text-white rounded-card px-4 py-3 shadow-medium z-10"
-      >
-        <p className="font-mono text-[10px] text-white/70 uppercase tracking-widest leading-none">
-          Live in
-        </p>
-        <p className="font-body font-bold text-[24px] leading-none mt-1 tracking-[-0.02em]">
-          24h
-        </p>
-      </motion.div>
     </motion.div>
   );
 }

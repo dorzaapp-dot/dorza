@@ -57,7 +57,6 @@ const comparison = {
     label: "Traditional agency",
     monthly: 3000,
     setup: 5000,
-    timeline: "6–8 weeks",
     features: [
       "Discovery workshops, decks, drawn-out approvals",
       "12-month lock-in retainer",
@@ -69,11 +68,10 @@ const comparison = {
     label: "With Dorza",
     monthly: 349,
     setup: 799,
-    timeline: "24 hours",
     features: [
-      "AI-assisted build, ready in a day",
+      "AI-assisted build, hand-coded by a real team",
       "Month-to-month, cancel any time",
-      "One team, same-day iteration",
+      "One team, fast iteration",
       "All revisions included",
     ],
   },
@@ -219,8 +217,7 @@ function ComparisonToggle() {
               <span className="text-text-muted text-base">/mo</span>
             </motion.div>
             <p className="mt-3 text-sm text-text-muted">
-              + ${Math.round(setup).toLocaleString()} setup · Live in{" "}
-              <span className="text-dark font-semibold">{data.timeline}</span>
+              + ${Math.round(setup).toLocaleString()} setup
             </p>
 
             <AnimatePresence>

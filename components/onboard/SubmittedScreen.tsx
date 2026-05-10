@@ -8,12 +8,12 @@ interface Props {
   submittedAt?: string;
 }
 
-const TIMELINE = [
-  { when: "Today", what: "Confirmation email + welcome pack", done: true },
-  { when: "Tomorrow", what: "Sarah reviews your brief", current: true },
-  { when: "Days 1–2", what: "First draft of homepage" },
-  { when: "Days 3–4", what: "Round 1 feedback call (15 min)" },
-  { when: "Day 5", what: "Site live + Google profile published" },
+const TIMELINE: { what: string; done?: boolean; current?: boolean }[] = [
+  { what: "We've received your brief", done: true },
+  { what: "Dorza will contact you within 72 hours", current: true },
+  { what: "We build the first draft of your site" },
+  { what: "You review and request any changes" },
+  { what: "Site goes live + Google profile published" },
 ];
 
 export default function SubmittedScreen({
@@ -55,9 +55,11 @@ export default function SubmittedScreen({
             We&apos;re on it from here.
           </h1>
           <p className="text-[16px] md:text-[18px] text-white/70 leading-[1.55] max-w-[520px]">
-            Sarah&apos;s been notified. You&apos;ll get a confirmation email in
-            the next few minutes, and a first draft of your site in your inbox{" "}
-            <strong className="text-white font-semibold">within 5 days</strong>.
+            <strong className="text-white font-semibold">
+              Dorza will contact you within 72 hours.
+            </strong>{" "}
+            You&apos;ll get a confirmation email in the next few minutes — keep
+            an eye on your inbox.
           </p>
           <div className="flex flex-wrap gap-3 mt-9">
             <button
@@ -70,7 +72,7 @@ export default function SubmittedScreen({
               type="button"
               className="inline-flex items-center justify-center h-12 px-6 bg-transparent border border-white/20 hover:border-white/40 text-white text-sm font-semibold rounded-full transition-colors"
             >
-              Add to calendar
+              Back to homepage
             </button>
           </div>
         </div>
@@ -103,16 +105,7 @@ export default function SubmittedScreen({
                   )}
                 </div>
                 <div className="pt-0.5">
-                  <div
-                    className={`font-mono text-[10px] uppercase tracking-[0.1em] ${
-                      row.current
-                        ? "text-primary-light"
-                        : "text-white/50"
-                    }`}
-                  >
-                    {row.when}
-                  </div>
-                  <div className="font-display text-[20px] md:text-[22px] text-white mt-1 tracking-[-0.015em]">
+                  <div className="font-display text-[20px] md:text-[22px] text-white tracking-[-0.015em]">
                     {row.what}
                   </div>
                 </div>

@@ -146,9 +146,9 @@ export default function WizardShell({
             })}
           </ol>
 
-          <div className="mt-auto pt-7 text-[12px] text-text-muted">
-            Need help? Text Sarah on{" "}
-            <span className="text-dark">0413 902 184</span>
+          <div className="mt-auto pt-7 text-[12px] text-text-muted leading-relaxed">
+            Save anytime — Dorza will contact you within 72 hours of
+            submitting.
           </div>
         </aside>
 
