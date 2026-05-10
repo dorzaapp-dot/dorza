@@ -158,13 +158,13 @@ export default function OnboardPage() {
   const [step, setStep] = useState(0);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const validate = useCallback((_currentStep: number): boolean => {
+  const validate = useCallback((): boolean => {
     setErrors({});
     return true;
   }, []);
 
   function goNext() {
-    if (!validate(step)) return;
+    if (!validate()) return;
     if (step >= TOTAL_STEPS - 1) {
       setPhase("submitted");
       return;
