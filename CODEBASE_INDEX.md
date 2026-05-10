@@ -83,17 +83,17 @@ lib/api.ts: submitForm() → console.log + 500ms resolved Promise (all forms hit
 
 ## System / backend flow walkthrough
 
-1. Staff opens `/onboard` on a tablet during a client meeting
-2. [app/onboard/page.tsx](dorza-v2/app/onboard/page.tsx) initialises `useReducer(reducer, initialState)` plus `phase` state (`"welcome" | "wizard" | "submitted"`) and `step` index
+1. Customer opens `/onboard` directly (the wizard is customer-facing — no staff handoff field)
+2. [app/onboard/page.tsx](dorza-v2/app/onboard/page.tsx) initialises `useReducer(reducer, initialState)` plus `phase` state (`"welcome" | "wizard" | "submitted"`) and `step` index. `TOTAL_STEPS = 9`
 3. **Welcome phase** — [WelcomeScreen.tsx](dorza-v2/components/onboard/WelcomeScreen.tsx) shows intro and "what you'll need". CTA flips phase to `"wizard"` and sets step to 0
 4. **Wizard phase** — [WizardShell.tsx](dorza-v2/components/onboard/WizardShell.tsx) renders chrome (top bar, sidebar with stepper on desktop / dots on mobile, bottom nav with progress bar) around the active `StepXxx` component
 5. Each step composes UI from [_primitives.tsx](dorza-v2/components/onboard/_primitives.tsx) (`StepLayout`, `Field`, `Input`, `Textarea`, `Chip`, `OptionCard`, `Toggle`, etc.) — no step rolls its own inputs
-6. `validate(currentStep)` runs on "Continue"; only Steps 1, 3, and 9 currently gate progression (business name/owner/phone, at least one service, package selected). Backwards jumps allowed; forward jumps blocked
+6. `validate(currentStep)` runs on "Continue"; only Steps 1 and 3 currently gate progression (business name/owner/phone, at least one service). Backwards jumps allowed; forward jumps blocked
 7. Step 1 sets business type → reducer auto-calls `getDefaultSections(type)` to pre-toggle website sections (e.g. Cafe → Photo gallery on; Retail → E-commerce + Photo gallery on)
-8. Step 9 (`SELECT_PACKAGE`) pre-fills fees from a hardcoded table; founding-client toggle halves the setup fee
-9. Step 10 → [lib/generateMarkdown.ts](dorza-v2/lib/generateMarkdown.ts) converts the full `OnboardState` to a markdown document
-10. **Submitted phase** — [SubmittedScreen.tsx](dorza-v2/components/onboard/SubmittedScreen.tsx) renders success + markdown export options. Staff copies or downloads `Dorza_[BusinessName]_Intake.md`
-11. Markdown is used as `intake.md` input for Claude Code to build the client's Next.js website
+8. Step 7 (Site essentials) collects toggled sections plus free-text `otherSections` and `siteVisionDescription` — these flow into the markdown's `## site` section and the `site_build` agent brief
+9. Step 9 (Review) → [lib/generateMarkdown.ts](dorza-v2/lib/generateMarkdown.ts) converts the full `OnboardState` to an agent-consumable markdown document (YAML frontmatter + kebab-case sections + `## machine` JSON snapshot + `## build_hints` + `## agent_briefs`). Schema versioned via `SCHEMA_VERSION = "dorza-intake.v1"`
+10. **Submitted phase** — [SubmittedScreen.tsx](dorza-v2/components/onboard/SubmittedScreen.tsx) renders success + markdown export options. Customer copies or downloads `Dorza_[BusinessName]_Intake.md`
+11. Markdown is used as `intake.md` input for Claude Code (and skills like `/ui-ux-pro-max`, `/design-review`) to build the client's site, draft SEO content, run competitor research, etc.
 
 **Gap:** the wizard doesn't post anywhere yet — completion just renders `SubmittedScreen`. The "Save & exit" button in the top bar exits to `/` but nothing is persisted between sessions. The "Saved · just now" label in the top bar is decorative.
 
@@ -115,8 +115,7 @@ lib/api.ts: submitForm() → console.log + 500ms resolved Promise (all forms hit
 | Change post-submit success screen | [components/onboard/SubmittedScreen.tsx](dorza-v2/components/onboard/SubmittedScreen.tsx) |
 | Add a shared input/chip/card pattern reused across steps | Extend [components/onboard/_primitives.tsx](dorza-v2/components/onboard/_primitives.tsx); don't add ad-hoc components inside `StepXxx.tsx` |
 | Change validation rules per step | `validate()` in [app/onboard/page.tsx](dorza-v2/app/onboard/page.tsx) |
-| Change package fees / founding-client discount | `SELECT_PACKAGE` case in the reducer in [app/onboard/page.tsx](dorza-v2/app/onboard/page.tsx) |
-| Change the markdown export format | [lib/generateMarkdown.ts](dorza-v2/lib/generateMarkdown.ts) |
+| Change the markdown export format / agent briefs / build hints | [lib/generateMarkdown.ts](dorza-v2/lib/generateMarkdown.ts) — bump `SCHEMA_VERSION` if the shape changes |
 | Add a new page | Create `app/[route]/page.tsx` |
 | Add or change scroll-in animation | Wrap content in `<Reveal>` / `<Reveal stagger>` / `<SlideReveal>` from `components/motion/`; respect `useReducedMotion()` |
 | Run the dev server | `npm run dev` |

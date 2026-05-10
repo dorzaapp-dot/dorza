@@ -1,7 +1,7 @@
 "use client";
 
 import type { OnboardState, OnboardAction } from "@/lib/types";
-import { Field, Input, StepLayout, Toggle } from "./_primitives";
+import { Field, Input, StepLayout, Textarea, Toggle } from "./_primitives";
 
 interface Props {
   state: OnboardState;
@@ -64,7 +64,7 @@ export default function StepWebsiteSections({ state, dispatch }: Props) {
               {section.id === "Online booking" && on && (
                 <div className="mt-3">
                   <Input
-                    placeholder="Booking link URL"
+                    placeholder="Booking link URL (e.g. Mindbody, Square, Calendly)"
                     value={state.bookingLink}
                     onChange={(e) => update("bookingLink", e.target.value)}
                   />
@@ -86,15 +86,29 @@ export default function StepWebsiteSections({ state, dispatch }: Props) {
         })}
       </div>
 
-      <Field label="Online booking tool" optional>
-        <div className="rounded-[14px] border border-accent-light bg-accent-tint px-4 py-3">
-          <Input
-            placeholder="e.g. Mindbody, Square, Calendly"
-            value={state.bookingLink}
-            onChange={(e) => update("bookingLink", e.target.value)}
-            className="bg-white"
-          />
-        </div>
+      <Field
+        label="Anything else you'd like on the site?"
+        helper="A members area, a calculator, a gallery filter — whatever's on your mind."
+        optional
+      >
+        <Textarea
+          rows={3}
+          value={state.otherSections}
+          onChange={(e) => update("otherSections", e.target.value)}
+          placeholder="Free-text — list anything not covered above"
+        />
+      </Field>
+
+      <Field
+        label="How should the site look and feel?"
+        helper="A few sentences. Layout, mood, what you want visitors to feel. Reference sites or apps you love are great."
+      >
+        <Textarea
+          rows={5}
+          value={state.siteVisionDescription}
+          onChange={(e) => update("siteVisionDescription", e.target.value)}
+          placeholder="e.g. Calm and editorial, big photos of the space, lots of whitespace, warm earthy colours, feels handmade not corporate."
+        />
       </Field>
     </StepLayout>
   );

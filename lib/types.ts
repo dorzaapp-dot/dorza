@@ -67,25 +67,14 @@ export interface OnboardState {
   websiteSections: Record<string, boolean>;
   bookingLink: string;
   ecommercePlatform: string;
+  otherSections: string;
+  siteVisionDescription: string;
 
-  // Step 8 - Social media
-  socialPlatforms: string[];
-  postingFrequency: "3x/week standard" | "5x/week pro" | "";
-  contentTypes: string[];
-  approvalProcess: string;
-  avoidTopics: string;
+  // Step 8 - Success
+  successVision: string;
 
-  // Step 9 - Package
-  selectedPackage: "Starter" | "Growth" | "Pro" | "";
-  foundingClient: boolean;
-  agreedSetupFee: number;
-  agreedMonthlyFee: number;
-  paymentMethod: "Invoice" | "Card" | "Direct debit" | "";
-  startDate: string;
-
-  // Step 10 - Review
+  // Step 9 - Review
   notes: string;
-  completedBy: string;
 }
 
 export type OnboardAction =
@@ -94,7 +83,4 @@ export type OnboardAction =
   | { type: "REMOVE_SERVICE"; index: number }
   | { type: "UPDATE_SERVICE"; index: number; value: string }
   | { type: "TOGGLE_DISCOVERY_CHANNEL"; channel: string }
-  | { type: "TOGGLE_SOCIAL_PLATFORM"; platform: string }
-  | { type: "TOGGLE_CONTENT_TYPE"; contentType: string }
-  | { type: "TOGGLE_WEBSITE_SECTION"; section: string }
-  | { type: "SELECT_PACKAGE"; pkg: "Starter" | "Growth" | "Pro" };
+  | { type: "TOGGLE_WEBSITE_SECTION"; section: string };

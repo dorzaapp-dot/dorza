@@ -23,7 +23,7 @@ export default function StepServices({ state, dispatch, errors }: Props) {
       <Field
         label="Your services"
         error={errors.services}
-        helper="Add as many as you need — at least one is required."
+        helper="Add as many as you need."
       >
         <div className="flex flex-col gap-2">
           {state.services.map((svc, i) => (

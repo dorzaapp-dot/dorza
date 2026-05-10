@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Copy, Download } from "lucide-react";
 import type { OnboardState, OnboardAction } from "@/lib/types";
 import { generateMarkdown } from "@/lib/generateMarkdown";
-import { Field, Input, StepLayout, Textarea } from "./_primitives";
+import { Field, StepLayout, Textarea } from "./_primitives";
 
 interface Props {
   state: OnboardState;
@@ -49,39 +49,27 @@ export default function StepReview({ state, dispatch }: Props) {
     ["Tone", state.tone || "—"],
     ["Mood", state.brandKeywords || "—"],
     [
-      "Cadence",
-      state.postingFrequency
-        ? state.postingFrequency.replace("standard", "").replace("pro", "").trim()
-        : "—",
-    ],
-    [
-      "Package",
-      state.selectedPackage
-        ? `${state.selectedPackage} · $${state.agreedMonthlyFee}/mo + $${state.agreedSetupFee} setup`
+      "Success",
+      state.successVision
+        ? state.successVision.length > 80
+          ? state.successVision.slice(0, 80).trim() + "…"
+          : state.successVision
         : "—",
     ],
   ];
 
   return (
     <StepLayout
-      eyebrow="10 — Last look"
+      eyebrow="09 — Last look"
       title="Anything else we should know?"
       lead="Personality, specific requests, follow-ups — all welcome. Then we're off."
     >
-      <Field label="Notes for the team">
+      <Field label="Anything else we should know?">
         <Textarea
           rows={4}
           value={state.notes}
           onChange={(e) => update("notes", e.target.value)}
           placeholder="Anything that didn't fit above"
-        />
-      </Field>
-
-      <Field label="Completed by" optional>
-        <Input
-          value={state.completedBy}
-          onChange={(e) => update("completedBy", e.target.value)}
-          placeholder={state.ownerName || "Your name"}
         />
       </Field>
 
@@ -149,8 +137,8 @@ export default function StepReview({ state, dispatch }: Props) {
             href="#"
           >
             service terms
-          </a>{" "}
-          and to a 50% setup deposit on confirmation.
+          </a>
+          .
         </span>
       </label>
     </StepLayout>
