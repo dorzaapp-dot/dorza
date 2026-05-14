@@ -1,6 +1,8 @@
 "use client";
 
 import { useReducer, useState, useCallback } from "react";
+import { submitForm } from "@/lib/api";
+import { generateMarkdown } from "@/lib/generateMarkdown";
 import type { OnboardState, OnboardAction } from "@/lib/types";
 import StepBusinessBasics from "@/components/onboard/StepBusinessBasics";
 import StepDigitalPresence from "@/components/onboard/StepDigitalPresence";
@@ -157,16 +159,23 @@ export default function OnboardPage() {
   const [phase, setPhase] = useState<Phase>("welcome");
   const [step, setStep] = useState(0);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [submitting, setSubmitting] = useState(false);
 
   const validate = useCallback((): boolean => {
     setErrors({});
     return true;
   }, []);
 
-  function goNext() {
+  async function goNext() {
     if (!validate()) return;
     if (step >= TOTAL_STEPS - 1) {
-      setPhase("submitted");
+      setSubmitting(true);
+      const result = await submitForm(
+        process.env.NEXT_PUBLIC_ONBOARD_SUBMIT_URL!,
+        { state, markdown: generateMarkdown(state) }
+      );
+      setSubmitting(false);
+      if (result.success) setPhase("submitted");
       return;
     }
     setStep((s) => Math.min(s + 1, TOTAL_STEPS - 1));
@@ -214,7 +223,8 @@ export default function OnboardPage() {
       onNext={goNext}
       onJumpTo={jumpTo}
       onExit={exitToHome}
-      forwardLabel={step === TOTAL_STEPS - 1 ? "Submit my brief" : "Continue"}
+      forwardLabel={step === TOTAL_STEPS - 1 ? (submitting ? "Submitting…" : "Submit my brief") : "Continue"}
+      forwardDisabled={submitting}
     >
       {step === 0 && (
         <StepBusinessBasics
