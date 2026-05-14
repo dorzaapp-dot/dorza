@@ -39,18 +39,23 @@ async function sendEmail({ to, subject, html, attachments = [] }: {
 }
 
 Deno.serve(async (req) => {
+  console.log(`[onboard-submit] ${req.method} ${req.url}`);
+
   if (req.method === "OPTIONS") {
+    console.log("[onboard-submit] CORS preflight — returning ok");
     return new Response("ok", { headers: CORS });
   }
 
   try {
     const { state, markdown } = await req.json();
+    console.log(`[onboard-submit] payload received — business: "${state.businessName}", email: "${state.email}"`);
 
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
+    console.log("[onboard-submit] inserting into onboard_submissions...");
     const { error: dbError } = await supabase.from("onboard_submissions").insert({
       email: state.email,
       business_name: state.businessName,
@@ -59,35 +64,42 @@ Deno.serve(async (req) => {
       state_json: state,
     });
 
-    if (dbError) throw dbError;
+    if (dbError) {
+      console.error("[onboard-submit] DB insert failed:", dbError);
+      throw dbError;
+    }
+    console.log("[onboard-submit] DB insert OK");
 
     const mdBytes = new TextEncoder().encode(markdown);
     let mdBinary = "";
     for (const byte of mdBytes) mdBinary += String.fromCharCode(byte);
     const mdBase64 = btoa(mdBinary);
 
-    // Notify Adi
+    console.log("[onboard-submit] sending notification email to Adi...");
     await sendEmail({
-      to: "abrahamadiwidodo@gmail.com",
+      to: "dorza.app@gmail.com",
       subject: `New brief: ${state.businessName || state.email}`,
       html: `<p>New onboarding submission from <strong>${state.ownerName || state.email}</strong>.</p><p>See attached intake.md.</p>`,
       attachments: [{ filename: "intake.md", content: mdBase64, encoding: "base64" }],
     });
+    console.log("[onboard-submit] notification email sent");
 
-    // Confirm to client
     if (state.email) {
+      console.log(`[onboard-submit] sending confirmation email to client: ${state.email}`);
       await sendEmail({
         to: state.email,
         subject: "We've received your brief!",
         html: `<p>Hi ${state.ownerName || "there"},</p><p>Thanks for submitting your brief — we'll be in touch shortly to get started on your website.</p><p>— The Dorza team</p>`,
       });
+      console.log("[onboard-submit] confirmation email sent");
     }
 
+    console.log("[onboard-submit] done — returning success");
     return new Response(JSON.stringify({ success: true }), {
       headers: { ...CORS, "Content-Type": "application/json" },
     });
   } catch (err) {
-    console.error(err);
+    console.error("[onboard-submit] unhandled error:", err);
     return new Response(JSON.stringify({ success: false, error: String(err) }), {
       status: 500,
       headers: { ...CORS, "Content-Type": "application/json" },
