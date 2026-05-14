@@ -19,11 +19,11 @@ const instrument = Instrument_Serif({
 export const metadata: Metadata = {
   title: "Dorza — The AI agency for Sydney small business",
   description:
-    "We build your website, run your social media, and get you found on Google. Done-for-you, live in 24 hours. From $199/month. No lock-in.",
+    "We build your website, run your social media, and get you found on Google. Done-for-you. From $199/month. No lock-in.",
   openGraph: {
     title: "Dorza",
     description:
-      "We build your website, run your social media, and get you found on Google. Done-for-you, live in 24 hours.",
+      "We build your website, run your social media, and get you found on Google. Done-for-you.",
     url: "https://dorza.app",
     siteName: "dorza",
     locale: "en_AU",

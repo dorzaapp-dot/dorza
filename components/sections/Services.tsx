@@ -184,14 +184,14 @@ type Service = {
 const services: Service[] = [
   {
     num: "01",
-    title: "Custom websites, live in 24 hours",
+    title: "Custom websites, built for you",
     description:
       "Built mobile-first, SEO-ready, and crafted around your brand — not a template. Hand-coded by a real team, accelerated by AI.",
     features: [
       "Custom-designed, mobile-first",
       "Google Business profile setup",
       "SEO-ready from day one",
-      "Live within 24 hours",
+      "Hand-coded, AI-accelerated",
     ],
     badge: { label: "Most popular", tone: "primary" },
     visual: <BrowserMock />,

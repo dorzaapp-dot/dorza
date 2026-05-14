@@ -89,7 +89,7 @@ export default function Hero() {
               </div>
 
               <p className="mt-6 font-mono text-[11px] text-text-muted uppercase tracking-[0.16em]">
-                No lock-in contracts · Live in 24 hours · Built for Sydney
+                No lock-in contracts · Built for Sydney
               </p>
             </motion.div>
           </div>

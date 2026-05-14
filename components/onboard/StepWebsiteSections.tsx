@@ -1,25 +1,26 @@
 "use client";
 
 import type { OnboardState, OnboardAction } from "@/lib/types";
+import { Field, Input, StepLayout, Textarea, Toggle } from "./_primitives";
 
 interface Props {
   state: OnboardState;
   dispatch: React.Dispatch<OnboardAction>;
 }
 
-const allSections = [
-  "Hero",
-  "Services/menu",
-  "About us",
-  "Photo gallery",
-  "Contact form",
-  "Google Map",
-  "Testimonials",
-  "Online booking",
-  "Social feed embed",
-  "FAQ",
-  "Blog future",
-  "E-commerce",
+const allSections: { id: string; hint: string }[] = [
+  { id: "Hero", hint: "Your headline + photo" },
+  { id: "Services/menu", hint: "What you sell" },
+  { id: "About us", hint: "Why people choose you" },
+  { id: "Photo gallery", hint: "Show your space or work" },
+  { id: "Contact form", hint: "Enquiries straight to your inbox" },
+  { id: "Google Map", hint: "Help locals find you" },
+  { id: "Testimonials", hint: "Pulled from Google or your own" },
+  { id: "Online booking", hint: "Connect to your tool" },
+  { id: "Social feed embed", hint: "Live Instagram on your site" },
+  { id: "FAQ", hint: "Cuts down enquiry questions" },
+  { id: "Blog future", hint: "Reserve a spot for posts" },
+  { id: "E-commerce", hint: "Online ordering or shop" },
 ];
 
 export default function StepWebsiteSections({ state, dispatch }: Props) {
@@ -27,64 +28,88 @@ export default function StepWebsiteSections({ state, dispatch }: Props) {
     dispatch({ type: "UPDATE_FIELD", field, value });
 
   return (
-    <div className="space-y-5">
-      <h2 className="font-display font-bold text-2xl text-dark">
-        Website sections
-      </h2>
-      <p className="text-sm text-text-muted">
-        Toggle the sections you want on the website.
-      </p>
-
-      <div className="space-y-3">
-        {allSections.map((section) => (
-          <div key={section}>
-            <div className="flex items-center justify-between py-2">
-              <span className="text-sm font-medium text-dark">{section}</span>
-              <button
-                type="button"
-                onClick={() =>
-                  dispatch({ type: "TOGGLE_WEBSITE_SECTION", section })
-                }
-                className={`relative w-11 h-6 rounded-full transition-colors ${
-                  state.websiteSections[section]
-                    ? "bg-primary"
-                    : "bg-gray-200"
-                }`}
-              >
-                <span
-                  className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${
-                    state.websiteSections[section]
-                      ? "translate-x-5"
-                      : "translate-x-0"
-                  }`}
+    <StepLayout
+      eyebrow="07 — Site essentials"
+      title="What sections do you need?"
+      lead="Pre-selected based on your business type. Add or remove anything."
+    >
+      <div className="flex flex-col gap-1.5 -mt-1">
+        {allSections.map((section) => {
+          const on = !!state.websiteSections[section.id];
+          return (
+            <div
+              key={section.id}
+              className="border border-border bg-white rounded-[14px] px-4 py-3.5"
+            >
+              <div className="flex items-center gap-3">
+                <div className="flex-1 min-w-0">
+                  <div className="text-[15px] font-semibold text-dark">
+                    {section.id}
+                  </div>
+                  <div className="text-[12px] text-text-muted mt-0.5">
+                    {section.hint}
+                  </div>
+                </div>
+                <Toggle
+                  on={on}
+                  onChange={() =>
+                    dispatch({
+                      type: "TOGGLE_WEBSITE_SECTION",
+                      section: section.id,
+                    })
+                  }
+                  label={`Toggle ${section.id}`}
                 />
-              </button>
+              </div>
+              {section.id === "Online booking" && on && (
+                <div className="mt-3">
+                  <Input
+                    placeholder="Booking link URL (e.g. Mindbody, Square, Calendly)"
+                    value={state.bookingLink}
+                    onChange={(e) => update("bookingLink", e.target.value)}
+                  />
+                </div>
+              )}
+              {section.id === "E-commerce" && on && (
+                <div className="mt-3">
+                  <Input
+                    placeholder="E-commerce platform (e.g. Shopify)"
+                    value={state.ecommercePlatform}
+                    onChange={(e) =>
+                      update("ecommercePlatform", e.target.value)
+                    }
+                  />
+                </div>
+              )}
             </div>
-
-            {section === "Online booking" &&
-              state.websiteSections["Online booking"] && (
-                <input
-                  type="text"
-                  placeholder="Booking link URL"
-                  value={state.bookingLink}
-                  onChange={(e) => update("bookingLink", e.target.value)}
-                  className="w-full h-10 px-4 mt-1 border border-border rounded-btn text-dark text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
-                />
-              )}
-
-            {section === "E-commerce" &&
-              state.websiteSections["E-commerce"] && (
-                <input
-                  type="text"
-                  placeholder="E-commerce platform (e.g. Shopify)"
-                  value={state.ecommercePlatform}
-                  onChange={(e) => update("ecommercePlatform", e.target.value)}
-                  className="w-full h-10 px-4 mt-1 border border-border rounded-btn text-dark text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
-                />
-              )}
-          </div>
-        ))}
+          );
+        })}
       </div>
-    </div>
+
+      <Field
+        label="Anything else you'd like on the site?"
+        helper="A members area, a calculator, a gallery filter — whatever's on your mind."
+        optional
+      >
+        <Textarea
+          rows={3}
+          value={state.otherSections}
+          onChange={(e) => update("otherSections", e.target.value)}
+          placeholder="Free-text — list anything not covered above"
+        />
+      </Field>
+
+      <Field
+        label="How should the site look and feel?"
+        helper="A few sentences. Layout, mood, what you want visitors to feel. Reference sites or apps you love are great."
+      >
+        <Textarea
+          rows={5}
+          value={state.siteVisionDescription}
+          onChange={(e) => update("siteVisionDescription", e.target.value)}
+          placeholder="e.g. Calm and editorial, big photos of the space, lots of whitespace, warm earthy colours, feels handmade not corporate."
+        />
+      </Field>
+    </StepLayout>
   );
 }

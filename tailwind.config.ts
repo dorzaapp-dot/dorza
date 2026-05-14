@@ -25,6 +25,7 @@ const config: Config = {
         surface: "#F9F7F5",
         warm: "#FDFAF7",
         border: "#F0EBE4",
+        "border-strong": "#E5DFD6",
         "text-primary": "#1A1A2E",
         "text-secondary": "#555555",
         "text-muted": "#888888",

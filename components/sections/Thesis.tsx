@@ -15,7 +15,7 @@ type Stat = {
 };
 
 const stats: Stat[] = [
-  { suffix: "h", target: 24, label: "From signup to live website" },
+  { prefix: "$", target: 0, label: "Hidden fees · No lock-in" },
   { suffix: "%", target: 85, label: "Cheaper than a traditional agency" },
   { prefix: "$", target: 199, label: "Starting from, per month" },
 ];

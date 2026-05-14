@@ -1,10 +1,10 @@
 # Codebase Index
 
-> Generated: 2026-04-29 · Refreshed: 2026-05-04 · Run the codebase-onboarding skill again to refresh.
+> Generated: 2026-04-29 · Refreshed: 2026-05-09 · Run the codebase-onboarding skill again to refresh.
 
 ## Overview
 
-This is the Dorza v2 Next.js application — the marketing website for Dorza (an AI-native digital agency for Sydney small businesses) plus two internal tools: a 10-step client intake wizard and a standalone waitlist page. The repo is pre-launch and under active development. The marketing site went through a major design overhaul in early May 2026 — terracotta + sage palette, serif/sans pairing, framer-motion-driven reveals.
+This is the Dorza v2 Next.js application — the marketing website for Dorza (an AI-native digital agency for Sydney small businesses) plus two internal tools: a 10-step client intake wizard and a standalone waitlist page. The repo is pre-launch and under active development. The marketing site went through a major design overhaul in early May 2026 — terracotta + sage palette, serif/sans pairing, framer-motion-driven reveals. The onboarding wizard was restructured on 2026-05-09 around a shared `WizardShell` + `_primitives` architecture (welcome → wizard → submitted phases).
 
 ## Tech stack
 
@@ -14,6 +14,7 @@ This is the Dorza v2 Next.js application — the marketing website for Dorza (an
 | Framework | Next.js | ^14.2.0 (App Router) | Static export configured (`next.config.mjs`) |
 | Styling | Tailwind CSS | ^3.4.1 | Custom theme in `tailwind.config.ts`, tokens mirrored in `app/globals.css` |
 | Animation | framer-motion | ^12.38.0 | Reveal/Stagger/SlideReveal wrappers + count-up hook |
+| Tilt effect | react-parallax-tilt | ^1.7.326 | Used only in `HeroBrowserMockup` for the homepage browser-mockup tilt |
 | Icons | lucide-react | ^1.7.0 | Used throughout |
 | Fonts | next/font (Google) | — | Plus Jakarta Sans (body) + Instrument Serif (display) |
 | Hosting | Vercel (planned) | — | Static export (`output: 'export'`, `images.unoptimized: true`) |
@@ -27,12 +28,15 @@ app/page.tsx (homepage)
         HowItWorks · Thesis · Pricing · FAQ · WaitlistCTA · Footer
 
 app/onboard/page.tsx (10-step intake wizard — internal tablet tool)
-  └── useReducer in page.tsx → 10 StepXxx components (components/onboard/)
-  └── lib/types.ts (OnboardState) ↔ lib/generateMarkdown.ts (Step 10 output)
-  └── lib/api.ts stub (does nothing real yet)
-
-app/onboarding/page.tsx (DUPLICATE — see Gaps)
-  └── components/DorzaOnboarding.tsx (self-contained, inline styles)
+  ├── useReducer(reducer, initialState) — single OnboardState, all step changes flow through it
+  ├── phase state: "welcome" | "wizard" | "submitted"
+  │     ├── welcome   → components/onboard/WelcomeScreen.tsx (intro + "what you'll need" + start CTA)
+  │     ├── wizard    → components/onboard/WizardShell.tsx (top bar, sidebar/dot progress, bottom nav)
+  │     │                 wraps the active StepXxx component (Steps 1–10)
+  │     └── submitted → components/onboard/SubmittedScreen.tsx (success + markdown export)
+  ├── all step UI uses shared primitives from components/onboard/_primitives.tsx
+  ├── lib/types.ts (OnboardState) ↔ lib/generateMarkdown.ts (Step 10 markdown export)
+  └── validate(currentStep) is the only validation — gate-keeps "Continue"
 
 app/waitlist/page.tsx (public signup)
   └── lib/api.ts stub → console.log only
@@ -45,17 +49,15 @@ lib/api.ts: submitForm() → console.log + 500ms resolved Promise (all forms hit
 | Path | Purpose |
 |------|---------|
 | `app/page.tsx` | Dorza homepage (public) |
-| `app/onboard/page.tsx` | 10-step intake wizard (internal) |
-| `app/onboarding/page.tsx` | Duplicate intake (backed by DorzaOnboarding.tsx — see Gaps) |
+| `app/onboard/page.tsx` | 10-step intake wizard (internal). Owns the reducer, phase state, validation, and step routing |
 | `app/waitlist/page.tsx` | Standalone waitlist signup (public) |
 | `app/layout.tsx` | Root layout: Plus Jakarta Sans + Instrument Serif via next/font, metadata, JSON-LD Organization schema |
 | `app/globals.css` | Design tokens as CSS custom properties, base typography, reduced-motion handling |
 | `components/sections/` | Homepage section components (Nav, Hero, HeroBrowserMockup, Services, HowItWorks, Thesis, Pricing, FAQ, SegmentMarquee, WaitlistCTA, Footer) |
-| `components/onboard/` | Step components for the 10-step intake wizard |
-| `components/ui/` | Shared primitives: Badge, Button, Card, Container, Eyebrow, SectionHeader |
+| `components/onboard/` | Wizard shell + screens + 10 step components. `WizardShell.tsx` is the chrome; `WelcomeScreen.tsx` and `SubmittedScreen.tsx` are the bookends; `_primitives.tsx` is the shared step UI library (StepLayout, Field, FieldGrid, Input, Textarea, Chip, ChipRow, OptionCard, OptionGrid, Toggle, Eyebrow, MonoBadge, SectionRule). `StepXxx.tsx` files compose those primitives — they don't roll their own inputs |
+| `components/ui/` | Shared site primitives: Badge, Button, Card, Container, Eyebrow, SectionHeader (note: a separate `Eyebrow` also exists in `components/onboard/_primitives.tsx` for the wizard) |
 | `components/motion/` | Reveal, Stagger, SlideReveal, useCountUp — framer-motion building blocks; exports `DORZA_EASE` |
-| `components/DorzaOnboarding.tsx` | Monolithic alternate onboarding (inline styles — see Gaps) |
-| `components/Footer.tsx`, `components/Nav.tsx` | Older duplicates at top level — homepage uses `components/sections/` versions |
+| `components/Footer.tsx`, `components/Nav.tsx` | Top-level duplicates — verified zero imports (dead code, safe to delete). Homepage uses `components/sections/` versions |
 | `lib/api.ts` | `submitForm()` stub — console.log + resolves success |
 | `lib/types.ts` | Shared TypeScript types: BusinessType, WaitlistFormData, OnboardState, OnboardAction |
 | `lib/generateMarkdown.ts` | Pure function: converts OnboardState → intake markdown document |
@@ -81,14 +83,19 @@ lib/api.ts: submitForm() → console.log + 500ms resolved Promise (all forms hit
 
 ## System / backend flow walkthrough
 
-1. Staff opens `/onboard` on a tablet during a client meeting
-2. [app/onboard/page.tsx](dorza-v2/app/onboard/page.tsx) initialises `useReducer(reducer, initialState)`
-3. 10 steps rendered one at a time; each step dispatches actions to the shared reducer
-4. Step 1 (BusinessBasics) sets business type → reducer calls `getDefaultSections(type)` to auto-toggle website sections
-5. Step 9 (Package) → `SELECT_PACKAGE` action → fees pre-filled, founding-client discount applied
-6. Step 10 (Review) → [lib/generateMarkdown.ts](dorza-v2/lib/generateMarkdown.ts) converts full `OnboardState` into a markdown document
-7. Staff copies markdown or downloads `Dorza_[BusinessName]_Intake.md`
-8. Markdown is used as `intake.md` input for Claude Code to build the client's Next.js website
+1. Customer opens `/onboard` directly (the wizard is customer-facing — no staff handoff field)
+2. [app/onboard/page.tsx](dorza-v2/app/onboard/page.tsx) initialises `useReducer(reducer, initialState)` plus `phase` state (`"welcome" | "wizard" | "submitted"`) and `step` index. `TOTAL_STEPS = 9`
+3. **Welcome phase** — [WelcomeScreen.tsx](dorza-v2/components/onboard/WelcomeScreen.tsx) shows intro and "what you'll need". CTA flips phase to `"wizard"` and sets step to 0
+4. **Wizard phase** — [WizardShell.tsx](dorza-v2/components/onboard/WizardShell.tsx) renders chrome (top bar, sidebar with stepper on desktop / dots on mobile, bottom nav with progress bar) around the active `StepXxx` component
+5. Each step composes UI from [_primitives.tsx](dorza-v2/components/onboard/_primitives.tsx) (`StepLayout`, `Field`, `Input`, `Textarea`, `Chip`, `OptionCard`, `Toggle`, etc.) — no step rolls its own inputs
+6. `validate(currentStep)` runs on "Continue"; only Steps 1 and 3 currently gate progression (business name/owner/phone, at least one service). Backwards jumps allowed; forward jumps blocked
+7. Step 1 sets business type → reducer auto-calls `getDefaultSections(type)` to pre-toggle website sections (e.g. Cafe → Photo gallery on; Retail → E-commerce + Photo gallery on)
+8. Step 7 (Site essentials) collects toggled sections plus free-text `otherSections` and `siteVisionDescription` — these flow into the markdown's `## site` section and the `site_build` agent brief
+9. Step 9 (Review) → [lib/generateMarkdown.ts](dorza-v2/lib/generateMarkdown.ts) converts the full `OnboardState` to an agent-consumable markdown document (YAML frontmatter + kebab-case sections + `## machine` JSON snapshot + `## build_hints` + `## agent_briefs`). Schema versioned via `SCHEMA_VERSION = "dorza-intake.v1"`
+10. **Submitted phase** — [SubmittedScreen.tsx](dorza-v2/components/onboard/SubmittedScreen.tsx) renders success + markdown export options. Customer copies or downloads `Dorza_[BusinessName]_Intake.md`
+11. Markdown is used as `intake.md` input for Claude Code (and skills like `/ui-ux-pro-max`, `/design-review`) to build the client's site, draft SEO content, run competitor research, etc.
+
+**Gap:** the wizard doesn't post anywhere yet — completion just renders `SubmittedScreen`. The "Save & exit" button in the top bar exits to `/` but nothing is persisted between sessions. The "Saved · just now" label in the top bar is decorative.
 
 ## Where to look — task → location
 
@@ -102,8 +109,13 @@ lib/api.ts: submitForm() → console.log + 500ms resolved Promise (all forms hit
 | Edit the waitlist form | [components/sections/WaitlistCTA.tsx](dorza-v2/components/sections/WaitlistCTA.tsx) |
 | Wire up a real form endpoint | [lib/api.ts](dorza-v2/lib/api.ts) — replace the stub. Note: static export means use a third-party endpoint (Formspree/webhook), not a Next.js route handler |
 | Change design tokens | [tailwind.config.ts](dorza-v2/tailwind.config.ts) **and** mirror in [app/globals.css](dorza-v2/app/globals.css) `:root` |
-| Add a new onboarding step field | [lib/types.ts](dorza-v2/lib/types.ts) → `OnboardState` + relevant `StepXxx.tsx` + [lib/generateMarkdown.ts](dorza-v2/lib/generateMarkdown.ts) |
-| Change the markdown export format | [lib/generateMarkdown.ts](dorza-v2/lib/generateMarkdown.ts) |
+| Add a new onboarding step field | [lib/types.ts](dorza-v2/lib/types.ts) `OnboardState` + initialState in [app/onboard/page.tsx](dorza-v2/app/onboard/page.tsx) + the relevant `StepXxx.tsx` (compose with `Field`/`Input` from `_primitives`) + [lib/generateMarkdown.ts](dorza-v2/lib/generateMarkdown.ts) |
+| Change wizard chrome (top bar, sidebar, bottom nav, progress) | [components/onboard/WizardShell.tsx](dorza-v2/components/onboard/WizardShell.tsx) |
+| Change wizard intro / "what you'll need" | [components/onboard/WelcomeScreen.tsx](dorza-v2/components/onboard/WelcomeScreen.tsx) |
+| Change post-submit success screen | [components/onboard/SubmittedScreen.tsx](dorza-v2/components/onboard/SubmittedScreen.tsx) |
+| Add a shared input/chip/card pattern reused across steps | Extend [components/onboard/_primitives.tsx](dorza-v2/components/onboard/_primitives.tsx); don't add ad-hoc components inside `StepXxx.tsx` |
+| Change validation rules per step | `validate()` in [app/onboard/page.tsx](dorza-v2/app/onboard/page.tsx) |
+| Change the markdown export format / agent briefs / build hints | [lib/generateMarkdown.ts](dorza-v2/lib/generateMarkdown.ts) — bump `SCHEMA_VERSION` if the shape changes |
 | Add a new page | Create `app/[route]/page.tsx` |
 | Add or change scroll-in animation | Wrap content in `<Reveal>` / `<Reveal stagger>` / `<SlideReveal>` from `components/motion/`; respect `useReducedMotion()` |
 | Run the dev server | `npm run dev` |
@@ -157,17 +169,24 @@ lib/api.ts: submitForm() → console.log + 500ms resolved Promise (all forms hit
 
 ## Gaps and notable findings
 
-1. **Forms still submit nowhere.** `lib/api.ts` console-logs and resolves after 500ms. Because the app is now a static export (`output: 'export'`), a Next.js API route handler won't work — the real fix is to point `submitForm` at a third-party endpoint (Formspree, n8n webhook, etc.) configured per environment. Don't change the function signature; many components call it.
+1. **Forms still submit nowhere.** `lib/api.ts` console-logs and resolves after 500ms. Because the app is a static export (`output: 'export'`), a Next.js API route handler won't work — the real fix is to point `submitForm` at a third-party endpoint (Formspree, n8n webhook, etc.) configured per environment. Don't change the function signature; many components call it.
 
-2. **Duplicate onboarding implementations.** `/app/onboard/` is the canonical Tailwind + modular-step build. `/app/onboarding/` renders `components/DorzaOnboarding.tsx`, a self-contained monolith with inline hex colors that bypasses the design system entirely. The alternate should be removed; do not add features to both.
+2. **Onboard wizard never submits.** Step 10 → `SubmittedScreen` is a UI-only transition. There is no call to `submitForm` from the wizard, no persistence, and no email-myself-the-link flow despite the "Save & exit" button copy implying one. If/when wiring this up, the same third-party-endpoint constraint applies.
 
-3. **Duplicate top-level components.** `components/Footer.tsx` and `components/Nav.tsx` exist at the top level, but the homepage imports `components/sections/Footer.tsx` and `components/sections/Nav.tsx`. The top-level files appear to be older versions and should be removed.
+3. **Top-level component duplicates remain.** [components/Footer.tsx](dorza-v2/components/Footer.tsx) and [components/Nav.tsx](dorza-v2/components/Nav.tsx) exist but have **zero imports** anywhere in `app/` or `components/` (verified). The homepage uses `components/sections/Footer.tsx` and `components/sections/Nav.tsx`. The top-level files are dead code — safe to delete.
 
 4. **Design tokens duplicated in two places.** `tailwind.config.ts` and `app/globals.css` `:root` both declare the same color/easing/shadow values. When changing a token, update both — there is no shared source.
 
-5. **`DESIGN.md` is Figma's design system, not Dorza's.** It was used as inspiration. It is not referenced by code; treat as reference-only.
+5. **Two `Eyebrow` components.** [components/ui/Eyebrow.tsx](dorza-v2/components/ui/Eyebrow.tsx) (used by site sections) and the `Eyebrow` exported from [components/onboard/_primitives.tsx](dorza-v2/components/onboard/_primitives.tsx) (used by wizard steps and `WelcomeScreen`/`WizardShell`). They render the same visual treatment. Acceptable for now since the onboard one is namespaced to the wizard, but flag if a third copy appears.
 
-6. **No tests, no CI.** The repo has `lint` only. There is no test framework configured.
+6. **`DESIGN.md` is Figma's design system, not Dorza's.** It was used as inspiration. It is not referenced by code; treat as reference-only.
+
+7. **No tests, no CI.** The repo has `lint` only. There is no test framework configured.
+
+### Resolved since 2026-05-04
+
+- ✅ Duplicate `/app/onboarding` route and `components/DorzaOnboarding.tsx` (the inline-styled monolith) have been deleted. `/onboard` is now the single canonical wizard path.
+- ✅ Onboarding refactored from per-step ad-hoc UI into a shared `WizardShell` + `_primitives` architecture, with explicit welcome and submitted phases.
 
 ## Edit-safety guide
 
@@ -180,12 +199,15 @@ lib/api.ts: submitForm() → console.log + 500ms resolved Promise (all forms hit
 **Edit with care** (affects multiple components):
 - `tailwind.config.ts` and `app/globals.css` — token changes ripple across the entire site, **must be updated together**
 - `components/ui/` primitives — used by many section components
+- `components/onboard/_primitives.tsx` — used by all 10 step components + WelcomeScreen; shape changes ripple through the wizard
+- `components/onboard/WizardShell.tsx` — chrome layout for every wizard step
 - `components/motion/` (Reveal, Stagger, SlideReveal, useCountUp) — wraps many animated elements
 
 **Flag for review before changing** (cross-cutting, shared state, or external contracts):
-- `lib/types.ts` — `OnboardState` change = update all 10 step components + `generateMarkdown.ts`
+- `lib/types.ts` — `OnboardState` change = update `initialState` in `app/onboard/page.tsx` + every relevant step component + `generateMarkdown.ts`
 - `lib/generateMarkdown.ts` — output is the artifact that feeds the client site build pipeline
-- `lib/api.ts` — when the stub is replaced with a real endpoint, ensure all callers still work
+- `lib/api.ts` — when the stub is replaced with a real endpoint, ensure all callers (waitlist + future onboard submission) still work
+- `app/onboard/page.tsx` — owns the reducer, the phase machine, and validation; all wizard behaviour flows through here
 - `app/layout.tsx` — affects metadata, fonts, and JSON-LD on every page
 - `next.config.mjs` — switching off `output: 'export'` changes deployment story; switching on full optimisation changes hosting requirements
 

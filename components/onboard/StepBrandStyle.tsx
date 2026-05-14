@@ -1,6 +1,15 @@
 "use client";
 
 import type { OnboardState, OnboardAction } from "@/lib/types";
+import {
+  Chip,
+  Field,
+  Input,
+  OptionCard,
+  OptionGrid,
+  StepLayout,
+  Textarea,
+} from "./_primitives";
 
 interface Props {
   state: OnboardState;
@@ -8,111 +17,112 @@ interface Props {
 }
 
 const tones = [
-  { value: "Casual & friendly", desc: "Relaxed, approachable, like chatting to a mate" },
-  { value: "Professional & clean", desc: "Polished, trustworthy, straight to the point" },
-  { value: "Bold & energetic", desc: "High energy, confident, stands out" },
-  { value: "Warm & welcoming", desc: "Inviting, personal, community-focused" },
+  { value: "Casual & friendly", desc: "Like chatting to a mate" },
+  { value: "Professional & clean", desc: "Polished, trustworthy, on-point" },
+  { value: "Bold & energetic", desc: "Confident, stands out" },
+  { value: "Warm & welcoming", desc: "Inviting and personal" },
 ];
 
-const logoOptions = ["Yes", "No"] as const;
+const colourMoods = [
+  { value: "Coastal", swatches: ["#1B3A52", "#7FB3C4", "#F2EAD9"] },
+  { value: "Earthy", swatches: ["#5C3D2E", "#A8845A", "#EFE3D0"] },
+  { value: "Mono", swatches: ["#111111", "#6B6B6B", "#F4F4F4"] },
+  { value: "Botanical", swatches: ["#2E4F35", "#7FA384", "#F0EBDC"] },
+  { value: "Sunset", swatches: ["#B8673F", "#E8A87C", "#FBEDE3"] },
+  { value: "Editorial", swatches: ["#1A1A2E", "#D4845A", "#F9F7F5"] },
+];
+
+const logoOptions = [
+  { value: "Yes", label: "Yes — I'll upload" },
+  { value: "No", label: "No — please design one" },
+] as const;
 
 export default function StepBrandStyle({ state, dispatch }: Props) {
   const update = (field: keyof OnboardState, value: unknown) =>
     dispatch({ type: "UPDATE_FIELD", field, value });
 
   return (
-    <div className="space-y-5">
-      <h2 className="font-display font-bold text-2xl text-dark">
-        Brand & style
-      </h2>
-
-      <div>
-        <label className="block text-sm font-medium text-dark mb-2">
-          Do you have a logo?
-        </label>
-        <div className="flex gap-2">
+    <StepLayout
+      eyebrow="05 — Look & feel"
+      title="How should it feel?"
+      lead="Pick a tone, a colour mood, and add anything you love. Don't overthink it."
+    >
+      <Field label="Do you have a logo?">
+        <div className="grid grid-cols-2 gap-2">
           {logoOptions.map((opt) => (
-            <button
-              key={opt}
-              type="button"
-              onClick={() => update("hasLogo", opt)}
-              className={`h-10 px-6 rounded-btn text-sm font-medium border transition-colors ${
-                state.hasLogo === opt
-                  ? "bg-primary text-white border-primary"
-                  : "bg-white text-dark border-border hover:border-primary/40"
-              }`}
+            <Chip
+              key={opt.value}
+              selected={state.hasLogo === opt.value}
+              onClick={() => update("hasLogo", opt.value)}
+              size="md"
             >
-              {opt}
-            </button>
+              {opt.label}
+            </Chip>
           ))}
         </div>
-      </div>
+      </Field>
 
-      <div>
-        <label className="block text-sm font-medium text-dark mb-1">
-          Brand colours
-        </label>
-        <input
-          type="text"
+      <Field label="Brand colours" optional helper="Hex codes or descriptions both work.">
+        <Input
           placeholder="e.g. Navy blue and white, or #1B2A4A"
           value={state.brandColours}
           onChange={(e) => update("brandColours", e.target.value)}
-          className="w-full h-12 px-4 border border-border rounded-btn text-dark text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
         />
-      </div>
+      </Field>
 
-      <div>
-        <label className="block text-sm font-medium text-dark mb-2">
-          What tone suits your brand?
-        </label>
-        <div className="grid sm:grid-cols-2 gap-2">
+      <Field label="Tone of voice">
+        <OptionGrid cols={2}>
           {tones.map((t) => (
-            <button
+            <OptionCard
               key={t.value}
-              type="button"
+              selected={state.tone === t.value}
               onClick={() => update("tone", t.value)}
-              className={`text-left p-4 rounded-card border transition-colors ${
-                state.tone === t.value
-                  ? "bg-primary-light border-primary"
-                  : "bg-white border-border hover:border-primary/40"
-              }`}
-            >
-              <span className="block text-sm font-semibold text-dark">
-                {t.value}
-              </span>
-              <span className="block text-xs text-text-muted mt-0.5">
-                {t.desc}
-              </span>
-            </button>
+              title={t.value}
+              desc={t.desc}
+            />
           ))}
-        </div>
-      </div>
+        </OptionGrid>
+      </Field>
 
-      <div>
-        <label className="block text-sm font-medium text-dark mb-1">
-          Inspiration websites
-        </label>
-        <textarea
+      <Field label="Colour mood">
+        <OptionGrid cols={3}>
+          {colourMoods.map((m) => (
+            <OptionCard
+              key={m.value}
+              selected={state.brandKeywords.includes(`mood:${m.value}`) || false}
+              onClick={() => {
+                const tag = `mood:${m.value}`;
+                const current = state.brandKeywords || "";
+                const tags = current.split(/[, ]+/).filter(Boolean);
+                const stripped = tags.filter((t) => !t.startsWith("mood:"));
+                update("brandKeywords", [tag, ...stripped].join(", "));
+              }}
+              title={m.value}
+              swatches={m.swatches}
+            />
+          ))}
+        </OptionGrid>
+      </Field>
+
+      <Field label="Inspiration websites" optional>
+        <Textarea
           rows={2}
-          placeholder="Any websites you like the look of"
+          placeholder="Paste any URLs you love"
           value={state.inspirationSites}
           onChange={(e) => update("inspirationSites", e.target.value)}
-          className="w-full px-4 py-3 border border-border rounded-btn text-dark text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary resize-none"
         />
-      </div>
+      </Field>
 
-      <div>
-        <label className="block text-sm font-medium text-dark mb-1">
-          Brand keywords
-        </label>
-        <input
-          type="text"
-          placeholder="e.g. Modern, trustworthy, local"
+      <Field
+        label="Three words to describe your brand"
+        helper="e.g. grounded, considered, strong"
+        optional
+      >
+        <Input
           value={state.brandKeywords}
           onChange={(e) => update("brandKeywords", e.target.value)}
-          className="w-full h-12 px-4 border border-border rounded-btn text-dark text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
         />
-      </div>
-    </div>
+      </Field>
+    </StepLayout>
   );
 }
