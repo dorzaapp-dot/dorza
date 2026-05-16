@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
 import type { Session } from '@supabase/supabase-js'
 
-const ADMIN_EMAIL = 'abrahamadiwidodo@gmail.com'
+const ADMIN_EMAIL = 'dorza.app@gmail.com'
 
 type Submission = {
   id: string
