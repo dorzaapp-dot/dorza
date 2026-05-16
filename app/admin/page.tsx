@@ -12,6 +12,7 @@ type Submission = {
   email: string
   business_name: string | null
   owner_name: string | null
+  markdown_content: string | null
   status: 'pending' | 'provisioned'
 }
 
@@ -20,6 +21,7 @@ type Phase = 'loading' | 'unauthenticated' | 'unauthorized' | 'ready'
 export default function AdminPage() {
   const [phase, setPhase] = useState<Phase>('loading')
   const [submissions, setSubmissions] = useState<Submission[]>([])
+  const [expandedId, setExpandedId] = useState<string | null>(null)
   const [creating, setCreating] = useState<string | null>(null)
   const [toast, setToast] = useState<string | null>(null)
   const [email, setEmail] = useState('')
@@ -37,13 +39,10 @@ export default function AdminPage() {
         setPhase('unauthorized')
         return
       }
-      const { data: { session: activeSession } } = await supabase.auth.getSession()
-      console.log('[admin] active session email →', activeSession?.user.email)
-      const { data, error, status } = await supabase
+      const { data } = await supabase
         .from('onboard_submissions')
-        .select('id, created_at, email, business_name, owner_name, status')
+        .select('id, created_at, email, business_name, owner_name, markdown_content, status')
         .order('created_at', { ascending: false })
-      console.log('[admin] submissions query →', { status, count: data?.length, data, error })
       if (data) setSubmissions(data as Submission[])
       setPhase('ready')
     }
@@ -192,47 +191,65 @@ export default function AdminPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {submissions.map((s, i) => (
-                    <tr
-                      key={s.id}
-                      className={`border-b border-border last:border-0 ${i % 2 === 1 ? 'bg-surface/40' : ''}`}
-                    >
-                      <td className="px-5 py-4 font-semibold text-dark whitespace-nowrap">
-                        {s.business_name || '—'}
-                      </td>
-                      <td className="px-5 py-4 text-text-secondary whitespace-nowrap">
-                        {s.owner_name || '—'}
-                      </td>
-                      <td className="px-5 py-4 text-text-secondary">{s.email}</td>
-                      <td className="px-5 py-4">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold whitespace-nowrap ${
-                          s.status === 'provisioned'
-                            ? 'bg-accent-tint text-accent-dark'
-                            : 'bg-primary-tint text-primary-dark'
-                        }`}>
-                          {s.status}
-                        </span>
-                      </td>
-                      <td className="px-5 py-4 text-text-muted whitespace-nowrap">
-                        {new Date(s.created_at).toLocaleDateString('en-AU', {
-                          day: 'numeric', month: 'short', year: 'numeric',
-                        })}
-                      </td>
-                      <td className="px-5 py-4 text-right">
-                        {s.status === 'pending' ? (
-                          <button
-                            onClick={() => createUser(s.id)}
-                            disabled={creating === s.id}
-                            className="h-8 px-4 bg-primary hover:bg-primary-dark text-white text-xs font-semibold rounded-full transition-all duration-300 hover:-translate-y-px disabled:opacity-50 disabled:cursor-not-allowed disabled:translate-y-0 whitespace-nowrap"
-                          >
-                            {creating === s.id ? 'Creating…' : 'Create User'}
-                          </button>
-                        ) : (
-                          <span className="text-xs text-text-muted">Provisioned</span>
+                  {submissions.map((s, i) => {
+                    const expanded = expandedId === s.id
+                    return (
+                      <>
+                        <tr
+                          key={s.id}
+                          onClick={() => setExpandedId(expanded ? null : s.id)}
+                          className={`border-b border-border cursor-pointer select-none transition-colors hover:bg-primary-tint/30 ${expanded ? 'bg-primary-tint/20' : i % 2 === 1 ? 'bg-surface/40' : ''}`}
+                        >
+                          <td className="px-5 py-4 font-semibold text-dark whitespace-nowrap">
+                            <span className="inline-flex items-center gap-2">
+                              <span className={`text-text-muted transition-transform duration-200 text-xs ${expanded ? 'rotate-90' : ''}`}>▶</span>
+                              {s.business_name || '—'}
+                            </span>
+                          </td>
+                          <td className="px-5 py-4 text-text-secondary whitespace-nowrap">
+                            {s.owner_name || '—'}
+                          </td>
+                          <td className="px-5 py-4 text-text-secondary">{s.email}</td>
+                          <td className="px-5 py-4">
+                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold whitespace-nowrap ${
+                              s.status === 'provisioned'
+                                ? 'bg-accent-tint text-accent-dark'
+                                : 'bg-primary-tint text-primary-dark'
+                            }`}>
+                              {s.status}
+                            </span>
+                          </td>
+                          <td className="px-5 py-4 text-text-muted whitespace-nowrap">
+                            {new Date(s.created_at).toLocaleDateString('en-AU', {
+                              day: 'numeric', month: 'short', year: 'numeric',
+                            })}
+                          </td>
+                          <td className="px-5 py-4 text-right" onClick={e => e.stopPropagation()}>
+                            {s.status === 'pending' ? (
+                              <button
+                                onClick={() => createUser(s.id)}
+                                disabled={creating === s.id}
+                                className="h-8 px-4 bg-primary hover:bg-primary-dark text-white text-xs font-semibold rounded-full transition-all duration-300 hover:-translate-y-px disabled:opacity-50 disabled:cursor-not-allowed disabled:translate-y-0 whitespace-nowrap"
+                              >
+                                {creating === s.id ? 'Creating…' : 'Create User'}
+                              </button>
+                            ) : (
+                              <span className="text-xs text-text-muted">Provisioned</span>
+                            )}
+                          </td>
+                        </tr>
+                        {expanded && (
+                          <tr key={`${s.id}-detail`} className="border-b border-border bg-surface">
+                            <td colSpan={6} className="px-5 py-5">
+                              <pre className="font-mono text-xs text-text-secondary leading-relaxed whitespace-pre-wrap bg-white border border-border rounded-sm p-4 max-h-[400px] overflow-y-auto">
+                                {s.markdown_content || 'No content.'}
+                              </pre>
+                            </td>
+                          </tr>
                         )}
-                      </td>
-                    </tr>
-                  ))}
+                      </>
+                    )
+                  })}
                 </tbody>
               </table>
             </div>
