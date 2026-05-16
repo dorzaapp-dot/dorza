@@ -37,10 +37,11 @@ export default function AdminPage() {
         setPhase('unauthorized')
         return
       }
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from('onboard_submissions')
         .select('id, created_at, email, business_name, owner_name, status')
         .order('created_at', { ascending: false })
+      console.log('[admin] submissions query →', { data, error })
       if (data) setSubmissions(data as Submission[])
       setPhase('ready')
     }
