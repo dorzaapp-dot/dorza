@@ -80,7 +80,7 @@ export default function UploadPage() {
     if (!email) return
     await supabase.auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: typeof window !== 'undefined' ? window.location.href : '' },
+      options: { emailRedirectTo: `${window.location.origin}/upload` },
     })
     setPhase('check_email')
   }
