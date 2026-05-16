@@ -78,10 +78,17 @@ export default function UploadPage() {
 
   async function requestMagicLink() {
     if (!email) return
-    await supabase.auth.signInWithOtp({
+    const { error } = await supabase.auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: `${window.location.origin}/upload` },
+      options: {
+        emailRedirectTo: `${window.location.origin}/upload`,
+        shouldCreateUser: false,
+      },
     })
+    if (error) {
+      showToast(error.message)
+      return
+    }
     setPhase('check_email')
   }
 
