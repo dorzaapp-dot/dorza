@@ -6,7 +6,7 @@ const CORS = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const ADMIN_EMAILS = ["abrahamadiwidodo@gmail.com"];
+const ADMIN_EMAILS = ["dorza.app@gmail.com"];
 
 async function sendEmail({ to, subject, html }: { to: string; subject: string; html: string }) {
   const gmailUser = Deno.env.get("GMAIL_USER")!;

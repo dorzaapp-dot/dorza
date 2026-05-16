@@ -2,14 +2,26 @@
 create table if not exists admin_users (
   email text primary key
 );
-insert into admin_users (email) values ('abrahamadiwidodo@gmail.com')
+insert into admin_users (email) values ('dorza.app@gmail.com')
   on conflict do nothing;
+
+-- Security definer function so policies can join auth.users without granting broad access
+create or replace function public.is_admin()
+returns boolean
+language sql
+security definer
+stable
+as $$
+  select exists (
+    select 1 from public.admin_users
+    join auth.users on auth.users.email = public.admin_users.email
+    where auth.users.id = auth.uid()
+  )
+$$;
 
 -- Allow admins to read all onboard submissions
 create policy "admin_read_all" on onboard_submissions
-  for select using (
-    exists (select 1 from admin_users where email = (auth.jwt() ->> 'email'))
-  );
+  for select using (public.is_admin());
 
 -- Storage bucket for client assets (private)
 insert into storage.buckets (id, name, public)
@@ -43,5 +55,5 @@ create policy "admin_read_all_assets" on storage.objects
   for select to authenticated
   using (
     bucket_id = 'assets'
-    and exists (select 1 from admin_users where email = (auth.jwt() ->> 'email'))
+    and public.is_admin()
   );
