@@ -13,7 +13,13 @@ type Submission = {
   business_name: string | null
   owner_name: string | null
   markdown_content: string | null
+  user_id: string | null
   status: 'pending' | 'provisioned'
+}
+
+type SubmissionAssets = {
+  logoUrl: string | null
+  photoUrls: string[]
 }
 
 type Phase = 'loading' | 'unauthenticated' | 'unauthorized' | 'ready'
@@ -22,6 +28,7 @@ export default function AdminPage() {
   const [phase, setPhase] = useState<Phase>('loading')
   const [submissions, setSubmissions] = useState<Submission[]>([])
   const [expandedId, setExpandedId] = useState<string | null>(null)
+  const [assets, setAssets] = useState<Record<string, SubmissionAssets>>({})
   const [creating, setCreating] = useState<string | null>(null)
   const [toast, setToast] = useState<string | null>(null)
   const [email, setEmail] = useState('')
@@ -41,7 +48,7 @@ export default function AdminPage() {
       }
       const { data } = await supabase
         .from('onboard_submissions')
-        .select('id, created_at, email, business_name, owner_name, markdown_content, status')
+        .select('id, created_at, email, business_name, owner_name, markdown_content, user_id, status')
         .order('created_at', { ascending: false })
       if (data) setSubmissions(data as Submission[])
       setPhase('ready')
@@ -62,6 +69,29 @@ export default function AdminPage() {
     const { error } = await supabase.auth.signInWithPassword({ email, password })
     if (error) setLoginError(error.message)
     setSigningIn(false)
+  }
+
+  async function loadAssets(submissionId: string, userId: string) {
+    const result: SubmissionAssets = { logoUrl: null, photoUrls: [] }
+
+    const { data: logoFiles } = await supabase.storage.from('assets').list(`${userId}/logo`)
+    if (logoFiles?.length) {
+      const { data } = await supabase.storage.from('assets')
+        .createSignedUrl(`${userId}/logo/${logoFiles[0].name}`, 3600)
+      if (data) result.logoUrl = data.signedUrl
+    }
+
+    const { data: photoFiles } = await supabase.storage.from('assets').list(`${userId}/photos`)
+    if (photoFiles?.length) {
+      const signed = await Promise.all(
+        photoFiles.map(f =>
+          supabase.storage.from('assets').createSignedUrl(`${userId}/photos/${f.name}`, 3600)
+        )
+      )
+      result.photoUrls = signed.flatMap(r => r.data ? [r.data.signedUrl] : [])
+    }
+
+    setAssets(prev => ({ ...prev, [submissionId]: result }))
   }
 
   async function createUser(submissionId: string) {
@@ -197,7 +227,11 @@ export default function AdminPage() {
                       <>
                         <tr
                           key={s.id}
-                          onClick={() => setExpandedId(expanded ? null : s.id)}
+                          onClick={() => {
+                            const next = expanded ? null : s.id
+                            setExpandedId(next)
+                            if (next && s.user_id && !assets[s.id]) loadAssets(s.id, s.user_id)
+                          }}
                           className={`border-b border-border cursor-pointer select-none transition-colors hover:bg-primary-tint/30 ${expanded ? 'bg-primary-tint/20' : i % 2 === 1 ? 'bg-surface/40' : ''}`}
                         >
                           <td className="px-5 py-4 font-semibold text-dark whitespace-nowrap">
@@ -240,7 +274,41 @@ export default function AdminPage() {
                         </tr>
                         {expanded && (
                           <tr key={`${s.id}-detail`} className="border-b border-border bg-surface">
-                            <td colSpan={6} className="px-5 py-5">
+                            <td colSpan={6} className="px-5 py-5 space-y-4">
+                              {s.user_id && assets[s.id] ? (
+                                <div className="flex gap-4 flex-wrap items-start">
+                                  {assets[s.id].logoUrl ? (
+                                    <div>
+                                      <p className="font-mono text-[10px] uppercase tracking-widest text-text-muted mb-1">Logo</p>
+                                      <img
+                                        src={assets[s.id].logoUrl!}
+                                        alt="Logo"
+                                        className="h-16 w-auto rounded-sm border border-border bg-white p-1 object-contain"
+                                      />
+                                    </div>
+                                  ) : null}
+                                  {assets[s.id].photoUrls.length > 0 ? (
+                                    <div className="flex-1">
+                                      <p className="font-mono text-[10px] uppercase tracking-widest text-text-muted mb-1">Photos</p>
+                                      <div className="flex gap-2 flex-wrap">
+                                        {assets[s.id].photoUrls.map((url, i) => (
+                                          <img
+                                            key={i}
+                                            src={url}
+                                            alt={`Photo ${i + 1}`}
+                                            className="h-16 w-16 rounded-sm border border-border object-cover"
+                                          />
+                                        ))}
+                                      </div>
+                                    </div>
+                                  ) : null}
+                                  {!assets[s.id].logoUrl && assets[s.id].photoUrls.length === 0 && (
+                                    <p className="font-body text-xs text-text-muted">No assets uploaded yet.</p>
+                                  )}
+                                </div>
+                              ) : s.user_id ? (
+                                <p className="font-body text-xs text-text-muted">Loading assets…</p>
+                              ) : null}
                               <pre className="font-mono text-xs text-text-secondary leading-relaxed whitespace-pre-wrap bg-white border border-border rounded-sm p-4 max-h-[400px] overflow-y-auto">
                                 {s.markdown_content || 'No content.'}
                               </pre>
