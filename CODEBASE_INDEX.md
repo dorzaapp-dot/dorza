@@ -1,215 +1,268 @@
 # Codebase Index
 
-> Generated: 2026-04-29 · Refreshed: 2026-05-09 · Run the codebase-onboarding skill again to refresh.
+> Generated: 2026-04-29 · Refreshed: 2026-05-09, 2026-05-17 · Run the codebase-onboarding skill again to refresh.
 
 ## Overview
 
-This is the Dorza v2 Next.js application — the marketing website for Dorza (an AI-native digital agency for Sydney small businesses) plus two internal tools: a 10-step client intake wizard and a standalone waitlist page. The repo is pre-launch and under active development. The marketing site went through a major design overhaul in early May 2026 — terracotta + sage palette, serif/sans pairing, framer-motion-driven reveals. The onboarding wizard was restructured on 2026-05-09 around a shared `WizardShell` + `_primitives` architecture (welcome → wizard → submitted phases).
+Dorza v2 is a Next.js 14 (App Router, static export) marketing site for Dorza — an AI-native digital agency for Sydney small businesses — plus a customer-facing 10-step intake wizard, an internal admin dashboard, and a client asset-upload portal. As of 2026-05-14 the app is backed by **Supabase** (Postgres, Auth, Storage, Edge Functions running Deno), which replaced the previous "stub submission" architecture. The frontend remains a static export deployed to Vercel; all dynamic behaviour (form submission, auth, storage, email) is delegated to Supabase.
 
 ## Tech stack
 
 | Layer | Tool | Version | Notes |
 |-------|------|---------|-------|
 | Language | TypeScript | ^5 | Strict mode |
-| Framework | Next.js | ^14.2.0 (App Router) | Static export configured (`next.config.mjs`) |
-| Styling | Tailwind CSS | ^3.4.1 | Custom theme in `tailwind.config.ts`, tokens mirrored in `app/globals.css` |
-| Animation | framer-motion | ^12.38.0 | Reveal/Stagger/SlideReveal wrappers + count-up hook |
-| Tilt effect | react-parallax-tilt | ^1.7.326 | Used only in `HeroBrowserMockup` for the homepage browser-mockup tilt |
-| Icons | lucide-react | ^1.7.0 | Used throughout |
+| Framework | Next.js | ^14.2.0 (App Router) | Static export (`next.config.mjs` → `output: 'export'`) |
+| Styling | Tailwind CSS | ^3.4.1 | Tokens in `tailwind.config.ts` mirrored in `app/globals.css` `:root` |
+| Animation | framer-motion | ^12.38.0 | Reveal/Stagger/SlideReveal + `useCountUp` |
+| Tilt effect | react-parallax-tilt | ^1.7.326 | Only in `HeroBrowserMockup` |
+| Icons | lucide-react | ^1.7.0 | |
 | Fonts | next/font (Google) | — | Plus Jakarta Sans (body) + Instrument Serif (display) |
-| Hosting | Vercel (planned) | — | Static export (`output: 'export'`, `images.unoptimized: true`) |
+| Backend | Supabase | @supabase/supabase-js ^2.105.4 | Postgres + Auth + Storage + Edge Functions |
+| Edge runtime | Deno | — | `supabase/functions/*` use `Deno.serve` |
+| SMTP | denomailer | — | Gmail App Password (via `GMAIL_USER` / `GMAIL_APP_PASSWORD` secrets) |
+| Package manager | pnpm | — | `pnpm-lock.yaml` checked in |
+| Hosting | Vercel (frontend) + Supabase (backend) | — | |
 
 ## Architecture at a glance
 
 ```
-app/page.tsx (homepage)
-  └── 9 section components from components/sections/
-        Nav · Hero (+ HeroBrowserMockup) · SegmentMarquee · Services
-        HowItWorks · Thesis · Pricing · FAQ · WaitlistCTA · Footer
+Frontend (Vercel, static export)
+─────────────────────────────────
+app/page.tsx (homepage) ── components/sections/* (Nav, Hero, …, WaitlistCTA, Footer)
+app/waitlist/page.tsx   ── lib/api.ts → submitForm() (endpoint not wired yet)
+app/onboard/page.tsx    ── useReducer(OnboardState) + phase machine
+   welcome → WelcomeScreen
+   wizard  → WizardShell + 9 StepXxx components (composed from _primitives.tsx)
+   submitted → SubmittedScreen  ← reached after successful POST to onboard-submit
 
-app/onboard/page.tsx (10-step intake wizard — internal tablet tool)
-  ├── useReducer(reducer, initialState) — single OnboardState, all step changes flow through it
-  ├── phase state: "welcome" | "wizard" | "submitted"
-  │     ├── welcome   → components/onboard/WelcomeScreen.tsx (intro + "what you'll need" + start CTA)
-  │     ├── wizard    → components/onboard/WizardShell.tsx (top bar, sidebar/dot progress, bottom nav)
-  │     │                 wraps the active StepXxx component (Steps 1–10)
-  │     └── submitted → components/onboard/SubmittedScreen.tsx (success + markdown export)
-  ├── all step UI uses shared primitives from components/onboard/_primitives.tsx
-  ├── lib/types.ts (OnboardState) ↔ lib/generateMarkdown.ts (Step 10 markdown export)
-  └── validate(currentStep) is the only validation — gate-keeps "Continue"
+app/admin/page.tsx   ── password sign-in → submissions table + Create User action
+app/upload/page.tsx  ── magic-link sign-in → upload logo + photos to private storage
 
-app/waitlist/page.tsx (public signup)
-  └── lib/api.ts stub → console.log only
-
-lib/api.ts: submitForm() → console.log + 500ms resolved Promise (all forms hit this)
+       │           │
+       │ submitForm(NEXT_PUBLIC_ONBOARD_SUBMIT_URL, {state, markdown})
+       │ fetch(NEXT_PUBLIC_CREATE_CLIENT_USER_URL, {submissionId}) + admin JWT
+       ▼           ▼
+Supabase (backend)
+──────────────────
+Postgres:
+  onboard_submissions (RLS: users_read_own + admin_read_all)
+  admin_users  (seeded with dorza.app@gmail.com)
+  is_admin() SECURITY DEFINER helper
+Storage:
+  assets bucket (private) — {user_id}/logo/* and {user_id}/photos/*
+  RLS: clients read/write/delete own folder; admins read all
+Auth:
+  email/password for admin (manually created in dashboard)
+  invite + magic link for clients (generated by create-client-user)
+Edge Functions (Deno):
+  onboard-submit       — public, inserts submission + emails admin (intake.md attached) + client
+  create-client-user   — admin-JWT-gated, generateLink invite/magiclink + branded email + marks provisioned
 ```
 
 ## Directory map
 
 | Path | Purpose |
 |------|---------|
-| `app/page.tsx` | Dorza homepage (public) |
-| `app/onboard/page.tsx` | 10-step intake wizard (internal). Owns the reducer, phase state, validation, and step routing |
-| `app/waitlist/page.tsx` | Standalone waitlist signup (public) |
-| `app/layout.tsx` | Root layout: Plus Jakarta Sans + Instrument Serif via next/font, metadata, JSON-LD Organization schema |
-| `app/globals.css` | Design tokens as CSS custom properties, base typography, reduced-motion handling |
-| `components/sections/` | Homepage section components (Nav, Hero, HeroBrowserMockup, Services, HowItWorks, Thesis, Pricing, FAQ, SegmentMarquee, WaitlistCTA, Footer) |
-| `components/onboard/` | Wizard shell + screens + 10 step components. `WizardShell.tsx` is the chrome; `WelcomeScreen.tsx` and `SubmittedScreen.tsx` are the bookends; `_primitives.tsx` is the shared step UI library (StepLayout, Field, FieldGrid, Input, Textarea, Chip, ChipRow, OptionCard, OptionGrid, Toggle, Eyebrow, MonoBadge, SectionRule). `StepXxx.tsx` files compose those primitives — they don't roll their own inputs |
-| `components/ui/` | Shared site primitives: Badge, Button, Card, Container, Eyebrow, SectionHeader (note: a separate `Eyebrow` also exists in `components/onboard/_primitives.tsx` for the wizard) |
-| `components/motion/` | Reveal, Stagger, SlideReveal, useCountUp — framer-motion building blocks; exports `DORZA_EASE` |
-| `components/Footer.tsx`, `components/Nav.tsx` | Top-level duplicates — verified zero imports (dead code, safe to delete). Homepage uses `components/sections/` versions |
-| `lib/api.ts` | `submitForm()` stub — console.log + resolves success |
-| `lib/types.ts` | Shared TypeScript types: BusinessType, WaitlistFormData, OnboardState, OnboardAction |
-| `lib/generateMarkdown.ts` | Pure function: converts OnboardState → intake markdown document |
-| `lib/cn.ts` | `cn()` utility for conditional Tailwind classes |
+| `app/page.tsx` | Homepage |
+| `app/onboard/page.tsx` | 10-step intake wizard. Owns reducer, phase, step, validate, submit |
+| `app/admin/page.tsx` | Internal submissions dashboard (auth: password, gated to `dorza.app@gmail.com`) |
+| `app/upload/page.tsx` | Client asset upload portal (auth: magic link) |
+| `app/waitlist/page.tsx` | Standalone waitlist page (endpoint not wired) |
+| `app/layout.tsx` | Root layout, fonts, metadata, JSON-LD Organization schema |
+| `app/globals.css` | Design tokens as CSS variables, base type, reduced-motion |
+| `components/sections/` | Homepage section components |
+| `components/onboard/` | Wizard shell + welcome/submitted screens + 9 Step* + `_primitives.tsx` shared UI |
+| `components/ui/` | Site-wide primitives (Badge, Button, Card, Container, Eyebrow, SectionHeader) |
+| `components/motion/` | Reveal / Stagger / SlideReveal / `useCountUp`, exports `DORZA_EASE` |
+| `components/Footer.tsx`, `components/Nav.tsx` | Dead code (zero imports) — safe to delete |
+| `lib/api.ts` | `submitForm(endpoint, data)` — POSTs JSON, returns `{ success }` |
+| `lib/supabase.ts` | Browser Supabase client (anon key). Has placeholder fallback so static build succeeds without env vars |
+| `lib/types.ts` | `OnboardState`, `OnboardAction`, `BusinessType`, `WaitlistFormData` |
+| `lib/generateMarkdown.ts` | Pure function: `OnboardState → intake.md` (schema `dorza-intake.v1`) |
+| `lib/cn.ts` | `cn()` Tailwind class utility |
+| `supabase/migrations/` | DB schema (run in order in Supabase SQL Editor) |
+| `supabase/functions/onboard-submit/` | Deno Edge Function — public, persists submission + emails |
+| `supabase/functions/create-client-user/` | Deno Edge Function — admin-gated client provisioning |
+| `supabase/README.md` | Step-by-step Supabase setup + provisioning runbook |
+| `env.local.example` | Required `NEXT_PUBLIC_*` vars + edge function secrets reference |
 | `tailwind.config.ts` | Design tokens, fonts, radii, shadows, easing, keyframes |
 | `next.config.mjs` | Static export config |
-| `DORZA_MD_ALL/` | Knowledge base + build prompt docs (not imported by code) |
-| `DESIGN.md` | Figma design system analysis (reference/inspiration only — not Dorza's design guide) |
+| `DORZA_MD_ALL/` | Knowledge base + build prompt docs (not imported) |
+| `DESIGN.md` | Figma design system analysis (reference only) |
 
-## User flow walkthrough
+`out/` is excluded from build sources (`tsconfig.json`) and `supabase/` is excluded from the Next build (commit `75a21df`).
 
-1. Visitor lands on `/` → [app/page.tsx](dorza-v2/app/page.tsx)
-2. Page renders 9 sequential section components from `components/sections/`
-3. Hero ([Hero.tsx](dorza-v2/components/sections/Hero.tsx)) shows headline "The whole digital playbook, done for you" with word-by-word framer-motion reveal, mono eyebrow, two pill CTAs, and a `HeroBrowserMockup` to the right
-4. Visitor clicks "Join the waitlist →" → smooth-scrolls to `#waitlist` (WaitlistCTA section, dark themed)
-5. Fills form: name, email, business type, suburb (controlled inputs, pill-shaped, dark glass styling)
-6. Submits → `handleSubmit()` in [WaitlistCTA.tsx](dorza-v2/components/sections/WaitlistCTA.tsx)
-7. Calls `submitForm("/api/waitlist", form)` from [lib/api.ts](dorza-v2/lib/api.ts)
-8. `submitForm` logs to console and resolves `{ success: true }` after 500ms — **no data is stored anywhere**
-9. Success state shown inline
+## User flow walkthrough — onboard submission
 
-**Gap:** There is no `/api/waitlist` route handler, and static export precludes runtime API routes. Waitlist data is silently dropped in production.
+1. Customer opens `/onboard` → [app/onboard/page.tsx](app/onboard/page.tsx) initialises `useReducer(reducer, initialState)`, `phase` (`"welcome"`), `step` (`0`)
+2. **Welcome phase** — [WelcomeScreen.tsx](components/onboard/WelcomeScreen.tsx) shows intro + "what you'll need". Clicking start flips `phase` to `"wizard"` and `step` to `0`
+3. **Wizard phase** — [WizardShell.tsx](components/onboard/WizardShell.tsx) renders chrome (top bar, sidebar/dot stepper, bottom nav with progress) around the active `StepXxx`. Steps compose UI exclusively from [_primitives.tsx](components/onboard/_primitives.tsx)
+4. `validate()` in `app/onboard/page.tsx` currently always returns `true` (validation was deliberately disabled in commit `d06b0ba`). No per-step gating
+5. Step 1 sets `businessType` → reducer auto-applies `getDefaultSections(type)` (e.g. Cafe → Photo gallery on; Retail → E-commerce + gallery on)
+6. Step 9 (Review) → on "Submit my brief":
+   - `submitForm(process.env.NEXT_PUBLIC_ONBOARD_SUBMIT_URL!, { state, markdown: generateMarkdown(state) })`
+   - POSTs JSON to the `onboard-submit` Edge Function
+7. **Edge Function** [supabase/functions/onboard-submit/index.ts](supabase/functions/onboard-submit/index.ts):
+   - Uses service-role client to `insert` into `onboard_submissions` (`email`, `business_name`, `owner_name`, `markdown_content`, `state_json`) — RLS bypassed
+   - Sends notification email to `dorza.app@gmail.com` via Gmail SMTP (denomailer), with `intake.md` base64-attached
+   - If `state.email` present, sends a confirmation email to the client
+   - Returns `{ success: true }`
+8. On success, frontend flips `phase` to `"submitted"` → [SubmittedScreen.tsx](components/onboard/SubmittedScreen.tsx) renders "Brief received" + 5-step timeline ("Dorza will contact you within 72 hours")
+9. If the POST fails (network or `{ success: false }`), no toast is shown and the wizard remains on the final step (worth flagging — see Gaps)
 
-## System / backend flow walkthrough
+## System flow walkthrough — admin provisioning
 
-1. Customer opens `/onboard` directly (the wizard is customer-facing — no staff handoff field)
-2. [app/onboard/page.tsx](dorza-v2/app/onboard/page.tsx) initialises `useReducer(reducer, initialState)` plus `phase` state (`"welcome" | "wizard" | "submitted"`) and `step` index. `TOTAL_STEPS = 9`
-3. **Welcome phase** — [WelcomeScreen.tsx](dorza-v2/components/onboard/WelcomeScreen.tsx) shows intro and "what you'll need". CTA flips phase to `"wizard"` and sets step to 0
-4. **Wizard phase** — [WizardShell.tsx](dorza-v2/components/onboard/WizardShell.tsx) renders chrome (top bar, sidebar with stepper on desktop / dots on mobile, bottom nav with progress bar) around the active `StepXxx` component
-5. Each step composes UI from [_primitives.tsx](dorza-v2/components/onboard/_primitives.tsx) (`StepLayout`, `Field`, `Input`, `Textarea`, `Chip`, `OptionCard`, `Toggle`, etc.) — no step rolls its own inputs
-6. `validate(currentStep)` runs on "Continue"; only Steps 1 and 3 currently gate progression (business name/owner/phone, at least one service). Backwards jumps allowed; forward jumps blocked
-7. Step 1 sets business type → reducer auto-calls `getDefaultSections(type)` to pre-toggle website sections (e.g. Cafe → Photo gallery on; Retail → E-commerce + Photo gallery on)
-8. Step 7 (Site essentials) collects toggled sections plus free-text `otherSections` and `siteVisionDescription` — these flow into the markdown's `## site` section and the `site_build` agent brief
-9. Step 9 (Review) → [lib/generateMarkdown.ts](dorza-v2/lib/generateMarkdown.ts) converts the full `OnboardState` to an agent-consumable markdown document (YAML frontmatter + kebab-case sections + `## machine` JSON snapshot + `## build_hints` + `## agent_briefs`). Schema versioned via `SCHEMA_VERSION = "dorza-intake.v1"`
-10. **Submitted phase** — [SubmittedScreen.tsx](dorza-v2/components/onboard/SubmittedScreen.tsx) renders success + markdown export options. Customer copies or downloads `Dorza_[BusinessName]_Intake.md`
-11. Markdown is used as `intake.md` input for Claude Code (and skills like `/ui-ux-pro-max`, `/design-review`) to build the client's site, draft SEO content, run competitor research, etc.
-
-**Gap:** the wizard doesn't post anywhere yet — completion just renders `SubmittedScreen`. The "Save & exit" button in the top bar exits to `/` but nothing is persisted between sessions. The "Saved · just now" label in the top bar is decorative.
+1. Admin visits `/admin` → [app/admin/page.tsx](app/admin/page.tsx)
+2. Unauthenticated → password sign-in form. Auth gate compares `session.user.email === 'dorza.app@gmail.com'` client-side. Non-matching emails see "Not authorized"
+3. On auth success, fetches `onboard_submissions` ordered by `created_at desc` (the `admin_read_all` RLS policy permits this via `is_admin()`)
+4. Submissions render as a table. Clicking a row expands it to show:
+   - Signed URLs for `assets/{user_id}/logo/*` and `assets/{user_id}/photos/*` (1-hour expiry)
+   - The full `markdown_content` in a scrollable `<pre>`
+5. For a row in `pending` status, admin clicks **Create User**:
+   - Frontend `fetch(NEXT_PUBLIC_CREATE_CLIENT_USER_URL, { method: 'POST', headers: { Authorization: 'Bearer <session.access_token>' }, body: { submissionId } })`
+6. **Edge Function** [supabase/functions/create-client-user/index.ts](supabase/functions/create-client-user/index.ts):
+   - Validates JWT → fetches caller → enforces `caller.email ∈ ADMIN_EMAILS` (hardcoded `["dorza.app@gmail.com"]`)
+   - Fetches submission; refuses if already `provisioned`
+   - `auth.admin.generateLink({ type: "invite", email, redirectTo: SITE_URL/upload })`
+   - Falls back to `magiclink` if invite errors with "already" (existing user)
+   - Sends branded HTML invite email via Gmail SMTP with the `actionLink`
+   - Updates submission with `user_id` and `status = 'provisioned'`
+7. Client opens the email link → arrives at `/upload` → [app/upload/page.tsx](app/upload/page.tsx)
+8. Upload page: lists current files via signed URLs, uploads to `assets/{user_id}/{logo|photos}/{filename}` (`upsert: true` for logo, `Date.now().ext` for photos). RLS ensures clients only see their own folder
 
 ## Where to look — task → location
 
 | I want to... | Look at... |
 |--------------|-----------|
-| Change homepage copy | `components/sections/` — one file per section |
-| Add a new homepage section | Create `components/sections/NewSection.tsx`, add to `app/page.tsx` |
-| Change the hero headline | [components/sections/Hero.tsx](dorza-v2/components/sections/Hero.tsx) line 9 |
-| Change the hero browser mockup | [components/sections/HeroBrowserMockup.tsx](dorza-v2/components/sections/HeroBrowserMockup.tsx) |
-| Change pricing | [components/sections/Pricing.tsx](dorza-v2/components/sections/Pricing.tsx) |
-| Edit the waitlist form | [components/sections/WaitlistCTA.tsx](dorza-v2/components/sections/WaitlistCTA.tsx) |
-| Wire up a real form endpoint | [lib/api.ts](dorza-v2/lib/api.ts) — replace the stub. Note: static export means use a third-party endpoint (Formspree/webhook), not a Next.js route handler |
-| Change design tokens | [tailwind.config.ts](dorza-v2/tailwind.config.ts) **and** mirror in [app/globals.css](dorza-v2/app/globals.css) `:root` |
-| Add a new onboarding step field | [lib/types.ts](dorza-v2/lib/types.ts) `OnboardState` + initialState in [app/onboard/page.tsx](dorza-v2/app/onboard/page.tsx) + the relevant `StepXxx.tsx` (compose with `Field`/`Input` from `_primitives`) + [lib/generateMarkdown.ts](dorza-v2/lib/generateMarkdown.ts) |
-| Change wizard chrome (top bar, sidebar, bottom nav, progress) | [components/onboard/WizardShell.tsx](dorza-v2/components/onboard/WizardShell.tsx) |
-| Change wizard intro / "what you'll need" | [components/onboard/WelcomeScreen.tsx](dorza-v2/components/onboard/WelcomeScreen.tsx) |
-| Change post-submit success screen | [components/onboard/SubmittedScreen.tsx](dorza-v2/components/onboard/SubmittedScreen.tsx) |
-| Add a shared input/chip/card pattern reused across steps | Extend [components/onboard/_primitives.tsx](dorza-v2/components/onboard/_primitives.tsx); don't add ad-hoc components inside `StepXxx.tsx` |
-| Change validation rules per step | `validate()` in [app/onboard/page.tsx](dorza-v2/app/onboard/page.tsx) |
-| Change the markdown export format / agent briefs / build hints | [lib/generateMarkdown.ts](dorza-v2/lib/generateMarkdown.ts) — bump `SCHEMA_VERSION` if the shape changes |
-| Add a new page | Create `app/[route]/page.tsx` |
-| Add or change scroll-in animation | Wrap content in `<Reveal>` / `<Reveal stagger>` / `<SlideReveal>` from `components/motion/`; respect `useReducedMotion()` |
-| Run the dev server | `npm run dev` |
-| Build | `npm run build` (produces static `out/`) |
-| Lint | `npm run lint` |
-| Deploy | Push to Vercel (no CI configured yet) |
+| Change homepage copy | `components/sections/*.tsx` (one file per section) |
+| Add a new homepage section | New `components/sections/Xxx.tsx`, include in `app/page.tsx` |
+| Change the hero | [components/sections/Hero.tsx](components/sections/Hero.tsx) + [HeroBrowserMockup.tsx](components/sections/HeroBrowserMockup.tsx) |
+| Edit the waitlist form | [components/sections/WaitlistCTA.tsx](components/sections/WaitlistCTA.tsx) — note: no endpoint wired |
+| Add a new onboarding field | 4 places: [lib/types.ts](lib/types.ts) `OnboardState` + `initialState` in [app/onboard/page.tsx](app/onboard/page.tsx) + the relevant `StepXxx.tsx` (compose with `_primitives`) + [lib/generateMarkdown.ts](lib/generateMarkdown.ts) |
+| Change wizard chrome | [components/onboard/WizardShell.tsx](components/onboard/WizardShell.tsx) |
+| Re-enable per-step validation | `validate()` in [app/onboard/page.tsx](app/onboard/page.tsx) — currently a no-op |
+| Change the post-submit screen | [components/onboard/SubmittedScreen.tsx](components/onboard/SubmittedScreen.tsx) |
+| Change the intake.md format | [lib/generateMarkdown.ts](lib/generateMarkdown.ts) — bump `SCHEMA_VERSION` if shape changes |
+| Change admin email | **3 places** must stay in sync: `ADMIN_EMAIL` in [app/admin/page.tsx](app/admin/page.tsx), `ADMIN_EMAILS` in [supabase/functions/create-client-user/index.ts](supabase/functions/create-client-user/index.ts), and the seed row in [supabase/migrations/20260516000000_admin_and_storage.sql](supabase/migrations/20260516000000_admin_and_storage.sql) |
+| Add a new DB column | New migration file in `supabase/migrations/`, then re-deploy edge functions if they touch it |
+| Change submission-received emails | [supabase/functions/onboard-submit/index.ts](supabase/functions/onboard-submit/index.ts) |
+| Change invite email template | [supabase/functions/create-client-user/index.ts](supabase/functions/create-client-user/index.ts) |
+| Add a new edge function | New folder under `supabase/functions/`, deploy via Supabase dashboard; expose URL as `NEXT_PUBLIC_*_URL` |
+| Change design tokens | [tailwind.config.ts](tailwind.config.ts) **and** [app/globals.css](app/globals.css) `:root` (no shared source) |
+| Add scroll-in animation | Wrap in `<Reveal>` / `<Reveal stagger>` / `<SlideReveal>` from `components/motion/`; respect `useReducedMotion()` |
+| Run the dev server | `pnpm dev` (or `npm run dev`) |
+| Build | `pnpm build` → static `out/` |
+| Lint | `pnpm lint` |
+| Deploy frontend | Push to Vercel (env vars must be set) |
+| Deploy edge functions | Supabase dashboard → Edge Functions (or `supabase functions deploy`) |
+| Run DB migrations | Supabase dashboard → SQL Editor; run files in `supabase/migrations/` in filename order |
+
+## Environment variables
+
+Required for the frontend (set in Vercel and `.env.local`):
+
+| Var | Used by |
+|-----|---------|
+| `NEXT_PUBLIC_SUPABASE_URL` | `lib/supabase.ts` |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | `lib/supabase.ts` |
+| `NEXT_PUBLIC_ONBOARD_SUBMIT_URL` | `app/onboard/page.tsx` submit |
+| `NEXT_PUBLIC_CREATE_CLIENT_USER_URL` | `app/admin/page.tsx` Create User |
+
+Required for the edge functions (set via Supabase secrets, **not** in `.env.local`):
+
+| Secret | Used by |
+|--------|---------|
+| `GMAIL_USER` | both functions (SMTP from-address) |
+| `GMAIL_APP_PASSWORD` | both functions (SMTP auth) |
+| `SITE_URL` | `create-client-user` (invite redirect base) |
+| `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | both — auto-injected by Supabase |
+
+`lib/supabase.ts` falls back to placeholder URL/key when env vars are missing so `next build` doesn't fail in CI. Real values are required at runtime.
 
 ## Design system (current)
 
-**Palette** — terracotta + sage editorial, with warm off-whites:
+**Palette** — terracotta + sage editorial:
 - Primary (terracotta): `#D4845A` · light `#E8A87C` · dark `#B8673F` · tint `#FBEDE3`
 - Accent (sage): `#6B8F71` · light `#A4C2A8` · dark `#4A6B4E` · tint `#E8EFE9`
-- Dark: `#1A1A2E` (headings, dark sections like WaitlistCTA, footer)
-- Surface: `#F9F7F5` · Warm: `#FDFAF7` · Border: `#F0EBE4`
+- Dark: `#1A1A2E` · Surface: `#F9F7F5` · Warm: `#FDFAF7` · Border: `#F0EBE4`
 - Text: primary `#1A1A2E` · secondary `#555` · muted `#888`
 - Status: `#24CB71`
 
-**Typography:**
-- Display: `Instrument Serif` 400 — used for h1–h6, large numerals
-- Body: `Plus Jakarta Sans` 400/500/600/700
-- Mono: system mono stack (`ui-monospace`, Cascadia Code, etc.) — used for small uppercase eyebrow labels with `tracking-[0.18em]`
+**Typography**: Display = Instrument Serif 400; Body = Plus Jakarta Sans 400/500/600/700; Mono = system mono for `tracking-[0.18em]` eyebrow labels.
 
-**Shape and elevation:**
-- Radius: `rounded-card` 20px · `rounded-btn` / `rounded-full` 999px · `rounded-sm` 8px
-- Shadows: `shadow-soft` (1px hairline) · `shadow-medium` / `shadow-card` (12px 32px subtle)
-- Buttons are pill-shaped (full-radius), height 48px (`h-12`), `font-semibold text-sm`
-- Cards: white, `border border-border`, `rounded-card`, `p-6`, hover `shadow-medium hover:-translate-y-1`
+**Shape**: `rounded-card` 20px · `rounded-btn` / `rounded-full` 999px · `rounded-sm` 8px. Buttons pill-shaped, `h-12`, `font-semibold text-sm`. Cards `bg-white border-border rounded-card p-6` with `hover:shadow-medium hover:-translate-y-1`.
 
-**Motion:**
-- Custom easing: `ease-dorza` = `cubic-bezier(0.23, 1, 0.32, 1)` (also exported as `DORZA_EASE` in `components/motion/Reveal.tsx`); `ease-out-expo`, `ease-out-quart` also available
-- Standard transitions: `duration-300 ease-dorza` for hover; `duration-500 ease-dorza` for layout shifts
-- Scroll-in pattern: wrap in `<Reveal>` (default y=24, duration=0.6) or `<Reveal stagger>` for child stagger; uses `whileInView` with `viewport={{ once: true, margin: "-100px" }}`
-- Many keyframes available: `float`, `marquee`, `pulse-ring`, `breathe`, `bounce-gentle`, `pulse-subtle`
+**Motion**: `ease-dorza` = `cubic-bezier(0.23, 1, 0.32, 1)` (also exported as `DORZA_EASE`). Default Reveal: `y=24`, `duration=0.6`, `viewport={ once: true, margin: "-100px" }`.
 
-**Recurring patterns:**
-- Eyebrow label: `font-mono text-[11px] uppercase tracking-[0.18em] text-accent` (sometimes `text-text-muted`)
-- Section heading: `font-display text-[44px] md:text-[60px] leading-[1.02] tracking-[-0.025em] text-dark`
-- Section spacing: `py-20 md:py-[7.5rem]` (use `md:py-[10rem]` for the dark waitlist section)
-- Container: `<Container>` from `components/ui/Container` (max width 1200px, px-5)
+**Recurring patterns**: eyebrow `font-mono text-[11px] uppercase tracking-[0.18em] text-accent`; section heading `font-display text-[44px] md:text-[60px] leading-[1.02] tracking-[-0.025em] text-dark`; section spacing `py-20 md:py-[7.5rem]`; container `<Container>` (max 1200px, px-5).
 
 ## Conventions in use
 
-- **Naming:** Components PascalCase, one per file. Step components prefix with `Step`. Section components live in `components/sections/`, primitives in `components/ui/`.
-- **Components:** Default exports for pages and section components; named exports for UI primitives (Badge, Container, etc.) and motion wrappers. Props typed inline. No barrel exports — direct imports only.
-- **Styling:** Tailwind utility classes with semantic tokens (`bg-primary`, `text-accent`, `border-border`, `rounded-card`, `rounded-full`, `ease-dorza`). Avoid raw hex literals except in `tailwind.config.ts` and `app/globals.css`.
-- **State:** `useReducer` for the multi-step onboarding wizard; `useState` for simpler page-level form state. No global state library.
-- **Forms:** Controlled inputs. All form submissions go through `submitForm()` in `lib/api.ts`. No validation library — manual field-by-field checks.
-- **Errors:** Inline error messages under fields, set on attempted "Next" step. No error boundary components.
-- **Tests:** No tests found — zero test files in the codebase.
-- **Git:** Conventional commits (`feat:`, `fix:`, `chore:`, `docs:`).
+- **Naming**: PascalCase one-per-file. Step components prefix `Step`. Section components in `components/sections/`, primitives in `components/ui/`.
+- **Components**: Default exports for pages/sections; named exports for UI primitives and motion wrappers. Props typed inline. No barrel exports.
+- **Styling**: Tailwind semantic tokens (`bg-primary`, `text-accent`, `rounded-card`, `ease-dorza`). Hex literals only in `tailwind.config.ts` / `app/globals.css` (and the invite email HTML in `create-client-user`).
+- **State**: `useReducer` for the wizard; `useState` elsewhere. No global state lib.
+- **Auth**: Supabase Auth via `supabase.auth.signInWithPassword` (admin) and `signInWithOtp` (clients). Auth state observed via `onAuthStateChange`. Authorization is client-side string-match against a hardcoded admin email + server-side enforced again in the edge function.
+- **Forms**: Controlled inputs. All form submissions go through `submitForm()` in `lib/api.ts`. No validation library — manual checks per field (currently disabled in the wizard).
+- **Edge functions**: Deno, `Deno.serve`, ESM imports from `https://esm.sh/...` and `https://deno.land/x/...`. CORS headers handled inline. Heavy use of `console.log` with bracketed function-name tags (`[onboard-submit] ...`) for Supabase log filtering.
+- **Errors (frontend)**: inline error text under fields; toast (4s timeout) in admin/upload pages for async feedback.
+- **Tests**: none. No test framework configured.
+- **Git**: Conventional commits (`feat:`, `fix:`, `chore:`, `docs:`).
 
 ## Gaps and notable findings
 
-1. **Forms still submit nowhere.** `lib/api.ts` console-logs and resolves after 500ms. Because the app is a static export (`output: 'export'`), a Next.js API route handler won't work — the real fix is to point `submitForm` at a third-party endpoint (Formspree, n8n webhook, etc.) configured per environment. Don't change the function signature; many components call it.
+1. **Wizard validation is currently disabled.** `validate()` in [app/onboard/page.tsx:164](app/onboard/page.tsx) always returns `true`. A previous version gated Steps 1, 3, 9. Worth confirming with the user whether this is intentional or an in-flight refactor.
 
-2. **Onboard wizard never submits.** Step 10 → `SubmittedScreen` is a UI-only transition. There is no call to `submitForm` from the wizard, no persistence, and no email-myself-the-link flow despite the "Save & exit" button copy implying one. If/when wiring this up, the same third-party-endpoint constraint applies.
+2. **Admin email duplicated in 3 places.** `ADMIN_EMAIL` in `app/admin/page.tsx`, `ADMIN_EMAILS` in `create-client-user/index.ts`, and the seed row in the `admin_and_storage` migration. Changing the admin requires all three plus a new auth user in the Supabase dashboard. No shared constant.
 
-3. **Top-level component duplicates remain.** [components/Footer.tsx](dorza-v2/components/Footer.tsx) and [components/Nav.tsx](dorza-v2/components/Nav.tsx) exist but have **zero imports** anywhere in `app/` or `components/` (verified). The homepage uses `components/sections/Footer.tsx` and `components/sections/Nav.tsx`. The top-level files are dead code — safe to delete.
+3. **Onboard submission has no client-side error UX.** If `submitForm` returns `{ success: false }` (network error, edge function 500), the wizard sits on the Review step with no toast or message — only `submitting` state clears. Compare with `admin` / `upload` pages which both surface `showToast(error)`.
 
-4. **Design tokens duplicated in two places.** `tailwind.config.ts` and `app/globals.css` `:root` both declare the same color/easing/shadow values. When changing a token, update both — there is no shared source.
+4. **Waitlist form is not wired.** `components/sections/WaitlistCTA.tsx` still calls `submitForm` but there is no `NEXT_PUBLIC_WAITLIST_*_URL` env var and no corresponding edge function. Either wire it or move it to a "coming soon" state.
 
-5. **Two `Eyebrow` components.** [components/ui/Eyebrow.tsx](dorza-v2/components/ui/Eyebrow.tsx) (used by site sections) and the `Eyebrow` exported from [components/onboard/_primitives.tsx](dorza-v2/components/onboard/_primitives.tsx) (used by wizard steps and `WelcomeScreen`/`WizardShell`). They render the same visual treatment. Acceptable for now since the onboard one is namespaced to the wizard, but flag if a third copy appears.
+5. **`lib/supabase.ts` ships placeholder fallback to production builds.** If env vars are missing in Vercel, the build succeeds and the deployed app silently fails at runtime against `placeholder.supabase.co`. Consider a build-time assertion or surface this risk in CI.
 
-6. **`DESIGN.md` is Figma's design system, not Dorza's.** It was used as inspiration. It is not referenced by code; treat as reference-only.
+6. **No server-side validation of admin email in the migration policy.** `is_admin()` joins `admin_users` to `auth.users` by email. Anyone you add to `admin_users` becomes admin once they sign up — there's no separate ACL or invite flow for admins. Manageable for now (single admin) but worth flagging if the team grows.
 
-7. **No tests, no CI.** The repo has `lint` only. There is no test framework configured.
+7. **`Date.now()` photo filenames are not collision-proof under fast multi-upload** — `upload/page.tsx` `for (const file of picked) await uploadFile(file, 'photos')` serialises uploads, so collisions are unlikely in practice but the contract is not enforced.
 
-### Resolved since 2026-05-04
+8. **Top-level dead code remains.** `components/Footer.tsx` and `components/Nav.tsx` have zero imports — safe to delete.
 
-- ✅ Duplicate `/app/onboarding` route and `components/DorzaOnboarding.tsx` (the inline-styled monolith) have been deleted. `/onboard` is now the single canonical wizard path.
-- ✅ Onboarding refactored from per-step ad-hoc UI into a shared `WizardShell` + `_primitives` architecture, with explicit welcome and submitted phases.
+9. **Design tokens duplicated** in `tailwind.config.ts` and `app/globals.css` `:root`. Change both together.
+
+10. **No tests, no CI.** `pnpm lint` is the only check.
+
+### Resolved since 2026-05-09
+
+- ✅ `lib/api.ts` is no longer a stub — real `fetch` with `{ success }` response.
+- ✅ Onboard wizard now submits — POSTs to `onboard-submit` Edge Function with `{ state, markdown }`, persists to DB, emails admin (intake.md attached) and client.
+- ✅ Backend exists. Supabase project provides Postgres + Auth + Storage + Deno Edge Functions, replacing the previous "must use third-party webhook" constraint.
+- ✅ Admin dashboard at `/admin` for reviewing submissions and provisioning clients.
+- ✅ Client portal at `/upload` for asset uploads (logo + photos).
 
 ## Edit-safety guide
 
 **Safe to edit directly** (low blast radius):
-- Individual section components in `components/sections/` — each is independent
-- Page-level copy (headings, subheadings, CTA text) within existing components
-- `app/waitlist/page.tsx` — self-contained
-- `DORZA_MD_ALL/` knowledge base docs
+- Page-level copy in `components/sections/*` and step components
+- Email HTML inside the edge functions (re-deploy required)
+- `SubmittedScreen` / `WelcomeScreen` content
+- `DORZA_MD_ALL/` knowledge base
 
-**Edit with care** (affects multiple components):
-- `tailwind.config.ts` and `app/globals.css` — token changes ripple across the entire site, **must be updated together**
-- `components/ui/` primitives — used by many section components
-- `components/onboard/_primitives.tsx` — used by all 10 step components + WelcomeScreen; shape changes ripple through the wizard
-- `components/onboard/WizardShell.tsx` — chrome layout for every wizard step
-- `components/motion/` (Reveal, Stagger, SlideReveal, useCountUp) — wraps many animated elements
+**Edit with care** (ripples across multiple files):
+- `tailwind.config.ts` + `app/globals.css` — must change together
+- `components/ui/*` and `components/onboard/_primitives.tsx` — used widely
+- `components/motion/*` — wraps many animated elements
+- `lib/generateMarkdown.ts` — output is the artifact emailed to admin and used downstream for client site builds; bump `SCHEMA_VERSION` if shape changes
 
-**Flag for review before changing** (cross-cutting, shared state, or external contracts):
-- `lib/types.ts` — `OnboardState` change = update `initialState` in `app/onboard/page.tsx` + every relevant step component + `generateMarkdown.ts`
-- `lib/generateMarkdown.ts` — output is the artifact that feeds the client site build pipeline
-- `lib/api.ts` — when the stub is replaced with a real endpoint, ensure all callers (waitlist + future onboard submission) still work
-- `app/onboard/page.tsx` — owns the reducer, the phase machine, and validation; all wizard behaviour flows through here
-- `app/layout.tsx` — affects metadata, fonts, and JSON-LD on every page
-- `next.config.mjs` — switching off `output: 'export'` changes deployment story; switching on full optimisation changes hosting requirements
+**Flag for review before changing** (cross-cutting, external contracts, infra):
+- `lib/types.ts` — `OnboardState` change = update reducer initialState + every step + `generateMarkdown.ts` + edge function (it reads `state_json`)
+- `app/onboard/page.tsx` — owns the reducer, phase machine, validation, and submission
+- `lib/api.ts` — many callers; signature change ripples
+- `lib/supabase.ts` — every page touching auth/storage
+- `supabase/migrations/*` — additive only, ordered by filename; never edit a migration that's been run in production
+- `supabase/functions/*` — payload contracts coupled to frontend; require re-deploy in Supabase
+- `next.config.mjs` — flipping `output: 'export'` changes deployment story entirely
+- `app/layout.tsx` — affects metadata, fonts, JSON-LD on every page
+- Admin-email constants — keep all three (app, edge function, migration) in sync
 
 ## How to refresh this document
 

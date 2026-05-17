@@ -48,8 +48,8 @@
 - No barrel exports, direct imports only
 
 ## Forms and data flow
-- All form submissions go through `submitForm(endpoint, data)` in `lib/api.ts`
-- The function is currently a stub (console.log + 500ms resolve). When wiring real submission, point at a third-party endpoint (Formspree, n8n webhook) — **Next.js API route handlers won't work because the app is a static export**. Don't change the function signature; many components call it.
+- All form submissions go through `submitForm(endpoint, data)` in `lib/api.ts` (real `fetch`, returns `{ success }`)
+- Submission endpoints are **Supabase Edge Functions** (Deno), exposed as `NEXT_PUBLIC_*_URL` env vars. Next.js API route handlers won't work — the app is a static export. Don't change `submitForm`'s signature; many components call it.
 - Controlled inputs only. Manual field-by-field validation (no validation library).
 
 ## SEO
@@ -66,10 +66,9 @@
 - Deploy: push to Vercel (no CI configured yet)
 
 ## Known gaps to be aware of
-- `lib/api.ts` is a stub — see Forms section above
-- The `/onboard` wizard never submits anywhere — Step 10 just transitions to `SubmittedScreen` (UI-only). When wiring real submission, the same static-export constraint applies — use a third-party endpoint.
 - `components/Footer.tsx` and `components/Nav.tsx` at the top level are dead code (zero imports) — homepage uses the `components/sections/` versions. Safe to delete.
 - Design tokens are duplicated in `tailwind.config.ts` and `app/globals.css` — change both together
+- See `CODEBASE_INDEX.md` "Gaps and notable findings" for the full current list (validation disabled, no error UX on submission failure, waitlist unwired, etc.)
 
 ## Added by codebase-onboarding 2026-05-09
 
@@ -81,10 +80,40 @@
 - Adding a new field to `OnboardState` requires updates in **four** places: `lib/types.ts`, `initialState` in `app/onboard/page.tsx`, the relevant `StepXxx.tsx`, and `lib/generateMarkdown.ts`.
 
 ### Validation
-- Only Steps 1, 3, and 9 currently validate (business name/owner/phone, ≥1 service, package selected). Backwards step jumps allowed; forward jumps blocked. To change this, edit `validate()` in `app/onboard/page.tsx` — don't move validation into step components.
+- `validate()` in `app/onboard/page.tsx` is **currently a no-op** (returns `true`, clears errors) — per-step gating was disabled in commit `d06b0ba`. If re-enabling, do it in `validate()`; don't move validation into step components.
 
 ### Removed
 - The old `/app/onboarding` route and `components/DorzaOnboarding.tsx` (inline-styled monolith) are gone. `/onboard` is canonical — do not recreate the alternate.
+
+## Added by codebase-onboarding 2026-05-17
+
+### Backend: Supabase
+- Postgres + Auth + Storage + Edge Functions (Deno). Frontend stays static-export; all dynamic behaviour lives in Supabase.
+- Shared browser client in `lib/supabase.ts` (anon key). Has a placeholder fallback so `next build` doesn't fail without env vars — real values required at runtime.
+- DB migrations live in `supabase/migrations/`, ordered by filename timestamp. **Additive only** — never edit a migration that's been run in prod.
+- Two edge functions in `supabase/functions/`:
+  - `onboard-submit` (public) — receives `{ state, markdown }` from `/onboard`, inserts into `onboard_submissions`, emails admin (intake.md attached) + client via Gmail SMTP (denomailer)
+  - `create-client-user` (admin-JWT-gated) — invoked from `/admin`; verifies caller email is in `ADMIN_EMAILS`, calls `auth.admin.generateLink` (invite, falls back to magiclink), emails branded portal link, marks submission `provisioned`
+- Edge function conventions: `Deno.serve`, ESM imports from `esm.sh` / `deno.land/x`, CORS headers inline, bracketed `console.log` tags (`[onboard-submit] ...`) for filtering in Supabase logs.
+
+### Auth and access control
+- Admin: password sign-in via `supabase.auth.signInWithPassword`. Gate is `session.user.email === 'dorza.app@gmail.com'` (client-side) **plus** the same check inside `create-client-user` (server-side). RLS allows admin read via the `is_admin()` SECURITY DEFINER function joining `admin_users` to `auth.users`.
+- Clients: magic-link via `supabase.auth.signInWithOtp({ shouldCreateUser: false })`. Accounts are created server-side by the admin clicking "Create User"; clients never self-register.
+- **Admin email is duplicated in 3 places** — `ADMIN_EMAIL` in `app/admin/page.tsx`, `ADMIN_EMAILS` in `supabase/functions/create-client-user/index.ts`, and the seed row in `20260516000000_admin_and_storage.sql`. Keep them in sync if changing.
+
+### Pages added
+- `/admin` — submissions dashboard. Expandable rows show markdown + signed URLs for `assets/{user_id}/logo` and `assets/{user_id}/photos` (1h expiry). "Create User" button on `pending` rows.
+- `/upload` — client asset portal. Uploads to `assets/{user_id}/logo/logo.{ext}` (upsert) and `assets/{user_id}/photos/{timestamp}.{ext}`. RLS scopes clients to their own folder.
+
+### Environment variables
+Frontend (Vercel + `.env.local`): `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_ONBOARD_SUBMIT_URL`, `NEXT_PUBLIC_CREATE_CLIENT_USER_URL`. Edge function secrets (Supabase dashboard): `GMAIL_USER`, `GMAIL_APP_PASSWORD`, `SITE_URL`. See `env.local.example` and `supabase/README.md`.
+
+### Package manager
+- pnpm (`pnpm-lock.yaml` is the source of truth). `npm` scripts still work but prefer `pnpm dev` / `pnpm build` / `pnpm lint`.
+
+### Onboard submission flow (current)
+- Step 9 "Submit my brief" → `submitForm(NEXT_PUBLIC_ONBOARD_SUBMIT_URL, { state, markdown })` → edge function persists + emails → frontend flips to `submitted` phase → `SubmittedScreen` ("Brief received, contact in 72h" + timeline). The markdown is no longer offered as a customer download — it's the server-side artifact emailed to admin.
+- **No client-side error UX on submit failure** — if the edge function returns `{ success: false }`, the wizard just clears `submitting` and stays on Review. If editing, consider mirroring the toast pattern from `/admin` and `/upload`.
 
 ## Client website builds (future)
 - Each client site is a separate repo generated from templates in `/templates`

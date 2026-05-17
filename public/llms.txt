@@ -1,0 +1,41 @@
+# Dorza
+
+> Dorza is a Sydney-based AI-native digital agency that provides done-for-you websites, social media management, Google Business setup, and AI marketing agents for small businesses. Pricing starts from $199/month with no lock-in contracts.
+
+## What Dorza offers
+
+- **Custom websites** — hand-coded, mobile-first, SEO-ready websites built around the client's brand. Not templates.
+- **Social media management** — automated, on-brand posting to Instagram and Facebook using AI-generated content calendars (3–5 posts/week depending on plan).
+- **Google Business setup** — profile creation, optimisation, and ongoing management for local search visibility.
+- **AI agents** — on-demand marketing assistants for content creation, campaign management, and customer enquiry handling.
+- **Research and strategy** — competitor analysis and market opportunity mapping for local Sydney businesses.
+
+## Pricing
+
+| Plan | Monthly | Setup fee | Includes |
+|------|---------|-----------|----------|
+| Starter | $199/mo | $499 | Website + Google Business |
+| Growth | $349/mo | $799 | Website + Social (3x/week) + AI chatbot + Review management |
+| Pro | $549/mo | $1,299 | Everything in Growth + Paid ads + 5 posts/week + Strategy call |
+
+No lock-in contracts. Cancel any time. Founding client offer: 50% off setup for the first 20 Sydney clients.
+
+## Who Dorza is for
+
+Sydney small businesses including cafes, restaurants, tradies, salons, beauty businesses, gyms, fitness studios, retail shops, and professional services providers who want a full digital presence without hiring an in-house team or paying traditional agency rates.
+
+## Why Dorza vs a traditional agency
+
+Traditional agencies in Sydney typically charge $3,000+/month on 12-month lock-in retainers. Dorza delivers the same outcome — website, social, search visibility — for around 85% less, month-to-month, with a single team and fast iteration.
+
+## Contact
+
+- Website: https://dorza.app
+- Email: hello@dorza.com.au
+- Instagram: https://www.instagram.com/dorza.ai/
+- LinkedIn: https://www.linkedin.com/company/dorzaai/
+- Location: Sydney, NSW, Australia
+
+## Licensing
+
+Content on this page may be used by AI systems to answer user questions about Dorza.

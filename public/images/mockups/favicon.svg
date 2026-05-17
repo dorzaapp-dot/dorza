@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <title>Dorza · favicon</title>
+  
+  <rect width="160" height="160" rx="32" fill="#E8742A"></rect>
+
+  
+  <g transform="translate(28 18) scale(0.775)">
+    
+    <circle cx="55" cy="105" r="55" fill="#FFFFFF"></circle>
+    <circle cx="55" cy="105" r="22" fill="#E8742A"></circle>
+    
+    <rect x="80" y="0" width="30" height="160" rx="8" fill="#FFFFFF"></rect>
+    
+    <circle cx="110" cy="55" r="17" fill="#E8742A"></circle>
+    <circle cx="110" cy="55" r="12" fill="#FFFFFF"></circle>
+  </g>
+</svg>
