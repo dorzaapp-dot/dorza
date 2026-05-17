@@ -6,7 +6,7 @@ import { Container } from "@/components/ui/Container";
 import HeroBrowserMockup from "./HeroBrowserMockup";
 import { DORZA_EASE } from "@/components/motion/Reveal";
 
-const headline = "Sydney's easiest web and growth service for small business";
+const headline = "Sydney's easiest web and growth agency for small business";
 const words = headline.split(" ");
 
 export default function Hero() {
@@ -89,7 +89,7 @@ export default function Hero() {
               </div>
 
               <p className="mt-6 text-[13px] text-text-secondary leading-relaxed max-w-md">
-                Built by Mahir, a Sydneysider with 10 years in digital — not an offshore agency.
+                Tell us about your business. We&apos;ll send back a plan and a price before you hang up.
               </p>
               <p className="mt-3 font-mono text-[11px] text-text-muted uppercase tracking-[0.16em]">
                 No lock-in contracts · Built for Sydney

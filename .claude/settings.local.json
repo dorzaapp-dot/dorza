@@ -3,7 +3,10 @@
     "allow": [
       "WebFetch(domain:dorza.app)",
       "WebFetch(domain:api.anthropic.com)",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(pnpm install *)",
+      "Bash(netstat -ano)",
+      "Bash(taskkill *)"
     ]
   }
 }

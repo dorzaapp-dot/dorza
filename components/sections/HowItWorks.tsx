@@ -474,85 +474,87 @@ function ReviewVisual() {
 }
 
 function GrowthVisual() {
+  const months = [
+    { label: "Dec", val: 38 },
+    { label: "Jan", val: 56 },
+    { label: "Feb", val: 92 },
+    { label: "Mar", val: 124 },
+    { label: "Apr", val: 154 },
+    { label: "May", val: 218, current: true },
+  ];
+  const max = Math.max(...months.map((m) => m.val));
+
   return (
     <VisualCard className="p-5 md:p-6">
-      <div className="flex items-baseline justify-between mb-4">
-        <div>
-          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-accent">
-            This month
+      {/* Header — label + trending pill */}
+      <div className="flex items-center justify-between mb-4">
+        <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-accent">
+          {"// Enquiries"}
+        </span>
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-accent-tint border border-accent/20">
+          <svg width="9" height="9" viewBox="0 0 10 10" fill="none" aria-hidden>
+            <path
+              d="M2 7 L5 4 L8 7"
+              stroke="#4A6B4E"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-accent-dark">
+            +42% vs last
           </span>
-          <div className="flex items-baseline gap-2 mt-1">
-            <span className="font-display text-[28px] md:text-[34px] text-dark leading-none">
-              +42%
-            </span>
-            <span className="font-mono text-[10px] text-text-muted">
-              vs. last
-            </span>
-          </div>
-        </div>
-        <div className="text-right">
-          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-text-muted">
-            Enquiries
-          </span>
-          <div className="font-display text-[20px] md:text-[24px] text-dark leading-none mt-1 tabular-nums">
-            218
-          </div>
-        </div>
+        </span>
       </div>
 
-      <svg viewBox="0 0 320 100" className="w-full h-20 md:h-24">
-        <defs>
-          <linearGradient id="growthFill" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#D4845A" stopOpacity="0.32" />
-            <stop offset="100%" stopColor="#D4845A" stopOpacity="0" />
-          </linearGradient>
-          <linearGradient id="growthLine" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="#B8673F" />
-            <stop offset="100%" stopColor="#D4845A" />
-          </linearGradient>
-        </defs>
-        <path
-          d="M0,82 L40,72 L80,76 L120,58 L160,46 L200,32 L240,24 L280,14 L320,6 L320,100 L0,100 Z"
-          fill="url(#growthFill)"
-        />
-        <polyline
-          points="0,82 40,72 80,76 120,58 160,46 200,32 240,24 280,14 320,6"
-          fill="none"
-          stroke="url(#growthLine)"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <circle cx="320" cy="6" r="5" fill="#D4845A" />
-        <circle
-          cx="320"
-          cy="6"
-          r="9"
-          fill="none"
-          stroke="#D4845A"
-          strokeOpacity="0.32"
-          strokeWidth="2"
-        />
-      </svg>
+      {/* Big number */}
+      <div className="flex items-baseline gap-2 mb-5">
+        <span className="font-display text-[44px] md:text-[52px] text-dark leading-none tracking-[-0.025em] tabular-nums">
+          218
+        </span>
+        <span className="font-mono text-[11px] text-text-muted">this month</span>
+      </div>
 
-      <div className="grid grid-cols-3 gap-2 mt-4">
-        {[
-          { label: "Calls", value: "67" },
-          { label: "Bookings", value: "94" },
-          { label: "Reviews", value: "★ 4.9" },
-        ].map((t) => (
-          <div
-            key={t.label}
-            className="rounded-md bg-surface border border-border px-2.5 py-2"
-          >
-            <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-text-muted">
-              {t.label}
-            </span>
-            <div className="font-body font-semibold text-[13px] text-dark mt-0.5 tabular-nums">
-              {t.value}
+      {/* Bar chart */}
+      <div className="flex items-end gap-2 h-24 md:h-32">
+        {months.map((m) => {
+          const heightPct = (m.val / max) * 100;
+          return (
+            <div
+              key={m.label}
+              className="flex-1 flex flex-col items-center gap-1.5 h-full"
+            >
+              <div className="flex-1 w-full flex flex-col justify-end">
+                <div
+                  className={`w-full rounded-t-sm transition-all duration-700 ease-dorza ${
+                    m.current ? "bg-primary" : "bg-primary-tint"
+                  }`}
+                  style={{ height: `${heightPct}%` }}
+                  aria-label={`${m.label}: ${m.val}`}
+                />
+              </div>
+              <span
+                className={`font-mono text-[10px] tabular-nums ${
+                  m.current
+                    ? "text-primary font-semibold"
+                    : "text-text-muted"
+                }`}
+              >
+                {m.label}
+              </span>
             </div>
-          </div>
-        ))}
+          );
+        })}
+      </div>
+
+      {/* Footer */}
+      <div className="mt-5 pt-3 border-t border-border flex items-center justify-between">
+        <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-text-muted">
+          Auto-managed
+        </span>
+        <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-text-muted">
+          Next report · Fri
+        </span>
       </div>
     </VisualCard>
   );
