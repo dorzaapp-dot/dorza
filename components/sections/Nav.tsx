@@ -63,10 +63,10 @@ export default function Nav() {
               </a>
             ))}
             <a
-              href="#waitlist"
+              href="/onboard"
               className="inline-flex items-center justify-center h-12 px-5 bg-primary hover:bg-primary-dark text-white font-semibold text-sm rounded-full transition-all duration-300 ease-dorza hover:-translate-y-px hover:shadow-medium active:translate-y-0 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
-              Join the waitlist
+              Get your free consultation
             </a>
           </div>
 
@@ -125,14 +125,14 @@ export default function Nav() {
               ))}
             </motion.nav>
             <motion.a
-              href="#waitlist"
+              href="/onboard"
               onClick={() => setOpen(false)}
               initial={shouldReduce ? {} : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.5, ease: DORZA_EASE }}
               className="inline-flex items-center justify-center h-12 px-5 mt-8 bg-primary hover:bg-primary-dark text-white font-semibold rounded-full transition-colors"
             >
-              Join the waitlist
+              Get your free consultation
             </motion.a>
           </motion.div>
         )}

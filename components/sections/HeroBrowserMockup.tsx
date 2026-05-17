@@ -169,7 +169,8 @@ export default function HeroBrowserMockup() {
                     src={site.heroImg}
                     alt=""
                     className="absolute inset-0 w-full h-full object-cover"
-                    loading="lazy"
+                    loading={index === 0 ? "eager" : "lazy"}
+                    fetchPriority={index === 0 ? "high" : "auto"}
                   />
                   <div
                     aria-hidden
