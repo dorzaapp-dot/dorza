@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { Reveal, DORZA_EASE } from "@/components/motion/Reveal";
+import EnquiryModal from "@/components/ui/EnquiryModal";
 
 const faqs = [
   {
@@ -79,6 +80,8 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
 }
 
 export default function FAQ() {
+  const [enquiryOpen, setEnquiryOpen] = useState(false);
+
   return (
     <section className="py-16 md:py-[7.5rem] bg-warm">
       <Container>
@@ -100,7 +103,24 @@ export default function FAQ() {
             ))}
           </Reveal>
         </div>
+
+        <Reveal delay={0.2}>
+          <div className="max-w-2xl mt-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-8 border-t border-border">
+            <p className="text-[15px] text-text-secondary leading-relaxed">
+              Still have questions? Talk to a real Sydney human.
+            </p>
+            <button
+              type="button"
+              onClick={() => setEnquiryOpen(true)}
+              className="inline-flex items-center justify-center h-11 px-5 bg-white border border-border text-dark font-semibold text-sm rounded-full hover:bg-surface hover:border-[#E5DFD6] transition-all duration-300 ease-dorza hover:-translate-y-px active:translate-y-0 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 self-start sm:self-auto"
+            >
+              Talk to us →
+            </button>
+          </div>
+        </Reveal>
       </Container>
+
+      <EnquiryModal open={enquiryOpen} onClose={() => setEnquiryOpen(false)} />
     </section>
   );
 }

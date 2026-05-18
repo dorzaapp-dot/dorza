@@ -137,9 +137,10 @@ Deno.serve(async (req) => {
     for (const byte of mdBytes) mdBinary += String.fromCharCode(byte);
     const mdBase64 = btoa(mdBinary);
 
-    console.log("[onboard-submit] sending notification email to Adi...");
+    const adminTo = Deno.env.get("ADMIN_NOTIFICATION_EMAIL") || "dorza.app@gmail.com";
+    console.log(`[onboard-submit] sending notification email to ${adminTo}...`);
     await sendEmail({
-      to: "dorza.app@gmail.com",
+      to: adminTo,
       subject: `New brief: ${state.businessName || state.email}`,
       html: `<p>New onboarding submission from <strong>${state.ownerName || state.email}</strong>.</p><p>See attached intake.md.</p>`,
       attachments: [{ filename: "intake.md", content: mdBase64, encoding: "base64" }],

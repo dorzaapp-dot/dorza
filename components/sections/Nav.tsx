@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { DORZA_EASE } from "@/components/motion/Reveal";
+import EnquiryModal from "@/components/ui/EnquiryModal";
 
 const links = [
   { label: "Services", href: "#services" },
@@ -11,9 +12,12 @@ const links = [
   { label: "Pricing", href: "#pricing" },
 ];
 
+const CTA_LABEL = "Get your free consultation";
+
 export default function Nav() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [enquiryOpen, setEnquiryOpen] = useState(false);
   const shouldReduce = useReducedMotion();
 
   useEffect(() => {
@@ -29,6 +33,11 @@ export default function Nav() {
       document.body.style.overflow = "";
     };
   }, [open]);
+
+  function openEnquiry() {
+    setOpen(false);
+    setEnquiryOpen(true);
+  }
 
   return (
     <>
@@ -62,12 +71,13 @@ export default function Nav() {
                 />
               </a>
             ))}
-            <a
-              href="/onboard"
+            <button
+              type="button"
+              onClick={openEnquiry}
               className="inline-flex items-center justify-center h-12 px-5 bg-primary hover:bg-primary-dark text-white font-semibold text-sm rounded-full transition-all duration-300 ease-dorza hover:-translate-y-px hover:shadow-medium active:translate-y-0 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
-              Get your free consultation
-            </a>
+              {CTA_LABEL}
+            </button>
           </div>
 
           <button
@@ -124,19 +134,21 @@ export default function Nav() {
                 </motion.a>
               ))}
             </motion.nav>
-            <motion.a
-              href="/onboard"
-              onClick={() => setOpen(false)}
+            <motion.button
+              type="button"
+              onClick={openEnquiry}
               initial={shouldReduce ? {} : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.5, ease: DORZA_EASE }}
               className="inline-flex items-center justify-center h-12 px-5 mt-8 bg-primary hover:bg-primary-dark text-white font-semibold rounded-full transition-colors"
             >
-              Get your free consultation
-            </motion.a>
+              {CTA_LABEL}
+            </motion.button>
           </motion.div>
         )}
       </AnimatePresence>
+
+      <EnquiryModal open={enquiryOpen} onClose={() => setEnquiryOpen(false)} />
     </>
   );
 }

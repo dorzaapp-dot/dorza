@@ -16,6 +16,20 @@ export interface WaitlistFormData {
   frustration?: string;
 }
 
+export type EnquirySource = "inline" | "modal";
+
+export interface EnquiryFormData {
+  name: string;
+  email: string;
+  businessType: BusinessType | "";
+  suburb: string;
+  servicesInterested: string[];
+  message?: string;
+  source: EnquirySource;
+  // Honeypot — must remain empty for genuine submissions.
+  website?: string;
+}
+
 export interface OnboardState {
   // Step 1 - Business basics
   businessName: string;
