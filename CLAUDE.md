@@ -68,7 +68,7 @@
 ## Known gaps to be aware of
 - `components/Footer.tsx` and `components/Nav.tsx` at the top level are dead code (zero imports) — homepage uses the `components/sections/` versions. Safe to delete.
 - Design tokens are duplicated in `tailwind.config.ts` and `app/globals.css` — change both together
-- See `CODEBASE_INDEX.md` "Gaps and notable findings" for the full current list (validation disabled, no error UX on submission failure, waitlist unwired, etc.)
+- See `CODEBASE_INDEX.md` "Gaps and notable findings" for the full current list (validation disabled, no error UX on /onboard submission failure, etc.)
 
 ## Added by codebase-onboarding 2026-05-09
 
@@ -145,6 +145,38 @@ Frontend (Vercel + `.env.local`): `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPAB
 - Subheadlines: one sentence, conversational, mentions location
 - Service descriptions: 2 sentences max, focus on outcome not process
 - CTAs: action-oriented verbs ("Get a free quote", "Book now", "See our menu")
+
+## Added by feature work 2026-05-18 — Enquiry pathway
+
+### One enquiry pathway, two surfaces
+- The homepage waitlist is now the **primary entry point**. Two visual surfaces, one backend pipe:
+  - **Inline:** `components/sections/WaitlistCTA.tsx` (anchor `#waitlist`, dark editorial section). Source = `'inline'`.
+  - **Modal:** `components/ui/EnquiryModal.tsx` (light dialog, focus trap, ESC close, body scroll lock). Source = `'modal'`. Triggered from Nav CTA (desktop + mobile) and FAQ "Talk to us".
+- Both render the same fields via `components/forms/EnquiryFormFields.tsx` with a `theme: 'dark' | 'light'` prop. **When adding/changing fields, edit `EnquiryFormFields` once** — both surfaces update.
+- Submission flow: `useEnquirySubmit()` → `submitForm(NEXT_PUBLIC_ENQUIRY_SUBMIT_URL, EnquiryFormData)` → `enquiry-submit` Edge Function → inserts into `enquiries` + sends admin email + confirmation email.
+
+### Services multi-select
+- `lib/constants.ts` exports `SERVICE_OPTIONS` (5 options including "Not sure yet" as the safety valve). Stored in `enquiries.services_interested text[]`. To add/rename a service: edit `SERVICE_OPTIONS` only — chips + admin view + edge function payload all flow from it.
+
+### `/onboard` is unlinked from the public funnel
+- All public CTAs go to the waitlist (inline anchor) or open `EnquiryModal`. `/onboard` is **kept live** for admins to share with qualified leads only. Its layout has `robots: { index: false, follow: false }`.
+- Do **not** add public links back to `/onboard`. If a new CTA appears, point it at the modal or `#waitlist`.
+
+### Admin email source of truth (revised)
+- Frontend gate uses `ADMIN_EMAIL` from `lib/constants.ts`.
+- Both `enquiry-submit` and `onboard-submit` read `ADMIN_NOTIFICATION_EMAIL` from Supabase secrets (with `dorza.app@gmail.com` fallback). **Set this secret in Supabase.**
+- `create-client-user` still has a hardcoded `ADMIN_EMAILS` array — that's the JWT auth gate, separate concern.
+- Migration seed in `20260516000000_admin_and_storage.sql` is canonical for the `admin_users` row. Changing the admin = update `lib/constants.ts` + the Supabase env secret + the `ADMIN_EMAILS` array in `create-client-user` + a new migration to update the seed row.
+
+### New: `enquiries` table
+- Migration `20260518000000_enquiries.sql`. Columns: id, created_at, name, email, business_type, suburb, services_interested (text[]), message, source (`inline|modal`), status (`new|contacted|converted|archived`), state_json.
+- RLS: admin SELECT + UPDATE via existing `is_admin()`. Edge function inserts via service role (bypasses RLS).
+
+### Admin dashboard tabs
+- `app/admin/page.tsx` now has tabs: **Enquiries** (default) and **Submissions**. Enquiries table expands to show services chips + message; row actions: Mark Contacted → Mark Converted → Archive (status pipeline).
+
+### Honeypot spam protection
+- `EnquiryFormFields` renders an off-screen, aria-hidden `website` field. The edge function silently discards any submission where it's non-empty. If we get spammed past this, add Cloudflare Turnstile next.
 
 ## Git
 - Conventional commits: `feat:`, `fix:`, `chore:`, `docs:`
