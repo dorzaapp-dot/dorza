@@ -16,7 +16,7 @@ type Submission = {
 
 type TaskStatus = 'idle' | 'running' | 'done' | 'error'
 
-type DomainStatus = 'checking' | 'available' | 'taken' | 'unknown'
+type DomainStatus = 'queued' | 'checking' | 'available' | 'taken' | 'unknown'
 
 type DomainResult = {
   domain: string
@@ -126,16 +126,13 @@ function WorkspaceContent() {
     setTasks(prev => prev.map(t => t.id === 'domain-search' ? { ...t, status: 'running' } : t))
 
     const candidates = generateCandidates(businessName)
-    setDomainResults(candidates.map(d => ({ domain: d, status: 'checking' })))
+    setDomainResults(candidates.map(d => ({ domain: d, status: 'queued' })))
 
-    await Promise.all(
-      candidates.map(async (domain) => {
-        const status = await checkDomain(domain)
-        setDomainResults(prev =>
-          prev.map(r => r.domain === domain ? { ...r, status } : r)
-        )
-      })
-    )
+    for (const domain of candidates) {
+      setDomainResults(prev => prev.map(r => r.domain === domain ? { ...r, status: 'checking' } : r))
+      const status = await checkDomain(domain)
+      setDomainResults(prev => prev.map(r => r.domain === domain ? { ...r, status } : r))
+    }
 
     setTasks(prev => prev.map(t => t.id === 'domain-search' ? { ...t, status: 'done' } : t))
   }
@@ -243,17 +240,24 @@ function WorkspaceContent() {
 function DomainBadge({ status }: { status: DomainStatus }) {
   if (status === 'checking') {
     return (
-      <span className="font-mono text-[10px] uppercase tracking-widest text-text-muted animate-pulse">
+      <span className="font-mono text-[10px] uppercase tracking-widest text-primary animate-pulse">
         Checking…
       </span>
     )
   }
-  const styles: Record<Exclude<DomainStatus, 'checking'>, string> = {
+  if (status === 'queued') {
+    return (
+      <span className="font-mono text-[10px] uppercase tracking-widest text-text-muted/40">
+        Queued
+      </span>
+    )
+  }
+  const styles: Record<'available' | 'taken' | 'unknown', string> = {
     available: 'bg-accent-tint text-accent-dark',
     taken:     'bg-surface text-text-muted line-through',
     unknown:   'bg-surface text-text-muted',
   }
-  const labels: Record<Exclude<DomainStatus, 'checking'>, string> = {
+  const labels: Record<'available' | 'taken' | 'unknown', string> = {
     available: 'Available',
     taken:     'Taken',
     unknown:   'Unknown',
