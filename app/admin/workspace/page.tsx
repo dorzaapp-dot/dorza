@@ -6,12 +6,19 @@ import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 import { ADMIN_EMAIL } from '@/lib/constants'
 
+type BrandData = {
+  tone: string
+  brandColours: string
+  brandKeywords: string
+}
+
 type Submission = {
   id: string
   business_name: string | null
   owner_name: string | null
   email: string
   status: 'pending' | 'provisioned'
+  state_json: Partial<BrandData> | null
 }
 
 type TaskStatus = 'idle' | 'running' | 'done' | 'error'
@@ -105,7 +112,7 @@ function WorkspaceContent() {
 
       const { data } = await supabase
         .from('onboard_submissions')
-        .select('id, business_name, owner_name, email, status')
+        .select('id, business_name, owner_name, email, status, state_json')
         .eq('id', id)
         .single()
 
@@ -286,6 +293,78 @@ function WorkspaceContent() {
             </div>
           ))}
         </div>
+
+        {submission.state_json && (
+          <BrandGuidelines brand={submission.state_json} />
+        )}
+      </div>
+    </div>
+  )
+}
+
+function BrandGuidelines({ brand }: { brand: Partial<BrandData> }) {
+  const keywords = brand.brandKeywords
+    ? brand.brandKeywords.split(/[,;]+/).map(k => k.trim()).filter(Boolean)
+    : []
+
+  const hexPattern = /#([0-9a-fA-F]{3,6})\b/g
+  const colourSwatches = brand.brandColours
+    ? Array.from(brand.brandColours.matchAll(hexPattern), m => `#${m[1]}`)
+    : []
+
+  const hasContent = brand.tone || brand.brandColours || brand.brandKeywords
+  if (!hasContent) return null
+
+  return (
+    <div className="mt-10">
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="font-display text-xl text-dark">Brand Guidelines</h2>
+        <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-text-muted">From brief</span>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        {brand.tone && (
+          <div className="bg-white border border-border rounded-card p-5">
+            <p className="font-mono text-[10px] uppercase tracking-widest text-text-muted mb-2">Tone</p>
+            <p className="font-body text-sm text-dark">{brand.tone}</p>
+          </div>
+        )}
+
+        {brand.brandColours && (
+          <div className="bg-white border border-border rounded-card p-5">
+            <p className="font-mono text-[10px] uppercase tracking-widest text-text-muted mb-2">Colours</p>
+            {colourSwatches.length > 0 && (
+              <div className="flex gap-1.5 mb-2">
+                {colourSwatches.map(hex => (
+                  <span
+                    key={hex}
+                    title={hex}
+                    className="w-6 h-6 rounded-full border border-border flex-shrink-0"
+                    style={{ backgroundColor: hex }}
+                  />
+                ))}
+              </div>
+            )}
+            <p className="font-body text-sm text-dark">{brand.brandColours}</p>
+          </div>
+        )}
+
+        {brand.brandKeywords && (
+          <div className="bg-white border border-border rounded-card p-5">
+            <p className="font-mono text-[10px] uppercase tracking-widest text-text-muted mb-2">Keywords</p>
+            {keywords.length > 1 ? (
+              <div className="flex flex-wrap gap-1.5">
+                {keywords.map(k => (
+                  <span key={k} className="font-body text-xs text-dark bg-surface border border-border px-2.5 py-0.5 rounded-full">
+                    {k}
+                  </span>
+                ))}
+              </div>
+            ) : (
+              <p className="font-body text-sm text-dark">{brand.brandKeywords}</p>
+            )}
+          </div>
+        )}
       </div>
     </div>
   )
