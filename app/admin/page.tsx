@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 import { ADMIN_EMAIL } from '@/lib/constants'
 import type { Session } from '@supabase/supabase-js'
@@ -355,17 +356,25 @@ function SubmissionsTable({
                       {new Date(s.created_at).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' })}
                     </td>
                     <td className="px-5 py-4 text-right" onClick={e => e.stopPropagation()}>
-                      {s.status === 'pending' ? (
-                        <button
-                          onClick={() => createUser(s.id)}
-                          disabled={creating === s.id}
-                          className="h-8 px-4 bg-primary hover:bg-primary-dark text-white text-xs font-semibold rounded-full transition-all duration-300 hover:-translate-y-px disabled:opacity-50 disabled:cursor-not-allowed disabled:translate-y-0 whitespace-nowrap"
+                      <div className="inline-flex items-center gap-2">
+                        <Link
+                          href={`/admin/workspace?id=${s.id}`}
+                          className="h-8 px-4 bg-white border border-border text-dark hover:bg-surface text-xs font-semibold rounded-full transition-all duration-300 hover:-translate-y-px inline-flex items-center whitespace-nowrap"
                         >
-                          {creating === s.id ? 'Creating…' : 'Create User'}
-                        </button>
-                      ) : (
-                        <span className="text-xs text-text-muted">Provisioned</span>
-                      )}
+                          View
+                        </Link>
+                        {s.status === 'pending' ? (
+                          <button
+                            onClick={() => createUser(s.id)}
+                            disabled={creating === s.id}
+                            className="h-8 px-4 bg-primary hover:bg-primary-dark text-white text-xs font-semibold rounded-full transition-all duration-300 hover:-translate-y-px disabled:opacity-50 disabled:cursor-not-allowed disabled:translate-y-0 whitespace-nowrap"
+                          >
+                            {creating === s.id ? 'Creating…' : 'Create User'}
+                          </button>
+                        ) : (
+                          <span className="text-xs text-text-muted">Provisioned</span>
+                        )}
+                      </div>
                     </td>
                   </tr>
                   {expanded && (
