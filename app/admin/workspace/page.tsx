@@ -56,7 +56,7 @@ function generateCandidates(businessName: string): string[] {
   const hyphen = slugifyHyphen(businessName)
   const firstWord = base.split(/(?=[A-Z])/)[0] || base
 
-  const variants = [...new Set([base, hyphen, firstWord].filter(Boolean))]
+  const variants = Array.from(new Set([base, hyphen, firstWord].filter(Boolean)))
   const tlds = ['.com', '.com.au', '.net', '.co']
 
   const candidates: string[] = []
@@ -65,7 +65,7 @@ function generateCandidates(businessName: string): string[] {
       candidates.push(`${v}${tld}`)
     }
   }
-  return [...new Set(candidates)].slice(0, 10)
+  return Array.from(new Set(candidates)).slice(0, 10)
 }
 
 async function checkDomain(domain: string): Promise<DomainStatus> {
