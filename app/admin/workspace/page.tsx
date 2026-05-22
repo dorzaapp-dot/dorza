@@ -92,6 +92,7 @@ function WorkspaceContent() {
   const [loading, setLoading] = useState(true)
   const [tasks, setTasks] = useState<Task[]>([])
   const [domainResults, setDomainResults] = useState<DomainResult[]>([])
+  const [googleBizPhase, setGoogleBizPhase] = useState<'idle' | 'waiting' | 'found' | 'not-found'>('idle')
 
   useEffect(() => {
     async function init() {
@@ -111,12 +112,20 @@ function WorkspaceContent() {
       if (!data) { router.replace('/admin'); return }
 
       setSubmission(data as Submission)
-      setTasks([{
-        id: 'domain-search',
-        label: 'Domain Search',
-        description: `Find available domains for "${data.business_name || data.email}"`,
-        status: 'idle',
-      }])
+      setTasks([
+        {
+          id: 'domain-search',
+          label: 'Domain Search',
+          description: `Find available domains for "${data.business_name || data.email}"`,
+          status: 'idle',
+        },
+        {
+          id: 'google-business',
+          label: 'Google Business Profile',
+          description: `Check if a Google Business profile exists for "${data.business_name || data.email}"`,
+          status: 'idle',
+        },
+      ])
       setLoading(false)
     }
     init()
@@ -141,6 +150,17 @@ function WorkspaceContent() {
     if (taskId === 'domain-search' && submission?.business_name) {
       startDomainSearch(submission.business_name)
     }
+    if (taskId === 'google-business' && submission?.business_name) {
+      const q = encodeURIComponent(submission.business_name)
+      window.open(`https://www.google.com/maps/search/?api=1&query=${q}`, '_blank')
+      setTasks(prev => prev.map(t => t.id === 'google-business' ? { ...t, status: 'running' } : t))
+      setGoogleBizPhase('waiting')
+    }
+  }
+
+  function handleGoogleBizResult(found: boolean) {
+    setGoogleBizPhase(found ? 'found' : 'not-found')
+    setTasks(prev => prev.map(t => t.id === 'google-business' ? { ...t, status: 'done' } : t))
   }
 
   if (loading) return <LoadingScreen />
@@ -213,6 +233,40 @@ function WorkspaceContent() {
                   )}
                 </div>
               </div>
+
+              {task.id === 'google-business' && googleBizPhase !== 'idle' && (
+                <div className="border-t border-border px-5 py-4">
+                  {googleBizPhase === 'waiting' && (
+                    <div className="flex items-center gap-3">
+                      <p className="font-body text-xs text-text-secondary flex-1">
+                        Check the Google Maps tab — does a Business Profile exist?
+                      </p>
+                      <button
+                        onClick={() => handleGoogleBizResult(true)}
+                        className="h-8 px-4 bg-accent hover:bg-accent-dark text-white text-xs font-semibold rounded-full transition-all duration-300 whitespace-nowrap"
+                      >
+                        Found
+                      </button>
+                      <button
+                        onClick={() => handleGoogleBizResult(false)}
+                        className="h-8 px-4 bg-white border border-border text-dark hover:bg-surface text-xs font-semibold rounded-full transition-all duration-300 whitespace-nowrap"
+                      >
+                        Not found
+                      </button>
+                    </div>
+                  )}
+                  {(googleBizPhase === 'found' || googleBizPhase === 'not-found') && (
+                    <div className="flex items-center gap-3">
+                      <span className={`w-2 h-2 rounded-full flex-shrink-0 ${googleBizPhase === 'found' ? 'bg-accent' : 'bg-text-muted'}`} />
+                      <p className="font-body text-xs text-text-secondary">
+                        {googleBizPhase === 'found'
+                          ? 'Google Business Profile exists — client can claim or manage it.'
+                          : 'No Google Business Profile found — needs to be created.'}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
 
               {task.id === 'domain-search' && domainResults.length > 0 && (
                 <div className="border-t border-border px-5 py-4">
