@@ -100,6 +100,9 @@ function WorkspaceContent() {
   const [tasks, setTasks] = useState<Task[]>([])
   const [domainResults, setDomainResults] = useState<DomainResult[]>([])
   const [googleBizPhase, setGoogleBizPhase] = useState<'idle' | 'waiting' | 'found' | 'not-found'>('idle')
+  const [generating, setGenerating] = useState(false)
+  const [brandGuidelines, setBrandGuidelines] = useState<string | null>(null)
+  const [generateError, setGenerateError] = useState<string | null>(null)
 
   useEffect(() => {
     async function init() {
@@ -162,6 +165,30 @@ function WorkspaceContent() {
       window.open(`https://www.google.com/maps/search/?api=1&query=${q}`, '_blank')
       setTasks(prev => prev.map(t => t.id === 'google-business' ? { ...t, status: 'running' } : t))
       setGoogleBizPhase('waiting')
+    }
+  }
+
+  async function generateBrandGuidelines() {
+    if (!submission) return
+    setGenerating(true)
+    setGenerateError(null)
+    try {
+      const { data: { session } } = await supabase.auth.getSession()
+      const res = await fetch(process.env.NEXT_PUBLIC_GENERATE_BRAND_GUIDELINES_URL!, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session!.access_token}`,
+        },
+        body: JSON.stringify({ submissionId: submission.id }),
+      })
+      const json = await res.json()
+      if (!json.success) throw new Error(json.error)
+      setBrandGuidelines(json.guidelines)
+    } catch (err) {
+      setGenerateError(String(err))
+    } finally {
+      setGenerating(false)
     }
   }
 
@@ -295,14 +322,26 @@ function WorkspaceContent() {
         </div>
 
         {submission.state_json && (
-          <BrandGuidelines brand={submission.state_json} />
+          <BrandGuidelines
+            brand={submission.state_json}
+            onGenerate={generateBrandGuidelines}
+            generating={generating}
+            guidelines={brandGuidelines}
+            error={generateError}
+          />
         )}
       </div>
     </div>
   )
 }
 
-function BrandGuidelines({ brand }: { brand: Partial<BrandData> }) {
+function BrandGuidelines({ brand, onGenerate, generating, guidelines, error }: {
+  brand: Partial<BrandData>
+  onGenerate: () => void
+  generating: boolean
+  guidelines: string | null
+  error: string | null
+}) {
   const keywords = brand.brandKeywords
     ? brand.brandKeywords.split(/[,;]+/).map(k => k.trim()).filter(Boolean)
     : []
@@ -366,6 +405,39 @@ function BrandGuidelines({ brand }: { brand: Partial<BrandData> }) {
           </div>
         )}
       </div>
+
+      <div className="mt-4 flex items-center gap-3">
+        <button
+          onClick={onGenerate}
+          disabled={generating}
+          className="h-9 px-5 bg-dark hover:bg-dark/80 text-white text-xs font-semibold rounded-full transition-all duration-300 hover:-translate-y-px hover:shadow-medium disabled:opacity-50 disabled:cursor-not-allowed disabled:translate-y-0 whitespace-nowrap"
+        >
+          {generating ? 'Generating…' : guidelines ? 'Regenerate' : 'Generate Brand Guidelines'}
+        </button>
+        {generating && (
+          <span className="font-mono text-[11px] uppercase tracking-widest text-text-muted animate-pulse">
+            Claude is writing…
+          </span>
+        )}
+        {error && <span className="font-body text-xs text-red-500">{error}</span>}
+      </div>
+
+      {guidelines && (
+        <div className="mt-4 bg-white border border-border rounded-card overflow-hidden">
+          <div className="px-5 py-3 border-b border-border bg-surface flex items-center justify-between">
+            <span className="font-mono text-[10px] uppercase tracking-widest text-text-muted">Generated guidelines</span>
+            <button
+              onClick={() => navigator.clipboard.writeText(guidelines)}
+              className="font-mono text-[10px] uppercase tracking-widest text-primary hover:text-primary-dark transition-colors"
+            >
+              Copy
+            </button>
+          </div>
+          <pre className="px-5 py-4 font-mono text-xs text-text-secondary leading-relaxed whitespace-pre-wrap max-h-[500px] overflow-y-auto">
+            {guidelines}
+          </pre>
+        </div>
+      )}
     </div>
   )
 }
