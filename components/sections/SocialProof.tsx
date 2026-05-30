@@ -19,7 +19,7 @@ const testimonials: Testimonial[] = [
     quote:
       "We went from zero online presence to getting 3-4 enquiries a week through our website. Dorza built it in two days — I didn't have to think about a thing.",
     name: "Sam T.",
-    business: "Sydney Trade Co.",
+    business: "Westmead Electrical",
     type: "Tradie",
     stars: 5,
   },
@@ -27,7 +27,7 @@ const testimonials: Testimonial[] = [
     quote:
       "Our Instagram used to be dead. Now we've got consistent posts, our followers doubled, and people actually mention they saw us online before walking in.",
     name: "Mia L.",
-    business: "Cremorne Coffee Co.",
+    business: "Granville Coffee Co.",
     type: "Cafe",
     stars: 5,
   },
@@ -35,13 +35,13 @@ const testimonials: Testimonial[] = [
     quote:
       "I was paying $3,000 a month to an agency that never answered my calls. Dorza costs a fraction and I've never waited more than a day for a reply.",
     name: "Jordan K.",
-    business: "Bondi Hair Studio",
+    business: "Penrith Hair Studio",
     type: "Salon",
     stars: 5,
   },
 ];
 
-const CYCLE_MS = 5000;
+const CYCLE_MS = 9000;
 
 function Stars({ count }: { count: number }) {
   return (
@@ -60,19 +60,20 @@ function Stars({ count }: { count: number }) {
 export default function SocialProof() {
   const shouldReduce = useReducedMotion();
   const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
 
   useEffect(() => {
-    if (shouldReduce) return;
+    if (shouldReduce || paused) return;
     const id = setInterval(() => {
       setIndex((i) => (i + 1) % testimonials.length);
     }, CYCLE_MS);
     return () => clearInterval(id);
-  }, [shouldReduce]);
+  }, [shouldReduce, paused]);
 
   const t = testimonials[index];
 
   return (
-    <section className="py-16 md:py-[7.5rem] bg-white">
+    <section className="py-16 md:py-[7.5rem] bg-warm">
       <Container>
         <Reveal>
           <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-4">
@@ -80,7 +81,13 @@ export default function SocialProof() {
           </p>
         </Reveal>
 
-        <div className="max-w-3xl">
+        <div
+          className="max-w-3xl"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onFocusCapture={() => setPaused(true)}
+          onBlurCapture={() => setPaused(false)}
+        >
           <AnimatePresence mode="wait">
             <motion.div
               key={index}

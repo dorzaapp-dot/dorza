@@ -240,7 +240,7 @@ const services: Service[] = [
 
 export default function Services() {
   return (
-    <section id="services" className="py-16 md:py-[7.5rem] bg-warm">
+    <section id="services" className="scroll-mt-24 py-16 md:py-[7.5rem] bg-warm">
       <Container>
         <Reveal>
           <div className="max-w-2xl mb-16 md:mb-20">

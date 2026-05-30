@@ -23,8 +23,8 @@ export default function Home() {
         <HowItWorks />
         <SectionDivider fill="#FDFAF7" />
         <Thesis />
-        <SectionDivider fill="#FFFFFF" />
         <SocialProof />
+        <SectionDivider fill="#FFFFFF" />
         <Pricing />
         <SectionDivider fill="#FDFAF7" />
         <FAQ />

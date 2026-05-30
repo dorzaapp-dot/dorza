@@ -62,7 +62,7 @@ export default function Footer() {
           <div className="col-span-2 md:col-span-3 lg:col-span-1">
             <a
               href="/"
-              className="inline-block font-display text-[30px] leading-none animate-breathe"
+              className="inline-block font-display text-[30px] leading-none"
               aria-label="Dorza home"
             >
               d<span className="text-primary">o</span>rza
@@ -70,12 +70,12 @@ export default function Footer() {
             <p className="mt-3 text-white/50 text-sm leading-relaxed">
               Web design and digital marketing for Western Sydney small business.
             </p>
-            <p className="mt-2 text-white/30 font-mono text-[11px]">Parramatta, NSW 2150</p>
+            <p className="mt-2 text-white/45 font-mono text-[11px]">Parramatta, NSW 2150</p>
           </div>
 
           {/* Services */}
           <div>
-            <h4 className="font-mono text-[11px] uppercase tracking-widest text-white/40 mb-4">
+            <h4 className="font-mono text-[11px] uppercase tracking-widest text-white/55 mb-4">
               Services
             </h4>
             <ul className="space-y-2.5">
@@ -94,7 +94,7 @@ export default function Footer() {
 
           {/* Areas */}
           <div>
-            <h4 className="font-mono text-[11px] uppercase tracking-widest text-white/40 mb-4">
+            <h4 className="font-mono text-[11px] uppercase tracking-widest text-white/55 mb-4">
               Areas
             </h4>
             <ul className="space-y-2.5">
@@ -113,7 +113,7 @@ export default function Footer() {
 
           {/* Industries */}
           <div>
-            <h4 className="font-mono text-[11px] uppercase tracking-widest text-white/40 mb-4">
+            <h4 className="font-mono text-[11px] uppercase tracking-widest text-white/55 mb-4">
               Industries
             </h4>
             <ul className="space-y-2.5">
@@ -132,7 +132,7 @@ export default function Footer() {
 
           {/* Company + Contact */}
           <div>
-            <h4 className="font-mono text-[11px] uppercase tracking-widest text-white/40 mb-4">
+            <h4 className="font-mono text-[11px] uppercase tracking-widest text-white/55 mb-4">
               Company
             </h4>
             <ul className="space-y-2.5">
@@ -161,7 +161,7 @@ export default function Footer() {
                   aria-label={s.label}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-white/40 hover:text-accent-light transition-colors duration-300 ease-dorza"
+                  className="text-white/55 hover:text-accent-light transition-colors duration-300 ease-dorza"
                 >
                   {s.svg}
                 </a>
@@ -171,10 +171,10 @@ export default function Footer() {
         </div>
 
         <div className="mt-14 pt-6 border-t border-white/10 flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-          <p className="font-mono text-[11px] text-white/30 uppercase tracking-[0.18em]">
+          <p className="font-mono text-[11px] text-white/45 uppercase tracking-[0.18em]">
             © 2026 dorza · made in sydney
           </p>
-          <p className="font-mono text-[11px] text-white/30 uppercase tracking-[0.18em]">
+          <p className="font-mono text-[11px] text-white/45 uppercase tracking-[0.18em]">
             Made with AI and good taste
           </p>
         </div>

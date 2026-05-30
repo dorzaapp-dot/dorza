@@ -30,7 +30,7 @@ export default function WaitlistCTA() {
   return (
     <section
       id="waitlist"
-      className="relative py-16 md:py-[10rem] bg-dark text-white overflow-hidden"
+      className="scroll-mt-24 relative py-16 md:py-[10rem] bg-dark text-white overflow-hidden"
     >
       {/* Radial spotlights */}
       <div
@@ -89,7 +89,7 @@ export default function WaitlistCTA() {
                     </p>
                   )}
 
-                  <p className="text-center font-mono text-[10px] text-white/30 uppercase tracking-[0.18em] mt-3">
+                  <p className="text-center font-mono text-[10px] text-white/45 uppercase tracking-[0.18em] mt-3">
                     No spam · No lock-in · Cancel any time
                   </p>
                 </motion.form>

@@ -88,7 +88,7 @@ function PricingCard({ plan }: { plan: (typeof plans)[0] }) {
             Most popular
           </span>
 
-          <h3 className="font-display text-[34px] leading-none tracking-[-0.02em] text-dark">
+          <h3 className="font-body font-semibold text-[30px] leading-tight tracking-[-0.02em] text-dark">
             {plan.name}
           </h3>
           <p className="text-text-muted text-[13px] mt-1 font-mono">
@@ -121,7 +121,7 @@ function PricingCard({ plan }: { plan: (typeof plans)[0] }) {
             href="#waitlist"
             className="mt-6 inline-flex items-center justify-center h-12 w-full font-semibold text-sm rounded-full transition-all duration-300 ease-dorza hover:-translate-y-px active:translate-y-0 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 bg-primary hover:bg-primary-dark text-white hover:shadow-medium"
           >
-            Get started
+            Start with Growth
           </a>
         </div>
       </div>
@@ -206,7 +206,7 @@ function ComparisonToggle() {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
           <div>
             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-2">
-              See the difference
+              {"// "}See the difference
             </p>
             <h3 className="font-display text-[32px] md:text-[44px] leading-[1.05] tracking-[-0.025em] text-dark">
               Same outcome. A fraction of the cost.
@@ -259,6 +259,7 @@ function ComparisonToggle() {
             </motion.div>
             <p className="mt-3 text-sm text-text-muted">
               + ${Math.round(setup).toLocaleString()} setup
+              {side === "dorza" ? " · Growth plan" : ""}
             </p>
 
             <AnimatePresence>
@@ -312,7 +313,7 @@ function ComparisonToggle() {
 
 export default function Pricing() {
   return (
-    <section id="pricing" className="py-16 md:py-[7.5rem] bg-white">
+    <section id="pricing" className="scroll-mt-24 py-16 md:py-[7.5rem] bg-white">
       <Container>
         <Reveal>
           <div className="text-center mb-12">
@@ -329,7 +330,14 @@ export default function Pricing() {
           <ComparisonToggle />
         </Reveal>
 
-        <div className="mt-12 grid md:grid-cols-3 gap-5">
+        <Reveal delay={0.05}>
+          <div className="mt-16 text-center">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-2">
+              {"// Choose your plan"}
+            </p>
+          </div>
+        </Reveal>
+        <div className="mt-8 grid md:grid-cols-3 gap-5">
           {plans.map((plan, i) => (
             <Reveal key={plan.name} delay={i * 0.08}>
               <PricingCard plan={plan} />

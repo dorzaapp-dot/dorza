@@ -18,7 +18,7 @@ export default function SectionDivider({ fill, flip = false, className = "" }: P
         style={flip ? { transform: "rotate(180deg)" } : undefined}
       >
         <path
-          d="M0,60 C480,0 960,0 1440,60 L1440,60 L0,60 Z"
+          d="M0,60 C420,14 1020,14 1440,60 L1440,60 L0,60 Z"
           fill={fill}
         />
       </svg>

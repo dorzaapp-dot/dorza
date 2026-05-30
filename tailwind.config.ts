@@ -28,7 +28,7 @@ const config: Config = {
         "border-strong": "#E5DFD6",
         "text-primary": "#1A1A2E",
         "text-secondary": "#555555",
-        "text-muted": "#888888",
+        "text-muted": "#717171",
         status: "#24CB71",
       },
       fontFamily: {

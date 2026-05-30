@@ -43,7 +43,7 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
         onClick={() => setOpen((o) => !o)}
         className="w-full flex items-center justify-between gap-4 py-5 text-left group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm"
       >
-        <span className="font-body font-semibold text-[16px] md:text-[17px] leading-snug tracking-[-0.005em] text-dark group-hover:text-primary transition-colors duration-300 ease-dorza">
+        <span className="font-body font-semibold text-[17px] md:text-[18px] leading-snug tracking-[-0.005em] text-dark group-hover:text-primary transition-colors duration-300 ease-dorza">
           {q}
         </span>
         <span

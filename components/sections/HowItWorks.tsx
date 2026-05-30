@@ -54,7 +54,7 @@ export default function HowItWorks() {
   });
 
   return (
-    <section id="how-it-works" className="bg-white py-20 md:py-[7.5rem]">
+    <section id="how-it-works" className="scroll-mt-24 bg-white py-20 md:py-[7.5rem]">
       <Container>
         <Reveal>
           <div className="mb-16 md:mb-24 max-w-2xl">
@@ -252,7 +252,7 @@ function StepContent({
       </h3>
       <p
         className={`text-[15px] md:text-[17px] leading-relaxed tracking-[-0.01em] text-text-secondary max-w-md ${
-          align === "right" ? "md:ml-auto" : ""
+          align === "right" ? "md:ml-auto md:text-left" : ""
         }`}
       >
         {step.desc}
@@ -527,7 +527,7 @@ function GrowthVisual() {
               <div className="flex-1 w-full flex flex-col justify-end">
                 <div
                   className={`w-full rounded-t-sm transition-all duration-700 ease-dorza ${
-                    m.current ? "bg-primary" : "bg-primary-tint"
+                    m.current ? "bg-accent" : "bg-accent-tint"
                   }`}
                   style={{ height: `${heightPct}%` }}
                   aria-label={`${m.label}: ${m.val}`}
@@ -536,7 +536,7 @@ function GrowthVisual() {
               <span
                 className={`font-mono text-[10px] tabular-nums ${
                   m.current
-                    ? "text-primary font-semibold"
+                    ? "text-accent-dark font-semibold"
                     : "text-text-muted"
                 }`}
               >

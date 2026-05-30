@@ -92,6 +92,27 @@ export default function Nav() {
             d<span className="text-primary">o</span>rza
           </a>
 
+          <div className="hidden md:flex items-center gap-7">
+            <a
+              href="/#services"
+              className="text-sm font-medium text-dark hover:text-primary transition-colors duration-200"
+            >
+              Services
+            </a>
+            <a
+              href="/areas/western-sydney"
+              className="text-sm font-medium text-dark hover:text-primary transition-colors duration-200"
+            >
+              Areas
+            </a>
+            <a
+              href="/#pricing"
+              className="text-sm font-medium text-dark hover:text-primary transition-colors duration-200"
+            >
+              Pricing
+            </a>
+          </div>
+
           <div className="flex items-center gap-4">
             <button
               type="button"

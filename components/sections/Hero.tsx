@@ -52,7 +52,7 @@ export default function Hero() {
               {...fadeUp(0)}
               className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-6"
             >
-              Live in 24 hours · No lock-in · Built for cafes, tradies, salons
+              {"// "}Live in 24 hours · No lock-in · Built for cafes, tradies, salons
             </motion.p>
 
             <h1 className="font-display text-[44px] sm:text-[52px] md:text-[76px] lg:text-[88px] leading-[1.02] tracking-[-0.015em] sm:tracking-[-0.025em] md:tracking-[-0.03em] text-dark overflow-hidden">
@@ -72,7 +72,7 @@ export default function Hero() {
             </h1>
 
             <motion.div {...fadeUp(0.5)}>
-              <p className="mt-7 text-[17px] md:text-[18px] leading-relaxed tracking-[-0.01em] text-text-secondary max-w-xs sm:max-w-md">
+              <p className="mt-7 text-[17px] md:text-[18px] leading-relaxed tracking-[-0.01em] text-text-secondary max-w-md">
                 We build your website, run your social media, and get you found
                 on Google — all from $199/month, no contracts.
               </p>
@@ -98,9 +98,6 @@ export default function Hero() {
 
               <p className="mt-6 text-[13px] text-text-secondary leading-relaxed max-w-md">
                 Tell us about your business. We&apos;ll send back a plan and a price before you hang up.
-              </p>
-              <p className="mt-3 font-mono text-[11px] text-text-muted uppercase tracking-[0.16em]">
-                No lock-in contracts · Built for Western Sydney
               </p>
             </motion.div>
           </div>
