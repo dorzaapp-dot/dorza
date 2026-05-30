@@ -1,16 +1,31 @@
 import { Container } from "@/components/ui/Container";
 
 const serviceLinks = [
-  { label: "Website", href: "#services" },
-  { label: "Social media", href: "#services" },
-  { label: "Research & strategy", href: "#services" },
-  { label: "AI agents", href: "#services" },
+  { label: "Web Design", href: "/services/web-design" },
+  { label: "Social Media", href: "/services/social-media-management" },
+  { label: "Google Business", href: "/services/google-business-profile" },
+  { label: "Local SEO", href: "/services/local-seo" },
+];
+
+const areaLinks = [
+  { label: "Western Sydney", href: "/areas/western-sydney" },
+  { label: "Parramatta", href: "/areas/parramatta" },
+  { label: "Blacktown", href: "/areas/blacktown" },
+  { label: "Penrith", href: "/areas/penrith" },
+  { label: "Liverpool", href: "/areas/liverpool" },
+  { label: "Campbelltown", href: "/areas/campbelltown" },
+];
+
+const industryLinks = [
+  { label: "Cafes & Restaurants", href: "/industries/cafes-restaurants" },
+  { label: "Tradies", href: "/industries/tradies" },
+  { label: "Salons & Beauty", href: "/industries/salons-beauty" },
 ];
 
 const companyLinks = [
-  { label: "How it works", href: "#how-it-works" },
-  { label: "Pricing", href: "#pricing" },
-  { label: "Join waitlist", href: "/waitlist" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
+  { label: "Pricing", href: "/#pricing" },
 ];
 
 const socialLinks = [
@@ -42,9 +57,9 @@ export default function Footer() {
   return (
     <footer className="bg-dark text-white">
       <Container className="py-16 md:py-20">
-        <div className="grid md:grid-cols-3 gap-12">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-10">
           {/* Brand */}
-          <div>
+          <div className="col-span-2 md:col-span-3 lg:col-span-1">
             <a
               href="/"
               className="inline-block font-display text-[30px] leading-none animate-breathe"
@@ -53,61 +68,92 @@ export default function Footer() {
               d<span className="text-primary">o</span>rza
             </a>
             <p className="mt-3 text-white/50 text-sm leading-relaxed">
-              The AI-powered agency for Sydney local business.
+              Web design and digital marketing for Western Sydney small business.
             </p>
-            <p className="mt-2 text-white/30 font-mono text-[11px]">Sydney, NSW 2000</p>
+            <p className="mt-2 text-white/30 font-mono text-[11px]">Parramatta, NSW 2150</p>
           </div>
 
-          {/* Links */}
-          <div className="grid grid-cols-2 gap-8">
-            <div>
-              <h4 className="font-mono text-[11px] uppercase tracking-widest text-white/40 mb-4">
-                Services
-              </h4>
-              <ul className="space-y-2.5">
-                {serviceLinks.map((l) => (
-                  <li key={l.label}>
-                    <a
-                      href={l.href}
-                      className="text-white/60 hover:text-white text-sm transition-colors duration-[160ms]"
-                    >
-                      {l.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-mono text-[11px] uppercase tracking-widest text-white/40 mb-4">
-                Company
-              </h4>
-              <ul className="space-y-2.5">
-                {companyLinks.map((l) => (
-                  <li key={l.label}>
-                    <a
-                      href={l.href}
-                      className="text-white/60 hover:text-white text-sm transition-colors duration-[160ms]"
-                    >
-                      {l.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          {/* Contact */}
+          {/* Services */}
           <div>
             <h4 className="font-mono text-[11px] uppercase tracking-widest text-white/40 mb-4">
-              Contact
+              Services
             </h4>
+            <ul className="space-y-2.5">
+              {serviceLinks.map((l) => (
+                <li key={l.label}>
+                  <a
+                    href={l.href}
+                    className="text-white/60 hover:text-white text-sm transition-colors duration-[160ms]"
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Areas */}
+          <div>
+            <h4 className="font-mono text-[11px] uppercase tracking-widest text-white/40 mb-4">
+              Areas
+            </h4>
+            <ul className="space-y-2.5">
+              {areaLinks.map((l) => (
+                <li key={l.label}>
+                  <a
+                    href={l.href}
+                    className="text-white/60 hover:text-white text-sm transition-colors duration-[160ms]"
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Industries */}
+          <div>
+            <h4 className="font-mono text-[11px] uppercase tracking-widest text-white/40 mb-4">
+              Industries
+            </h4>
+            <ul className="space-y-2.5">
+              {industryLinks.map((l) => (
+                <li key={l.label}>
+                  <a
+                    href={l.href}
+                    className="text-white/60 hover:text-white text-sm transition-colors duration-[160ms]"
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Company + Contact */}
+          <div>
+            <h4 className="font-mono text-[11px] uppercase tracking-widest text-white/40 mb-4">
+              Company
+            </h4>
+            <ul className="space-y-2.5">
+              {companyLinks.map((l) => (
+                <li key={l.label}>
+                  <a
+                    href={l.href}
+                    className="text-white/60 hover:text-white text-sm transition-colors duration-[160ms]"
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
             <a
-              href="mailto:hello@dorza.com.au"
-              className="text-white/60 hover:text-white text-sm transition-colors duration-[160ms]"
+              href="mailto:customer@dorza.com.au"
+              className="block mt-5 text-white/60 hover:text-white text-sm transition-colors duration-[160ms]"
             >
-              hello@dorza.com.au
+              customer@dorza.com.au
             </a>
-            <div className="flex gap-4 mt-5">
+            <div className="flex gap-4 mt-4">
               {socialLinks.map((s) => (
                 <a
                   key={s.label}

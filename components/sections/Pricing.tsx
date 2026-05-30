@@ -77,37 +77,82 @@ const comparison = {
   },
 };
 
-function PricingCard({ plan }: { plan: typeof plans[0] }) {
-  return (
-    <div
-      className={`relative rounded-card flex flex-col p-6 transition-all duration-500 ease-dorza ${
-        plan.highlighted
-          ? "bg-white border-2 border-accent shadow-medium"
-          : "bg-white border border-border hover:shadow-medium hover:-translate-y-1 hover:border-[#E5DFD6]"
-      }`}
-    >
-      {plan.highlighted && (
-        <span className="absolute -top-3 left-6 inline-flex items-center h-6 px-3 bg-accent text-white font-mono text-[10px] uppercase tracking-[0.16em] rounded-full shadow-soft animate-pulse-subtle">
-          Most popular
-        </span>
-      )}
+function PricingCard({ plan }: { plan: (typeof plans)[0] }) {
+  if (plan.highlighted) {
+    return (
+      <div className="relative md:-my-3">
+        {/* Gradient border via wrapper */}
+        <div className="absolute -inset-px rounded-[22px] bg-gradient-to-br from-primary via-accent to-primary-light opacity-80" />
+        <div className="relative rounded-card flex flex-col p-6 bg-white shadow-medium">
+          <span className="absolute -top-3.5 left-6 inline-flex items-center h-7 px-4 bg-primary text-white font-mono text-[10px] uppercase tracking-[0.16em] rounded-full shadow-glow-sm">
+            Most popular
+          </span>
 
+          <h3 className="font-display text-[34px] leading-none tracking-[-0.02em] text-dark">
+            {plan.name}
+          </h3>
+          <p className="text-text-muted text-[13px] mt-1 font-mono">
+            {plan.tagline}
+          </p>
+
+          <div className="mt-5 flex items-baseline gap-1 flex-wrap">
+            <span className="font-body font-bold text-[48px] md:text-[56px] leading-none text-dark tracking-[-0.04em]">
+              ${plan.monthly}
+            </span>
+            <span className="text-text-muted text-sm">/mo</span>
+            <span className="text-text-muted text-sm ml-1">
+              + ${plan.setup} setup
+            </span>
+          </div>
+
+          <ul className="mt-6 space-y-3 flex-1">
+            {plan.features.map((f) => (
+              <li
+                key={f}
+                className="flex items-start gap-2 text-sm text-text-secondary"
+              >
+                <Check size={15} className="text-accent mt-0.5 shrink-0" />
+                {f}
+              </li>
+            ))}
+          </ul>
+
+          <a
+            href="#waitlist"
+            className="mt-6 inline-flex items-center justify-center h-12 w-full font-semibold text-sm rounded-full transition-all duration-300 ease-dorza hover:-translate-y-px active:translate-y-0 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 bg-primary hover:bg-primary-dark text-white hover:shadow-medium"
+          >
+            Get started
+          </a>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative rounded-card flex flex-col p-6 bg-white border border-border hover:shadow-medium hover:-translate-y-1 hover:border-border-strong transition-all duration-500 ease-dorza">
       <h3 className="font-display text-[34px] leading-none tracking-[-0.02em] text-dark">
         {plan.name}
       </h3>
-      <p className="text-text-muted text-[13px] mt-1 font-mono">{plan.tagline}</p>
+      <p className="text-text-muted text-[13px] mt-1 font-mono">
+        {plan.tagline}
+      </p>
 
       <div className="mt-5 flex items-baseline gap-1 flex-wrap">
         <span className="font-body font-bold text-[48px] md:text-[56px] leading-none text-dark tracking-[-0.04em]">
           ${plan.monthly}
         </span>
         <span className="text-text-muted text-sm">/mo</span>
-        <span className="text-text-muted text-sm ml-1">+ ${plan.setup} setup</span>
+        <span className="text-text-muted text-sm ml-1">
+          + ${plan.setup} setup
+        </span>
       </div>
 
       <ul className="mt-6 space-y-3 flex-1">
         {plan.features.map((f) => (
-          <li key={f} className="flex items-start gap-2 text-sm text-text-secondary">
+          <li
+            key={f}
+            className="flex items-start gap-2 text-sm text-text-secondary"
+          >
             <Check size={15} className="text-accent mt-0.5 shrink-0" />
             {f}
           </li>
@@ -116,11 +161,7 @@ function PricingCard({ plan }: { plan: typeof plans[0] }) {
 
       <a
         href="#waitlist"
-        className={`mt-6 inline-flex items-center justify-center h-12 w-full font-semibold text-sm rounded-full transition-all duration-300 ease-dorza hover:-translate-y-px active:translate-y-0 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
-          plan.highlighted
-            ? "bg-primary hover:bg-primary-dark text-white hover:shadow-medium"
-            : "bg-white border border-border text-dark hover:bg-surface hover:border-[#E5DFD6]"
-        }`}
+        className="mt-6 inline-flex items-center justify-center h-12 w-full font-semibold text-sm rounded-full transition-all duration-300 ease-dorza hover:-translate-y-px active:translate-y-0 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 bg-white border border-border text-dark hover:bg-surface hover:border-border-strong"
       >
         Get started
       </a>
@@ -297,9 +338,14 @@ export default function Pricing() {
         </div>
 
         <Reveal delay={0.3}>
-          <p className="text-center font-mono text-[11px] text-text-muted uppercase tracking-[0.16em] mt-10">
-            Founding client offer · 50% off setup for the first 20 Sydney clients
-          </p>
+          <div className="mt-12 flex items-center justify-center">
+            <div className="inline-flex items-center gap-3 h-12 px-6 bg-primary-tint border border-primary/20 rounded-full">
+              <span className="h-2 w-2 rounded-full bg-primary animate-pulse-subtle" />
+              <p className="font-mono text-[11px] md:text-[12px] text-primary-dark uppercase tracking-[0.14em] font-semibold">
+                Founding client offer · 50% off setup · First 20 Sydney businesses
+              </p>
+            </div>
+          </div>
         </Reveal>
       </Container>
     </section>

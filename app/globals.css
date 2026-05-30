@@ -80,3 +80,13 @@ h1, h2, h3, h4, h5, h6 {
 .marquee-container:hover .marquee-track {
   animation-play-state: paused;
 }
+
+.hover-glow {
+  transition: box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.hover-glow:hover {
+  box-shadow:
+    0 12px 32px rgba(26, 26, 46, 0.08),
+    0 0 0 1px rgba(212, 132, 90, 0.08),
+    0 0 40px -8px rgba(212, 132, 90, 0.10);
+}

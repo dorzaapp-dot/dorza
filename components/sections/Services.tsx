@@ -280,7 +280,23 @@ function ServiceRow({ service, index }: { service: Service; index: number }) {
             mockOnLeft ? "md:order-1" : "md:order-2"
           }`}
         >
-          {service.visual}
+          <div className="relative">
+            <div
+              aria-hidden
+              className="absolute -inset-4 md:-inset-6 rounded-[32px] opacity-40 blur-2xl pointer-events-none"
+              style={{
+                background:
+                  index === 0
+                    ? "radial-gradient(circle, rgba(212,132,90,0.15), transparent 70%)"
+                    : index === 1
+                      ? "radial-gradient(circle, rgba(107,143,113,0.12), transparent 70%)"
+                      : index === 2
+                        ? "radial-gradient(circle, rgba(26,26,46,0.08), transparent 70%)"
+                        : "radial-gradient(circle, rgba(212,132,90,0.10), transparent 70%)",
+              }}
+            />
+            <div className="relative">{service.visual}</div>
+          </div>
         </SlideReveal>
 
         <Reveal

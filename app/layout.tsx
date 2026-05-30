@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, Instrument_Serif } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
+import GrainOverlay from "@/components/ui/GrainOverlay";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -19,13 +20,16 @@ const instrument = Instrument_Serif({
   adjustFontFallback: true,
 });
 
-const SITE_URL = "https://dorza.app";
+const SITE_URL = "https://dorza.com.au";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Web Design & Social Media Sydney — Done For You | Dorza",
+  title: {
+    default: "Web Design & Digital Marketing Western Sydney | Dorza",
+    template: "%s | Dorza",
+  },
   description:
-    "Dorza builds websites and runs social media for Sydney small businesses. Cafes, tradies, salons. Live in 24 hours. From $199/mo. No lock-in contracts.",
+    "Dorza builds websites, runs social media, and manages Google Business for small businesses across Western Sydney. Parramatta, Blacktown, Penrith, Liverpool. From $199/mo. No lock-in.",
   alternates: { canonical: SITE_URL },
   icons: {
     icon: [{ url: "/images/mockups/favicon.svg", type: "image/svg+xml" }],
@@ -33,19 +37,28 @@ export const metadata: Metadata = {
     apple: "/images/mockups/favicon.svg",
   },
   openGraph: {
-    title: "Dorza — Web Design & Social Media Sydney, Done For You",
+    title: "Dorza — Web Design & Digital Marketing for Western Sydney Small Business",
     description:
-      "Dorza builds websites and runs social media for Sydney small businesses. Live in 24 hours. From $199/mo. No lock-in contracts.",
+      "Websites, social media, and Google Business done for you. Cafes, tradies, salons across Parramatta, Blacktown, Penrith, Liverpool. From $199/mo.",
     url: SITE_URL,
     siteName: "Dorza",
     locale: "en_AU",
     type: "website",
+    images: [
+      {
+        url: `${SITE_URL}/images/og-default.png`,
+        width: 1200,
+        height: 630,
+        alt: "Dorza — Web design and digital marketing for Western Sydney small business",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Dorza — Web Design & Social Media Sydney, Done For You",
+    title: "Dorza — Web Design & Digital Marketing Western Sydney",
     description:
-      "Dorza builds websites and runs social media for Sydney small businesses. From $199/mo. No lock-in contracts.",
+      "Websites, social media, and Google Business done for you. From $199/mo. No lock-in.",
+    images: [`${SITE_URL}/images/og-default.png`],
   },
 };
 
@@ -84,25 +97,43 @@ const plans = [
 ];
 
 function JsonLd() {
-  const organization = {
+  const localBusiness = {
     "@context": "https://schema.org",
-    "@type": "Organization",
+    "@type": "ProfessionalService",
+    "@id": `${SITE_URL}/#business`,
     name: "Dorza",
     description:
-      "AI-native digital agency for Sydney local businesses. Websites, social media, Google Business, and AI agents — done for you.",
+      "Done-for-you web design, social media management, and Google Business setup for small businesses across Western Sydney. Parramatta, Blacktown, Penrith, Liverpool, Campbelltown.",
     url: SITE_URL,
-    areaServed: { "@type": "City", name: "Sydney", sameAs: "https://www.wikidata.org/wiki/Q3130" },
+    logo: `${SITE_URL}/images/og-default.png`,
+    image: `${SITE_URL}/images/og-default.png`,
+    email: "customer@dorza.com.au",
+    // TODO(C5 — phone): add a real AU number here, then also add tel: links in
+    // Nav + Footer + llms.txt. e.g. telephone: "+61 2 1234 5678"
     address: {
       "@type": "PostalAddress",
-      addressLocality: "Sydney",
+      addressLocality: "Parramatta",
       addressRegion: "NSW",
-      postalCode: "2000",
+      postalCode: "2150",
       addressCountry: "AU",
     },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: -33.8151,
+      longitude: 151.0011,
+    },
+    areaServed: [
+      { "@type": "City", name: "Parramatta", sameAs: "https://en.wikipedia.org/wiki/Parramatta" },
+      { "@type": "City", name: "Blacktown" },
+      { "@type": "City", name: "Penrith" },
+      { "@type": "City", name: "Liverpool", containedInPlace: { "@type": "State", name: "New South Wales" } },
+      { "@type": "City", name: "Campbelltown", containedInPlace: { "@type": "State", name: "New South Wales" } },
+      { "@type": "City", name: "Sydney", sameAs: "https://www.wikidata.org/wiki/Q3130" },
+    ],
     contactPoint: {
       "@type": "ContactPoint",
-      email: "hello@dorza.com.au",
-      contactType: "customer service",
+      email: "customer@dorza.com.au",
+      contactType: "sales",
       areaServed: "AU",
       availableLanguage: "English",
     },
@@ -111,12 +142,33 @@ function JsonLd() {
       "https://www.linkedin.com/company/dorzaai/",
     ],
     knowsAbout: [
-      "digital marketing",
       "web design",
       "social media management",
-      "SEO",
-      "AI agents",
+      "Google Business Profile",
+      "local SEO",
+      "digital marketing",
+      "AI marketing agents",
     ],
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Dorza Services",
+      itemListElement: plans.map((plan) => ({
+        "@type": "Offer",
+        name: `Dorza ${plan.name}`,
+        description: plan.description,
+        price: String(plan.monthly),
+        priceCurrency: "AUD",
+        priceSpecification: {
+          "@type": "UnitPriceSpecification",
+          price: String(plan.monthly),
+          priceCurrency: "AUD",
+          unitCode: "MON",
+          referenceQuantity: { "@type": "QuantitativeValue", value: 1, unitCode: "MON" },
+        },
+        eligibleRegion: { "@type": "Country", name: "AU" },
+      })),
+    },
+    priceRange: "$$",
   };
 
   const website = {
@@ -125,37 +177,7 @@ function JsonLd() {
     name: "Dorza",
     url: SITE_URL,
     inLanguage: "en-AU",
-    publisher: { "@type": "Organization", name: "Dorza" },
-    potentialAction: {
-      "@type": "SearchAction",
-      target: { "@type": "EntryPoint", urlTemplate: `${SITE_URL}/?q={search_term_string}` },
-      "query-input": "required name=search_term_string",
-    },
-  };
-
-  const pricing = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    name: "Dorza Pricing Plans",
-    itemListElement: plans.map((plan, i) => ({
-      "@type": "ListItem",
-      position: i + 1,
-      item: {
-        "@type": "Offer",
-        name: plan.name,
-        description: plan.description,
-        url: `${SITE_URL}/#pricing`,
-        price: String(plan.monthly),
-        priceCurrency: "AUD",
-        priceSpecification: {
-          "@type": "UnitPriceSpecification",
-          price: String(plan.monthly),
-          priceCurrency: "AUD",
-          unitCode: "MON",
-        },
-        eligibleRegion: { "@type": "Country", name: "AU" },
-      },
-    })),
+    publisher: { "@type": "Organization", name: "Dorza", "@id": `${SITE_URL}/#business` },
   };
 
   const faqPage = {
@@ -170,18 +192,17 @@ function JsonLd() {
 
   return (
     <>
+      {/* eslint-disable-next-line react/no-danger */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organization) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusiness) }}
       />
+      {/* eslint-disable-next-line react/no-danger */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(website) }}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(pricing) }}
-      />
+      {/* eslint-disable-next-line react/no-danger */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPage) }}
@@ -202,6 +223,7 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased">
         {children}
+        <GrainOverlay />
         <Analytics />
       </body>
     </html>

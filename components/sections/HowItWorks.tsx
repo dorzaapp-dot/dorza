@@ -272,7 +272,7 @@ function VisualCard({
 }) {
   return (
     <div
-      className={`relative rounded-card border border-border bg-white shadow-soft hover:shadow-medium transition-all duration-500 ease-dorza overflow-hidden ${className}`}
+      className={`relative rounded-card border border-border bg-white shadow-soft hover:shadow-medium hover-glow transition-all duration-500 ease-dorza overflow-hidden ${className}`}
     >
       <div
         aria-hidden

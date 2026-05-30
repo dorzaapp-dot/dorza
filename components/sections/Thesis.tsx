@@ -60,7 +60,7 @@ export default function Thesis() {
 }
 
 function StatBlock({ stat, trigger }: { stat: Stat; trigger: boolean }) {
-  const value = useCountUp(stat.target, trigger, { duration: 1.6 });
+  const value = useCountUp(stat.target, trigger, { duration: 1.6, overshoot: true });
   const display = stat.decimals
     ? value.toFixed(stat.decimals)
     : Math.round(value).toLocaleString();

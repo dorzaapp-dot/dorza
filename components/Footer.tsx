@@ -2,7 +2,7 @@ const footerLinks = [
   { label: "Services", href: "#services" },
   { label: "How it works", href: "#how-it-works" },
   { label: "Pricing", href: "#pricing" },
-  { label: "Contact", href: "mailto:hello@dorza.com.au" },
+  { label: "Contact", href: "mailto:customer@dorza.com.au" },
 ];
 
 const socialLinks = [
@@ -76,10 +76,10 @@ export default function Footer() {
               Contact
             </h4>
             <a
-              href="mailto:hello@dorza.com.au"
+              href="mailto:customer@dorza.com.au"
               className="text-white/60 hover:text-white text-sm transition-colors"
             >
-              hello@dorza.com.au
+              customer@dorza.com.au
             </a>
             <div className="flex gap-4 mt-4">
               {socialLinks.map((s) => (

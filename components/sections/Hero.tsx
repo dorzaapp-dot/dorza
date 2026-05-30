@@ -6,7 +6,7 @@ import { Container } from "@/components/ui/Container";
 import HeroBrowserMockup from "./HeroBrowserMockup";
 import { DORZA_EASE } from "@/components/motion/Reveal";
 
-const headline = "Sydney's easiest web and growth agency for small business";
+const headline = "Western Sydney's easiest web design and digital marketing agency";
 const words = headline.split(" ");
 
 export default function Hero() {
@@ -35,11 +35,19 @@ export default function Hero() {
   };
 
   return (
-    <section className="pt-28 pb-16 md:pt-36 md:pb-24 bg-white overflow-hidden">
+    <section className="relative pt-28 pb-16 md:pt-36 md:pb-24 bg-white overflow-hidden">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 60% 50% at 10% 40%, rgba(212,132,90,0.07), transparent 70%), radial-gradient(ellipse 50% 60% at 80% 20%, rgba(107,143,113,0.06), transparent 70%), radial-gradient(ellipse 40% 40% at 50% 80%, rgba(232,168,124,0.05), transparent 60%)",
+        }}
+      />
       <Container>
-        <div className="grid md:grid-cols-5 gap-12 lg:gap-16 items-center">
+        <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left — 60% */}
-          <div className="md:col-span-3">
+          <div>
             <motion.p
               {...fadeUp(0)}
               className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-6"
@@ -92,13 +100,13 @@ export default function Hero() {
                 Tell us about your business. We&apos;ll send back a plan and a price before you hang up.
               </p>
               <p className="mt-3 font-mono text-[11px] text-text-muted uppercase tracking-[0.16em]">
-                No lock-in contracts · Built for Sydney
+                No lock-in contracts · Built for Western Sydney
               </p>
             </motion.div>
           </div>
 
           {/* Right — 40% on desktop, full width below text on mobile */}
-          <div className="md:col-span-2">
+          <div>
             <HeroBrowserMockup />
           </div>
         </div>

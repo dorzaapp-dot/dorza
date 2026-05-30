@@ -53,6 +53,8 @@ const config: Config = {
         soft: "0 1px 0 rgba(26, 26, 46, 0.06)",
         medium: "0 12px 32px rgba(26, 26, 46, 0.08)",
         card: "0 12px 32px rgba(26, 26, 46, 0.08)",
+        glow: "0 0 80px 20px rgba(212,132,90,0.12), 0 0 160px 60px rgba(107,143,113,0.06)",
+        "glow-sm": "0 0 40px 10px rgba(212,132,90,0.10)",
       },
       maxWidth: {
         layout: "1200px",
@@ -91,6 +93,10 @@ const config: Config = {
           "0%, 100%": { opacity: "1" },
           "50%": { opacity: "0.7" },
         },
+        "marquee-reverse": {
+          "0%": { transform: "translateX(-50%)" },
+          "100%": { transform: "translateX(0)" },
+        },
       },
       animation: {
         float: "float 8s ease-in-out infinite",
@@ -105,6 +111,7 @@ const config: Config = {
         "bounce-gentle": "bounce-gentle 2s ease-in-out infinite",
         breathe: "breathe 4s ease-in-out infinite",
         "pulse-subtle": "pulse-subtle 2s ease-in-out infinite",
+        "marquee-reverse": "marquee-reverse 40s linear infinite",
       },
     },
   },

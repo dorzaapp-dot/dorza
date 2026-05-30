@@ -105,6 +105,11 @@ export default function HeroBrowserMockup() {
       className="relative"
       aria-hidden="true"
     >
+      {/* Glow halo */}
+      <div
+        aria-hidden
+        className="absolute -inset-8 md:-inset-12 rounded-[40px] shadow-glow opacity-60 blur-sm"
+      />
       <Tilt
         tiltMaxAngleX={4}
         tiltMaxAngleY={5}

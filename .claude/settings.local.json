@@ -6,7 +6,17 @@
       "Bash(npx tsc *)",
       "Bash(pnpm install *)",
       "Bash(netstat -ano)",
-      "Bash(taskkill *)"
+      "Bash(taskkill *)",
+      "Read(//c/Users/mahir/.claude/plugins/cache/agricidaniel-seo/claude-seo/1.9.9/skills/seo-audit/**)",
+      "Bash(ls scripts/)",
+      "Bash(ls out *)",
+      "Read(//tmp/**)",
+      "PowerShell(Get-ChildItem *)",
+      "Bash(git checkout *)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(git reset *)",
+      "Read(//c/Windows/Fonts/**)",
+      "Bash(curl -s -m 6 -o /dev/null -w \"%{http_code}\" \"https://fonts.gstatic.com/s/instrumentserif/v4/jizBRFtNs2ka5fXjeivQ4LroWlx-2zEZ.ttf\")"
     ]
   }
 }

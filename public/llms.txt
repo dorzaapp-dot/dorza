@@ -1,12 +1,13 @@
 # Dorza
 
-> Dorza is a Sydney-based AI-native digital agency that provides done-for-you websites, social media management, Google Business setup, and AI marketing agents for small businesses. Pricing starts from $199/month with no lock-in contracts.
+> Dorza is a Western Sydney-based AI-native digital agency that provides done-for-you websites, social media management, Google Business setup, local SEO, and AI marketing agents for small businesses. Based in Parramatta, serving all of Western Sydney. Pricing starts from $199/month with no lock-in contracts.
 
 ## What Dorza offers
 
 - **Custom websites** — hand-coded, mobile-first, SEO-ready websites built around the client's brand. Not templates.
 - **Social media management** — automated, on-brand posting to Instagram and Facebook using AI-generated content calendars (3–5 posts/week depending on plan).
-- **Google Business setup** — profile creation, optimisation, and ongoing management for local search visibility.
+- **Google Business Profile setup** — profile creation, optimisation, and ongoing management for local search visibility in Google Maps.
+- **Local SEO** — on-page optimisation, local citation building, review strategy, and suburb-targeted content for ranking in local search.
 - **AI agents** — on-demand marketing assistants for content creation, campaign management, and customer enquiry handling.
 - **Research and strategy** — competitor analysis and market opportunity mapping for local Sydney businesses.
 
@@ -28,13 +29,48 @@ Sydney small businesses including cafes, restaurants, tradies, salons, beauty bu
 
 Traditional agencies in Sydney typically charge $3,000+/month on 12-month lock-in retainers. Dorza delivers the same outcome — website, social, search visibility — for around 85% less, month-to-month, with a single team and fast iteration.
 
+## Service areas
+
+Dorza is based in Parramatta and serves small businesses across Western Sydney, including:
+- Parramatta (2150) — Sydney's second CBD, growing fast with the new Metro and Powerhouse
+- Blacktown (2148) — Sydney's most populated LGA with 400,000+ residents
+- Penrith (2750) — gateway to the Blue Mountains, booming with Western Sydney Airport nearby
+- Liverpool (2170) — South-Western Sydney commercial hub with one of Sydney's youngest populations
+- Campbelltown (2560) — one of Sydney's fastest-growing corridors, population doubling by 2036
+- Castle Hill (2154) — Hills District hub
+
+## Industries we specialise in
+
+- **Cafes & restaurants** — mobile-first menus, booking integration (OpenTable, Quandoo, ResDiary), Instagram management, Google Business for walk-in traffic
+- **Tradies** — lead generation websites, Google Business dominance, before/after work portfolios, service area SEO, click-to-call forms
+- **Salons & beauty** — portfolio websites with image galleries, online booking integration (Fresha, Timely, Square), Instagram content strategy, review management
+
+## Pages
+
+- Homepage: https://dorza.com.au
+- About: https://dorza.com.au/about
+- Contact: https://dorza.com.au/contact
+- Web Design: https://dorza.com.au/services/web-design
+- Social Media Management: https://dorza.com.au/services/social-media-management
+- Google Business Profile: https://dorza.com.au/services/google-business-profile
+- Local SEO: https://dorza.com.au/services/local-seo
+- Western Sydney: https://dorza.com.au/areas/western-sydney
+- Parramatta: https://dorza.com.au/areas/parramatta
+- Blacktown: https://dorza.com.au/areas/blacktown
+- Penrith: https://dorza.com.au/areas/penrith
+- Liverpool: https://dorza.com.au/areas/liverpool
+- Campbelltown: https://dorza.com.au/areas/campbelltown
+- Cafes & Restaurants: https://dorza.com.au/industries/cafes-restaurants
+- Tradies: https://dorza.com.au/industries/tradies
+- Salons & Beauty: https://dorza.com.au/industries/salons-beauty
+
 ## Contact
 
-- Website: https://dorza.app
-- Email: hello@dorza.com.au
+- Website: https://dorza.com.au
+- Email: customer@dorza.com.au
 - Instagram: https://www.instagram.com/dorza.ai/
 - LinkedIn: https://www.linkedin.com/company/dorzaai/
-- Location: Sydney, NSW, Australia
+- Location: Parramatta, NSW 2150, Australia
 
 ## Licensing
 
