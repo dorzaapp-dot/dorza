@@ -185,3 +185,20 @@ Frontend (Vercel + `.env.local`): `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPAB
 ## When in doubt
 - See `CODEBASE_INDEX.md` for the directory map and "task → location" guide
 - For multi-file or cross-cutting changes, propose first, then implement
+
+## Added by onboard improvements 2026-06-01
+
+### Onboard wizard is now 8 steps
+- Order: basics → online presence → services → customers → **Look & feel** → **Your site & assets** → success → review. `StepBrandStyle`, `StepWebsiteSections`, `StepPhotosAssets` were merged into `StepLookFeel.tsx` + `StepSiteAssets.tsx` (old files deleted).
+- `TOTAL_STEPS`/`STEPS` live in `app/onboard/page.tsx`; `StepMeta` gained a `why` field used for the desktop rail + optional mobile line.
+
+### Persistence + analytics (client-only, static-export safe)
+- `lib/onboardPersistence.ts` — localStorage draft (`dorza:onboard:draft:v1`), SSR-guarded; restored on mount, debounced save, cleared on successful submit. "Pick up where I left off" + the real "Saved" indicator are wired through this.
+- `lib/onboardAnalytics.ts` — `trackOnboard()` over `@vercel/analytics`; events only flow in production.
+
+### Data model changes (schema v2)
+- `OnboardState`: added `colourMood` (split out of the overloaded `brandKeywords`) and `agreedToTerms`; removed `hasLogo` (logo is now the single `logoStatus`, which gained "Please design one"). `generateMarkdown` `SCHEMA_VERSION` is now `dorza-intake.v2`: `colour_mood` is its own key, `has_logo` is derived from `logoStatus`, `terms_accepted` added.
+- Remember the four-place rule when adding fields.
+
+### Removed fakes / fixed
+- The non-functional upload dropzone is gone (uploads happen via the `/upload` portal). Review no longer exposes markdown/JSON; the terms checkbox is real and gates submit via `TermsModal.tsx`. Submit failures now surface an error banner and preserve data.

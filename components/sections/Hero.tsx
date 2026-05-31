@@ -52,10 +52,10 @@ export default function Hero() {
               {...fadeUp(0)}
               className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-6"
             >
-              {"// "}Live in 24 hours · No lock-in · Built for cafes, tradies, salons
+              {"// "}Built for Sydney businesses · Done for you
             </motion.p>
 
-            <h1 className="font-display text-[44px] sm:text-[52px] md:text-[76px] lg:text-[88px] leading-[1.02] tracking-[-0.015em] sm:tracking-[-0.025em] md:tracking-[-0.03em] text-dark overflow-hidden">
+            <h1 className="font-display text-[44px] sm:text-[52px] md:text-[60px] lg:text-[72px] leading-[1.04] tracking-[-0.015em] sm:tracking-[-0.025em] md:tracking-[-0.03em] text-dark overflow-hidden">
               <motion.span
                 variants={wordContainer}
                 initial="hidden"
@@ -97,7 +97,7 @@ export default function Hero() {
               </div>
 
               <p className="mt-6 text-[13px] text-text-secondary leading-relaxed max-w-md">
-                Tell us about your business and we&apos;ll send back a plan and a price within 72 hours.
+                Done for you, start to finish — get in touch to find out how.
               </p>
             </motion.div>
           </div>

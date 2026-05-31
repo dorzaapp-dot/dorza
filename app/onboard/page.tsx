@@ -1,34 +1,35 @@
 "use client";
 
-import { useReducer, useState, useCallback } from "react";
+import { useReducer, useState, useCallback, useEffect, useRef } from "react";
+import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
 import { submitForm } from "@/lib/api";
 import { generateMarkdown } from "@/lib/generateMarkdown";
+import { loadDraft, saveDraft, clearDraft, type OnboardPhase } from "@/lib/onboardPersistence";
+import { trackOnboard } from "@/lib/onboardAnalytics";
 import type { OnboardState, OnboardAction } from "@/lib/types";
 import StepBusinessBasics from "@/components/onboard/StepBusinessBasics";
 import StepDigitalPresence from "@/components/onboard/StepDigitalPresence";
 import StepServices from "@/components/onboard/StepServices";
 import StepTargetCustomers from "@/components/onboard/StepTargetCustomers";
-import StepBrandStyle from "@/components/onboard/StepBrandStyle";
-import StepPhotosAssets from "@/components/onboard/StepPhotosAssets";
-import StepWebsiteSections from "@/components/onboard/StepWebsiteSections";
+import StepLookFeel from "@/components/onboard/StepLookFeel";
+import StepSiteAssets from "@/components/onboard/StepSiteAssets";
 import StepSuccess from "@/components/onboard/StepSuccess";
 import StepReview from "@/components/onboard/StepReview";
 import WizardShell, { type StepMeta } from "@/components/onboard/WizardShell";
 import WelcomeScreen from "@/components/onboard/WelcomeScreen";
 import SubmittedScreen from "@/components/onboard/SubmittedScreen";
 
-const TOTAL_STEPS = 9;
+const TOTAL_STEPS = 8;
 
 const STEPS: StepMeta[] = [
-  { num: "01", label: "Tell us about your business", short: "About you" },
-  { num: "02", label: "Where you're at online", short: "Online presence" },
-  { num: "03", label: "What you offer", short: "Services" },
-  { num: "04", label: "Who you serve", short: "Customers" },
-  { num: "05", label: "Look & feel", short: "Brand" },
-  { num: "06", label: "What you've got", short: "Assets" },
-  { num: "07", label: "Site essentials", short: "Sections" },
-  { num: "08", label: "What success looks like", short: "Success" },
-  { num: "09", label: "Last look", short: "Review" },
+  { num: "01", label: "Tell us about your business", short: "About you", why: "The essentials that go on your site, Google listing, and invoices." },
+  { num: "02", label: "Where you're at online", short: "Online presence", why: "So we know what to keep, fix, or build from scratch." },
+  { num: "03", label: "What you offer", short: "Services", why: "These become your services page and shape your SEO." },
+  { num: "04", label: "Who you serve", short: "Customers", why: "The clearer this is, the sharper your copy lands." },
+  { num: "05", label: "Look & feel", short: "Look & feel", why: "Tone, colour, and vibe — how your site should feel." },
+  { num: "06", label: "Your site & assets", short: "Site & assets", why: "Which sections you need and what you've already got." },
+  { num: "07", label: "What success looks like", short: "Success", why: "So we build toward the outcome you actually want." },
+  { num: "08", label: "Last look", short: "Review", why: "A quick check, then your brief is on its way." },
 ];
 
 function getDefaultSections(businessType: string): Record<string, boolean> {
@@ -86,7 +87,7 @@ const initialState: OnboardState = {
   typicalCustomer: "",
   serviceArea: "",
   discoveryChannels: [],
-  hasLogo: "",
+  colourMood: "",
   brandColours: "",
   tone: "",
   inspirationSites: "",
@@ -104,6 +105,7 @@ const initialState: OnboardState = {
   siteVisionDescription: "",
   successVision: "",
   notes: "",
+  agreedToTerms: false,
 };
 
 function toggleInArray(arr: string[], item: string): string[] {
@@ -112,6 +114,8 @@ function toggleInArray(arr: string[], item: string): string[] {
 
 function reducer(state: OnboardState, action: OnboardAction): OnboardState {
   switch (action.type) {
+    case "HYDRATE":
+      return action.state;
     case "UPDATE_FIELD": {
       const next = { ...state, [action.field]: action.value };
       if (action.field === "businessType") {
@@ -152,14 +156,59 @@ function reducer(state: OnboardState, action: OnboardAction): OnboardState {
   }
 }
 
-type Phase = "welcome" | "wizard" | "submitted";
-
 export default function OnboardPage() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [phase, setPhase] = useState<Phase>("welcome");
+  const [phase, setPhase] = useState<OnboardPhase>("welcome");
   const [step, setStep] = useState(0);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
+  const [hasDraft, setHasDraft] = useState(false);
+  const [savedAt, setSavedAt] = useState<string | null>(null);
+  const [hydrated, setHydrated] = useState(false);
+  const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Restore any in-progress draft once, on the client, after hydration.
+  useEffect(() => {
+    const draft = loadDraft();
+    if (draft) {
+      dispatch({ type: "HYDRATE", state: draft.state });
+      setStep(draft.step);
+      setPhase(draft.phase === "submitted" ? "welcome" : draft.phase);
+      setSavedAt(draft.savedAt);
+      setHasDraft(true);
+    }
+    setHydrated(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (!hydrated || phase !== "wizard") return;
+    if (saveTimer.current) clearTimeout(saveTimer.current);
+    saveTimer.current = setTimeout(() => {
+      const now = new Date().toISOString();
+      saveDraft({ state, step, phase, savedAt: now });
+      setSavedAt(now);
+    }, 500);
+    return () => {
+      if (saveTimer.current) clearTimeout(saveTimer.current);
+    };
+  }, [state, step, phase, hydrated]);
+
+  useEffect(() => {
+    if (phase !== "wizard") return;
+    const onHide = () => {
+      if (document.visibilityState === "hidden") {
+        trackOnboard("onboard_abandon", { step: step + 1 });
+      }
+    };
+    document.addEventListener("visibilitychange", onHide);
+    return () => document.removeEventListener("visibilitychange", onHide);
+  }, [phase, step]);
+
+  useEffect(() => {
+    if (phase === "wizard") trackOnboard("onboard_step_view", { step: step + 1 });
+  }, [step, phase]);
 
   const validate = useCallback((): boolean => {
     setErrors({});
@@ -169,20 +218,46 @@ export default function OnboardPage() {
   async function goNext() {
     if (!validate()) return;
     if (step >= TOTAL_STEPS - 1) {
+      setSubmitError(false);
       setSubmitting(true);
-      const result = await submitForm(
-        process.env.NEXT_PUBLIC_ONBOARD_SUBMIT_URL!,
-        { state, markdown: generateMarkdown(state) }
-      );
+      trackOnboard("onboard_submit_attempt");
+      const result = await submitForm(process.env.NEXT_PUBLIC_ONBOARD_SUBMIT_URL!, {
+        state,
+        markdown: generateMarkdown(state),
+      });
       setSubmitting(false);
-      if (result.success) setPhase("submitted");
+      if (result.success) {
+        trackOnboard("onboard_submit_success");
+        clearDraft();
+        setPhase("submitted");
+      } else {
+        trackOnboard("onboard_submit_error");
+        setSubmitError(true);
+      }
       return;
     }
+    trackOnboard("onboard_step_next", { from: step + 1, to: step + 2 });
     setStep((s) => Math.min(s + 1, TOTAL_STEPS - 1));
   }
 
   function goBack() {
+    trackOnboard("onboard_step_back", { from: step + 1, to: step });
     setStep((s) => Math.max(s - 1, 0));
+  }
+
+  function startFresh() {
+    clearDraft();
+    dispatch({ type: "HYDRATE", state: initialState });
+    setStep(0);
+    setHasDraft(false);
+    setSavedAt(null);
+    setPhase("wizard");
+    trackOnboard("onboard_start");
+  }
+
+  function resumeDraft() {
+    setPhase("wizard");
+    trackOnboard("onboard_resume", { step: step + 1 });
   }
 
   function jumpTo(i: number) {
@@ -195,13 +270,14 @@ export default function OnboardPage() {
     }
   }
 
+  if (!hydrated) return null;
+
   if (phase === "welcome") {
     return (
       <WelcomeScreen
-        onStart={() => {
-          setPhase("wizard");
-          setStep(0);
-        }}
+        onStart={startFresh}
+        onResume={resumeDraft}
+        hasInProgress={hasDraft}
       />
     );
   }
@@ -223,32 +299,43 @@ export default function OnboardPage() {
       onNext={goNext}
       onJumpTo={jumpTo}
       onExit={exitToHome}
+      savedAt={savedAt}
+      submitError={submitError}
       forwardLabel={step === TOTAL_STEPS - 1 ? (submitting ? "Submitting…" : "Submit my brief") : "Continue"}
-      forwardDisabled={submitting}
+      forwardDisabled={submitting || (step === TOTAL_STEPS - 1 && !state.agreedToTerms)}
     >
-      {step === 0 && (
-        <StepBusinessBasics
-          state={state}
-          dispatch={dispatch}
-          errors={errors}
-        />
-      )}
-      {step === 1 && (
-        <StepDigitalPresence state={state} dispatch={dispatch} />
-      )}
-      {step === 2 && (
-        <StepServices state={state} dispatch={dispatch} errors={errors} />
-      )}
-      {step === 3 && (
-        <StepTargetCustomers state={state} dispatch={dispatch} />
-      )}
-      {step === 4 && <StepBrandStyle state={state} dispatch={dispatch} />}
-      {step === 5 && <StepPhotosAssets state={state} dispatch={dispatch} />}
-      {step === 6 && (
-        <StepWebsiteSections state={state} dispatch={dispatch} />
-      )}
-      {step === 7 && <StepSuccess state={state} dispatch={dispatch} />}
-      {step === 8 && <StepReview state={state} dispatch={dispatch} />}
+      <StepTransition step={step}>
+        {step === 0 && (
+          <StepBusinessBasics state={state} dispatch={dispatch} errors={errors} />
+        )}
+        {step === 1 && <StepDigitalPresence state={state} dispatch={dispatch} />}
+        {step === 2 && (
+          <StepServices state={state} dispatch={dispatch} errors={errors} />
+        )}
+        {step === 3 && <StepTargetCustomers state={state} dispatch={dispatch} />}
+        {step === 4 && <StepLookFeel state={state} dispatch={dispatch} />}
+        {step === 5 && <StepSiteAssets state={state} dispatch={dispatch} />}
+        {step === 6 && <StepSuccess state={state} dispatch={dispatch} />}
+        {step === 7 && <StepReview state={state} dispatch={dispatch} />}
+      </StepTransition>
     </WizardShell>
+  );
+}
+
+function StepTransition({ step, children }: { step: number; children: React.ReactNode }) {
+  const reduce = useReducedMotion();
+  if (reduce) return <>{children}</>;
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={step}
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -8 }}
+        transition={{ duration: 0.32, ease: [0.23, 1, 0.32, 1] }}
+      >
+        {children}
+      </motion.div>
+    </AnimatePresence>
   );
 }

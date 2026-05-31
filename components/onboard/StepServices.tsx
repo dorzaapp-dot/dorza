@@ -2,7 +2,17 @@
 
 import { Plus, Trash2 } from "lucide-react";
 import type { OnboardState, OnboardAction } from "@/lib/types";
-import { Field, Input, StepLayout, Textarea } from "./_primitives";
+import { Chip, Field, Input, StepLayout, Textarea } from "./_primitives";
+
+const SERVICE_SUGGESTIONS: Record<string, string[]> = {
+  Tradie: ["Emergency callouts", "Installations", "Repairs & maintenance", "Inspections & reports", "Quotes & estimates"],
+  "Cafe/Restaurant": ["Dine-in", "Takeaway", "Catering", "Functions & events", "Coffee & beans retail"],
+  "Salon/Beauty": ["Cuts & styling", "Colour", "Treatments", "Bridal & events", "Memberships"],
+  "Fitness/Wellness": ["Group classes", "Personal training", "Memberships", "Casual passes", "Online coaching"],
+  Retail: ["In-store shopping", "Online orders", "Click & collect", "Gift cards", "Custom orders"],
+  "Professional Services": ["Consultations", "Ongoing advisory", "Compliance & lodgement", "Project work", "Fixed-fee packages"],
+  Other: [],
+};
 
 interface Props {
   state: OnboardState;
@@ -25,6 +35,45 @@ export default function StepServices({ state, dispatch, errors }: Props) {
         error={errors.services}
         helper="Add as many as you need."
       >
+        {(SERVICE_SUGGESTIONS[state.businessType] ?? []).filter(
+          (s) => !state.services.map((x) => x.trim().toLowerCase()).includes(s.toLowerCase()),
+        ).length > 0 && (
+          <div className="mb-3">
+            <div className="text-[12px] text-text-muted mb-2">
+              Tap to add common {state.businessType.toLowerCase()} offerings:
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {(SERVICE_SUGGESTIONS[state.businessType] ?? [])
+                .filter(
+                  (s) =>
+                    !state.services
+                      .map((x) => x.trim().toLowerCase())
+                      .includes(s.toLowerCase()),
+                )
+                .map((s) => (
+                  <Chip
+                    key={s}
+                    size="sm"
+                    onClick={() => {
+                      const firstEmpty = state.services.findIndex((x) => !x.trim());
+                      if (firstEmpty >= 0) {
+                        dispatch({ type: "UPDATE_SERVICE", index: firstEmpty, value: s });
+                      } else {
+                        dispatch({ type: "ADD_SERVICE" });
+                        dispatch({
+                          type: "UPDATE_SERVICE",
+                          index: state.services.length,
+                          value: s,
+                        });
+                      }
+                    }}
+                  >
+                    + {s}
+                  </Chip>
+                ))}
+            </div>
+          </div>
+        )}
         <div className="flex flex-col gap-2">
           {state.services.map((svc, i) => (
             <div key={i} className="relative flex gap-2">

@@ -31,12 +31,14 @@ export function StepLayout({
   eyebrow,
   title,
   lead,
+  why,
   maxWidth = 720,
   children,
 }: {
   eyebrow: string;
   title: ReactNode;
   lead?: ReactNode;
+  why?: ReactNode;
   maxWidth?: number;
   children: ReactNode;
 }) {
@@ -46,6 +48,11 @@ export function StepLayout({
       <h1 className="font-display text-[36px] md:text-[48px] leading-[1.05] tracking-[-0.025em] text-dark mt-2.5 mb-3">
         {title}
       </h1>
+      {why && (
+        <p className="md:hidden font-mono text-[11px] text-text-muted leading-relaxed mb-3">
+          {why}
+        </p>
+      )}
       {lead && (
         <p className="text-[15px] md:text-base text-text-secondary leading-relaxed mb-9">
           {lead}
@@ -225,8 +232,8 @@ export function OptionCard({
       type="button"
       className={`relative text-left p-5 rounded-[16px] border transition-all duration-200 ease-dorza w-full ${
         selected
-          ? "bg-primary-tint border-primary"
-          : "bg-white border-border hover:border-primary-light hover:-translate-y-px"
+          ? "bg-primary-tint border-primary shadow-[0_8px_24px_rgba(184,103,63,0.12)] -translate-y-px"
+          : "bg-white border-border hover:border-primary-light hover:-translate-y-0.5 hover:shadow-soft"
       } ${className}`}
       {...props}
     >

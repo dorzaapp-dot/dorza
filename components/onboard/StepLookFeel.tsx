@@ -33,11 +33,13 @@ const colourMoods = [
 ];
 
 const logoOptions = [
-  { value: "Yes", label: "Yes — I'll upload" },
-  { value: "No", label: "No — please design one" },
+  { value: "Received", label: "I have one — ready to share" },
+  { value: "Client will send", label: "I have one — I'll send it later" },
+  { value: "Please design one", label: "No — please design one" },
+  { value: "No logo", label: "No logo, and I don't need one" },
 ] as const;
 
-export default function StepBrandStyle({ state, dispatch }: Props) {
+export default function StepLookFeel({ state, dispatch }: Props) {
   const update = (field: keyof OnboardState, value: unknown) =>
     dispatch({ type: "UPDATE_FIELD", field, value });
 
@@ -45,16 +47,17 @@ export default function StepBrandStyle({ state, dispatch }: Props) {
     <StepLayout
       eyebrow="05 — Look & feel"
       title="How should it feel?"
-      lead="Pick a tone, a colour mood, and add anything you love. Don't overthink it."
+      lead="Pick a tone, a colour mood, and describe the vibe. Don't overthink it — we'll refine together."
     >
       <Field label="Do you have a logo?">
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {logoOptions.map((opt) => (
             <Chip
               key={opt.value}
-              selected={state.hasLogo === opt.value}
-              onClick={() => update("hasLogo", opt.value)}
+              selected={state.logoStatus === opt.value}
+              onClick={() => update("logoStatus", opt.value)}
               size="md"
+              className="justify-start text-left"
             >
               {opt.label}
             </Chip>
@@ -85,23 +88,28 @@ export default function StepBrandStyle({ state, dispatch }: Props) {
       </Field>
 
       <Field label="Colour mood">
-        <OptionGrid cols={3}>
+        <OptionGrid cols={3} className="grid-cols-2">
           {colourMoods.map((m) => (
             <OptionCard
               key={m.value}
-              selected={state.brandKeywords.includes(`mood:${m.value}`) || false}
-              onClick={() => {
-                const tag = `mood:${m.value}`;
-                const current = state.brandKeywords || "";
-                const tags = current.split(/[, ]+/).filter(Boolean);
-                const stripped = tags.filter((t) => !t.startsWith("mood:"));
-                update("brandKeywords", [tag, ...stripped].join(", "));
-              }}
+              selected={state.colourMood === m.value}
+              onClick={() => update("colourMood", m.value)}
               title={m.value}
               swatches={m.swatches}
             />
           ))}
         </OptionGrid>
+      </Field>
+
+      <Field
+        label="Three words to describe your brand"
+        helper="e.g. grounded, considered, strong"
+        optional
+      >
+        <Input
+          value={state.brandKeywords}
+          onChange={(e) => update("brandKeywords", e.target.value)}
+        />
       </Field>
 
       <Field label="Inspiration websites" optional>
@@ -114,13 +122,14 @@ export default function StepBrandStyle({ state, dispatch }: Props) {
       </Field>
 
       <Field
-        label="Three words to describe your brand"
-        helper="e.g. grounded, considered, strong"
-        optional
+        label="How should the site look and feel?"
+        helper="A few sentences. Layout, mood, what you want visitors to feel. Reference sites or apps you love are great."
       >
-        <Input
-          value={state.brandKeywords}
-          onChange={(e) => update("brandKeywords", e.target.value)}
+        <Textarea
+          rows={5}
+          value={state.siteVisionDescription}
+          onChange={(e) => update("siteVisionDescription", e.target.value)}
+          placeholder="e.g. Calm and editorial, big photos of the space, lots of whitespace, warm earthy colours, feels handmade not corporate."
         />
       </Field>
     </StepLayout>

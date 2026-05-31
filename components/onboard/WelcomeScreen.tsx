@@ -49,7 +49,7 @@ export default function WelcomeScreen({
               <em className="text-primary-dark not-italic font-display">online</em>.
             </h1>
             <p className="text-[16px] md:text-[19px] text-text-secondary leading-[1.55] max-w-[480px]">
-              Nine short steps. We use your answers to build your site, set up
+              Eight short steps. We use your answers to build your site, set up
               your Google profile, and plan your first month of content.
             </p>
 
@@ -75,7 +75,7 @@ export default function WelcomeScreen({
 
           <div className="hidden md:flex gap-8 mt-12">
             {[
-              { label: "Steps", value: "9" },
+              { label: "Steps", value: "8" },
               { label: "Save & resume", value: "Anytime" },
               { label: "Founding offer", value: "50% off setup" },
             ].map((s) => (

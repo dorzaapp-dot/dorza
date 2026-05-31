@@ -1,10 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Copy, Download } from "lucide-react";
 import type { OnboardState, OnboardAction } from "@/lib/types";
-import { generateMarkdown } from "@/lib/generateMarkdown";
 import { Field, StepLayout, Textarea } from "./_primitives";
+import TermsModal from "./TermsModal";
 
 interface Props {
   state: OnboardState;
@@ -12,42 +11,17 @@ interface Props {
 }
 
 export default function StepReview({ state, dispatch }: Props) {
-  const [copied, setCopied] = useState(false);
-  const markdown = generateMarkdown(state);
+  const [termsOpen, setTermsOpen] = useState(false);
 
   const update = (field: keyof OnboardState, value: unknown) =>
     dispatch({ type: "UPDATE_FIELD", field, value });
 
-  function copyToClipboard() {
-    navigator.clipboard.writeText(markdown).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
-  }
-
-  function downloadMarkdown() {
-    const safeName = (state.businessName || "Client").replace(
-      /[^a-zA-Z0-9]/g,
-      "_",
-    );
-    const blob = new Blob([markdown], { type: "text/markdown" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `Dorza_${safeName}_Intake.md`;
-    a.click();
-    URL.revokeObjectURL(url);
-  }
-
   const summary: [string, string][] = [
     ["Business", state.businessName || "—"],
-    [
-      "Type",
-      [state.businessType, state.niche].filter(Boolean).join(" · ") || "—",
-    ],
+    ["Type", [state.businessType, state.niche].filter(Boolean).join(" · ") || "—"],
     ["Suburb", state.suburb || "—"],
     ["Tone", state.tone || "—"],
-    ["Mood", state.brandKeywords || "—"],
+    ["Mood", state.colourMood || "—"],
     [
       "Success",
       state.successVision
@@ -58,9 +32,17 @@ export default function StepReview({ state, dispatch }: Props) {
     ],
   ];
 
+  // Non-blocking nudge: build-critical fields that are still empty.
+  const missing: string[] = [];
+  if (!state.businessName.trim()) missing.push("business name");
+  if (!state.businessType) missing.push("business type");
+  if (!state.suburb.trim()) missing.push("suburb");
+  if (!state.services.some((s) => s.trim())) missing.push("at least one service");
+  if (!state.tone) missing.push("tone");
+
   return (
     <StepLayout
-      eyebrow="09 — Last look"
+      eyebrow="08 — Last look"
       title="Anything else we should know?"
       lead="Personality, specific requests, follow-ups — all welcome. Then we're off."
     >
@@ -92,55 +74,34 @@ export default function StepReview({ state, dispatch }: Props) {
         </div>
       </div>
 
-      <details className="rounded-[14px] border border-border bg-surface overflow-hidden">
-        <summary className="cursor-pointer list-none px-4 py-3 text-[13px] font-semibold text-dark hover:bg-warm transition-colors flex items-center justify-between">
-          <span>View full brief (markdown)</span>
-          <span className="text-text-muted text-[11px] font-mono">expand</span>
-        </summary>
-        <div className="px-4 pb-4 max-h-96 overflow-auto">
-          <pre className="text-[12px] text-dark font-mono whitespace-pre-wrap leading-relaxed">
-            {markdown}
-          </pre>
+      {missing.length > 0 && (
+        <div className="rounded-[12px] border border-border bg-warm px-4 py-3 text-[13px] text-text-secondary leading-relaxed">
+          These help us build faster (optional): {missing.join(", ")}. You can go back and add them,
+          or send as-is and we&apos;ll ask later.
         </div>
-      </details>
-
-      <div className="flex flex-col sm:flex-row gap-3 pt-2">
-        <button
-          type="button"
-          onClick={copyToClipboard}
-          className="inline-flex items-center justify-center gap-2 h-11 px-5 bg-white border border-border hover:border-border-strong text-dark text-[13px] font-semibold rounded-full transition-colors"
-        >
-          <Copy size={14} />
-          {copied ? "Copied!" : "Copy markdown"}
-        </button>
-        <button
-          type="button"
-          onClick={downloadMarkdown}
-          className="inline-flex items-center justify-center gap-2 h-11 px-5 bg-white border border-border hover:border-border-strong text-dark text-[13px] font-semibold rounded-full transition-colors"
-        >
-          <Download size={14} />
-          Download .md
-        </button>
-      </div>
+      )}
 
       <label className="flex items-start gap-3 pt-2 text-[13px] text-text-secondary leading-relaxed">
         <input
           type="checkbox"
-          checked={!!state.notes}
-          readOnly
+          checked={state.agreedToTerms}
+          onChange={(e) => update("agreedToTerms", e.target.checked)}
           className="w-5 h-5 mt-0.5 accent-primary rounded flex-shrink-0"
         />
         <span>
           I agree to the{" "}
-          <a
+          <button
+            type="button"
+            onClick={() => setTermsOpen(true)}
             className="text-primary-dark underline underline-offset-2 hover:text-primary"
-            href="#"
           >
             service terms
-          </a>
+          </button>
           .
         </span>
       </label>
+
+      <TermsModal open={termsOpen} onClose={() => setTermsOpen(false)} />
     </StepLayout>
   );
 }

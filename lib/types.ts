@@ -62,15 +62,20 @@ export interface OnboardState {
   serviceArea: string;
   discoveryChannels: string[];
 
-  // Step 5 - Brand & style
-  hasLogo: "Yes" | "No" | "";
+  // Step 5 - Look & feel (brand + site vision)
+  colourMood: string;        // own field — no longer overloaded into brandKeywords
   brandColours: string;
   tone: string;
   inspirationSites: string;
-  brandKeywords: string;
+  brandKeywords: string;     // now ONLY the three descriptive words
+  logoStatus:
+    | "Received"
+    | "Client will send"
+    | "No logo"
+    | "Please design one"
+    | "";
 
-  // Step 6 - Photos & assets
-  logoStatus: "Received" | "Client will send" | "No logo" | "";
+  // Step 6 - Photos & assets (logo lives in Look & feel now)
   photosStatus: "Received" | "Client will send" | "Use stock" | "Pull from Instagram" | "";
   menuDocStatus: "Received" | "Client will send" | "N/A" | "";
   testimonialsStatus: "Have specific ones" | "Pull from Google" | "None yet" | "";
@@ -87,11 +92,13 @@ export interface OnboardState {
   // Step 8 - Success
   successVision: string;
 
-  // Step 9 - Review
+  // Step 8 - Review
   notes: string;
+  agreedToTerms: boolean;
 }
 
 export type OnboardAction =
+  | { type: "HYDRATE"; state: OnboardState }
   | { type: "UPDATE_FIELD"; field: keyof OnboardState; value: unknown }
   | { type: "ADD_SERVICE" }
   | { type: "REMOVE_SERVICE"; index: number }

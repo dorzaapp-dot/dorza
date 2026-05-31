@@ -1,7 +1,7 @@
 "use client";
 
 import type { OnboardState, OnboardAction } from "@/lib/types";
-import { Field, Input, StepLayout, Textarea, Toggle } from "./_primitives";
+import { Chip, Field, Input, StepLayout, Textarea, Toggle } from "./_primitives";
 
 interface Props {
   state: OnboardState;
@@ -23,15 +23,39 @@ const allSections: { id: string; hint: string }[] = [
   { id: "E-commerce", hint: "Online ordering or shop" },
 ];
 
-export default function StepWebsiteSections({ state, dispatch }: Props) {
+const photoOptions = ["Received", "Client will send", "Use stock", "Pull from Instagram"] as const;
+const menuOptions = ["Received", "Client will send", "N/A"] as const;
+const testimonialOptions = ["Have specific ones", "Pull from Google", "None yet"] as const;
+
+function ChipChoice<T extends string>({
+  value,
+  options,
+  onChange,
+}: {
+  value: string;
+  options: readonly T[];
+  onChange: (v: T) => void;
+}) {
+  return (
+    <div className="flex flex-wrap gap-2">
+      {options.map((opt) => (
+        <Chip key={opt} selected={value === opt} onClick={() => onChange(opt)} size="sm">
+          {opt}
+        </Chip>
+      ))}
+    </div>
+  );
+}
+
+export default function StepSiteAssets({ state, dispatch }: Props) {
   const update = (field: keyof OnboardState, value: unknown) =>
     dispatch({ type: "UPDATE_FIELD", field, value });
 
   return (
     <StepLayout
-      eyebrow="07 — Site essentials"
-      title="What sections do you need?"
-      lead="Pre-selected based on your business type. Add or remove anything."
+      eyebrow="06 — Your site & assets"
+      title="Sections & what you've got"
+      lead="Pre-selected based on your business type. Toggle anything, then tell us which assets are ready."
     >
       <div className="flex flex-col gap-1.5 -mt-1">
         {allSections.map((section) => {
@@ -43,20 +67,13 @@ export default function StepWebsiteSections({ state, dispatch }: Props) {
             >
               <div className="flex items-center gap-3">
                 <div className="flex-1 min-w-0">
-                  <div className="text-[15px] font-semibold text-dark">
-                    {section.id}
-                  </div>
-                  <div className="text-[12px] text-text-muted mt-0.5">
-                    {section.hint}
-                  </div>
+                  <div className="text-[15px] font-semibold text-dark">{section.id}</div>
+                  <div className="text-[12px] text-text-muted mt-0.5">{section.hint}</div>
                 </div>
                 <Toggle
                   on={on}
                   onChange={() =>
-                    dispatch({
-                      type: "TOGGLE_WEBSITE_SECTION",
-                      section: section.id,
-                    })
+                    dispatch({ type: "TOGGLE_WEBSITE_SECTION", section: section.id })
                   }
                   label={`Toggle ${section.id}`}
                 />
@@ -75,9 +92,7 @@ export default function StepWebsiteSections({ state, dispatch }: Props) {
                   <Input
                     placeholder="E-commerce platform (e.g. Shopify)"
                     value={state.ecommercePlatform}
-                    onChange={(e) =>
-                      update("ecommercePlatform", e.target.value)
-                    }
+                    onChange={(e) => update("ecommercePlatform", e.target.value)}
                   />
                 </div>
               )}
@@ -99,17 +114,53 @@ export default function StepWebsiteSections({ state, dispatch }: Props) {
         />
       </Field>
 
-      <Field
-        label="How should the site look and feel?"
-        helper="A few sentences. Layout, mood, what you want visitors to feel. Reference sites or apps you love are great."
-      >
-        <Textarea
-          rows={5}
-          value={state.siteVisionDescription}
-          onChange={(e) => update("siteVisionDescription", e.target.value)}
-          placeholder="e.g. Calm and editorial, big photos of the space, lots of whitespace, warm earthy colours, feels handmade not corporate."
+      <Field label="Business photos (space, team, work)">
+        <ChipChoice
+          value={state.photosStatus}
+          options={photoOptions}
+          onChange={(v) => update("photosStatus", v)}
         />
       </Field>
+
+      <Field label="Menu / service list document">
+        <ChipChoice
+          value={state.menuDocStatus}
+          options={menuOptions}
+          onChange={(v) => update("menuDocStatus", v)}
+        />
+      </Field>
+
+      <Field label="Testimonials to feature">
+        <ChipChoice
+          value={state.testimonialsStatus}
+          options={testimonialOptions}
+          onChange={(v) => update("testimonialsStatus", v)}
+        />
+      </Field>
+
+      {state.testimonialsStatus === "Have specific ones" && (
+        <Field label="Paste the testimonials you'd like to feature">
+          <Textarea
+            rows={4}
+            value={state.specificTestimonials}
+            onChange={(e) => update("specificTestimonials", e.target.value)}
+          />
+        </Field>
+      )}
+
+      <Field label="Photo notes" optional>
+        <Textarea
+          rows={3}
+          placeholder="Anything we should know"
+          value={state.photoNotes}
+          onChange={(e) => update("photoNotes", e.target.value)}
+        />
+      </Field>
+
+      <p className="text-[13px] text-text-muted leading-relaxed">
+        No need to upload anything here — once your brief is in, we&apos;ll email you a private link
+        to drop your logo and photos.
+      </p>
     </StepLayout>
   );
 }

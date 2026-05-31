@@ -9,7 +9,7 @@ import type { OnboardState } from "./types";
  * Bumping the schema is a breaking change for downstream agents — update
  * SCHEMA_VERSION and add a migration note in CLAUDE.md.
  */
-const SCHEMA_VERSION = "dorza-intake.v1";
+const SCHEMA_VERSION = "dorza-intake.v2";
 
 type BuildHint = {
   fontPair: string;
@@ -93,6 +93,12 @@ function deriveSummary(s: OnboardState): string {
     .trim();
 }
 
+function deriveHasLogo(s: OnboardState): string {
+  if (s.logoStatus === "Received" || s.logoStatus === "Client will send") return "Yes";
+  if (s.logoStatus === "No logo" || s.logoStatus === "Please design one") return "No";
+  return "";
+}
+
 function frontmatter(s: OnboardState, today: string): string {
   const type = s.businessType === "Other" ? s.customBusinessType : s.businessType;
   const sectionsOn = selectedSections(s);
@@ -109,13 +115,16 @@ function frontmatter(s: OnboardState, today: string): string {
     `email: ${yq(s.email)}`,
     `existing_website: ${yq(s.existingWebsite)}`,
     `tone: ${yq(s.tone)}`,
+    `colour_mood: ${yq(s.colourMood)}`,
     `brand_keywords: ${yq(s.brandKeywords)}`,
     `brand_colours: ${yq(s.brandColours)}`,
-    `has_logo: ${yq(s.hasLogo)}`,
+    `logo_status: ${yq(s.logoStatus)}`,
+    `has_logo: ${yq(deriveHasLogo(s))}`,
     yamlList("website_sections", sectionsOn),
     yamlList("discovery_channels", s.discoveryChannels || []),
     `success_vision: ${yq(s.successVision)}`,
     yamlList("tags", deriveTags(s)),
+    `terms_accepted: ${s.agreedToTerms === true}`,
     "---",
   ];
   return lines.join("\n");
@@ -178,7 +187,8 @@ function bodyCustomers(s: OnboardState): string {
 
 function bodyBrand(s: OnboardState): string {
   return kvTable([
-    ["has_logo", s.hasLogo],
+    ["logo_status", s.logoStatus],
+    ["colour_mood", s.colourMood],
     ["brand_colours", s.brandColours],
     ["tone", s.tone],
     ["brand_keywords", s.brandKeywords],
@@ -189,7 +199,6 @@ function bodyBrand(s: OnboardState): string {
 function bodyAssets(s: OnboardState): string {
   return [
     kvTable([
-      ["logo_status", s.logoStatus],
       ["photos_status", s.photosStatus],
       ["menu_doc_status", s.menuDocStatus],
       ["testimonials_status", s.testimonialsStatus],

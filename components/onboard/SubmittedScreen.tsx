@@ -4,7 +4,6 @@ import { Check } from "lucide-react";
 
 interface Props {
   ownerName?: string;
-  briefId?: string;
   submittedAt?: string;
 }
 
@@ -18,7 +17,6 @@ const TIMELINE: { what: string; done?: boolean; current?: boolean }[] = [
 
 export default function SubmittedScreen({
   ownerName = "there",
-  briefId = "DZ-1042",
   submittedAt = new Date().toLocaleDateString("en-AU", {
     day: "numeric",
     month: "short",
@@ -36,7 +34,7 @@ export default function SubmittedScreen({
           d<span className="text-primary-light">o</span>rza
         </a>
         <span className="font-mono text-[10px] md:text-[11px] uppercase tracking-[0.14em] text-white/50">
-          Brief #{briefId} · Submitted {submittedAt.toUpperCase()}
+          Submitted {submittedAt.toUpperCase()}
         </span>
       </header>
 
@@ -62,18 +60,12 @@ export default function SubmittedScreen({
             an eye on your inbox.
           </p>
           <div className="flex flex-wrap gap-3 mt-9">
-            <button
-              type="button"
+            <a
+              href="/"
               className="inline-flex items-center justify-center h-12 px-6 bg-primary hover:bg-primary-dark text-white text-sm font-semibold rounded-full transition-colors shadow-[0_6px_18px_rgba(184,103,63,0.25)]"
             >
-              View your brief
-            </button>
-            <button
-              type="button"
-              className="inline-flex items-center justify-center h-12 px-6 bg-transparent border border-white/20 hover:border-white/40 text-white text-sm font-semibold rounded-full transition-colors"
-            >
               Back to homepage
-            </button>
+            </a>
           </div>
         </div>
 

@@ -7,6 +7,7 @@ export interface StepMeta {
   num: string;
   label: string;
   short: string;
+  why?: string;
 }
 
 interface Props {
@@ -17,9 +18,22 @@ interface Props {
   onNext: () => void;
   onJumpTo: (i: number) => void;
   onExit: () => void;
+  savedAt?: string | null;
+  submitError?: boolean;
   forwardLabel?: string;
   forwardDisabled?: boolean;
   children: ReactNode;
+}
+
+function savedLabel(iso?: string | null): string | null {
+  if (!iso) return null;
+  const then = new Date(iso).getTime();
+  const secs = Math.max(0, Math.floor((Date.now() - then) / 1000));
+  if (secs < 5) return "Saved · just now";
+  if (secs < 60) return `Saved · ${secs}s ago`;
+  const mins = Math.floor(secs / 60);
+  if (mins < 60) return `Saved · ${mins}m ago`;
+  return "Saved";
 }
 
 export default function WizardShell({
@@ -30,6 +44,8 @@ export default function WizardShell({
   onNext,
   onJumpTo,
   onExit,
+  savedAt = null,
+  submitError = false,
   forwardLabel = "Continue",
   forwardDisabled = false,
   children,
@@ -48,9 +64,11 @@ export default function WizardShell({
         </a>
 
         <div className="flex items-center gap-3 md:gap-5">
-          <span className="hidden md:inline-flex items-center gap-1.5 text-[12px] text-text-muted">
-            <Save size={13} /> Saved · just now
-          </span>
+          {savedLabel(savedAt) && (
+            <span className="inline-flex items-center gap-1.5 text-[12px] text-text-muted">
+              <Save size={13} /> {savedLabel(savedAt)}
+            </span>
+          )}
           <button
             type="button"
             onClick={onExit}
@@ -87,15 +105,13 @@ export default function WizardShell({
             Onboarding
           </span>
           <h1 className="font-display text-[28px] leading-[1.05] tracking-[-0.02em] text-dark mt-3">
-            Let&apos;s get
-            <br />
-            your business
-            <br />
-            online.
+            {steps[step]?.label ?? "Let's get your business online."}
           </h1>
-          <p className="text-[13px] text-text-secondary leading-relaxed mt-3.5">
-            About 8 minutes. Save anytime — we&apos;ll email you a link to come back.
-          </p>
+          {steps[step]?.why && (
+            <p className="text-[13px] text-text-secondary leading-relaxed mt-3.5">
+              {steps[step].why}
+            </p>
+          )}
 
           <ol className="flex flex-col gap-1 mt-7">
             {steps.map((s, i) => {
@@ -154,6 +170,14 @@ export default function WizardShell({
 
         {/* Content */}
         <main className="flex-1 overflow-y-auto">
+          {submitError && (
+            <div className="px-5 md:px-20 pt-6">
+              <div className="rounded-[12px] border border-red-200 bg-red-50 px-4 py-3 text-[13px] text-red-700 leading-relaxed">
+                Something went wrong sending your brief. Your answers are saved — please try
+                &ldquo;Submit my brief&rdquo; again.
+              </div>
+            </div>
+          )}
           <div className="px-5 py-8 md:px-20 md:py-12">{children}</div>
         </main>
       </div>
