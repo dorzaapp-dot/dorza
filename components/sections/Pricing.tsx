@@ -1,356 +1,169 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useInView } from "framer-motion";
 import { Check } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/motion/Reveal";
-import { DORZA_EASE } from "@/components/motion/Reveal";
-import { useCountUp } from "@/components/motion/useCountUp";
 
-const plans = [
-  {
-    name: "Starter",
-    setup: 499,
-    monthly: 199,
-    tagline: "Website + Google Business",
-    features: [
-      "Custom website",
-      "Google Business setup",
-      "Mobile-optimised & SEO-ready",
-      "Basic analytics dashboard",
-    ],
-    highlighted: false,
-  },
-  {
-    name: "Growth",
-    setup: 799,
-    monthly: 349,
-    tagline: "Website + Social + Chatbot",
-    features: [
-      "Everything in Starter",
-      "Social media (3 posts/week)",
-      "AI customer service chatbot",
-      "Review management",
-      "Monthly performance report",
-    ],
-    highlighted: true,
-  },
-  {
-    name: "Pro",
-    setup: 1299,
-    monthly: 549,
-    tagline: "Full service, everything on",
-    features: [
-      "Everything in Growth",
-      "Social media (5 posts/week)",
-      "Paid ad campaigns",
-      "Monthly strategy call",
-      "Priority support",
-    ],
-    highlighted: false,
-  },
+const agencyPoints = [
+  "$5,000+ to build a site",
+  "Thousands a month to run it",
+  "6-week wait, then lock-in",
+  "Bill-by-the-hour changes",
 ];
 
-const comparison = {
-  agency: {
-    label: "Traditional agency",
-    monthly: 3000,
-    setup: 5000,
-    features: [
-      "Discovery workshops, decks, drawn-out approvals",
-      "12-month lock-in retainer",
-      "Multiple stakeholders, slow turnaround",
-      "Bill-by-the-hour change requests",
-    ],
-  },
-  dorza: {
-    label: "With Dorza",
-    monthly: 349,
-    setup: 799,
-    features: [
-      "AI-assisted build, hand-coded by a real team",
-      "Month-to-month, cancel any time",
-      "One team, fast iteration",
-      "All revisions included",
-    ],
-  },
-};
+const dorzaPoints = [
+  "Custom builds from $499",
+  "Live in 24 hours",
+  "Tailored to your business",
+  "No lock-in, ever",
+];
 
-function PricingCard({ plan }: { plan: (typeof plans)[0] }) {
-  if (plan.highlighted) {
-    return (
-      <div className="relative md:-my-3">
-        {/* Gradient border via wrapper */}
-        <div className="absolute -inset-px rounded-[22px] bg-gradient-to-br from-primary via-accent to-primary-light opacity-80" />
-        <div className="relative rounded-card flex flex-col p-6 bg-white shadow-medium">
-          <span className="absolute -top-3.5 left-6 inline-flex items-center h-7 px-4 bg-primary text-white font-mono text-[10px] uppercase tracking-[0.16em] rounded-full shadow-glow-sm">
-            Most popular
-          </span>
-
-          <h3 className="font-body font-semibold text-[30px] leading-tight tracking-[-0.02em] text-dark">
-            {plan.name}
-          </h3>
-          <p className="text-text-muted text-[13px] mt-1 font-mono">
-            {plan.tagline}
-          </p>
-
-          <div className="mt-5 flex items-baseline gap-1 flex-wrap">
-            <span className="font-body font-bold text-[48px] md:text-[56px] leading-none text-dark tracking-[-0.04em]">
-              ${plan.monthly}
-            </span>
-            <span className="text-text-muted text-sm">/mo</span>
-            <span className="text-text-muted text-sm ml-1">
-              + ${plan.setup} setup
-            </span>
-          </div>
-
-          <ul className="mt-6 space-y-3 flex-1">
-            {plan.features.map((f) => (
-              <li
-                key={f}
-                className="flex items-start gap-2 text-sm text-text-secondary"
-              >
-                <Check size={15} className="text-accent mt-0.5 shrink-0" />
-                {f}
-              </li>
-            ))}
-          </ul>
-
-          <a
-            href="#waitlist"
-            className="mt-6 inline-flex items-center justify-center h-12 w-full font-semibold text-sm rounded-full transition-all duration-300 ease-dorza hover:-translate-y-px active:translate-y-0 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 bg-primary hover:bg-primary-dark text-white hover:shadow-medium"
-          >
-            Start with Growth
-          </a>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="relative rounded-card flex flex-col p-6 bg-white border border-border hover:shadow-medium hover:-translate-y-1 hover:border-border-strong transition-all duration-500 ease-dorza">
-      <h3 className="font-display text-[34px] leading-none tracking-[-0.02em] text-dark">
-        {plan.name}
-      </h3>
-      <p className="text-text-muted text-[13px] mt-1 font-mono">
-        {plan.tagline}
-      </p>
-
-      <div className="mt-5 flex items-baseline gap-1 flex-wrap">
-        <span className="font-body font-bold text-[48px] md:text-[56px] leading-none text-dark tracking-[-0.04em]">
-          ${plan.monthly}
-        </span>
-        <span className="text-text-muted text-sm">/mo</span>
-        <span className="text-text-muted text-sm ml-1">
-          + ${plan.setup} setup
-        </span>
-      </div>
-
-      <ul className="mt-6 space-y-3 flex-1">
-        {plan.features.map((f) => (
-          <li
-            key={f}
-            className="flex items-start gap-2 text-sm text-text-secondary"
-          >
-            <Check size={15} className="text-accent mt-0.5 shrink-0" />
-            {f}
-          </li>
-        ))}
-      </ul>
-
-      <a
-        href="#waitlist"
-        className="mt-6 inline-flex items-center justify-center h-12 w-full font-semibold text-sm rounded-full transition-all duration-300 ease-dorza hover:-translate-y-px active:translate-y-0 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 bg-white border border-border text-dark hover:bg-surface hover:border-border-strong"
-      >
-        Get started
-      </a>
-    </div>
-  );
-}
-
-function ComparisonToggle() {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
-  const [side, setSide] = useState<"agency" | "dorza">("agency");
-
-  // Auto-flip from agency to dorza shortly after entering view, for the reveal effect.
-  const [autoFlipped, setAutoFlipped] = useState(false);
-  useEffect(() => {
-    if (!inView || autoFlipped) return;
-    const t = setTimeout(() => {
-      setSide("dorza");
-      setAutoFlipped(true);
-    }, 1400);
-    return () => clearTimeout(t);
-  }, [inView, autoFlipped]);
-
-  const data = comparison[side];
-  const monthly = useCountUp(data.monthly, inView, { duration: 0.9 });
-  const setup = useCountUp(data.setup, inView, { duration: 0.9 });
-
-  const savings = comparison.agency.monthly - comparison.dorza.monthly;
-  const savingsPct = Math.round((savings / comparison.agency.monthly) * 100);
-
-  return (
-    <div
-      ref={ref}
-      className="relative rounded-card border border-border bg-white p-6 md:p-10 overflow-hidden"
-    >
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-gradient-to-br from-primary/[0.04] via-transparent to-transparent pointer-events-none"
-      />
-
-      <div className="relative">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
-          <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-2">
-              {"// "}See the difference
-            </p>
-            <h3 className="font-display text-[32px] md:text-[44px] leading-[1.05] tracking-[-0.025em] text-dark">
-              Same outcome. A fraction of the cost.
-            </h3>
-          </div>
-
-          {/* Toggle */}
-          <div
-            role="tablist"
-            aria-label="Compare pricing"
-            className="relative inline-flex p-1 bg-surface border border-border rounded-full self-start md:self-auto"
-          >
-            <span
-              aria-hidden
-              className={`absolute top-1 bottom-1 w-1/2 rounded-full bg-white border border-border shadow-soft transition-transform duration-500 ease-dorza ${
-                side === "dorza" ? "translate-x-full" : "translate-x-0"
-              }`}
-              style={{ left: 4, right: 4, width: "calc(50% - 4px)" }}
-            />
-            {(["agency", "dorza"] as const).map((k) => (
-              <button
-                key={k}
-                role="tab"
-                aria-selected={side === k}
-                onClick={() => setSide(k)}
-                className={`relative z-10 px-4 md:px-5 h-9 rounded-full font-semibold text-[13px] transition-colors duration-300 ease-dorza ${
-                  side === k ? "text-dark" : "text-text-muted hover:text-text-secondary"
-                }`}
-              >
-                {comparison[k].label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Body */}
-        <div className="mt-8 grid md:grid-cols-12 gap-8 items-start">
-          <div className="md:col-span-5">
-            <motion.div
-              key={`price-${side}`}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: DORZA_EASE }}
-              className="flex items-baseline gap-2 flex-wrap"
-            >
-              <span className="font-body font-bold text-[48px] sm:text-[64px] md:text-[88px] leading-none tracking-[-0.05em] text-dark tabular-nums">
-                ${Math.round(monthly).toLocaleString()}
-              </span>
-              <span className="text-text-muted text-base">/mo</span>
-            </motion.div>
-            <p className="mt-3 text-sm text-text-muted">
-              + ${Math.round(setup).toLocaleString()} setup
-              {side === "dorza" ? " · Growth plan" : ""}
-            </p>
-
-            <AnimatePresence>
-              {side === "dorza" && (
-                <motion.div
-                  key="savings"
-                  initial={{ opacity: 0, scale: 0.9, y: 6 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.9, y: 6 }}
-                  transition={{ duration: 0.5, ease: DORZA_EASE }}
-                  className="mt-5 inline-flex items-center gap-2 h-9 px-4 bg-accent-tint text-accent-dark border border-accent/30 rounded-full font-semibold text-[13px]"
-                >
-                  You save ${savings.toLocaleString()}/mo · {savingsPct}% off
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-
-          <div className="md:col-span-7">
-            <AnimatePresence mode="wait">
-              <motion.ul
-                key={`features-${side}`}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.4, ease: DORZA_EASE }}
-                className="space-y-3"
-              >
-                {data.features.map((f) => (
-                  <li
-                    key={f}
-                    className="flex items-start gap-2 text-[15px] text-text-secondary leading-relaxed"
-                  >
-                    <Check
-                      size={16}
-                      className={`mt-0.5 shrink-0 ${
-                        side === "dorza" ? "text-accent" : "text-text-muted"
-                      }`}
-                    />
-                    {f}
-                  </li>
-                ))}
-              </motion.ul>
-            </AnimatePresence>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+const includes = [
+  "Custom-designed website",
+  "Google Business Profile set up",
+  "Mobile-first & SEO-ready",
+  "Built to get you found by locals",
+];
 
 export default function Pricing() {
   return (
     <section id="pricing" className="scroll-mt-24 py-16 md:py-[7.5rem] bg-white">
       <Container>
+        {/* Heading */}
         <Reveal>
           <div className="text-center mb-12">
             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-4">
               {"// Pricing"}
             </p>
             <h2 className="font-display text-[44px] md:text-[60px] leading-[1.02] tracking-[-0.025em] text-dark">
-              Simple, transparent pricing
+              No two businesses are the same. Neither are our prices.
             </h2>
-          </div>
-        </Reveal>
-
-        <Reveal delay={0.1}>
-          <ComparisonToggle />
-        </Reveal>
-
-        <Reveal delay={0.05}>
-          <div className="mt-16 text-center">
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-2">
-              {"// Choose your plan"}
+            <p className="mt-5 text-[17px] md:text-[18px] text-text-secondary max-w-2xl mx-auto">
+              We price every build to what your business actually needs — and
+              send back an exact quote before you commit to anything.
             </p>
           </div>
         </Reveal>
-        <div className="mt-8 grid md:grid-cols-3 gap-5">
-          {plans.map((plan, i) => (
-            <Reveal key={plan.name} delay={i * 0.08}>
-              <PricingCard plan={plan} />
-            </Reveal>
-          ))}
-        </div>
 
+        {/* Value-anchor comparison */}
+        <Reveal delay={0.1}>
+          <div className="relative rounded-card border border-border bg-white p-6 md:p-10 overflow-hidden">
+            <div
+              aria-hidden
+              className="absolute inset-0 bg-gradient-to-br from-primary/[0.04] via-transparent to-transparent pointer-events-none"
+            />
+
+            <div className="relative">
+              <div className="text-center md:text-left">
+                <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-2">
+                  {"// See the difference"}
+                </p>
+                <h3 className="font-display text-[28px] md:text-[40px] leading-[1.05] tracking-[-0.025em] text-dark">
+                  Agency-quality work. A fraction of the cost.
+                </h3>
+              </div>
+
+              <div className="mt-8 grid md:grid-cols-2 gap-6 md:gap-8 items-start">
+                {/* Traditional agency — the loser */}
+                <div className="rounded-card border border-border bg-surface p-6">
+                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-text-muted mb-5">
+                    Traditional agency
+                  </p>
+                  <ul className="space-y-3">
+                    {agencyPoints.map((p) => (
+                      <li
+                        key={p}
+                        className="flex items-start gap-2.5 text-[15px] text-text-muted leading-relaxed"
+                      >
+                        <span
+                          aria-hidden
+                          className="mt-0.5 shrink-0 inline-flex h-[15px] w-[15px] items-center justify-center text-text-muted"
+                        >
+                          ×
+                        </span>
+                        {p}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* With Dorza — the winner */}
+                <div className="rounded-card border border-primary/20 bg-primary-tint p-6">
+                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary-dark mb-5">
+                    With Dorza
+                  </p>
+                  <ul className="space-y-3">
+                    {dorzaPoints.map((p) => (
+                      <li
+                        key={p}
+                        className="flex items-start gap-2.5 text-[15px] text-dark leading-relaxed"
+                      >
+                        <Check
+                          size={16}
+                          className="text-accent mt-0.5 shrink-0"
+                        />
+                        {p}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+
+        {/* What every build includes */}
+        <Reveal delay={0.15}>
+          <div className="mt-12">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-5 text-center md:text-left">
+              {"// What you get"}
+            </p>
+            <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-3">
+              {includes.map((item) => (
+                <li
+                  key={item}
+                  className="flex items-start gap-2.5 text-[15px] text-text-secondary leading-relaxed"
+                >
+                  <Check size={16} className="text-accent mt-0.5 shrink-0" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-6 text-[15px] text-text-secondary">
+              Want us to keep it running — posts, updates, reviews? Optional
+              ongoing management, built into your quote.
+            </p>
+          </div>
+        </Reveal>
+
+        {/* Anchor + CTA */}
+        <Reveal delay={0.2}>
+          <div className="mt-12 text-center">
+            <p className="text-[17px] md:text-[18px] text-text-secondary max-w-xl mx-auto">
+              Most builds start from{" "}
+              <span className="font-semibold text-dark">$499</span>. Tell us
+              about your business and we&apos;ll send back a tailored plan and
+              price within 72 hours — no obligation.
+            </p>
+            <div className="mt-7 flex justify-center">
+              <a
+                href="#waitlist"
+                className="inline-flex items-center justify-center h-12 px-6 bg-primary hover:bg-primary-dark text-white font-semibold text-sm rounded-full transition-all duration-300 ease-dorza hover:-translate-y-px hover:shadow-medium active:translate-y-0 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              >
+                Get your free quote →
+              </a>
+            </div>
+          </div>
+        </Reveal>
+
+        {/* Founding-offer pill */}
         <Reveal delay={0.3}>
           <div className="mt-12 flex items-center justify-center">
             <div className="inline-flex items-center gap-3 h-12 px-6 bg-primary-tint border border-primary/20 rounded-full">
               <span className="h-2 w-2 rounded-full bg-primary animate-pulse-subtle" />
               <p className="font-mono text-[11px] md:text-[12px] text-primary-dark uppercase tracking-[0.14em] font-semibold">
-                Founding client offer · 50% off setup · First 20 Sydney businesses
+                Founding client offer · 50% off your build · First 20 Western
+                Sydney businesses
               </p>
             </div>
           </div>

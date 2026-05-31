@@ -46,7 +46,7 @@ const menuSections = [
   },
 ];
 
-const CTA_LABEL = "Get your free consultation";
+const CTA_LABEL = "Get my free audit";
 
 export default function Nav() {
   const [open, setOpen] = useState(false);

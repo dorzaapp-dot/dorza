@@ -29,7 +29,7 @@ const steps: Step[] = [
   {
     num: "02",
     title: "We build everything",
-    desc: "Our team — backed by AI — builds your website, sets up Google Business, and prepares your social profiles. Done end-to-end, no back-and-forth.",
+    desc: "Our team builds your website, sets up Google Business, and prepares your social profiles. Done end-to-end, no back-and-forth.",
     visual: <BuildShowcaseVisual />,
   },
   {
@@ -41,7 +41,7 @@ const steps: Step[] = [
   {
     num: "04",
     title: "Sit back, we run it",
-    desc: "Posts go out on schedule. Enquiries get answered. Your Google ranking improves. You get a monthly report. You just run your business.",
+    desc: "Posts go out on schedule. Enquiries get answered. Your Google ranking starts climbing. You get a monthly report. You just run your business.",
     visual: <GrowthVisual />,
   },
 ];
@@ -295,8 +295,8 @@ function IntakeFormVisual() {
         </span>
       </div>
       <div className="space-y-4">
-        <FormField label="Business name" value="Bondi Beans" filled />
-        <FormField label="Your suburb" value="Bondi, NSW" filled />
+        <FormField label="Business name" value="Parramatta Beans" filled />
+        <FormField label="Your suburb" value="Parramatta, NSW" filled />
         <FormField label="What you do" value="" active />
       </div>
       <div className="flex gap-2 mt-6">
@@ -430,7 +430,7 @@ function ReviewVisual() {
         <span className="w-2 h-2 rounded-full bg-[#28C840]" />
         <div className="ml-3 flex-1 h-5 rounded-full bg-white border border-border flex items-center px-3">
           <span className="font-mono text-[9px] text-text-muted truncate">
-            preview.dorza.au/bondi-beans
+            preview.dorza.au/parramatta-beans
           </span>
         </div>
       </div>

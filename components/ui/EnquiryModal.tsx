@@ -165,10 +165,10 @@ export default function EnquiryModal({ open, onClose }: Props) {
                     className="text-center py-6"
                   >
                     <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-3">
-                      You&rsquo;re on the list
+                      Enquiry received
                     </p>
                     <h3 className="font-body font-semibold text-[22px] tracking-[-0.02em] text-dark mb-2">
-                      Welcome to the front of the queue.
+                      Thanks &mdash; we&rsquo;ve got it
                     </h3>
                     <p className="text-text-secondary text-[14px] leading-relaxed">
                       We&rsquo;ll be in touch within 72 hours.

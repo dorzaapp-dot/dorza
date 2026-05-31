@@ -31,7 +31,7 @@ export default function PageCTA({
         <Reveal>
           <div className="relative max-w-2xl mx-auto text-center">
             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-6">
-              {"// Get started"}
+              {"// Free audit"}
             </p>
             <h2 className="font-display text-[40px] md:text-[60px] leading-[1.02] tracking-[-0.025em] text-white mb-5">
               {headline}
@@ -45,7 +45,7 @@ export default function PageCTA({
                 onClick={() => setEnquiryOpen(true)}
                 className="inline-flex items-center justify-center h-12 px-6 bg-primary hover:bg-primary-dark text-white font-semibold text-sm rounded-full transition-all duration-300 ease-dorza hover:-translate-y-px hover:shadow-medium active:translate-y-0 group focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-dark"
               >
-                Get your free consultation
+                Get my free audit
                 <ArrowRight
                   size={16}
                   className="ml-2 transition-transform duration-300 ease-dorza group-hover:translate-x-1"

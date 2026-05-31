@@ -6,7 +6,9 @@ import HowItWorks from "@/components/sections/HowItWorks";
 import Thesis from "@/components/sections/Thesis";
 import SocialProof from "@/components/sections/SocialProof";
 import Pricing from "@/components/sections/Pricing";
+import TooGoodToBeTrue from "@/components/sections/TooGoodToBeTrue";
 import FAQ from "@/components/sections/FAQ";
+import FreeAudit from "@/components/sections/FreeAudit";
 import WaitlistCTA from "@/components/sections/WaitlistCTA";
 import Footer from "@/components/sections/Footer";
 import SectionDivider from "@/components/ui/SectionDivider";
@@ -27,7 +29,10 @@ export default function Home() {
         <SectionDivider fill="#FFFFFF" />
         <Pricing />
         <SectionDivider fill="#FDFAF7" />
+        <TooGoodToBeTrue />
         <FAQ />
+        <SectionDivider fill="#FFFFFF" />
+        <FreeAudit />
         <SectionDivider fill="#1A1A2E" />
         <WaitlistCTA />
       </main>

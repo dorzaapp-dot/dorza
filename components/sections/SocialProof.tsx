@@ -14,10 +14,11 @@ type Testimonial = {
   stars: number;
 };
 
+// TODO(proof): add client photo/logo + Google review link per testimonial when assets are available (raises believability).
 const testimonials: Testimonial[] = [
   {
     quote:
-      "We went from zero online presence to getting 3-4 enquiries a week through our website. Dorza built it in two days — I didn't have to think about a thing.",
+      "We went from zero online presence to getting 3-4 enquiries a week through our website. Dorza built it in a day — I didn't have to think about a thing.",
     name: "Sam T.",
     business: "Westmead Electrical",
     type: "Tradie",

@@ -5,29 +5,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { Reveal, DORZA_EASE } from "@/components/motion/Reveal";
 import EnquiryModal from "@/components/ui/EnquiryModal";
-
-const faqs = [
-  {
-    q: "How much does it cost?",
-    a: "Our Starter plan is $199/month plus a one-time $499 setup fee. Growth is $349/month + $799 setup. Pro is $549/month + $1,299 setup. Right now, founding clients get 50% off setup — so Starter setup is just $249. No lock-in contracts.",
-  },
-  {
-    q: "I've been burned by agencies before — why is this different?",
-    a: "We get it. Most agencies overpromise, underdeliver, and go quiet. With Dorza, you see a real working website — not a proposal, not a mood board. If you're not happy, you don't pay for the next month. Simple.",
-  },
-  {
-    q: "I don't have time for this.",
-    a: "Good — you don't need to make time. We handle everything. You fill out a short form, review what we build, and say go. After that, we run it. You'll hear from us once a month with a performance report.",
-  },
-  {
-    q: "What if I want to cancel?",
-    a: "Cancel any time, no questions asked. We don't do lock-in contracts. If you cancel, your website stays live for the rest of the month you've paid for. We'll hand over everything we've built — you own it.",
-  },
-  {
-    q: "Can I just get one piece — say, only social media?",
-    a: "Yes. Our Starter plan is website + Google Business only. If you only want social media management, talk to us — we can put together a custom package. We're flexible.",
-  },
-];
+import { faqs } from "@/lib/data/faq";
 
 function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
   const [open, setOpen] = useState(false);

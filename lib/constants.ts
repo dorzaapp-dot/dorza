@@ -10,13 +10,13 @@ export type ServiceOption =
   | "Custom websites"
   | "Social media management"
   | "Research & strategy"
-  | "AI agents"
+  | "AI assistant"
   | "Not sure yet";
 
 export const SERVICE_OPTIONS: readonly ServiceOption[] = [
   "Custom websites",
   "Social media management",
   "Research & strategy",
-  "AI agents",
+  "AI assistant",
   "Not sure yet",
 ] as const;

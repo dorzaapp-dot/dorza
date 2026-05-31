@@ -46,7 +46,7 @@ export const SERVICES: ServicePage[] = [
       "Most small businesses in Western Sydney either have no website, or one that looks like it was built in 2014. Either way, you're invisible to the people searching for what you do right now.",
     problemPoints: [
       "You're not showing up when locals Google your trade or service",
-      "Your site looks terrible on mobile — where 70% of your traffic comes from",
+      "Your site looks terrible on mobile — where most of your traffic comes from",
       "You paid an agency thousands for a template that loads slowly and ranks nowhere",
       "You can't update anything yourself without paying someone every time",
     ],
@@ -126,7 +126,7 @@ export const SERVICES: ServicePage[] = [
     slug: "social-media-management",
     metaTitle: "Social Media Management for Western Sydney Businesses | Dorza",
     metaDescription:
-      "Consistent, on-brand social media posts for your business. 3-5 posts per week, AI-powered content calendar, performance tracking. Built for Western Sydney locals.",
+      "Consistent, on-brand social media posts for your business. 3-5 posts per week, a done-for-you content calendar, performance tracking. Built for Western Sydney locals.",
     eyebrow: "// Social media",
     title: "Social media that runs itself — and actually sounds like you",
     description:
@@ -150,7 +150,7 @@ export const SERVICES: ServicePage[] = [
           "Consistent posting across your platforms. Enough to stay visible without spamming your followers. We handle the scheduling so nothing falls through the cracks.",
       },
       {
-        title: "AI-powered content calendar",
+        title: "Done-for-you content calendar",
         description:
           "We use smart tools to plan your content weeks ahead — local events, seasonal trends, industry moments. You always know what's coming.",
       },

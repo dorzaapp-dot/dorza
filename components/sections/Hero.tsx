@@ -74,7 +74,7 @@ export default function Hero() {
             <motion.div {...fadeUp(0.5)}>
               <p className="mt-7 text-[17px] md:text-[18px] leading-relaxed tracking-[-0.01em] text-text-secondary max-w-md">
                 We build your website, run your social media, and get you found
-                on Google — all from $199/month, no contracts.
+                on Google — all done for you. Custom websites from $499, no lock-in.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3 mt-8">
@@ -82,7 +82,7 @@ export default function Hero() {
                   href="#waitlist"
                   className="inline-flex items-center justify-center h-12 px-6 bg-primary hover:bg-primary-dark text-white font-semibold text-sm rounded-full transition-all duration-300 ease-dorza hover:-translate-y-px hover:shadow-medium active:translate-y-0 group focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                 >
-                  Get your free consultation{" "}
+                  Get my free audit{" "}
                   <ArrowRight
                     size={16}
                     className="ml-2 transition-transform duration-300 ease-dorza group-hover:translate-x-1 arrow"
@@ -97,7 +97,7 @@ export default function Hero() {
               </div>
 
               <p className="mt-6 text-[13px] text-text-secondary leading-relaxed max-w-md">
-                Tell us about your business. We&apos;ll send back a plan and a price before you hang up.
+                Tell us about your business and we&apos;ll send back a plan and a price within 72 hours.
               </p>
             </motion.div>
           </div>

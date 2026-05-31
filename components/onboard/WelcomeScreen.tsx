@@ -132,10 +132,10 @@ export default function WelcomeScreen({
               Founding client offer
             </span>
             <div className="font-display text-[24px] md:text-[28px] leading-[1.1] mt-1.5">
-              50% off setup, locked-in pricing for 12 months.
+              50% off your build.
             </div>
             <div className="text-[13px] text-white/65 mt-2">
-              Auto-applied at checkout for the first 20 Sydney clients.
+              For the first 20 Western Sydney businesses — applied to your quote.
             </div>
           </div>
         </div>

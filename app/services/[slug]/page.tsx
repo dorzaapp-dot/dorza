@@ -282,7 +282,7 @@ export default function ServicePage({
                     {rel.description}
                   </p>
                   <span className="inline-flex items-center text-sm font-semibold text-primary group-hover:gap-2 gap-1.5 transition-all duration-300 ease-dorza">
-                    Learn more
+                    {`Explore ${rel.title}`}
                     <ArrowRight
                       size={14}
                       className="transition-transform duration-300 ease-dorza group-hover:translate-x-1"

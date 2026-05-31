@@ -186,12 +186,12 @@ const services: Service[] = [
     num: "01",
     title: "Custom websites, built for you",
     description:
-      "Built mobile-first, SEO-ready, and crafted around your brand — not a template. Hand-coded by a real team, accelerated by AI.",
+      "Built mobile-first, SEO-ready, and crafted around your brand — not a template. Hand-coded by a real team that gets it done fast.",
     features: [
       "Custom-designed, mobile-first",
       "Google Business profile setup",
       "SEO-ready from day one",
-      "Hand-coded, AI-accelerated",
+      "Hand-coded by a real team",
     ],
     badge: { label: "Most popular", tone: "primary" },
     visual: <BrowserMock />,
@@ -203,7 +203,7 @@ const services: Service[] = [
       "Your Instagram and Facebook, posted on schedule, on-brand, with content that actually sounds like you.",
     features: [
       "Facebook, Instagram & more",
-      "AI-generated content calendar",
+      "Done-for-you content calendar",
       "Automated posting",
       "Performance tracking",
     ],
@@ -224,9 +224,9 @@ const services: Service[] = [
   },
   {
     num: "04",
-    title: "AI agents at your disposal",
+    title: "An AI that answers missed calls and enquiries",
     description:
-      "On-demand marketing help that learns your business — from content drafts to campaign tweaks to handling enquiries.",
+      "On-tap marketing help that learns your business — drafts your posts, replies to enquiries, and never lets a lead go cold.",
     features: [
       "On-demand marketing help",
       "Content creation & copywriting",
@@ -251,8 +251,8 @@ export default function Services() {
               Everything you need, done for you
             </h2>
             <p className="mt-5 text-[17px] md:text-[18px] leading-relaxed tracking-[-0.01em] text-text-secondary">
-              One agency. Website, social, search, and AI — all running while
-              you get on with your work.
+              One agency. Website, social, Google, and an AI assistant — all
+              running while you get on with your work.
             </p>
           </div>
         </Reveal>

@@ -46,14 +46,14 @@ export default function WaitlistCTA() {
         <div className="relative max-w-xl mx-auto text-center">
           <Reveal>
             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-6">
-              {"// Waitlist · Sydney founding clients"}
+              {"// Free audit · Sydney founding clients"}
             </p>
             <h2 className="font-display text-[44px] md:text-[76px] leading-[1.02] tracking-[-0.025em] text-white mb-5">
               Ready to stop being invisible online?
             </h2>
             <p className="text-[17px] md:text-[18px] leading-relaxed tracking-[-0.01em] text-white/60 max-w-md mx-auto">
-              First 20 Sydney businesses. 50% off setup. Real human follow-up in
-              72 hours.
+              First 20 Western Sydney businesses. 50% off your build. Real human
+              follow-up in 72 hours.
             </p>
           </Reveal>
 
@@ -79,7 +79,7 @@ export default function WaitlistCTA() {
                       disabled={submitting}
                       className="relative w-full h-12 bg-primary hover:bg-primary-dark text-white font-semibold text-sm rounded-full transition-all duration-300 ease-dorza hover:-translate-y-px hover:shadow-medium active:translate-y-0 disabled:opacity-60 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-dark"
                     >
-                      {submitting ? "Submitting…" : "Get on the list →"}
+                      {submitting ? "Submitting…" : "Get my free audit →"}
                     </button>
                   </div>
 
@@ -90,7 +90,7 @@ export default function WaitlistCTA() {
                   )}
 
                   <p className="text-center font-mono text-[10px] text-white/45 uppercase tracking-[0.18em] mt-3">
-                    No spam · No lock-in · Cancel any time
+                    No spam · No lock-in · No obligation
                   </p>
                 </motion.form>
               )}
@@ -111,10 +111,10 @@ function Confirmation() {
       className="rounded-card border border-white/10 bg-white/[0.03] p-10 text-center"
     >
       <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent-light mb-3">
-        You&rsquo;re on the list
+        Audit on the way
       </p>
       <h3 className="font-body font-semibold text-[26px] md:text-[30px] tracking-[-0.02em] text-white mb-2">
-        Welcome to the front of the queue.
+        Thanks &mdash; we&rsquo;ve got your details.
       </h3>
       <p className="text-white/60 text-[15px] leading-relaxed">
         A real Sydney human from Dorza will reach out within 72 hours.

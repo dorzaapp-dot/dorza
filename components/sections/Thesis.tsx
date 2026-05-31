@@ -16,8 +16,8 @@ type Stat = {
 
 const stats: Stat[] = [
   { suffix: "h", target: 24, label: "From signup to your site going live" },
-  { suffix: "%", target: 85, label: "Cheaper than a traditional agency" },
-  { prefix: "$", target: 199, label: "Starting from, per month" },
+  { suffix: "%", target: 100, label: "You own everything we build" },
+  { prefix: "$", target: 499, label: "Starting price for a custom build" },
 ];
 
 export default function Thesis() {

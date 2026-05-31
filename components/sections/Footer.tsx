@@ -175,7 +175,7 @@ export default function Footer() {
             © 2026 dorza · made in sydney
           </p>
           <p className="font-mono text-[11px] text-white/45 uppercase tracking-[0.18em]">
-            Made with AI and good taste
+            Built with care and good taste
           </p>
         </div>
       </Container>

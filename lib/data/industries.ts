@@ -94,11 +94,11 @@ export const INDUSTRIES: IndustryPage[] = [
     ],
     outcomes: [
       {
-        stat: "3-5x",
+        stat: "Up to 3-5x",
         label: "More Google profile views in 90 days",
       },
       {
-        stat: "2x",
+        stat: "Up to 2x",
         label: "Instagram engagement growth",
       },
       {
@@ -176,16 +176,12 @@ export const INDUSTRIES: IndustryPage[] = [
     ],
     outcomes: [
       {
-        stat: "3-4",
+        stat: "Up to 3-4",
         label: "New enquiries per week from Google",
       },
       {
         stat: "$0",
         label: "Per lead vs $30-60 on HiPages",
-      },
-      {
-        stat: "Top 3",
-        label: "Google Maps ranking in your suburb",
       },
     ],
     relevantServiceSlugs: [
@@ -259,7 +255,7 @@ export const INDUSTRIES: IndustryPage[] = [
     ],
     outcomes: [
       {
-        stat: "2x",
+        stat: "Up to 2x",
         label: "More bookings from new clients",
       },
       {
@@ -267,7 +263,7 @@ export const INDUSTRIES: IndustryPage[] = [
         label: "Fewer phone calls with online booking",
       },
       {
-        stat: "5x",
+        stat: "Up to 5x",
         label: "More Google reviews in 90 days",
       },
     ],

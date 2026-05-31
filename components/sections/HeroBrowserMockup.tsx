@@ -25,8 +25,8 @@ type Site = {
 const SITES: Site[] = [
   {
     key: "cafe",
-    name: "Cremorne Coffee Co.",
-    url: "cremornecoffee.com.au",
+    name: "Parramatta Coffee Co.",
+    url: "parramattacoffee.com.au",
     tagline: "Single-origin roasts, made next door.",
     cta: "Order online",
     bg: "#FBF6EE",
@@ -63,9 +63,9 @@ const SITES: Site[] = [
   },
   {
     key: "salon",
-    name: "Bondi Hair Studio",
-    url: "bondihair.com.au",
-    tagline: "Cuts, colour and balayage by the beach.",
+    name: "Blacktown Hair Studio",
+    url: "blacktownhair.com.au",
+    tagline: "Cuts, colour and balayage, done right.",
     cta: "Book now",
     bg: "#FBF1F2",
     heroOverlay:

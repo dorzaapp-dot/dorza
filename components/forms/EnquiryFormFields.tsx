@@ -113,7 +113,7 @@ export default function EnquiryFormFields({ theme, value, onChange, showMessage 
           <input
             type="text"
             required
-            placeholder="e.g. Surry Hills"
+            placeholder="e.g. Parramatta"
             value={value.suburb}
             onChange={(e) => patch({ suburb: e.target.value })}
             className={c.input}

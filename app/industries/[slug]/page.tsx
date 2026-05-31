@@ -197,10 +197,10 @@ export default function IndustryPage({
             <Reveal delay={0.15}>
               <div>
                 <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-5">
-                  {"// Expected results"}
+                  {"// What good looks like"}
                 </p>
                 <h2 className="font-display text-[36px] md:text-[52px] leading-[1.02] tracking-[-0.025em] text-dark mb-8">
-                  What you can expect
+                  What good looks like
                 </h2>
                 <div className="space-y-8">
                   {industry.outcomes.map((outcome) => (
@@ -250,7 +250,7 @@ export default function IndustryPage({
                     {service.description}
                   </p>
                   <span className="inline-flex items-center text-sm font-semibold text-primary group-hover:gap-2 gap-1.5 transition-all duration-300 ease-dorza">
-                    Learn more
+                    {`Explore ${service.title}`}
                     <ArrowRight
                       size={14}
                       className="transition-transform duration-300 ease-dorza group-hover:translate-x-1"

@@ -11,12 +11,12 @@ import { Reveal } from "@/components/motion/Reveal";
 export const metadata: Metadata = {
   title: "About Dorza — Built for Western Sydney Small Business",
   description:
-    "Dorza is a Western Sydney digital agency that builds websites, runs social media, and manages Google Business for local small businesses. From $199/mo.",
+    "Dorza is a Western Sydney digital agency that builds websites, runs social media, and manages Google Business for local small businesses. Custom websites from $499.",
   alternates: { canonical: `${SITE_URL}/about` },
   openGraph: {
     title: "About Dorza — Built for Western Sydney Small Business",
     description:
-      "Dorza is a Western Sydney digital agency that builds websites, runs social media, and manages Google Business for local small businesses. From $199/mo.",
+      "Dorza is a Western Sydney digital agency that builds websites, runs social media, and manages Google Business for local small businesses. Custom websites from $499.",
     url: `${SITE_URL}/about`,
     siteName: "Dorza",
     locale: "en_AU",
@@ -53,8 +53,8 @@ const breadcrumbJsonLd = {
 const differentiators = [
   "No lock-in contracts — cancel any time",
   "Live websites in 24 hours, not 8 weeks",
-  "From $199/mo — 85% less than traditional agencies",
-  "AI-powered efficiency, human-quality output",
+  "Custom websites from $499 — a fraction of agency prices",
+  "Senior agency quality, delivered in days not weeks",
   "You own everything we build",
   "Real monthly reporting with real metrics",
 ];
@@ -126,10 +126,10 @@ export default function AboutPage() {
                   $5,000+ for a basic site.
                 </p>
                 <p className="text-[17px] leading-relaxed text-text-secondary">
-                  That&apos;s the gap Dorza fills. We use AI for the heavy
-                  lifting — content, research, competitor analysis — to
-                  deliver agency-quality work at a fraction of the price. No
-                  lock-in, no jargon, just results.
+                  That&apos;s the gap Dorza fills. We&apos;ve built a faster,
+                  leaner way of working — so we deliver agency-quality work at
+                  a fraction of the price and the wait. No lock-in, no jargon,
+                  just results.
                 </p>
               </div>
             </Reveal>

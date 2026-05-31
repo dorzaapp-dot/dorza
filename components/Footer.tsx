@@ -49,7 +49,7 @@ export default function Footer() {
               d<span className="text-primary">o</span>rza
             </a>
             <p className="mt-3 text-white/60 text-sm leading-relaxed">
-              The AI-powered agency for local business.
+              Web design and digital marketing for local business.
             </p>
           </div>
 
