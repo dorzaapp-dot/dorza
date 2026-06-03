@@ -110,10 +110,11 @@ Notes for Claude prompt:
 
 1. Add `contact_messages` table migration to `supabase/migrations/`.
 2. Implement `contact-submit` Edge Function in `supabase/functions/contact-submit/`.
-3. Add server secrets `GMAIL_USER` and `GMAIL_APP_PASSWORD` to Supabase secrets.
-4. Build `ContactForm` component in `components/forms/` and example usage on a page template.
-5. Add admin UI for listing contact messages and reviewing submissions.
-6. Add Claude-code prompt template to `claude/` (this file can be used as part of that prompt).
+3. Copy the edge function into Vercel Env variable NEXT_PUBLIC_CONTACT_SUBMIT_URL & redeploy
+4. Add server secrets `GMAIL_USER` and `GMAIL_APP_PASSWORD` to Supabase secrets.
+5. Build `ContactForm` component in `components/forms/` and example usage on a page template.
+6. Add admin UI for listing contact messages and reviewing submissions.
+7. Add Claude-code prompt template to `claude/` (this file can be used as part of that prompt).
 
 ---
 
