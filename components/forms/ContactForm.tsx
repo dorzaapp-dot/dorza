@@ -65,7 +65,7 @@ export default function ContactForm({ clientId, endpoint, source = "contact-form
       phone: form.phone.trim() || undefined,
       message: form.message.trim() || undefined,
       website: form.website,
-    });
+    } as Record<string, unknown>);
 
     setSubmitting(false);
 
