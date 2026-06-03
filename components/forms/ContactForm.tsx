@@ -2,7 +2,6 @@
 
 import { FormEvent, useState } from "react";
 import { Button } from "@/components/ui/Button";
-import { submitForm } from "@/lib/api";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -57,15 +56,28 @@ export default function ContactForm({ clientId, endpoint, source = "contact-form
 
     setSubmitting(true);
 
-    const result = await submitForm(endpoint, {
-      clientId,
-      source,
-      name: form.name.trim(),
-      email: form.email.trim(),
-      phone: form.phone.trim() || undefined,
-      message: form.message.trim() || undefined,
-      website: form.website,
-    } as Record<string, unknown>);
+    let result: { success: boolean } = { success: false };
+    try {
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify({
+          clientId,
+          source,
+          name: form.name.trim(),
+          email: form.email.trim(),
+          phone: form.phone.trim() || undefined,
+          message: form.message.trim() || undefined,
+          website: form.website,
+        }),
+      });
+      result = res.ok ? await res.json() : { success: false };
+    } catch {
+      result = { success: false };
+    }
 
     setSubmitting(false);
 
