@@ -5,6 +5,8 @@ import { useState } from "react";
 import ContactForm from "@/components/forms/ContactForm";
 import { Container } from "@/components/ui/Container";
 
+export const dynamic = "force-dynamic";
+
 export default function DemoContactUsPage() {
   const searchParams = useSearchParams();
   const [clientId, setClientId] = useState(searchParams.get("clientId") || "");
