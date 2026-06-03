@@ -36,7 +36,7 @@ export default function DemoContactUsPage() {
                   className="w-full rounded-2xl border border-border bg-white px-4 py-2 text-dark placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                 />
                 <p className="text-xs text-text-muted mt-1">
-                  This is the <code>onboard_submissions.id</code> used to look up the client's email.
+                  This is the <code>onboard_submissions.id</code> used to look up the client&apos;s email.
                 </p>
               </div>
 
