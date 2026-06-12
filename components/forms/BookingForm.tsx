@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { submitForm } from "@/lib/api";
 
 const TIME_SLOTS = [
   "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
@@ -46,6 +45,10 @@ export default function BookingForm({ clientId, submitEndpoint, availabilityEndp
   const [errorMessage, setErrorMessage] = useState("");
 
   const today = new Date().toISOString().split("T")[0];
+  const authHeader = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ""}`,
+  };
 
   const fetchAvailability = useCallback(
     async (selectedDate: string) => {
@@ -55,6 +58,7 @@ export default function BookingForm({ clientId, submitEndpoint, availabilityEndp
       try {
         const res = await fetch(
           `${availabilityEndpoint}?client_id=${encodeURIComponent(clientId)}&date=${encodeURIComponent(selectedDate)}`,
+          { headers: authHeader },
         );
         const data = await res.json();
         setBookedSlots(data.bookedSlots ?? []);
@@ -91,25 +95,32 @@ export default function BookingForm({ clientId, submitEndpoint, availabilityEndp
     setStatus("submitting");
     setErrorMessage("");
     try {
-      const result = await submitForm(submitEndpoint, {
-        clientId,
-        name: name.trim(),
-        email: email.trim().toLowerCase(),
-        phone: phone.trim() || null,
-        message: message.trim() || null,
-        bookingDate: date,
-        bookingTime: time,
-        website,
+      const res = await fetch(submitEndpoint, {
+        method: "POST",
+        headers: authHeader,
+        body: JSON.stringify({
+          clientId,
+          name: name.trim(),
+          email: email.trim().toLowerCase(),
+          phone: phone.trim() || null,
+          message: message.trim() || null,
+          bookingDate: date,
+          bookingTime: time,
+          website,
+        }),
       });
+      const result: { success: boolean; error?: string } = res.ok
+        ? await res.json()
+        : { success: false };
       if (result.success) {
         setStatus("success");
       } else {
         const msg =
-          (result as { error?: string }).error === "SLOT_UNAVAILABLE"
+          result.error === "SLOT_UNAVAILABLE"
             ? "This time slot was just taken. Please pick another time."
             : "Something went wrong. Please try again.";
         setErrorMessage(msg);
-        if ((result as { error?: string }).error === "SLOT_UNAVAILABLE") {
+        if (result.error === "SLOT_UNAVAILABLE") {
           // Re-fetch availability so the taken slot shows as greyed out.
           fetchAvailability(date);
         }
