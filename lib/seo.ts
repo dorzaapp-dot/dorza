@@ -1,7 +1,8 @@
 export const SITE_URL = "https://dorza.com.au";
 export const BUSINESS_NAME = "Dorza";
 export const CONTACT_EMAIL = "customer@dorza.com.au";
-export const PHONE_DISPLAY = "";
+export const PHONE_DISPLAY = "0494 436 553";
+export const PHONE_TEL = "+61494436553";
 export const ADDRESS = {
   street: "",
   locality: "Parramatta",

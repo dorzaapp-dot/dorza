@@ -4,7 +4,7 @@ import { SITE_URL } from "@/lib/seo";
 export const metadata: Metadata = {
   title: "Contact Dorza — Western Sydney Web Design & Marketing",
   description:
-    "Get in touch with Dorza. Based in Parramatta, serving all of Western Sydney. Email customer@dorza.com.au for a free consultation. Response within 72 hours.",
+    "Get in touch with Dorza. Based in Parramatta, serving all of Western Sydney. Call 0494 436 553 or email customer@dorza.com.au for a free consultation. Response within 72 hours.",
   alternates: { canonical: `${SITE_URL}/contact` },
   openGraph: {
     title: "Contact Dorza — Western Sydney Web Design & Marketing",

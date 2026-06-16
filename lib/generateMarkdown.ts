@@ -58,6 +58,12 @@ function yamlList(key: string, items: string[], indent = ""): string {
   return `${indent}${key}:\n${lines.join("\n")}`;
 }
 
+function formatPalette(s: OnboardState): string[] {
+  return (s.brandPalette || [])
+    .filter((c) => c.hex && c.hex.trim() && c.hex !== "#")
+    .map((c) => `${c.role}: ${c.hex.toUpperCase()}`);
+}
+
 function selectedSections(s: OnboardState): string[] {
   return Object.entries(s.websiteSections || {})
     .filter(([, on]) => on)
@@ -118,6 +124,7 @@ function frontmatter(s: OnboardState, today: string): string {
     `colour_mood: ${yq(s.colourMood)}`,
     `brand_keywords: ${yq(s.brandKeywords)}`,
     `brand_colours: ${yq(s.brandColours)}`,
+    yamlList("brand_palette", formatPalette(s)),
     `logo_status: ${yq(s.logoStatus)}`,
     `has_logo: ${yq(deriveHasLogo(s))}`,
     yamlList("website_sections", sectionsOn),
@@ -190,6 +197,7 @@ function bodyBrand(s: OnboardState): string {
     ["logo_status", s.logoStatus],
     ["colour_mood", s.colourMood],
     ["brand_colours", s.brandColours],
+    ["brand_palette", formatPalette(s).join(", ")],
     ["tone", s.tone],
     ["brand_keywords", s.brandKeywords],
     ["inspiration_sites", s.inspirationSites],
@@ -258,6 +266,7 @@ function bodyBuildHints(s: OnboardState): string {
       ["palette_primary", hint.primary],
       ["palette_accent", hint.accent],
       ["client_brand_colours", s.brandColours || "—"],
+      ["client_palette", formatPalette(s).join(", ") || "—"],
       ["lighthouse_performance", "≥ 90"],
       ["lighthouse_accessibility", "≥ 95"],
       ["lighthouse_seo", "≥ 95"],

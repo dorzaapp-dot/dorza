@@ -1,11 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Phone } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { DORZA_EASE } from "@/components/motion/Reveal";
 import EnquiryModal from "@/components/ui/EnquiryModal";
 import ScrollProgress from "@/components/ui/ScrollProgress";
+import { PHONE_DISPLAY, PHONE_TEL } from "@/lib/seo";
 
 const menuSections = [
   {
@@ -114,6 +115,14 @@ export default function Nav() {
           </div>
 
           <div className="flex items-center gap-4">
+            <a
+              href={`tel:${PHONE_TEL}`}
+              className="hidden lg:inline-flex items-center gap-1.5 text-sm font-medium text-dark hover:text-primary transition-colors duration-200"
+              aria-label={`Call Dorza on ${PHONE_DISPLAY}`}
+            >
+              <Phone size={15} aria-hidden="true" />
+              {PHONE_DISPLAY}
+            </a>
             <button
               type="button"
               onClick={openEnquiry}
@@ -203,6 +212,12 @@ export default function Nav() {
                 >
                   {CTA_LABEL}
                 </button>
+                <a
+                  href={`tel:${PHONE_TEL}`}
+                  className="text-[14px] text-text-secondary hover:text-dark transition-colors duration-200"
+                >
+                  {PHONE_DISPLAY}
+                </a>
                 <a
                   href="mailto:customer@dorza.com.au"
                   className="text-[14px] text-text-secondary hover:text-dark transition-colors duration-200"

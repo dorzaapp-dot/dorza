@@ -87,8 +87,7 @@ function JsonLd() {
     logo: `${SITE_URL}/images/og-default.png`,
     image: `${SITE_URL}/images/og-default.png`,
     email: "customer@dorza.com.au",
-    // TODO(C5 — phone): add a real AU number here, then also add tel: links in
-    // Nav + Footer + llms.txt. e.g. telephone: "+61 2 1234 5678"
+    telephone: "+61494436553",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Parramatta",
@@ -112,6 +111,7 @@ function JsonLd() {
     contactPoint: {
       "@type": "ContactPoint",
       email: "customer@dorza.com.au",
+      telephone: "+61494436553",
       contactType: "sales",
       areaServed: "AU",
       availableLanguage: "English",

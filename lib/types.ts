@@ -16,6 +16,13 @@ export interface WaitlistFormData {
   frustration?: string;
 }
 
+export type BrandColourRole = "primary" | "secondary" | "tertiary";
+
+export interface BrandColour {
+  role: BrandColourRole;
+  hex: string;
+}
+
 export type EnquirySource = "inline" | "modal";
 
 export interface EnquiryFormData {
@@ -64,7 +71,8 @@ export interface OnboardState {
 
   // Step 5 - Look & feel (brand + site vision)
   colourMood: string;        // own field — no longer overloaded into brandKeywords
-  brandColours: string;
+  brandColours: string;      // free-text fallback ("navy and white")
+  brandPalette: BrandColour[]; // up to 3 user-picked hex colours, role-labelled
   tone: string;
   inspirationSites: string;
   brandKeywords: string;     // now ONLY the three descriptive words

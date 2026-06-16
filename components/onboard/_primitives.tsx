@@ -7,7 +7,9 @@ import {
   ReactNode,
   TextareaHTMLAttributes,
   forwardRef,
+  useState,
 } from "react";
+import { Info } from "lucide-react";
 
 /* ----- Eyebrow + StepLayout ----- */
 
@@ -322,6 +324,40 @@ export function SectionRule({ className = "" }: { className?: string }) {
 
 export function stepEyebrow(n: number, label: string) {
   return `${String(n).padStart(2, "0")} — ${label}`;
+}
+
+/* ----- Tooltip (info bubble on hover/focus) ----- */
+
+export function Tooltip({ label }: { label: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <span className="relative inline-flex items-center">
+      <button
+        type="button"
+        aria-label={label}
+        onMouseEnter={() => setOpen(true)}
+        onMouseLeave={() => setOpen(false)}
+        onFocus={() => setOpen(true)}
+        onBlur={() => setOpen(false)}
+        onClick={(e) => {
+          e.preventDefault();
+          setOpen((o) => !o);
+        }}
+        className="text-text-muted hover:text-text-secondary transition-colors duration-200 ease-dorza"
+      >
+        <Info size={13} />
+      </button>
+      {open && (
+        <span
+          role="tooltip"
+          className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-30 w-max max-w-[220px] rounded-[8px] bg-dark px-3 py-2 text-[12px] leading-snug text-white shadow-medium pointer-events-none"
+        >
+          {label}
+          <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-dark" />
+        </span>
+      )}
+    </span>
+  );
 }
 
 /* ----- Generic mono badge ----- */

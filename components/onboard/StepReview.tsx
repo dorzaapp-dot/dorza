@@ -16,12 +16,34 @@ export default function StepReview({ state, dispatch }: Props) {
   const update = (field: keyof OnboardState, value: unknown) =>
     dispatch({ type: "UPDATE_FIELD", field, value });
 
-  const summary: [string, string][] = [
+  const picks = state.brandPalette.filter((c) => c.hex.trim() && c.hex !== "#");
+
+  const summary: [string, React.ReactNode][] = [
     ["Business", state.businessName || "—"],
     ["Type", [state.businessType, state.niche].filter(Boolean).join(" · ") || "—"],
     ["Suburb", state.suburb || "—"],
     ["Tone", state.tone || "—"],
     ["Mood", state.colourMood || "—"],
+    ...(picks.length
+      ? ([
+          [
+            "Colours",
+            <span key="palette" className="flex flex-wrap items-center gap-2.5">
+              {picks.map((c) => (
+                <span key={c.role} className="inline-flex items-center gap-1.5">
+                  <span
+                    className="w-4 h-4 rounded-full border border-black/[0.08]"
+                    style={{ background: c.hex }}
+                  />
+                  <span className="font-mono text-[11px] uppercase tracking-[0.04em] text-text-muted">
+                    {c.hex}
+                  </span>
+                </span>
+              ))}
+            </span>,
+          ],
+        ] as [string, React.ReactNode][])
+      : []),
     [
       "Success",
       state.successVision

@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import { MapPin, ArrowRight } from "lucide-react";
 
 import { AREAS, getAreaBySlug, getNearbySlugs } from "@/lib/data/areas";
-import { SITE_URL, SERVICE_PAGES } from "@/lib/seo";
+import { SITE_URL, SERVICE_PAGES, PHONE_TEL, CONTACT_EMAIL } from "@/lib/seo";
 
 import Nav from "@/components/sections/Nav";
 import InnerHero from "@/components/sections/InnerHero";
@@ -107,9 +107,12 @@ export default async function AreaPage({
   const professionalServiceLd = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
+    "@id": `${SITE_URL}/#business`,
     name: "Dorza",
     url: SITE_URL,
     description: area.metaDescription,
+    telephone: PHONE_TEL,
+    email: CONTACT_EMAIL,
     areaServed: {
       "@type": "City",
       name: area.name,

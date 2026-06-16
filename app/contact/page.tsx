@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Mail, MapPin } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import Nav from "@/components/sections/Nav";
 import InnerHero from "@/components/sections/InnerHero";
 import Footer from "@/components/sections/Footer";
@@ -12,6 +12,8 @@ import EnquiryModal from "@/components/ui/EnquiryModal";
 import {
   SITE_URL,
   CONTACT_EMAIL,
+  PHONE_DISPLAY,
+  PHONE_TEL,
   WESTERN_SYDNEY_SUBURBS,
 } from "@/lib/seo";
 
@@ -67,6 +69,24 @@ export default function ContactPage() {
                   <h2 className="font-display text-[32px] md:text-[40px] leading-[1.05] tracking-[-0.02em] text-dark mb-8">
                     Reach out
                   </h2>
+
+                  {/* Phone */}
+                  <div className="flex items-start gap-3 mb-6">
+                    <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-tint text-primary">
+                      <Phone size={18} />
+                    </span>
+                    <div>
+                      <p className="text-[14px] font-semibold text-dark mb-0.5">
+                        Call us
+                      </p>
+                      <a
+                        href={`tel:${PHONE_TEL}`}
+                        className="text-[15px] text-primary hover:underline transition-colors duration-200"
+                      >
+                        {PHONE_DISPLAY}
+                      </a>
+                    </div>
+                  </div>
 
                   {/* Email */}
                   <div className="flex items-start gap-3 mb-6">

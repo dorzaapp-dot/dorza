@@ -10,6 +10,7 @@ import {
   StepLayout,
   Textarea,
 } from "./_primitives";
+import BrandPalette from "./BrandPalette";
 
 interface Props {
   state: OnboardState;
@@ -65,9 +66,19 @@ export default function StepLookFeel({ state, dispatch }: Props) {
         </div>
       </Field>
 
-      <Field label="Brand colours" optional helper="Hex codes or descriptions both work.">
+      <Field
+        label="Brand colours"
+        optional
+        helper="Pick up to three and tell us which is primary, secondary, and tertiary. No exact colours? Describe them instead."
+      >
+        <BrandPalette
+          value={state.brandPalette}
+          onChange={(next) => update("brandPalette", next)}
+        />
         <Input
-          placeholder="e.g. Navy blue and white, or #1B2A4A"
+          className="mt-3"
+          placeholder="Or describe in words — e.g. navy blue and warm white"
+          aria-label="Describe your brand colours"
           value={state.brandColours}
           onChange={(e) => update("brandColours", e.target.value)}
         />

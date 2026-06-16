@@ -89,6 +89,7 @@ const initialState: OnboardState = {
   discoveryChannels: [],
   colourMood: "",
   brandColours: "",
+  brandPalette: [],
   tone: "",
   inspirationSites: "",
   brandKeywords: "",
@@ -172,7 +173,8 @@ export default function OnboardPage() {
   useEffect(() => {
     const draft = loadDraft();
     if (draft) {
-      dispatch({ type: "HYDRATE", state: draft.state });
+      // Merge over initialState so drafts saved before a field existed still hydrate cleanly.
+      dispatch({ type: "HYDRATE", state: { ...initialState, ...draft.state } });
       setStep(draft.step);
       setPhase(draft.phase === "submitted" ? "welcome" : draft.phase);
       setSavedAt(draft.savedAt);

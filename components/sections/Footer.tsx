@@ -1,4 +1,5 @@
 import { Container } from "@/components/ui/Container";
+import { PHONE_DISPLAY, PHONE_TEL } from "@/lib/seo";
 
 const serviceLinks = [
   { label: "Web Design", href: "/services/web-design" },
@@ -148,8 +149,14 @@ export default function Footer() {
               ))}
             </ul>
             <a
-              href="mailto:customer@dorza.com.au"
+              href={`tel:${PHONE_TEL}`}
               className="block mt-5 text-white/60 hover:text-white text-sm transition-colors duration-[160ms]"
+            >
+              {PHONE_DISPLAY}
+            </a>
+            <a
+              href="mailto:customer@dorza.com.au"
+              className="block mt-2 text-white/60 hover:text-white text-sm transition-colors duration-[160ms]"
             >
               customer@dorza.com.au
             </a>

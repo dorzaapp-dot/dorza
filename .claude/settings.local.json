@@ -16,7 +16,14 @@
       "Bash(echo \"exit: $?\")",
       "Bash(git reset *)",
       "Read(//c/Windows/Fonts/**)",
-      "Bash(curl -s -m 6 -o /dev/null -w \"%{http_code}\" \"https://fonts.gstatic.com/s/instrumentserif/v4/jizBRFtNs2ka5fXjeivQ4LroWlx-2zEZ.ttf\")"
+      "Bash(curl -s -m 6 -o /dev/null -w \"%{http_code}\" \"https://fonts.gstatic.com/s/instrumentserif/v4/jizBRFtNs2ka5fXjeivQ4LroWlx-2zEZ.ttf\")",
+      "Skill(last30days:last30days)",
+      "PowerShell(pnpm lint *)",
+      "PowerShell(pnpm build *)",
+      "PowerShell(npx tsc --noEmit 2>&1 | Select-Object -First 40)",
+      "PowerShell(npx next lint --file components/onboard/BrandPalette.tsx --file components/onboard/_primitives.tsx --file components/onboard/StepLookFeel.tsx --file components/onboard/StepReview.tsx 2>&1 | Select-Object -First 40)",
+      "PowerShell(npx tsc --noEmit 2>&1 | Select-Object -First 20; if \\($?\\) { \"TSC OK\" })",
+      "PowerShell(npx next build 2>&1 | Select-Object -Last 30)"
     ]
   }
 }

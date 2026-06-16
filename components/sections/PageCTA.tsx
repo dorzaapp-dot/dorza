@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Phone } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/motion/Reveal";
 import EnquiryModal from "@/components/ui/EnquiryModal";
+import { PHONE_DISPLAY, PHONE_TEL } from "@/lib/seo";
 
 interface PageCTAProps {
   headline?: string;
@@ -58,7 +59,18 @@ export default function PageCTA({
                 View pricing
               </a>
             </div>
-            <p className="mt-6 font-mono text-[10px] text-white/30 uppercase tracking-[0.18em]">
+            <p className="mt-6 text-[15px] text-white/60">
+              {"Prefer to talk? "}
+              <a
+                href={`tel:${PHONE_TEL}`}
+                className="inline-flex items-center gap-1.5 font-semibold text-white hover:text-accent-light transition-colors duration-200"
+                aria-label={`Call Dorza on ${PHONE_DISPLAY}`}
+              >
+                <Phone size={15} aria-hidden="true" />
+                {PHONE_DISPLAY}
+              </a>
+            </p>
+            <p className="mt-4 font-mono text-[10px] text-white/30 uppercase tracking-[0.18em]">
               No lock-in contracts · Response within 72 hours
             </p>
           </div>
