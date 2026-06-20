@@ -114,7 +114,7 @@ export default function DashboardPage() {
 
   if (phase === 'loading') {
     return (
-      <div className="min-h-screen bg-surface flex items-center justify-center">
+      <div className="flex items-center justify-center py-32">
         <p className="font-body text-sm text-text-muted">Loading…</p>
       </div>
     )
@@ -122,7 +122,7 @@ export default function DashboardPage() {
 
   if (phase === 'unauthenticated') {
     return (
-      <div className="min-h-screen bg-surface flex items-center justify-center px-5">
+      <div className="flex items-center justify-center py-20 px-5">
         <div className="bg-white border border-border rounded-card p-8 w-full max-w-sm shadow-soft">
           <h1 className="font-display text-2xl text-dark mb-1">Client Dashboard</h1>
           <p className="font-body text-sm text-text-secondary mb-6">
@@ -164,31 +164,19 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-surface">
-      {/* Top bar */}
-      <div className="bg-dark px-5 py-4 flex items-center justify-between">
-        <span className="font-display text-xl text-white">Dorza</span>
-        <button
-          onClick={() => supabase.auth.signOut()}
-          className="text-sm text-white/60 hover:text-white transition-colors font-body"
-        >
-          Sign out
-        </button>
+    <div>
+      {/* Header */}
+      <div className="mb-8">
+        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-2">Bookings</p>
+        <h1 className="font-display text-[36px] leading-tight tracking-[-0.02em] text-dark">
+          {submission?.business_name ? `${submission.business_name}` : 'My Bookings'}
+        </h1>
+        {submission?.owner_name && (
+          <p className="font-body text-text-secondary mt-2">
+            Welcome back, {submission.owner_name}
+          </p>
+        )}
       </div>
-
-      <div className="max-w-3xl mx-auto px-5 py-10">
-        {/* Header */}
-        <div className="mb-8">
-          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-2">Dashboard</p>
-          <h1 className="font-display text-[36px] leading-tight tracking-[-0.02em] text-dark">
-            {submission?.business_name ? `${submission.business_name}` : 'My Bookings'}
-          </h1>
-          {submission?.owner_name && (
-            <p className="font-body text-text-secondary mt-2">
-              Welcome back, {submission.owner_name}
-            </p>
-          )}
-        </div>
 
         {/* Stats */}
         <div className="grid grid-cols-3 gap-4 mb-8">
@@ -328,7 +316,6 @@ export default function DashboardPage() {
             })}
           </div>
         )}
-      </div>
 
       {toast && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-dark text-white text-sm font-body px-5 py-3 rounded-full shadow-card whitespace-nowrap z-50">
