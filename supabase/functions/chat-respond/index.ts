@@ -266,23 +266,30 @@ async function callClaude(
     }
 
     const data = await res.json();
-
-    if (data.stop_reason === "end_turn" || data.stop_reason === "max_tokens") {
-      const textBlock = (data.content || []).find(
-        // deno-lint-ignore no-explicit-any
-        (b: any) => b.type === "text",
-      );
-      return textBlock?.text || "Sorry, I wasn't able to generate a response.";
-    }
-
-    if (data.stop_reason === "tool_use") {
-      currentMessages.push({ role: "assistant", content: data.content });
-
+    const contentTypes = (data.content || []).map(
       // deno-lint-ignore no-explicit-any
-      const toolUseBlocks = (data.content || []).filter(
-        // deno-lint-ignore no-explicit-any
-        (b: any) => b.type === "tool_use",
-      );
+      (b: any) => b.type,
+    );
+    console.log(
+      `[chat-respond] Claude response — stop_reason=${data.stop_reason} content_types=${JSON.stringify(contentTypes)} round=${round}`,
+    );
+
+    // Extract text from any response shape
+    const extractText = (): string | null => {
+      for (const block of data.content || []) {
+        if (block.type === "text" && block.text) return block.text;
+      }
+      return null;
+    };
+
+    // Check for tool use first (Claude wants to call a tool)
+    const toolUseBlocks = (data.content || []).filter(
+      // deno-lint-ignore no-explicit-any
+      (b: any) => b.type === "tool_use",
+    );
+
+    if (toolUseBlocks.length > 0) {
+      currentMessages.push({ role: "assistant", content: data.content });
 
       const toolResults = [];
       for (const toolBlock of toolUseBlocks) {
@@ -308,14 +315,16 @@ async function callClaude(
       continue;
     }
 
-    const fallbackText = (data.content || []).find(
-      // deno-lint-ignore no-explicit-any
-      (b: any) => b.type === "text",
+    // No tool use — extract text reply
+    const text = extractText();
+    if (text) return text;
+
+    // No text found — log full response for debugging
+    console.error(
+      "[chat-respond] no text block in response:",
+      JSON.stringify(data),
     );
-    return (
-      fallbackText?.text ||
-      "Sorry, something unexpected happened. Please try again."
-    );
+    return "Sorry, something went wrong. Please try again.";
   }
 
   return "I need to look up a few more things than I can right now. Could you try rephrasing your question?";
