@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 
 type Booking = {
@@ -152,6 +153,11 @@ export default function DashboardPage() {
           >
             {signingIn ? 'Signing in…' : 'Sign in'}
           </button>
+          <p className="text-center mt-4">
+            <Link href="/dashboard/reset-password" className="font-body text-sm text-primary hover:underline">
+              Forgot password?
+            </Link>
+          </p>
         </div>
       </div>
     )
