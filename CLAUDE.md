@@ -202,3 +202,14 @@ Frontend (Vercel + `.env.local`): `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPAB
 
 ### Removed fakes / fixed
 - The non-functional upload dropzone is gone (uploads happen via the `/upload` portal). Review no longer exposes markdown/JSON; the terms checkbox is real and gates submit via `TermsModal.tsx`. Submit failures now surface an error banner and preserve data.
+
+## Added by chatbot feature 2026-06-19
+
+### AI chatbot for client websites
+- `supabase/functions/chat-respond/index.ts` — Edge function that orchestrates Claude API (Haiku 4.5) with tool use. Receives `{ clientId, messages }`, loads business context from `onboard_submissions.state_json`, calls Claude with two tools (`check_availability`, `create_booking`), runs the tool use loop server-side (max 5 rounds), returns `{ reply }`.
+- `check_availability` queries the `bookings` table directly (same logic as `booking-availability`). `create_booking` calls `booking-submit` via internal HTTP to reuse validation + email logic.
+- The chat widget is a self-contained client component (no Dorza internal deps). Bootstrapping instructions in `claude-for-clients/CHATBOT.md`.
+- Widget props: `clientId` (required), `businessName`, `accentColor`. Reads `NEXT_PUBLIC_DORZA_CHAT_URL` and `NEXT_PUBLIC_DORZA_ANON_KEY`.
+- Requires `ANTHROPIC_API_KEY` as a Supabase secret (server-side only, never exposed to client).
+- Conversations are stateless — full message history sent each request. Rate limited to 40 messages (20 exchanges) per session.
+- System prompt is built dynamically from the client's onboard intake data (business name, type, services, location, hours, differentiator).
