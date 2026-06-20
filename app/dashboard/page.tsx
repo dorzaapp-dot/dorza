@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
-import type { Session } from '@supabase/supabase-js'
 
 type Booking = {
   id: string
@@ -27,7 +26,6 @@ type Tab = 'upcoming' | 'past'
 
 export default function DashboardPage() {
   const [phase, setPhase] = useState<Phase>('loading')
-  const [session, setSession] = useState<Session | null>(null)
   const [submission, setSubmission] = useState<Submission | null>(null)
   const [bookings, setBookings] = useState<Booking[]>([])
   const [tab, setTab] = useState<Tab>('upcoming')
@@ -41,12 +39,11 @@ export default function DashboardPage() {
   const [signingIn, setSigningIn] = useState(false)
 
   useEffect(() => {
-    async function handleSession(s: Session | null) {
+    async function handleSession(s: { user: { id: string } } | null) {
       if (!s) {
         setPhase('unauthenticated')
         return
       }
-      setSession(s)
       await loadData(s.user.id)
       setPhase('ready')
     }
