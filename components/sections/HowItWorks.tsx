@@ -54,7 +54,10 @@ export default function HowItWorks() {
   });
 
   return (
-    <section id="how-it-works" className="scroll-mt-24 bg-white py-20 md:py-[7.5rem]">
+    <section
+      id="how-it-works"
+      className="scroll-mt-24 bg-white py-20 md:py-[7.5rem] overflow-x-clip"
+    >
       <Container>
         <Reveal>
           <div className="mb-16 md:mb-24 max-w-2xl">

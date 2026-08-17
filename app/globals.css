@@ -46,6 +46,12 @@
 
 html {
   scroll-behavior: smooth;
+  /* Safety net for mobile: decorative bleed (SlideReveal's x-transform,
+     negative-inset glows, marquees) must never widen the page. Sections that
+     bleed clip their own overflow; this catches regressions.
+     `clip` rather than `hidden` so position: sticky keeps working and no
+     stray scroll container is created. */
+  overflow-x: clip;
 }
 
 body {
