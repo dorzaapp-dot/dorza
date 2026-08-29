@@ -158,15 +158,19 @@ Deno.serve(async (req) => {
     }
 
     console.log("[onboard-submit] pushing markdown to GitHub...");
-    const githubResult = await pushMarkdownToGitHub({
-      profileId: insertData.id,
-      markdownBase64: mdBase64,
-      businessName: state.businessName || state.email,
-    });
-    if (githubResult.committed) {
-      console.log("[onboard-submit] GitHub push OK —", githubResult.htmlUrl);
-    } else {
-      console.warn("[onboard-submit] GitHub push skipped —", githubResult.skippedReason);
+    try {
+      const githubResult = await pushMarkdownToGitHub({
+        profileId: insertData.id,
+        markdownBase64: mdBase64,
+        businessName: state.businessName || state.email,
+      });
+      if (githubResult.committed) {
+        console.log("[onboard-submit] GitHub push OK —", githubResult.htmlUrl);
+      } else {
+        console.warn("[onboard-submit] GitHub push skipped —", githubResult.skippedReason);
+      }
+    } catch (githubErr) {
+      console.error("[onboard-submit] GitHub push failed (non-fatal):", githubErr);
     }
 
     console.log("[onboard-submit] done — returning success");

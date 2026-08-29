@@ -8,6 +8,13 @@ const CORS = {
 
 const ADMIN_EMAILS = ["dorza.app@gmail.com"];
 
+function generatePassword(length = 12): string {
+  const chars = "abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  const array = new Uint8Array(length);
+  crypto.getRandomValues(array);
+  return Array.from(array, (b) => chars[b % chars.length]).join("");
+}
+
 async function sendEmail({ to, subject, html }: { to: string; subject: string; html: string }) {
   const gmailUser = Deno.env.get("GMAIL_USER")!;
   const gmailPassword = Deno.env.get("GMAIL_APP_PASSWORD")!;
@@ -53,51 +60,55 @@ Deno.serve(async (req) => {
     if (fetchError || !submission) throw new Error("Submission not found");
     if (submission.status === "provisioned") throw new Error("Already provisioned");
 
-    const uploadUrl = `${Deno.env.get("SITE_URL") ?? "https://dorza.app"}/upload`;
-
-    // Try invite (creates user + link). If user exists, fall back to magic link.
-    const { data: inviteData, error: inviteError } = await adminClient.auth.admin.generateLink({
-      type: "invite",
-      email: submission.email,
-      options: { redirectTo: uploadUrl },
-    });
+    const siteUrl = Deno.env.get("SITE_URL") ?? "https://dorza.app";
+    const dashboardUrl = `${siteUrl}/dashboard`;
+    const tempPassword = generatePassword();
 
     let userId: string;
-    let actionLink: string;
 
-    if (inviteData) {
-      userId = inviteData.user.id;
-      actionLink = inviteData.properties.action_link;
-    } else if (inviteError.message?.toLowerCase().includes("already")) {
-      const { data: magicData, error: magicError } = await adminClient.auth.admin.generateLink({
-        type: "magiclink",
-        email: submission.email,
-        options: { redirectTo: uploadUrl },
+    // Try creating user with password. If user exists, update their password.
+    const { data: createData, error: createError } = await adminClient.auth.admin.createUser({
+      email: submission.email,
+      password: tempPassword,
+      email_confirm: true,
+    });
+
+    if (createData?.user) {
+      userId = createData.user.id;
+    } else if (createError?.message?.toLowerCase().includes("already")) {
+      const { data: { users } } = await adminClient.auth.admin.listUsers();
+      const existing = users.find((u: { email?: string }) => u.email === submission.email);
+      if (!existing) throw new Error("User exists but could not be found");
+      userId = existing.id;
+      const { error: updateError } = await adminClient.auth.admin.updateUserById(userId, {
+        password: tempPassword,
       });
-      if (magicError || !magicData) throw magicError ?? new Error("Failed to generate link");
-      userId = magicData.user.id;
-      actionLink = magicData.properties.action_link;
+      if (updateError) throw updateError;
     } else {
-      throw inviteError;
+      throw createError ?? new Error("Failed to create user");
     }
 
-    // Send branded invitation email
+    // Send branded credentials email
     await sendEmail({
       to: submission.email,
-      subject: "Your Dorza portal is ready — upload your assets",
+      subject: "Your Dorza dashboard is ready",
       html: `
         <div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:24px">
           <h2 style="color:#1A1A2E;margin:0 0 12px">Hi ${submission.owner_name || "there"},</h2>
-          <p style="color:#555;margin:0 0 20px">Your Dorza client portal is ready. Click below to set up your account and upload your logo and photos.</p>
-          <a href="${actionLink}" style="display:inline-block;background:#D4845A;color:#fff;padding:12px 28px;border-radius:999px;text-decoration:none;font-weight:600;margin-bottom:20px">
-            Access your portal
+          <p style="color:#555;margin:0 0 20px">Your Dorza client dashboard is ready. Sign in to view your bookings and manage your assets.</p>
+          <div style="background:#F9F7F5;border:1px solid #F0EBE4;border-radius:12px;padding:20px;margin:0 0 20px">
+            <p style="color:#555;margin:0 0 8px;font-size:14px"><strong>Email:</strong> ${submission.email}</p>
+            <p style="color:#555;margin:0;font-size:14px"><strong>Temporary password:</strong> ${tempPassword}</p>
+          </div>
+          <a href="${dashboardUrl}" style="display:inline-block;background:#D4845A;color:#fff;padding:12px 28px;border-radius:999px;text-decoration:none;font-weight:600;margin-bottom:20px">
+            Go to your dashboard
           </a>
-          <p style="color:#888;font-size:13px;margin:0 0 8px">This link expires in 24 hours.</p>
+          <p style="color:#888;font-size:13px;margin:16px 0 8px">Please change your password after signing in.</p>
           <p style="color:#555;margin:0">— The Dorza team</p>
         </div>
       `,
     });
-    console.log(`[create-client-user] invitation email sent to ${submission.email}`);
+    console.log(`[create-client-user] credentials email sent to ${submission.email}`);
 
     // Update submission with user_id and provisioned status
     const { error: updateError } = await adminClient
