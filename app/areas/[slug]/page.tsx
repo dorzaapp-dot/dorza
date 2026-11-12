@@ -250,7 +250,7 @@ export default async function AreaPage({
                     <span className="font-body text-[17px] font-semibold text-ink transition-colors duration-fast ease-dorza group-hover:text-pine">
                       {nearby.name}
                     </span>
-                    <span className="d-mono text-ink-mute">{nearby.postcode}</span>
+                    <span className="d-mono text-ink-soft">{nearby.postcode}</span>
                   </a>
                 ))}
               </Reveal>

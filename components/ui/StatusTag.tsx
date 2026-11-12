@@ -7,7 +7,7 @@ export function StatusTag({ status }: { status: ServiceStatus }) {
   return (
     <span
       className={cn(
-        "inline-flex h-[22px] shrink-0 items-center rounded-chip px-2 font-mono text-[10px] font-medium uppercase tracking-[0.14em]",
+        "inline-flex h-[22px] shrink-0 items-center rounded-chip px-2 font-mono text-[11px] font-medium uppercase tracking-[0.14em]",
         live ? "bg-haze text-forest" : "border border-rule text-ink-soft"
       )}
     >

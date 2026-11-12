@@ -38,7 +38,8 @@
   --surface-inverse: var(--forest);
   --text-body: var(--ink);
   --text-secondary: var(--ink-soft);
-  --text-muted: var(--ink-mute);
+  /* ink-mute is 3.7:1 on chalk: fine for icons and rules, too faint for text. */
+  --text-muted: var(--ink-soft);
   --text-heading: var(--pine);
   --text-accent: var(--claret);
   --text-link: var(--pine);
@@ -89,7 +90,7 @@
   --surface-card: rgba(243, 240, 232, 0.06);
   --text-body: var(--chalk);
   --text-secondary: rgba(243, 240, 232, 0.72);
-  --text-muted: rgba(243, 240, 232, 0.52);
+  --text-muted: rgba(243, 240, 232, 0.64);
   --text-heading: var(--chalk);
   --text-accent: var(--ochre);
   --text-link: var(--haze);

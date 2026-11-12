@@ -4,7 +4,6 @@ import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
-import GrainOverlay from "@/components/ui/GrainOverlay";
 import { PILLARS } from "@/lib/data/pillars";
 import { ADDRESS, CONTACT_EMAIL, PHONE_TEL, SITE_URL } from "@/lib/seo";
 import { DEFAULT_TITLE, SITE_DESCRIPTION, SOCIALS } from "@/lib/site";
@@ -127,7 +126,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           Skip to content
         </a>
         {children}
-        <GrainOverlay />
         <Analytics />
       </body>
     </html>
