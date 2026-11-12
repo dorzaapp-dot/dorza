@@ -69,7 +69,7 @@ export const INDUSTRIES: IndustryPage[] = [
       {
         title: "Online booking on your own site.",
         description:
-          "We link OpenTable, Quandoo, ResDiary or whichever system you already use into your website, so people can book a table without calling.",
+          "We link the booking system you already use into your website, so people can book a table without calling.",
       },
       {
         title: "A Google profile that's set up properly.",
@@ -81,7 +81,7 @@ export const INDUSTRIES: IndustryPage[] = [
       "Mobile-first website with a clear menu",
       "Instagram and Facebook posts, on request",
       "Google Business Profile setup",
-      "Online booking through OpenTable, Quandoo or ResDiary",
+      "Online booking through the system you already use",
       "A simple way to ask for reviews",
       "Tips on food photos and what to post",
     ],
@@ -200,7 +200,7 @@ export const INDUSTRIES: IndustryPage[] = [
       {
         title: "Online booking on your site.",
         description:
-          "We connect Fresha, Timely, Square Appointments or the system you already use to your website. Clients book any time, without a DM or a phone call.",
+          "We connect the booking system you already use to your website. Clients book any time, without a DM or a phone call.",
       },
       {
         title: "Instagram, if you want it.",
@@ -215,7 +215,7 @@ export const INDUSTRIES: IndustryPage[] = [
     ],
     features: [
       "Portfolio website with image gallery",
-      "Booking system connection (Fresha, Timely, Square)",
+      "Booking system connected to your site",
       "Instagram and Facebook posts, on request",
       "Google Business Profile with photos and reviews",
       "Service menu with prices",

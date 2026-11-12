@@ -22,7 +22,7 @@ export const AREAS: Area[] = [
     isHub: true,
     metaTitle: "Web Design & Digital Marketing for Western Sydney Small Business",
     metaDescription:
-      "Dorza helps Western Sydney small businesses get found online with professional web design, local SEO, social media management and Google Business Profile setup.",
+      "Dorza helps Western Sydney small businesses get found online with professional web design, local SEO and Google Business Profile setup. Social media is available on request.",
     eyebrow: "// Western Sydney",
     title: "Web design and digital marketing for Western Sydney small business",
     description:
@@ -54,7 +54,7 @@ export const AREAS: Area[] = [
     isHub: false,
     metaTitle: "Web Design & Digital Marketing for Parramatta Businesses",
     metaDescription:
-      "Professional websites, local SEO and social media for Parramatta businesses. Stand out from national chains on Church Street and across Sydney's second CBD.",
+      "Professional websites, local SEO and Google profiles for Parramatta businesses. Stand out from national chains on Church Street and across Sydney's second CBD.",
     eyebrow: "// Parramatta",
     title: "Web design and digital marketing for Parramatta businesses",
     description:
@@ -88,7 +88,7 @@ export const AREAS: Area[] = [
     eyebrow: "// Blacktown",
     title: "Websites and digital marketing for Blacktown businesses",
     description:
-      "Blacktown is a big, diverse and growing community. We help local businesses reach it with websites, Google profiles and social media that actually get results.",
+      "Blacktown is a big, diverse and growing community. We help local businesses reach it with websites and Google profiles that get them found.",
     localContext:
       "The City of Blacktown is a large, diverse, multicultural community. From the bustling Blacktown Markets on Sundays to the shops lining Main Street and the surrounding retail centres, small businesses are everywhere, but many still rely on word of mouth alone. With such a large and growing population, the opportunity for businesses to reach new customers online is enormous. A professional website and Google presence can connect a Blacktown business with nearby residents searching for exactly what they offer.",
     localPoints: [
@@ -114,7 +114,7 @@ export const AREAS: Area[] = [
     isHub: false,
     metaTitle: "Web Design & Marketing for Penrith Small Businesses",
     metaDescription:
-      "Professional web design, local SEO and social media for Penrith businesses. Reach customers across the gateway to the Blue Mountains and the new Western Sydney Airport corridor.",
+      "Professional web design, local SEO and Google profiles for Penrith businesses. Reach customers across the gateway to the Blue Mountains and the new Western Sydney Airport corridor.",
     eyebrow: "// Penrith",
     title: "Web design and marketing for Penrith small businesses",
     description:

@@ -109,7 +109,7 @@ export const SERVICES: ServicePage[] = [
       },
       {
         q: "What if I don't have content or photos ready?",
-        a: "No worries. We can write the words from your brief and use stock photos until you have your own. Start with what you have and swap things in later.",
+        a: "No worries. We can write the words from your brief, and we'll work with whatever photos you have for now. Start with what you have and swap things in later.",
       },
       {
         q: "Can I update the website myself?",
@@ -117,7 +117,7 @@ export const SERVICES: ServicePage[] = [
       },
       {
         q: "What happens if I want to cancel?",
-        a: "You cancel. That's it. No exit fees and no lock-in. You keep your domain, your content and your code, and we'll help you move it if you go elsewhere.",
+        a: "You cancel. That's it. No exit fees and no lock-in. You keep your domain, your content and your code, and it all goes with you if you go elsewhere.",
       },
     ],
     relatedSlugs: ["local-seo", "google-business-profile", "social-media-management"],
@@ -195,7 +195,7 @@ export const SERVICES: ServicePage[] = [
     faqs: [
       {
         q: "Do I need to provide my own photos?",
-        a: "It helps, but you don't have to. Phone photos from the job or the shop floor work well. We can also make simple branded graphics and use stock images where they fit.",
+        a: "It helps, but you don't have to. Phone photos from the job or the shop floor work well. We can also make simple branded graphics.",
       },
       {
         q: "Do I get to approve posts before they go live?",
@@ -337,7 +337,7 @@ export const SERVICES: ServicePage[] = [
       {
         title: "Directory listings",
         description:
-          "We list your business on directories like Yellow Pages, True Local, Yelp and the ones for your trade, with the same name, address and phone number everywhere.",
+          "We list your business on the directories that matter for your trade, with the same name, address and phone number everywhere.",
       },
       {
         title: "Reviews",
