@@ -17,10 +17,10 @@ export default function Footer() {
             </Link>
             <p className="d-lede mt-5 max-w-[22ch]">{TAGLINE}</p>
             <div className="d-mono mt-6">
-              <a href={`tel:${PHONE_TEL}`} className="d-link block w-fit py-[11px]" aria-label={`Call Dorza on ${PHONE_DISPLAY}`}>
+              <a href={`tel:${PHONE_TEL}`} className="d-link flex w-fit min-h-11 items-center" aria-label={`Call Dorza on ${PHONE_DISPLAY}`}>
                 {PHONE_DISPLAY}
               </a>
-              <a href={`mailto:${CONTACT_EMAIL}`} className="d-link block w-fit py-[11px]">
+              <a href={`mailto:${CONTACT_EMAIL}`} className="d-link flex w-fit min-h-11 items-center">
                 {CONTACT_EMAIL}
               </a>
             </div>
