@@ -32,9 +32,6 @@ importers:
       react-dom:
         specifier: ^18
         version: 18.3.1(react@18.3.1)
-      react-parallax-tilt:
-        specifier: ^1.7.326
-        version: 1.7.326(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
       '@types/node':
         specifier: ^20
@@ -1810,12 +1807,6 @@ packages:
 
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
-
-  react-parallax-tilt@1.7.326:
-    resolution: {integrity: sha512-RrQp+zuP45QBzMBvznCBbNhN48XZrWMSu79CR3dqaTEKYAO3wz7wZhjn8+ZJXqM+1L+cGIr8h4rsUr4AzXWAQQ==}
-    peerDependencies:
-      react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-      react-dom: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
   react@18.3.1:
     resolution: {integrity: sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==}
@@ -4022,11 +4013,6 @@ snapshots:
       scheduler: 0.23.2
 
   react-is@16.13.1: {}
-
-  react-parallax-tilt@1.7.326(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
-    dependencies:
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
 
   react@18.3.1:
     dependencies:
