@@ -34,360 +34,360 @@ export interface ServicePage {
 export const SERVICES: ServicePage[] = [
   {
     slug: "web-design",
-    metaTitle: "Web Design for Small Businesses in Western Sydney | Dorza",
+    metaTitle: "Web design for small businesses",
     metaDescription:
-      "Custom, hand-coded websites built to get Western Sydney businesses found online. Mobile-first, SEO-ready, live in 24 hours. No templates, no lock-in.",
+      "Websites built by hand for your business, set up to be found on Google and easy to use on a phone. From $499, with a plan and a price within 72 hours. No lock-in.",
     eyebrow: "// Web design",
-    title: "Custom websites that actually get you customers",
+    title: "Websites that bring in work.",
     description:
-      "Not a Wix template with your logo slapped on. A proper website, hand-built for your business, designed to show up on Google and turn visitors into paying customers across Western Sydney.",
-    problemHeadline: "Your website is costing you customers",
+      "A proper website, built by hand for your business. It shows up on Google, works on a phone and makes it easy for people to get in touch.",
+    problemHeadline: "Your website is costing you calls.",
     problemDescription:
-      "Most small businesses in Western Sydney either have no website, or one that looks like it was built in 2014. Either way, you're invisible to the people searching for what you do right now.",
+      "Plenty of small businesses have no website, or one that hasn't been touched in years. Either way, the people searching for what you do right now can't find you.",
     problemPoints: [
-      "You're not showing up when locals Google your trade or service",
-      "Your site looks terrible on mobile — where most of your traffic comes from",
-      "You paid an agency thousands for a template that loads slowly and ranks nowhere",
-      "You can't update anything yourself without paying someone every time",
+      "You don't show up when people nearby search for your trade or service",
+      "Your site is hard to use on a phone, and that's where people look you up",
+      "Your site loads slowly and doesn't show up in search",
+      "You can't change anything without paying someone every time",
     ],
-    solutionHeadline: "A website that works as hard as you do",
+    solutionHeadline: "A website that does its job.",
     solutionDescription:
-      "We hand-code every site from scratch. No page builders, no bloated templates. Just a fast, clean website that's built to rank on Google and convert visitors into enquiries.",
+      "We build every site from scratch. It's fast, it's clean, and it's set up to be found on Google and to turn visitors into enquiries.",
     features: [
       {
-        title: "Hand-coded, not templated",
+        title: "Built by hand",
         description:
-          "Every line of code is written for your business. No drag-and-drop builders, no shared templates. Faster load times, better SEO, fully yours.",
+          "We write the code for your business, not a shared template. It loads fast, search engines can read it, and it's yours.",
       },
       {
-        title: "Mobile-first design",
+        title: "Built for phones first",
         description:
-          "Built for phones first, because that's where your customers are. Every tap target, every image, every layout — tested on real devices.",
+          "People look you up on their phone, so that's where we start. We check every page on real phones before launch.",
       },
       {
-        title: "SEO-ready from day one",
+        title: "Ready for search from day one",
         description:
-          "Proper page titles, meta descriptions, schema markup, and site speed optimisation baked in. You start ranking faster because the foundations are right.",
+          "Page titles, descriptions, schema markup and page speed, set up properly before launch. Google gets a clear picture of what you do and where.",
       },
       {
         title: "Google Business Profile setup",
         description:
-          "We don't just build the site — we connect it to your Google Business Profile so you show up on Maps and local search results across Western Sydney.",
+          "We connect the site to your Google Business Profile, so you show up on Maps and in local search too.",
       },
       {
-        title: "Live in 24 hours",
+        title: "A plan and a price in 72 hours",
         description:
-          "Send us your details and we'll have a working site ready within a day. No six-week timelines, no endless revision rounds.",
+          "Tell us what you need and you'll have an exact plan and price within 72 hours. Work starts after you approve the plan.",
       },
       {
         title: "You own everything",
         description:
-          "Your code, your domain, your content. If you leave, you take it all with you. No lock-in contracts, no hostage situations.",
+          "Your code, your domain, your content. If you leave, it all goes with you. No lock-in.",
       },
     ],
     steps: [
       {
         title: "Tell us about your business",
         description:
-          "Fill out a quick brief — what you do, who your customers are, what suburb you're in. Takes about five minutes.",
+          "One short form. What you do, who your customers are and where you work.",
       },
       {
         title: "We build your site",
         description:
-          "Our team hand-codes your website, sets up hosting, and connects your Google Business Profile. Usually done within 24 hours.",
+          "Once you approve the plan, we build the site, set up hosting and connect your Google Business Profile.",
       },
       {
-        title: "Go live and start getting found",
+        title: "Go live and get found",
         description:
-          "Your site goes live with SEO baked in. We handle ongoing updates and improvements so you can focus on running your business.",
+          "You see the real site before it goes live. After launch we look after updates and changes, so you can run the business.",
       },
     ],
     faqs: [
       {
         q: "How long does it take to get my website live?",
-        a: "Most sites go live within 24 hours of receiving your brief and content. If you need custom photography or copywriting, it might take a couple of extra days — but we'll always give you a clear timeline upfront.",
+        a: "It depends on the site. You'll have a plan and a price within 72 hours, and the timeline is in the plan. Work starts after you approve it.",
       },
       {
         q: "What if I don't have content or photos ready?",
-        a: "No worries. We can write your copy based on the brief you fill out, and we'll use professional stock images until you're ready with your own. Most of our Western Sydney clients start with what they have and upgrade later.",
+        a: "No worries. We can write the words from your brief and use stock photos until you have your own. Start with what you have and swap things in later.",
       },
       {
         q: "Can I update the website myself?",
-        a: "You can, but you don't have to. Minor updates like changing a phone number or adding a photo are included in your plan. If you want full control, we'll set you up with a simple editing workflow.",
+        a: "You can, but you don't have to. Small changes like a new phone number or a new photo are part of your plan. If you'd rather make changes yourself, tell us and we'll set that up.",
       },
       {
         q: "What happens if I want to cancel?",
-        a: "You cancel. That's it. No exit fees, no lock-in contracts. You keep your domain, your content, and your code. We'll even help you migrate if you want to go elsewhere.",
+        a: "You cancel. That's it. No exit fees and no lock-in. You keep your domain, your content and your code, and we'll help you move it if you go elsewhere.",
       },
     ],
     relatedSlugs: ["local-seo", "google-business-profile", "social-media-management"],
   },
   {
     slug: "social-media-management",
-    metaTitle: "Social Media Management for Western Sydney Businesses | Dorza",
+    metaTitle: "Social media help for small businesses",
     metaDescription:
-      "Consistent, on-brand social media posts for your business. 3-5 posts per week, a done-for-you content calendar, performance tracking. Built for Western Sydney locals.",
+      "Need help with social media? Dorza can plan and write posts in your voice for Instagram and Facebook, and nothing goes out without your OK. Ask us.",
     eyebrow: "// Social media",
-    title: "Social media that runs itself — and actually sounds like you",
+    title: "Social media, when you want a hand.",
     description:
-      "No more staring at a blank Instagram screen at 10pm. We handle your content calendar, create posts that match your brand voice, and keep your socials active so your customers know you're still open for business.",
-    problemHeadline: "Your Instagram hasn't posted since March",
+      "Social media isn't one of our main services, but we do it when you ask. We plan your posts, write them in your voice and publish them once you've said yes.",
+    problemHeadline: "Your last post was in March.",
     problemDescription:
-      "You know you should be posting. Your customers check your socials before they call. But between running the business and actually doing the work, social media falls to the bottom of the list. Every time.",
+      "You know you should be posting. People check your socials before they call. But between running the business and doing the work, social media drops to the bottom of the list. Every time.",
     problemPoints: [
-      "You post once a month when you remember — then nothing for weeks",
-      "You've run out of content ideas and you're sick of posting the same thing",
-      "Your Instagram looks dead and potential customers assume you've closed down",
-      "You tried scheduling tools but you still had to come up with all the content yourself",
+      "You post when you remember, then nothing for weeks",
+      "You've run out of ideas and you're sick of posting the same thing",
+      "Your Instagram looks quiet, and people wonder if you've closed",
+      "You tried a scheduling tool, but you still had to come up with every post yourself",
     ],
-    solutionHeadline: "Consistent posts without the headache",
+    solutionHeadline: "Posts that sound like you.",
     solutionDescription:
-      "We create and schedule 3 to 5 posts per week that actually sound like you, not some generic marketing agency. Real content ideas tailored to your business, your suburb, and your customers across Western Sydney.",
+      "We plan and write posts around your business, your customers and what's on in your area. You approve them, we publish them. How often you post is up to you, and we'll quote for it.",
     features: [
       {
-        title: "3-5 posts per week",
+        title: "Regular posting",
         description:
-          "Consistent posting across your platforms. Enough to stay visible without spamming your followers. We handle the scheduling so nothing falls through the cracks.",
+          "We agree how often you want to post, then we keep to it. No long gaps, and no flooding your followers either.",
       },
       {
-        title: "Done-for-you content calendar",
+        title: "A plan you can see",
         description:
-          "We use smart tools to plan your content weeks ahead — local events, seasonal trends, industry moments. You always know what's coming.",
+          "We plan posts ahead around the seasons, local events and what's happening in your trade. You always know what's coming.",
       },
       {
-        title: "On-brand, every time",
+        title: "In your voice",
         description:
-          "We learn your voice and stick to it. If you're a no-nonsense plumber in Penrith, your posts won't sound like a Surry Hills branding agency wrote them.",
+          "We learn how you talk and write that way. A no-nonsense plumber's posts should sound like a no-nonsense plumber.",
       },
       {
-        title: "Performance tracking",
+        title: "What's working",
         description:
-          "Monthly reports showing what's working, what's not, and what we're changing. No vanity metrics — just the numbers that matter for your business.",
+          "We look at which posts get a response and change the plan to suit. You hear about what matters to the business, not follower counts.",
       },
       {
-        title: "Multi-platform management",
+        title: "Instagram, Facebook and Google",
         description:
-          "Instagram, Facebook, Google Business posts — all managed from one place. We format and optimise content for each platform so it performs properly everywhere.",
+          "We can post to Instagram, Facebook and your Google Business Profile, with each post set up for where it's going.",
       },
       {
-        title: "Local content focus",
+        title: "About your area",
         description:
-          "Posts that reference your suburb, your local community, and the things your Western Sydney customers actually care about. Not generic stock photo content.",
+          "Posts about your community, your area and the jobs you actually do, with your own photos wherever we can.",
       },
     ],
     steps: [
       {
-        title: "Tell us about your brand",
+        title: "Tell us about your business",
         description:
-          "We learn your business, your voice, and your audience. Share examples of posts you like and we'll nail the tone from week one.",
+          "How you talk, who your customers are, and a few posts you like the look of. That's how we get the tone right.",
       },
       {
-        title: "We plan and create your content",
+        title: "We plan and write your posts",
         description:
-          "You get a content calendar for the month. Approve it, request changes, or just let us run with it. Your call.",
+          "You see the plan ahead of time. Approve it, ask for changes, or tell us to run with it. Your call.",
       },
       {
-        title: "We post, you focus on your business",
+        title: "We post, you run the business",
         description:
-          "Content goes live on schedule. We monitor performance and adjust the strategy each month to keep improving your results.",
+          "Posts go out as planned. We keep an eye on how they're doing and adjust as we go.",
       },
     ],
     faqs: [
       {
         q: "Do I need to provide my own photos?",
-        a: "It helps, but it's not essential. We can work with what you've got — even phone photos from the job site or shop floor. We'll also create branded graphics and source stock imagery when needed.",
+        a: "It helps, but you don't have to. Phone photos from the job or the shop floor work well. We can also make simple branded graphics and use stock images where they fit.",
       },
       {
         q: "Do I get to approve posts before they go live?",
-        a: "Absolutely. You'll get the content calendar ahead of time and can approve, tweak, or reject anything. Some clients prefer to approve everything; others tell us to just run with it after the first month.",
+        a: "Yes. You see the plan before anything goes out, and you can approve, change or drop any post. Approve every one, or tell us to run with it once you're happy with the tone.",
       },
       {
         q: "Which platforms do you manage?",
-        a: "Instagram and Facebook as standard. We can also manage your Google Business Profile posts, LinkedIn, and TikTok depending on your plan. We'll recommend the right mix based on where your customers actually hang out.",
+        a: "Instagram and Facebook to start, plus posts on your Google Business Profile. Ask us about LinkedIn or TikTok and we'll tell you if they suit your business.",
       },
       {
-        q: "How is this different from a scheduling tool like Later or Buffer?",
-        a: "Those tools help you schedule — but you still have to come up with the content, write the captions, design the graphics, and figure out what to post. We do all of that for you. You just approve and we handle the rest.",
+        q: "Can't I just use a scheduling tool?",
+        a: "You can. A scheduling tool posts what you give it. You still have to come up with the ideas, write the captions and make the graphics. We do that part, and you approve it.",
       },
     ],
     relatedSlugs: ["web-design", "google-business-profile", "local-seo"],
   },
   {
     slug: "google-business-profile",
-    metaTitle: "Google Business Profile Setup & Management | Western Sydney | Dorza",
+    metaTitle: "Google Business Profile setup and management",
     metaDescription:
-      "Get your business on Google Maps and local search. Full GBP setup, optimisation, photo management, and review strategy for Western Sydney businesses.",
+      "Show up on Google Maps and in local search. Dorza sets up your Google Business Profile properly, keeps it current with photos and posts, and helps you get reviews.",
     eyebrow: "// Google Business Profile",
-    title: "Show up when locals search for what you do",
+    title: "Show up on Google Maps.",
     description:
-      "When someone in Parramatta Googles 'plumber near me', you either show up in the top three — or you don't exist. We set up, optimise, and manage your Google Business Profile so you're the one they call.",
-    problemHeadline: "You're invisible on Google Maps",
+      "When someone searches 'plumber near me', Google shows a map and a short list of businesses. We set up your Google Business Profile, fill it in properly and keep it current, so you have a real shot at that list.",
+    problemHeadline: "Nobody can find you on Maps.",
     problemDescription:
-      "Your competitors are getting the calls because they show up first. Not because they're better — because their Google Business Profile is set up properly and yours isn't. Or worse, you don't have one at all.",
+      "The businesses getting the calls aren't always better than you. Often their Google Business Profile is set up properly and yours isn't. Or you don't have one at all.",
     problemPoints: [
-      "You don't have a Google Business Profile, or it's half-filled and collecting dust",
-      "You're not showing up on Google Maps when locals search for your service",
-      "Your competitors rank above you because their profiles are fully optimised",
-      "You've got no reviews, no photos, and no posts — so Google doesn't trust you",
+      "You don't have a Google Business Profile, or it's half filled in",
+      "You don't show up on Maps when people nearby search for what you do",
+      "Other businesses show up above you because their profiles are complete",
+      "You've got no reviews, no photos and no posts, so Google has little to go on",
     ],
-    solutionHeadline: "Your business, front and centre on Google",
+    solutionHeadline: "Your profile, done properly.",
     solutionDescription:
-      "We handle everything — from creating your profile to keeping it active with fresh photos, weekly posts, and a review strategy that builds trust. All so you rank higher in local search results across Western Sydney.",
+      "We handle it, from creating the profile to keeping it current with new photos, regular posts and a simple way to ask for reviews. The aim is to show up when people near you search for what you do.",
     features: [
       {
-        title: "Full profile creation",
+        title: "Profile setup",
         description:
-          "We set up your Google Business Profile from scratch with accurate categories, service areas, business hours, and a compelling description that tells Google exactly what you do.",
+          "We set up your profile with the right categories, service areas and hours, and a clear description of what you do.",
       },
       {
-        title: "Complete optimisation",
+        title: "Every field filled in",
         description:
-          "Every field filled, every category selected, every attribute checked. We make sure Google has zero reason to rank your competitors above you.",
+          "Every field, category and attribute that applies to you, done. Google gets the full picture of your business.",
       },
       {
-        title: "Photo management",
+        title: "Photos",
         description:
-          "Regular photo uploads of your work, your team, and your premises. Profiles with photos get 42% more direction requests — we keep yours fresh.",
+          "Photos of your work, your team and your premises, added regularly so the profile looks current.",
       },
       {
-        title: "Review management",
+        title: "Reviews",
         description:
-          "A simple system to get more reviews from happy customers, plus templates for responding to every review professionally. More reviews means higher rankings.",
+          "A simple way to ask happy customers for reviews, plus templates for replying to each one. Reviews help people choose you.",
       },
       {
-        title: "Weekly GBP posts",
+        title: "Google posts",
         description:
-          "Google Business posts keep your profile active and give Google a reason to rank you. We write and publish them weekly so your profile never goes stale.",
+          "Short updates on your profile: new work, offers, news. We write and publish them so the profile doesn't go stale.",
       },
       {
-        title: "Insights and reporting",
+        title: "Plain reports",
         description:
-          "Monthly reports showing how many people found you, called you, and got directions to your business. Real numbers, not vanity metrics.",
+          "How people found you, how many called and how many asked for directions, taken from Google's own figures. No vanity metrics.",
       },
     ],
     steps: [
       {
-        title: "We audit or create your profile",
+        title: "We check or create your profile",
         description:
-          "Already have a GBP? We'll audit it and fix everything. Don't have one? We'll create and verify it for you — usually takes a few days.",
+          "Already have one? We go through it and fix what's wrong. Don't have one? We create it and take you through Google's verification.",
       },
       {
-        title: "Full optimisation",
+        title: "We fill it in properly",
         description:
-          "We fill every field, upload photos, write your business description, set your service areas across Western Sydney, and publish your first posts.",
+          "Every field, your photos, your description, your service areas and your first posts.",
       },
       {
-        title: "Ongoing management",
+        title: "We keep it current",
         description:
-          "Weekly posts, regular photo updates, review monitoring, and monthly performance reports. Your profile stays active and keeps climbing the rankings.",
+          "Regular posts, new photos, an eye on your reviews and a plain report on how it's going.",
       },
     ],
     faqs: [
       {
         q: "Is Google Business Profile free?",
-        a: "The profile itself is completely free from Google. What you're paying for is the expertise to set it up properly, optimise it so you actually rank, and manage it on an ongoing basis so it keeps working for you.",
+        a: "Yes. The profile is free from Google. What you pay us for is setting it up properly and keeping it current, so it keeps working for you.",
       },
       {
         q: "How long before I start showing up on Maps?",
-        a: "Most businesses start appearing within 1-2 weeks of verification. Ranking in the top 3 of the Map Pack depends on competition in your area, but we typically see strong improvements within the first month for Western Sydney suburbs.",
+        a: "Google has to verify the profile first, and that runs on Google's timing. After that, where you show up depends on how many businesses near you do the same thing. We don't promise a position. We set it up properly and keep it current.",
       },
       {
         q: "I already have a Google Business Profile. Can you improve it?",
-        a: "That's actually most of our clients. We'll audit your existing profile, fix any issues, fill the gaps, and implement an ongoing management strategy. Most see a noticeable jump in visibility within the first few weeks.",
+        a: "Yes, and that's common. We go through your profile, fix what's wrong, fill the gaps and keep it current from there.",
       },
       {
         q: "Do I need a physical shop or office address?",
-        a: "No. If you're a service-area business — like a tradie, cleaner, or mobile mechanic — you can hide your address and just list the suburbs you serve. We'll set this up correctly so you still show up in local results.",
+        a: "No. If you go to your customers, like a tradie, cleaner or mobile mechanic, you can hide your address and list the areas you serve. We'll set that up so you still show up in local results.",
       },
     ],
     relatedSlugs: ["local-seo", "web-design", "social-media-management"],
   },
   {
     slug: "local-seo",
-    metaTitle: "Local SEO Services for Western Sydney Small Businesses | Dorza",
+    metaTitle: "Local SEO for small businesses",
     metaDescription:
-      "Get found on Google by Western Sydney locals. On-page SEO, Google Business Profile, local citations, review strategy, and suburb-targeted content.",
+      "Get found on Google by people near you. Dorza handles on-page SEO, your Google Business Profile, directory listings, reviews and pages for the areas you serve.",
     eyebrow: "// Local SEO",
-    title: "Get found on Google by the people who matter most — locals",
+    title: "Get found by people near you.",
     description:
-      "You don't need to rank globally. You need to rank in Parramatta, Blacktown, Penrith, and the suburbs where your customers actually live. We make that happen with local SEO built specifically for Western Sydney businesses.",
-    problemHeadline: "Your competitors are getting all the Google traffic",
+      "You don't need to rank everywhere. You need to show up where your customers live and work. That's what local SEO is for, and it's what we work on.",
+    problemHeadline: "The business down the road shows up first.",
     problemDescription:
-      "When someone searches 'electrician Blacktown' or 'cafe near Parramatta', your competitors show up and you don't. It's not because they're better at what they do — it's because they've invested in local SEO and you haven't.",
+      "Someone searches 'electrician [your suburb]' or 'cafe near me', and another business comes up instead of you. Usually not because they're better at the job. They've put work into local SEO and you haven't yet.",
     problemPoints: [
-      "You're not ranking for '[your service] + [your suburb]' searches",
-      "Your competitors appear above you in Google and on Maps — every single time",
-      "You've got no strategy for getting reviews, building citations, or targeting local keywords",
-      "You're relying on word of mouth and hoping for the best while leads go elsewhere",
+      "You don't show up for '[your service] + [your suburb]' searches",
+      "Other businesses appear above you in Google and on Maps",
+      "You've got no plan for reviews, directory listings or the searches people near you make",
+      "You're relying on word of mouth while enquiries go elsewhere",
     ],
-    solutionHeadline: "Rank where it matters — your backyard",
+    solutionHeadline: "Rank where your customers are.",
     solutionDescription:
-      "We build a local SEO strategy tailored to your business and your suburbs. On-page optimisation, Google Business Profile, local citations, review management, and suburb-targeted content — everything you need to outrank the competition in Western Sydney.",
+      "We put together a local SEO plan for your business and the areas you serve. It covers your website, your Google Business Profile, directory listings, reviews and pages for each area, all aimed at the searches people near you are making.",
     features: [
       {
-        title: "On-page SEO optimisation",
+        title: "On-page SEO",
         description:
-          "We optimise your website's titles, descriptions, headings, and content to target the local searches your customers are actually making. Proper technical foundations, not keyword stuffing.",
+          "We set up your titles, descriptions, headings and content around the searches your customers actually make. Proper foundations, not keyword stuffing.",
       },
       {
         title: "Google Business Profile",
         description:
-          "Full setup and ongoing management of your GBP — the single most important factor for showing up in the Map Pack when locals search for what you do.",
+          "We set up and look after your profile. It's what puts you on the map when people nearby search for what you do.",
       },
       {
-        title: "Local citation building",
+        title: "Directory listings",
         description:
-          "We list your business on the directories that actually matter — Yellow Pages, True Local, Yelp, and industry-specific sites. Consistent name, address, and phone number everywhere.",
+          "We list your business on directories like Yellow Pages, True Local, Yelp and the ones for your trade, with the same name, address and phone number everywhere.",
       },
       {
-        title: "Review strategy",
+        title: "Reviews",
         description:
-          "A system to get more five-star reviews from your happy customers. We give you the tools and templates — you just have to ask. More reviews means more trust and higher rankings.",
+          "A simple way to ask happy customers for reviews. We give you the templates, you send them. Reviews help people pick you.",
       },
       {
-        title: "Suburb-targeted content",
+        title: "Pages for your areas",
         description:
-          "Landing pages and content that target the specific suburbs you serve across Western Sydney. 'Plumber Penrith' and 'plumber Castle Hill' are different searches — we cover them all.",
+          "A page for each area you serve. 'Plumber [your suburb]' and 'plumber near me' are different searches, so we write for both.",
       },
       {
-        title: "Monthly reporting",
+        title: "Plain reports",
         description:
-          "Clear, jargon-free monthly reports showing your rankings, traffic, and enquiries. You'll know exactly what's working and what we're doing about the rest.",
+          "Plain-English reports on where you rank, your traffic and your enquiries. You'll know what's working and what we're doing about the rest.",
       },
     ],
     steps: [
       {
-        title: "SEO audit and keyword research",
+        title: "We check where you stand",
         description:
-          "We audit your current online presence and identify the exact local searches you should be ranking for. No guesswork — just data.",
+          "We look at your site, your Google profile and the local searches you should be showing up for. Then we work from what we find, not guesswork.",
       },
       {
-        title: "Optimise and build",
+        title: "We fix and build",
         description:
-          "We fix your website's SEO foundations, set up or optimise your Google Business Profile, build citations, and create suburb-targeted content.",
+          "We fix your site's SEO foundations, set up your Google Business Profile, list you on directories and write pages for your areas.",
       },
       {
-        title: "Track, report, improve",
+        title: "We track and keep going",
         description:
-          "Monthly performance reviews, ranking tracking, and ongoing improvements. Local SEO is a long game — we keep pushing until you're at the top and then we keep you there.",
+          "We track your rankings, report back and keep improving. Local SEO takes time, so we stay on it.",
       },
     ],
     faqs: [
       {
         q: "How long does local SEO take to show results?",
-        a: "You'll start seeing movement within 4-6 weeks, with meaningful ranking improvements by month 3. Local SEO in Western Sydney is less competitive than inner-city, so results tend to come faster — but it depends on your industry and how much ground you need to cover.",
+        a: "It takes time, and how long depends on your trade, your area and how much ground there is to make up. We'll tell you what we're seeing as it happens, in plain English.",
       },
       {
         q: "What's the difference between local SEO and regular SEO?",
-        a: "Regular SEO tries to rank you nationally or globally. Local SEO focuses specifically on geographic searches — the 'near me' and suburb-specific queries that your actual customers are typing. For most small businesses in Western Sydney, local SEO is the only SEO that matters.",
+        a: "Regular SEO tries to rank you everywhere. Local SEO is about searches tied to a place, like 'near me' and '[service] [suburb]'. If your customers come from your area, that's the SEO that matters.",
       },
       {
         q: "Do I need a website before starting local SEO?",
-        a: "It helps a lot, but we can start with just your Google Business Profile and local citations. That said, a proper website gives Google a lot more to work with. We can build one for you as part of a combined package — most clients do both.",
+        a: "It helps a lot, but we can start with your Google Business Profile and directory listings. A proper website gives Google much more to work with, and we can build one for you at the same time.",
       },
       {
         q: "Can you guarantee first-page rankings?",
-        a: "No one can guarantee specific rankings — and anyone who does is either lying or using tactics that'll get you penalised. What we can guarantee is that we'll implement best-practice local SEO, track your progress monthly, and keep improving until you're ranking where you should be.",
+        a: "No. Google decides rankings, so we don't guarantee them. What we do: set up the foundations properly, track where you stand, keep working on it and tell you plainly how it's going.",
       },
     ],
     relatedSlugs: ["google-business-profile", "web-design", "social-media-management"],
@@ -401,5 +401,5 @@ export function getServiceBySlug(slug: string): ServicePage | undefined {
 export function getRelatedServices(slugs: string[]): ServicePage[] {
   return slugs
     .map((slug) => SERVICES.find((s) => s.slug === slug))
-    .filter((s): s is ServicePage => s !== undefined);
+    .filter((s): s is ServicePage => typeof s === "object");
 }

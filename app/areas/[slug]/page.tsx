@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
-import { MapPin, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 import { AREAS, getAreaBySlug, getNearbySlugs } from "@/lib/data/areas";
 import { SITE_URL, SERVICE_PAGES, PHONE_TEL, CONTACT_EMAIL } from "@/lib/seo";
@@ -11,6 +11,7 @@ import PageCTA from "@/components/sections/PageCTA";
 import Footer from "@/components/sections/Footer";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/motion/Reveal";
+import { PlusList } from "@/components/ui/PlusList";
 
 /* ------------------------------------------------------------------ */
 /*  Static params                                                      */
@@ -149,7 +150,7 @@ export default async function AreaPage({
 
       <Nav />
 
-      <main>
+      <main id="main">
         {/* Hero */}
         <InnerHero
           eyebrow={area.eyebrow}
@@ -158,67 +159,46 @@ export default async function AreaPage({
           breadcrumbs={breadcrumbs}
         />
 
-        {/* Local Context */}
-        <section className="py-20 md:py-[7.5rem] bg-warm">
+        {/* Local context */}
+        <section className="bg-paper py-section-tight md:py-section">
           <Container>
             <Reveal>
-              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-5">
-                {"// Local insight"}
-              </p>
-              <h2 className="font-display text-[36px] md:text-[52px] leading-[1.02] tracking-[-0.025em] text-dark max-w-2xl">
+              <h2 className="d-heading max-w-2xl">
                 {area.isHub
-                  ? "The opportunity in Western Sydney"
-                  : `Why ${area.name} businesses need to be online`}
+                  ? "The opportunity in Western Sydney."
+                  : `Why ${area.name} businesses need to be online.`}
               </h2>
+              <p className="d-lede mt-6 max-w-text">{area.localContext}</p>
             </Reveal>
-            <Reveal delay={0.1}>
-              <p className="mt-8 text-[17px] leading-relaxed text-text-secondary max-w-2xl">
-                {area.localContext}
-              </p>
-            </Reveal>
-            <Reveal delay={0.2} as="ul" className="mt-10 space-y-4 max-w-2xl">
-              {area.localPoints.map((point) => (
-                <li key={point} className="flex items-start gap-3">
-                  <MapPin
-                    size={18}
-                    className="mt-0.5 shrink-0 text-accent"
-                    aria-hidden
-                  />
-                  <span className="text-[15px] leading-relaxed text-text-secondary">
-                    {point}
-                  </span>
-                </li>
-              ))}
+            <Reveal delay={0.1} className="mt-10 max-w-text">
+              <PlusList items={area.localPoints} />
             </Reveal>
           </Container>
         </section>
 
-        {/* Services Available */}
-        <section className="py-20 md:py-[7.5rem] bg-white">
+        {/* Services available */}
+        <section className="bg-haze py-section-tight md:py-section">
           <Container>
             <Reveal>
-              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-5">
-                {"// What we do"}
-              </p>
-              <h2 className="font-display text-[36px] md:text-[52px] leading-[1.02] tracking-[-0.025em] text-dark max-w-2xl">
+              <h2 className="d-heading max-w-2xl">
                 {area.isHub
-                  ? "Services for Western Sydney businesses"
-                  : `Services available in ${area.name}`}
+                  ? "Services for Western Sydney businesses."
+                  : `Services available in ${area.name}.`}
               </h2>
             </Reveal>
-            <Reveal stagger className="mt-12 grid md:grid-cols-2 gap-5">
+            <Reveal stagger={0.045} className="mt-10 grid gap-x-12 md:grid-cols-2">
               {SERVICE_PAGES.map((service) => (
                 <a
                   key={service.slug}
                   href={`/services/${service.slug}`}
-                  className="group bg-white border border-border rounded-card p-6 hover:shadow-medium hover:-translate-y-1 transition-all duration-500 ease-dorza flex items-center justify-between"
+                  className="group flex items-center justify-between border-t border-rule py-5 transition-colors duration-fast ease-dorza"
                 >
-                  <span className="text-[17px] font-semibold text-dark group-hover:text-primary transition-colors duration-300">
+                  <span className="font-body text-[17px] font-semibold text-ink transition-colors duration-fast ease-dorza group-hover:text-pine">
                     {service.name}
                   </span>
                   <ArrowRight
                     size={18}
-                    className="text-text-muted group-hover:text-primary group-hover:translate-x-1 transition-all duration-300 ease-dorza"
+                    className="text-ink-mute transition-transform duration-fast ease-dorza group-hover:translate-x-1 group-hover:text-pine"
                     aria-hidden
                   />
                 </a>
@@ -227,68 +207,50 @@ export default async function AreaPage({
           </Container>
         </section>
 
-        {/* Business Types */}
-        <section className="py-20 md:py-[7.5rem] bg-warm">
+        {/* Business types */}
+        <section className="bg-chalk py-section-tight md:py-section">
           <Container>
             <Reveal>
-              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-5">
-                {"// Who we help"}
-              </p>
-              <h2 className="font-display text-[36px] md:text-[52px] leading-[1.02] tracking-[-0.025em] text-dark max-w-2xl">
+              <h2 className="d-heading max-w-2xl">
                 {area.isHub
-                  ? "Business types across Western Sydney"
-                  : `Business types we serve in ${area.name}`}
+                  ? "Business types across Western Sydney."
+                  : `Business types we serve in ${area.name}.`}
               </h2>
             </Reveal>
             <Reveal delay={0.1}>
-              <div className="mt-10 flex flex-wrap gap-3">
+              <ul className="m-0 mt-10 grid list-none gap-x-12 p-0 sm:grid-cols-2 lg:grid-cols-3">
                 {area.businessTypes.map((type) => (
-                  <span
-                    key={type}
-                    className="inline-flex items-center h-9 px-4 rounded-full bg-white border border-border text-[14px] font-medium text-dark"
-                  >
+                  <li key={type} className="d-body border-t border-rule-soft py-4 text-ink">
                     {type}
-                  </span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </Reveal>
           </Container>
         </section>
 
-        {/* Nearby Areas */}
+        {/* Nearby areas */}
         {nearbyAreas.length > 0 && (
-          <section className="py-20 md:py-[7.5rem] bg-white">
+          <section className="bg-paper py-section-tight md:py-section">
             <Container>
               <Reveal>
-                <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-5">
-                  {area.isHub ? "// Areas we serve" : "// Nearby areas"}
-                </p>
-                <h2 className="font-display text-[36px] md:text-[52px] leading-[1.02] tracking-[-0.025em] text-dark max-w-2xl">
+                <h2 className="d-heading max-w-2xl">
                   {area.isHub
-                    ? "Suburbs across Western Sydney"
-                    : `Areas near ${area.name}`}
+                    ? "Suburbs across Western Sydney."
+                    : `Areas near ${area.name}.`}
                 </h2>
               </Reveal>
-              <Reveal stagger className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              <Reveal stagger={0.045} className="mt-10 grid gap-x-12 sm:grid-cols-2 lg:grid-cols-3">
                 {nearbyAreas.map((nearby) => (
                   <a
                     key={nearby.slug}
                     href={`/areas/${nearby.slug}`}
-                    className="group bg-white border border-border rounded-card p-6 hover:shadow-medium hover:-translate-y-1 transition-all duration-500 ease-dorza"
+                    className="group flex items-baseline justify-between gap-4 border-t border-rule py-5"
                   >
-                    <div className="flex items-center gap-3 mb-2">
-                      <MapPin
-                        size={18}
-                        className="text-accent group-hover:text-primary transition-colors duration-300"
-                        aria-hidden
-                      />
-                      <span className="text-[17px] font-semibold text-dark group-hover:text-primary transition-colors duration-300">
-                        {nearby.name}
-                      </span>
-                    </div>
-                    <p className="text-[13px] font-mono text-text-muted">
-                      {nearby.postcode}
-                    </p>
+                    <span className="font-body text-[17px] font-semibold text-ink transition-colors duration-fast ease-dorza group-hover:text-pine">
+                      {nearby.name}
+                    </span>
+                    <span className="d-mono text-ink-mute">{nearby.postcode}</span>
                   </a>
                 ))}
               </Reveal>

@@ -5,7 +5,9 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { X } from "lucide-react";
 import { DORZA_EASE } from "@/components/motion/Reveal";
 import EnquiryFormFields from "@/components/forms/EnquiryFormFields";
+import { buttonClasses } from "@/components/ui/buttonClasses";
 import { useEnquirySubmit } from "@/lib/useEnquirySubmit";
+import { CTA_LABEL } from "@/lib/site";
 import type { EnquiryFormData } from "@/lib/types";
 
 const initialForm: EnquiryFormData = {
@@ -107,18 +109,19 @@ export default function EnquiryModal({ open, onClose }: Props) {
       {open && (
         <motion.div
           key="enquiry-modal"
-          className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center px-0 sm:px-5 py-0 sm:py-8"
-          initial={shouldReduce ? { opacity: 0 } : { opacity: 0 }}
+          className="fixed inset-0 z-[60] flex items-end justify-center px-0 py-0 sm:items-center sm:px-5 sm:py-8"
+          initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.3, ease: DORZA_EASE }}
+          transition={{ duration: 0.28, ease: DORZA_EASE }}
         >
-          {/* Backdrop */}
+          {/* Scrim */}
           <button
             type="button"
             aria-label="Close enquiry form"
+            tabIndex={-1}
             onClick={handleClose}
-            className="absolute inset-0 bg-dark/50 backdrop-blur-sm"
+            className="absolute inset-0 bg-forest/55"
           />
 
           <motion.div
@@ -126,60 +129,51 @@ export default function EnquiryModal({ open, onClose }: Props) {
             role="dialog"
             aria-modal="true"
             aria-labelledby="enquiry-modal-title"
-            className="relative w-full sm:max-w-lg max-h-[92vh] overflow-y-auto bg-white rounded-t-card sm:rounded-card border border-border shadow-medium"
-            initial={shouldReduce ? { opacity: 0 } : { y: 24, opacity: 0, scale: 0.98 }}
-            animate={shouldReduce ? { opacity: 1 } : { y: 0, opacity: 1, scale: 1 }}
-            exit={shouldReduce ? { opacity: 0 } : { y: 16, opacity: 0, scale: 0.98 }}
-            transition={{ duration: 0.4, ease: DORZA_EASE }}
+            className="relative max-h-[92vh] w-full overflow-y-auto rounded-t-card border border-rule-soft bg-paper shadow-modal sm:max-w-lg sm:rounded-card"
+            initial={shouldReduce ? { opacity: 0 } : { y: 20, opacity: 0 }}
+            animate={shouldReduce ? { opacity: 1 } : { y: 0, opacity: 1 }}
+            exit={shouldReduce ? { opacity: 0 } : { y: 12, opacity: 0 }}
+            transition={{ duration: 0.28, ease: DORZA_EASE }}
           >
             <button
               type="button"
               onClick={handleClose}
               aria-label="Close"
-              className="absolute top-4 right-4 h-9 w-9 inline-flex items-center justify-center rounded-full text-text-muted hover:text-dark hover:bg-surface transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-primary"
+              className="absolute right-3 top-3 inline-flex h-11 w-11 items-center justify-center text-ink-mute transition-colors duration-fast ease-dorza hover:text-forest"
             >
-              <X size={18} />
+              <X size={18} strokeWidth={1.75} />
             </button>
 
-            <div className="px-6 sm:px-8 pt-8 pb-6 border-b border-border">
-              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-3">
-                {"// Get in touch"}
-              </p>
-              <h2 id="enquiry-modal-title" className="font-display text-[28px] sm:text-[34px] leading-[1.05] tracking-[-0.02em] text-dark">
-                Tell us about your business
+            <div className="px-6 pb-6 pt-10 sm:px-10">
+              <h2
+                id="enquiry-modal-title"
+                className="pr-10 font-display text-[30px] font-medium leading-[1.06] tracking-[-0.014em] text-pine"
+              >
+                Tell us about your business.
               </h2>
-              <p className="mt-2 text-[14px] text-text-secondary leading-relaxed">
-                A real Sydney human will reach out within 72 hours. No spam,
-                no lock-in.
+              <p className="d-body mt-3">
+                You&rsquo;ll hear back with a plan and a price within 72 hours. No spam, no lock-in.
               </p>
             </div>
 
-            <div className="px-6 sm:px-8 py-6">
+            <div className="px-6 pb-8 sm:px-10 sm:pb-10">
               <AnimatePresence mode="wait">
                 {submitted ? (
                   <motion.div
                     key="confirmation"
-                    initial={{ opacity: 0, scale: 0.96 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.4, ease: DORZA_EASE }}
-                    className="text-center py-6"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.28, ease: DORZA_EASE }}
+                    className="border-t border-rule-soft pt-6"
                   >
-                    <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-3">
-                      Enquiry received
-                    </p>
-                    <h3 className="font-body font-semibold text-[22px] tracking-[-0.02em] text-dark mb-2">
-                      Thanks &mdash; we&rsquo;ve got it
-                    </h3>
-                    <p className="text-text-secondary text-[14px] leading-relaxed">
-                      We&rsquo;ll be in touch within 72 hours.
-                    </p>
-                    <button
-                      type="button"
-                      onClick={handleClose}
-                      className="mt-6 inline-flex items-center justify-center h-11 px-6 bg-white border border-border text-dark font-semibold text-sm rounded-full hover:bg-surface hover:border-[#E5DFD6] transition-all duration-300"
-                    >
-                      Close
-                    </button>
+                    <p className="d-label">Got it</p>
+                    <h3 className="d-heading mt-3">Thanks. We&rsquo;ve got your details.</h3>
+                    <p className="d-body mt-2">You&rsquo;ll hear from us within 72 hours.</p>
+                    <div className="mt-6 flex justify-end">
+                      <button type="button" onClick={handleClose} className={buttonClasses("secondary", "default")}>
+                        Close
+                      </button>
+                    </div>
                   </motion.div>
                 ) : (
                   <motion.form
@@ -187,30 +181,24 @@ export default function EnquiryModal({ open, onClose }: Props) {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3, ease: DORZA_EASE }}
+                    transition={{ duration: 0.16, ease: DORZA_EASE }}
                     onSubmit={handleSubmit}
-                    className="space-y-3 relative"
+                    className="relative space-y-3"
                   >
-                    <EnquiryFormFields
-                      theme="light"
-                      value={form}
-                      onChange={setForm}
-                      showMessage
-                    />
-                    <div className="pt-2">
-                      <button
-                        type="submit"
-                        disabled={submitting}
-                        className="w-full h-12 bg-primary hover:bg-primary-dark text-white font-semibold text-sm rounded-full transition-all duration-300 ease-dorza hover:-translate-y-px hover:shadow-medium disabled:opacity-60 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-                      >
-                        {submitting ? "Sending…" : "Send enquiry →"}
-                      </button>
-                    </div>
+                    <EnquiryFormFields theme="light" value={form} onChange={setForm} showMessage />
                     {error && (
-                      <p role="alert" className="text-center text-[13px] text-primary-dark font-body pt-1">
+                      <p role="alert" className="pt-1 font-body text-[13px] text-claret">
                         {error}
                       </p>
                     )}
+                    <div className="mt-6 flex flex-col-reverse gap-3 border-t border-rule-soft pt-6 sm:flex-row sm:justify-end">
+                      <button type="button" onClick={handleClose} className={buttonClasses("ghost", "default")}>
+                        Cancel
+                      </button>
+                      <button type="submit" disabled={submitting} className={buttonClasses("primary", "default")}>
+                        {submitting ? "Sending…" : CTA_LABEL}
+                      </button>
+                    </div>
                   </motion.form>
                 )}
               </AnimatePresence>

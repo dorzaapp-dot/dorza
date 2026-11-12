@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Check, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 import Nav from "@/components/sections/Nav";
@@ -76,7 +76,7 @@ export default function ServicePage({
       {
         "@type": "ListItem",
         position: 3,
-        name: service.title,
+        name: service.title.replace(/\.$/, ""),
         item: `${SITE_URL}/services/${service.slug}`,
       },
     ],
@@ -113,189 +113,139 @@ export default function ServicePage({
 
       <Nav />
 
-      {/* hero */}
-      <InnerHero
-        eyebrow={service.eyebrow}
-        title={service.title}
-        description={service.description}
-        breadcrumbs={[
-          { label: "Services", href: "/services/web-design" },
-          { label: service.title, href: `/services/${service.slug}` },
-        ]}
-      />
+      <main id="main">
+        <InnerHero
+          eyebrow={service.eyebrow}
+          title={service.title}
+          description={service.description}
+          breadcrumbs={[
+            { label: "Services", href: "/services/web-design" },
+            { label: service.title.replace(/\.$/, ""), href: `/services/${service.slug}` },
+          ]}
+        />
 
-      {/* problem section */}
-      <section className="py-20 md:py-[7.5rem] bg-warm">
-        <Container>
-          <Reveal>
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-5">
-              {"// The problem"}
-            </p>
-            <h2 className="font-display text-[36px] md:text-[52px] leading-[1.02] tracking-[-0.025em] text-dark max-w-3xl">
-              {service.problemHeadline}
-            </h2>
-            <p className="mt-6 text-[17px] leading-relaxed text-text-secondary max-w-2xl">
-              {service.problemDescription}
-            </p>
-          </Reveal>
-
-          <Reveal delay={0.15}>
-            <ul className="mt-10 grid gap-4 max-w-2xl">
-              {service.problemPoints.map((point) => (
-                <li key={point} className="flex items-start gap-3">
-                  <span
-                    aria-hidden
-                    className="mt-[9px] block h-1.5 w-1.5 shrink-0 rounded-full bg-primary/60"
-                  />
-                  <span className="text-[15px] leading-relaxed text-text-secondary">
-                    {point}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </Reveal>
-        </Container>
-      </section>
-
-      {/* solution + features */}
-      <section className="py-20 md:py-[7.5rem] bg-white">
-        <Container>
-          <Reveal>
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-5">
-              {"// How we solve it"}
-            </p>
-            <h2 className="font-display text-[36px] md:text-[52px] leading-[1.02] tracking-[-0.025em] text-dark max-w-3xl">
-              {service.solutionHeadline}
-            </h2>
-            <p className="mt-6 text-[17px] leading-relaxed text-text-secondary max-w-2xl">
-              {service.solutionDescription}
-            </p>
-          </Reveal>
-
-          <Reveal stagger className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {service.features.map((feature) => (
-              <div
-                key={feature.title}
-                className="bg-white border border-border rounded-card p-6 hover:shadow-medium hover:-translate-y-1 transition-all duration-500 ease-dorza"
-              >
-                <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-full bg-accent/10">
-                  <Check size={18} className="text-accent" />
-                </div>
-                <h3 className="font-semibold text-dark text-[15px] mb-2">
-                  {feature.title}
-                </h3>
-                <p className="text-[14px] leading-relaxed text-text-secondary">
-                  {feature.description}
-                </p>
-              </div>
-            ))}
-          </Reveal>
-        </Container>
-      </section>
-
-      {/* how it works */}
-      <section className="py-20 md:py-[7.5rem] bg-warm">
-        <Container>
-          <Reveal>
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-5">
-              {"// How it works"}
-            </p>
-            <h2 className="font-display text-[36px] md:text-[52px] leading-[1.02] tracking-[-0.025em] text-dark">
-              Three steps. That&apos;s it.
-            </h2>
-          </Reveal>
-
-          <Reveal stagger className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {service.steps.map((step, i) => (
-              <div key={step.title} className="relative">
-                <span className="font-display text-[64px] leading-none text-primary/10 select-none">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h3 className="mt-2 font-semibold text-dark text-[17px]">
-                  {step.title}
-                </h3>
-                <p className="mt-2 text-[14px] leading-relaxed text-text-secondary">
-                  {step.description}
-                </p>
-              </div>
-            ))}
-          </Reveal>
-        </Container>
-      </section>
-
-      {/* FAQ */}
-      <section className="py-20 md:py-[7.5rem] bg-white">
-        <Container>
-          <Reveal>
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-5">
-              {"// FAQ"}
-            </p>
-            <h2 className="font-display text-[36px] md:text-[52px] leading-[1.02] tracking-[-0.025em] text-dark">
-              Common questions
-            </h2>
-          </Reveal>
-
-          <div className="mt-12 max-w-2xl divide-y divide-border">
-            {service.faqs.map((faq, i) => (
-              <Reveal key={faq.q} delay={i * 0.08}>
-                <div className="py-8 first:pt-0 last:pb-0">
-                  <h3 className="font-semibold text-dark text-[16px]">
-                    {faq.q}
-                  </h3>
-                  <p className="mt-3 text-[15px] leading-relaxed text-text-secondary">
-                    {faq.a}
-                  </p>
-                </div>
+        {/* problem */}
+        <section className="bg-paper py-section-tight md:py-section">
+          <Container>
+            <div className="grid gap-10 md:grid-cols-12 md:gap-x-8">
+              <Reveal className="md:col-span-6">
+                <h2 className="d-heading">{service.problemHeadline}</h2>
+                <p className="d-lede mt-5 max-w-text">{service.problemDescription}</p>
               </Reveal>
-            ))}
-          </div>
-        </Container>
-      </section>
 
-      {/* related services */}
-      {related.length > 0 && (
-        <section className="py-20 md:py-[7.5rem] bg-warm">
+              <Reveal delay={0.09} className="md:col-span-6">
+                <ul className="m-0 list-none p-0">
+                  {service.problemPoints.map((point) => (
+                    <li key={point} className="d-body border-t border-rule-soft py-4 last:border-b">
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+            </div>
+          </Container>
+        </section>
+
+        {/* solution and features */}
+        <section className="bg-chalk py-section-tight md:py-section">
+          <Container>
+            <div className="grid gap-10 md:grid-cols-12 md:gap-x-8">
+              <Reveal className="md:col-span-5">
+                <h2 className="d-heading">{service.solutionHeadline}</h2>
+                <p className="d-body mt-5">{service.solutionDescription}</p>
+              </Reveal>
+
+              <Reveal delay={0.09} className="md:col-span-7">
+                <ul className="m-0 list-none p-0">
+                  {service.features.map((feature) => (
+                    <li key={feature.title} className="border-t border-rule-soft py-5 last:border-b">
+                      <h3 className="font-body text-[17px] font-semibold text-ink">{feature.title}</h3>
+                      <p className="d-body mt-2">{feature.description}</p>
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+            </div>
+          </Container>
+        </section>
+
+        {/* how it works */}
+        <section className="bg-haze py-section-tight md:py-section">
           <Container>
             <Reveal>
-              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-5">
-                {"// Related services"}
-              </p>
-              <h2 className="font-display text-[36px] md:text-[52px] leading-[1.02] tracking-[-0.025em] text-dark">
-                You might also need
-              </h2>
+              <h2 className="d-heading">Three steps.</h2>
             </Reveal>
 
-            <Reveal stagger className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {related.map((rel) => (
-                <Link
-                  key={rel.slug}
-                  href={`/services/${rel.slug}`}
-                  className="group bg-white border border-border rounded-card p-6 hover:shadow-medium hover:-translate-y-1 transition-all duration-500 ease-dorza block"
-                >
-                  <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-accent mb-3">
-                    {rel.eyebrow}
-                  </p>
-                  <h3 className="font-semibold text-dark text-[17px] mb-2">
-                    {rel.title}
-                  </h3>
-                  <p className="text-[14px] leading-relaxed text-text-secondary line-clamp-2 mb-4">
-                    {rel.description}
-                  </p>
-                  <span className="inline-flex items-center text-sm font-semibold text-primary group-hover:gap-2 gap-1.5 transition-all duration-300 ease-dorza">
-                    {`Explore ${rel.title}`}
-                    <ArrowRight
-                      size={14}
-                      className="transition-transform duration-300 ease-dorza group-hover:translate-x-1"
-                    />
-                  </span>
-                </Link>
+            <Reveal stagger={0.045} className="mt-10 grid gap-y-8 md:grid-cols-3 md:gap-x-8">
+              {service.steps.map((step, i) => (
+                <div key={step.title} className="border-t border-rule pt-5 md:border-l md:border-t-0 md:pl-6 md:pt-0">
+                  <p className="d-mono text-pine">{i + 1}</p>
+                  <h3 className="mt-3 font-body text-[17px] font-semibold text-ink">{step.title}</h3>
+                  <p className="d-body mt-2">{step.description}</p>
+                </div>
               ))}
             </Reveal>
           </Container>
         </section>
-      )}
 
-      <PageCTA />
+        {/* FAQ */}
+        <section className="bg-chalk py-section-tight md:py-section">
+          <Container>
+            <div className="grid gap-10 md:grid-cols-12 md:gap-x-8">
+              <Reveal className="md:col-span-4">
+                <h2 className="d-heading">Common questions.</h2>
+              </Reveal>
+
+              <Reveal delay={0.09} className="md:col-span-7 md:col-start-6">
+                <ul className="m-0 list-none p-0">
+                  {service.faqs.map((faq) => (
+                    <li key={faq.q} className="border-t border-rule-soft py-6 last:border-b">
+                      <h3 className="font-body text-[17px] font-semibold text-ink">{faq.q}</h3>
+                      <p className="d-body mt-3">{faq.a}</p>
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+            </div>
+          </Container>
+        </section>
+
+        {/* related services */}
+        {related.length > 0 && (
+          <section className="bg-paper py-section-tight md:py-section">
+            <Container>
+              <div className="grid gap-10 md:grid-cols-12 md:gap-x-8">
+                <Reveal className="md:col-span-4">
+                  <h2 className="d-heading">You might also need.</h2>
+                </Reveal>
+
+                <Reveal delay={0.09} className="md:col-span-7 md:col-start-6">
+                  <ul className="m-0 list-none p-0">
+                    {related.map((rel) => (
+                      <li key={rel.slug} className="border-t border-rule-soft last:border-b">
+                        <Link href={`/services/${rel.slug}`} className="group block py-5">
+                          <h3 className="font-body text-[17px] font-semibold text-ink">{rel.title}</h3>
+                          <p className="d-body mt-2 line-clamp-2">{rel.description}</p>
+                          <span className="d-link mt-3 inline-flex items-center gap-1.5 text-[14px]">
+                            More on this service
+                            <ArrowRight
+                              size={14}
+                              aria-hidden
+                              className="transition-transform duration-fast ease-dorza group-hover:translate-x-1"
+                            />
+                          </span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </Reveal>
+              </div>
+            </Container>
+          </section>
+        )}
+
+        <PageCTA />
+      </main>
       <Footer />
     </>
   );

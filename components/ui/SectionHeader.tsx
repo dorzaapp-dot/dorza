@@ -34,7 +34,7 @@ export function SectionHeader({
       <h2
         className={cn(
           "font-display text-[36px] md:text-[52px] leading-[1.05] tracking-[-0.025em]",
-          light ? "text-white" : "text-dark",
+          light ? "text-chalk" : "text-pine",
           align === "center" && "mx-auto max-w-2xl"
         )}
       >
@@ -44,7 +44,7 @@ export function SectionHeader({
         <p
           className={cn(
             "mt-4 text-[16px] md:text-[18px] leading-[1.55]",
-            light ? "text-white/70" : "text-text-secondary",
+            light ? "text-chalk/70" : "text-ink-soft",
             align === "center" && "mx-auto max-w-xl"
           )}
         >
