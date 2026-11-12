@@ -7,16 +7,16 @@
 export const ADMIN_EMAIL = "dorza.app@gmail.com";
 
 export type ServiceOption =
-  | "Custom websites"
-  | "Social media management"
-  | "Research & strategy"
-  | "AI assistant"
+  | "Getting started"
+  | "Getting more customers"
+  | "A booking system or dashboard"
+  | "Ongoing support"
   | "Not sure yet";
 
 export const SERVICE_OPTIONS: readonly ServiceOption[] = [
-  "Custom websites",
-  "Social media management",
-  "Research & strategy",
-  "AI assistant",
+  "Getting started",
+  "Getting more customers",
+  "A booking system or dashboard",
+  "Ongoing support",
   "Not sure yet",
 ] as const;
