@@ -1,120 +1,93 @@
 import type { Config } from "tailwindcss";
 
+const forest = "#1E3328";
+const pine = "#3F6B47";
+const moss = "#5C8264";
+const sage = "#8FA890";
+const haze = "#D0DCCF";
+const paper = "#FBFAF5";
+const chalk = "#F3F0E8";
+const stone = "#E5E0D2";
+const linen = "#CFC8B6";
+const claret = "#7C2E3B";
+const ochre = "#C9A24A";
+const ink = "#1B1A14";
+const inkSoft = "#43403A";
+const inkMute = "#807A6D";
+const rule = "#BFB7A4";
+const ruleSoft = "#DCD5C2";
+
 const config: Config = {
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       colors: {
-        primary: {
-          DEFAULT: "#D4845A",
-          light: "#E8A87C",
-          dark: "#B8673F",
-          tint: "#FBEDE3",
-        },
-        accent: {
-          DEFAULT: "#6B8F71",
-          light: "#A4C2A8",
-          dark: "#4A6B4E",
-          tint: "#E8EFE9",
-        },
-        dark: "#1A1A2E",
-        surface: "#F9F7F5",
-        warm: "#FDFAF7",
-        border: "#F0EBE4",
-        "border-strong": "#E5DFD6",
-        "text-primary": "#1A1A2E",
-        "text-secondary": "#555555",
-        "text-muted": "#717171",
-        status: "#24CB71",
+        forest, pine, moss, sage, haze, paper, chalk, stone, linen, claret, ochre,
+        ink: { DEFAULT: ink, soft: inkSoft, mute: inkMute },
+        rule: { DEFAULT: rule, soft: ruleSoft },
+
+        // Legacy aliases. Do not use in new code. They keep onboarding, admin,
+        // upload and the client demos on-brand without touching those files.
+        primary: { DEFAULT: pine, light: sage, dark: forest, tint: haze },
+        accent: { DEFAULT: moss, light: sage, dark: pine, tint: haze },
+        dark: forest,
+        surface: stone,
+        warm: paper,
+        border: ruleSoft,
+        "border-strong": rule,
+        "text-primary": ink,
+        "text-secondary": inkSoft,
+        "text-muted": inkMute,
+        status: pine,
       },
       fontFamily: {
-        display: ["var(--font-display)", "Georgia", "serif"],
-        body: ["var(--font-body)", "system-ui", "sans-serif"],
-        mono: [
-          "ui-monospace",
-          "Cascadia Code",
-          "Source Code Pro",
-          "Menlo",
-          "Consolas",
-          "DejaVu Sans Mono",
-          "monospace",
-        ],
+        display: ["var(--font-display)", "Times New Roman", "serif"],
+        body: ["var(--font-body)"],
+        mono: ["var(--font-mono)"],
       },
       borderRadius: {
-        card: "20px",
+        card: "2px",
+        chip: "3px",
         btn: "999px",
-        sm: "8px",
+        sm: "2px",
       },
       boxShadow: {
-        soft: "0 1px 0 rgba(26, 26, 46, 0.06)",
-        medium: "0 12px 32px rgba(26, 26, 46, 0.08)",
-        card: "0 12px 32px rgba(26, 26, 46, 0.08)",
-        glow: "0 0 80px 20px rgba(212,132,90,0.12), 0 0 160px 60px rgba(107,143,113,0.06)",
-        "glow-sm": "0 0 40px 10px rgba(212,132,90,0.10)",
+        hair: "var(--shadow-hair)",
+        card: "var(--shadow-card)",
+        lift: "var(--shadow-lift)",
+        modal: "var(--shadow-modal)",
+        // Legacy aliases
+        soft: "var(--shadow-hair)",
+        medium: "var(--shadow-card)",
+        glow: "none",
+        "glow-sm": "none",
       },
       maxWidth: {
         layout: "1200px",
+        text: "640px",
+      },
+      spacing: {
+        "section-tight": "56px",
+        section: "96px",
+        "section-large": "128px",
       },
       transitionTimingFunction: {
+        dorza: "cubic-bezier(0.23, 1, 0.32, 1)",
         "out-expo": "cubic-bezier(0.16, 1, 0.3, 1)",
         "out-quart": "cubic-bezier(0.25, 1, 0.5, 1)",
-        dorza: "cubic-bezier(0.23, 1, 0.32, 1)",
       },
-      keyframes: {
-        float: {
-          "0%, 100%": { transform: "translateY(0px)" },
-          "50%": { transform: "translateY(-4px)" },
-        },
-        "marquee-scroll": {
-          "0%": { transform: "translateX(0)" },
-          "100%": { transform: "translateX(-50%)" },
-        },
-        marquee: {
-          "0%": { transform: "translateX(0)" },
-          "100%": { transform: "translateX(-50%)" },
-        },
-        "pulse-ring": {
-          "0%": { boxShadow: "0 0 0 0px rgba(212, 132, 90, 0.4)" },
-          "100%": { boxShadow: "0 0 0 8px rgba(212, 132, 90, 0)" },
-        },
-        "bounce-gentle": {
-          "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(8px)" },
-        },
-        breathe: {
-          "0%, 100%": { transform: "scale(1)", opacity: "0.6" },
-          "50%": { transform: "scale(1.02)", opacity: "1" },
-        },
-        "pulse-subtle": {
-          "0%, 100%": { opacity: "1" },
-          "50%": { opacity: "0.7" },
-        },
-        "marquee-reverse": {
-          "0%": { transform: "translateX(-50%)" },
-          "100%": { transform: "translateX(0)" },
-        },
-      },
-      animation: {
-        float: "float 8s ease-in-out infinite",
-        "float-delay-1": "float 7s ease-in-out 1s infinite",
-        "float-delay-2": "float 9s ease-in-out 2s infinite",
-        "float-delay-3": "float 6s ease-in-out 0.5s infinite",
-        "float-delay-4": "float 8s ease-in-out 3s infinite",
-        "float-delay-5": "float 7s ease-in-out 1.5s infinite",
-        "marquee-scroll": "marquee-scroll 40s linear infinite",
-        marquee: "marquee 30s linear infinite",
-        "pulse-ring": "pulse-ring 0.8s ease-out forwards",
-        "bounce-gentle": "bounce-gentle 2s ease-in-out infinite",
-        breathe: "breathe 4s ease-in-out infinite",
-        "pulse-subtle": "pulse-subtle 2s ease-in-out infinite",
-        "marquee-reverse": "marquee-reverse 40s linear infinite",
+      transitionDuration: {
+        fast: "160ms",
+        base: "280ms",
+        slow: "480ms",
+        reveal: "600ms",
       },
     },
   },
   plugins: [],
 };
+
 export default config;

@@ -1,24 +1,18 @@
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans, Instrument_Serif } from "next/font/google";
+import { Newsreader } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import GrainOverlay from "@/components/ui/GrainOverlay";
 import { faqs } from "@/lib/data/faq";
 
-const jakarta = Plus_Jakarta_Sans({
+const newsreader = Newsreader({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-body",
-  display: "swap",
-  adjustFontFallback: true,
-});
-
-const instrument = Instrument_Serif({
-  weight: "400",
-  subsets: ["latin"],
+  style: ["normal", "italic"],
+  axes: ["opsz"],
   variable: "--font-display",
   display: "swap",
-  adjustFontFallback: true,
 });
 
 const SITE_URL = "https://dorza.com.au";
@@ -190,7 +184,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en-AU" className={`${jakarta.variable} ${instrument.variable}`}>
+    <html lang="en-AU" className={`${newsreader.variable} ${GeistSans.variable} ${GeistMono.variable}`}>
       <head>
         <JsonLd />
       </head>

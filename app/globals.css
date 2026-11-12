@@ -3,73 +3,211 @@
 @tailwind utilities;
 
 :root {
-  --color-primary: #D4845A;
-  --color-primary-light: #E8A87C;
-  --color-primary-dark: #B8673F;
-  --color-primary-tint: #FBEDE3;
-  --color-accent: #6B8F71;
-  --color-accent-light: #A4C2A8;
-  --color-accent-dark: #4A6B4E;
-  --color-accent-tint: #E8EFE9;
-  --color-dark: #1A1A2E;
-  --color-surface: #F9F7F5;
-  --color-warm: #FDFAF7;
-  --color-border: #F0EBE4;
-  --color-border-strong: #E5DFD6;
-  --color-text: #1A1A2E;
-  --color-text-secondary: #555555;
-  --color-text-muted: #717171;
-  --color-status: #24CB71;
+  /* Green: the primary system */
+  --forest: #1E3328;
+  --pine: #3F6B47;
+  --moss: #5C8264;
+  --sage: #8FA890;
+  --haze: #D0DCCF;
 
-  --font-body: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
-  --font-display: "Instrument Serif", Georgia, serif;
-  --font-mono: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+  /* Grounds: warm whites, never pure white */
+  --paper: #FBFAF5;
+  --chalk: #F3F0E8;
+  --stone: #E5E0D2;
+  --linen: #CFC8B6;
 
-  --section-padding-tight: 5rem;
-  --section-padding-default: 7.5rem;
-  --section-padding-large: 10rem;
-  --layout-max-width: 1200px;
-  --layout-gutter: 24px;
-  --bento-gap: 16px;
-  --bento-radius: 20px;
+  /* Accent: one beat per frame */
+  --claret: #7C2E3B;
+  --ochre: #C9A24A;
 
-  --shadow-none: none;
-  --shadow-soft: 0 1px 0 rgba(26, 26, 46, 0.06);
-  --shadow-medium: 0 12px 32px rgba(26, 26, 46, 0.08);
+  /* Ink */
+  --ink: #1B1A14;
+  --ink-soft: #43403A;
+  --ink-mute: #807A6D;
 
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  /* Rules */
+  --rule: #BFB7A4;
+  --rule-soft: #DCD5C2;
+  --rule-fine: rgba(27, 26, 20, 0.10);
+
+  /* Semantic aliases */
+  --surface-page: var(--chalk);
+  --surface-card: var(--paper);
+  --surface-sunken: var(--stone);
+  --surface-tint: var(--haze);
+  --surface-inverse: var(--forest);
+  --text-body: var(--ink);
+  --text-secondary: var(--ink-soft);
+  --text-muted: var(--ink-mute);
+  --text-heading: var(--pine);
+  --text-accent: var(--claret);
+  --text-link: var(--pine);
+  --text-link-hover: var(--claret);
+  --border-default: var(--rule-soft);
+  --border-strong: var(--rule);
+  --focus-ring: var(--claret);
+
+  /* Type */
+  --font-body: var(--font-geist-sans), system-ui, -apple-system, "Helvetica Neue", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", Menlo, monospace;
+  --size-display-xl: clamp(56px, 9vw, 132px);
+  --size-display-lg: clamp(44px, 6.5vw, 92px);
+  --size-display-md: clamp(34px, 4.5vw, 60px);
+  --size-heading-lg: clamp(28px, 3.2vw, 42px);
+  --size-heading-md: clamp(22px, 2.2vw, 32px);
+  --size-lede: clamp(17px, 1.4vw, 22px);
+  --size-body: 15px;
+  --size-label: 11px;
+
+  /* Space and layout */
+  --section-tight: 56px;
+  --section-default: 96px;
+  --section-large: 128px;
+  --layout-max: 1200px;
+  --layout-max-text: 640px;
+
+  /* Shape and elevation */
+  --radius-card: 2px;
+  --radius-chip: 3px;
+  --radius-pill: 999px;
+  --shadow-hair: 0 1px 0 rgba(27, 26, 20, 0.04);
+  --shadow-card: 0 1px 0 rgba(27, 26, 20, 0.03), 0 8px 24px rgba(27, 26, 20, 0.06);
+  --shadow-lift: 0 1px 0 rgba(27, 26, 20, 0.04), 0 24px 60px rgba(27, 26, 20, 0.12);
+  --shadow-modal: 0 32px 80px rgba(27, 26, 20, 0.12);
+
+  /* Motion: paper being set down */
   --duration-fast: 160ms;
   --duration-base: 280ms;
   --duration-slow: 480ms;
+  --duration-reveal: 600ms;
+  --ease-dorza: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Drop on any forest-ground section and the semantic aliases re-point. */
+.on-inverse {
+  --surface-page: var(--forest);
+  --surface-card: rgba(243, 240, 232, 0.06);
+  --text-body: var(--chalk);
+  --text-secondary: rgba(243, 240, 232, 0.72);
+  --text-muted: rgba(243, 240, 232, 0.52);
+  --text-heading: var(--chalk);
+  --text-accent: var(--ochre);
+  --text-link: var(--haze);
+  --text-link-hover: var(--ochre);
+  --border-default: rgba(243, 240, 232, 0.18);
+  --border-strong: rgba(243, 240, 232, 0.30);
+  --focus-ring: var(--ochre);
+  background: var(--surface-page);
+  color: var(--text-secondary);
 }
 
 html {
   scroll-behavior: smooth;
-  /* Safety net for mobile: decorative bleed (SlideReveal's x-transform,
-     negative-inset glows, marquees) must never widen the page. Sections that
-     bleed clip their own overflow; this catches regressions.
-     `clip` rather than `hidden` so position: sticky keeps working and no
-     stray scroll container is created. */
+  /* `clip`, not `hidden`, so position: sticky keeps working. */
   overflow-x: clip;
+  scrollbar-color: var(--rule) var(--chalk);
 }
 
 body {
   font-family: var(--font-body);
-  color: var(--color-text-secondary);
-  background: #ffffff;
+  color: var(--text-secondary);
+  background: var(--surface-page);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  caret-color: var(--pine);
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
-  color: var(--color-dark);
+  font-weight: 500;
+  color: var(--text-heading);
+}
+
+::selection {
+  background: var(--haze);
+  color: var(--forest);
+}
+
+.on-inverse ::selection {
+  background: var(--ochre);
+  color: var(--forest);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-primary);
+  outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
+}
+
+@layer components {
+  .d-display {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-variation-settings: "opsz" 72;
+    font-size: var(--size-display-lg);
+    line-height: 0.96;
+    letter-spacing: -0.022em;
+    color: var(--text-heading);
+    text-wrap: balance;
+  }
+  .d-display-italic {
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    color: var(--text-accent);
+  }
+  /* Section-scale display. Use with .d-display: class="d-display d-display-md". */
+  .d-display-md {
+    font-size: var(--size-display-md);
+  }
+  .d-heading {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-variation-settings: "opsz" 36;
+    font-size: var(--size-heading-lg);
+    line-height: 1.06;
+    letter-spacing: -0.014em;
+    color: var(--text-heading);
+    text-wrap: balance;
+  }
+  .d-lede {
+    font-family: var(--font-body);
+    font-size: var(--size-lede);
+    line-height: 1.45;
+    letter-spacing: -0.005em;
+    color: var(--text-secondary);
+    text-wrap: pretty;
+  }
+  .d-body {
+    font-family: var(--font-body);
+    font-size: var(--size-body);
+    line-height: 1.6;
+    color: var(--text-secondary);
+    max-width: var(--layout-max-text);
+    text-wrap: pretty;
+  }
+  .d-mono {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+  .d-label {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: var(--size-label);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .d-link {
+    color: var(--text-link);
+    text-decoration: underline;
+    text-decoration-color: var(--border-strong);
+    text-underline-offset: 3px;
+    transition: color var(--duration-fast) var(--ease-dorza);
+  }
+  .d-link:hover {
+    color: var(--text-link-hover);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -81,18 +219,4 @@ h1, h2, h3, h4, h5, h6 {
   html {
     scroll-behavior: auto;
   }
-}
-
-.marquee-container:hover .marquee-track {
-  animation-play-state: paused;
-}
-
-.hover-glow {
-  transition: box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-}
-.hover-glow:hover {
-  box-shadow:
-    0 12px 32px rgba(26, 26, 46, 0.08),
-    0 0 0 1px rgba(212, 132, 90, 0.08),
-    0 0 40px -8px rgba(212, 132, 90, 0.10);
 }
