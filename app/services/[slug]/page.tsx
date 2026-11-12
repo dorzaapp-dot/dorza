@@ -179,7 +179,7 @@ export default function ServicePage({
             <Reveal stagger={0.045} className="mt-10 grid gap-y-8 md:grid-cols-3 md:gap-x-8">
               {service.steps.map((step, i) => (
                 <div key={step.title} className="border-t border-rule pt-5 md:border-l md:border-t-0 md:pl-6 md:pt-0">
-                  <p className="d-mono text-pine">{i + 1}</p>
+                  <p className="d-mono text-forest">{i + 1}</p>
                   <h3 className="mt-3 font-body text-[17px] font-semibold text-ink">{step.title}</h3>
                   <p className="d-body mt-2">{step.description}</p>
                 </div>

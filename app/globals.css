@@ -84,6 +84,11 @@
   --ease-dorza: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
+/* Pine on haze is 4.35:1, so links on the haze band go to forest. */
+.bg-haze {
+  --text-link: var(--forest);
+}
+
 /* Drop on any forest-ground section and the semantic aliases re-point. */
 .on-inverse {
   --surface-page: var(--forest);
@@ -104,6 +109,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Keep focused and anchored content clear of the 68px sticky nav. */
+  scroll-padding-top: 84px;
   /* `clip`, not `hidden`, so position: sticky keeps working. */
   overflow-x: clip;
   scrollbar-color: var(--rule) var(--chalk);
@@ -205,6 +212,13 @@ h1, h2, h3, h4, h5, h6 {
     text-decoration-color: var(--border-strong);
     text-underline-offset: 3px;
     transition: color var(--duration-fast) var(--ease-dorza);
+    position: relative;
+  }
+  /* A 44px hit area without moving the layout. */
+  .d-link::after {
+    content: "";
+    position: absolute;
+    inset: -11px 0;
   }
   .d-link:hover {
     color: var(--text-link-hover);

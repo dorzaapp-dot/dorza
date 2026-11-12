@@ -25,7 +25,7 @@ export default function InnerHero({ title, description, breadcrumbs }: InnerHero
           <nav aria-label="Breadcrumb" className="mb-8">
             <ol className="d-label m-0 flex list-none flex-wrap items-center gap-1.5 p-0">
               <li>
-                <Link href="/" className="transition-colors duration-fast ease-dorza hover:text-forest">
+                <Link href="/" className="-my-3 inline-block py-3 transition-colors duration-fast ease-dorza hover:text-forest">
                   Home
                 </Link>
               </li>
@@ -37,7 +37,7 @@ export default function InnerHero({ title, description, breadcrumbs }: InnerHero
                       {crumb.label}
                     </span>
                   ) : (
-                    <Link href={crumb.href} className="transition-colors duration-fast ease-dorza hover:text-forest">
+                    <Link href={crumb.href} className="-my-3 inline-block py-3 transition-colors duration-fast ease-dorza hover:text-forest">
                       {crumb.label}
                     </Link>
                   )}
