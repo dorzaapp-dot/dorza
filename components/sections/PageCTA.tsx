@@ -14,7 +14,7 @@ interface PageCTAProps {
 }
 
 export default function PageCTA({
-  headline = "Tell us where you're up to.",
+  headline = "Tell us where you’re up to.",
   description = "Tell us about your business. We'll come back with a plan and a price within 72 hours.",
 }: PageCTAProps) {
   const [enquiryOpen, setEnquiryOpen] = useState(false);
