@@ -8,7 +8,7 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="on-inverse">
+    <footer className="on-inverse border-t border-chalk/10">
       <div className="mx-auto max-w-layout px-6 py-section-tight lg:px-8 md:py-section">
         <div className="grid gap-12 md:grid-cols-12">
           <div className="md:col-span-5">
