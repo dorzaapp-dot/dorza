@@ -9,12 +9,12 @@ import EnquiryModal from "@/components/ui/EnquiryModal";
 import { buttonClasses } from "@/components/ui/buttonClasses";
 import { DORZA_EASE } from "@/components/motion/Reveal";
 import { cn } from "@/lib/cn";
-import { visibleCaseStudies } from "@/lib/data/work";
+import { hasPublicWork } from "@/lib/data/workStatus";
 import { PHONE_DISPLAY, PHONE_TEL } from "@/lib/seo";
 import { CTA_LABEL, NAV_LINKS } from "@/lib/site";
 
 /** "Work" appears only once a case study is public. */
-const links = NAV_LINKS.filter((l) => l.href !== "/work" || visibleCaseStudies().length > 0);
+const links = NAV_LINKS.filter((l) => l.href !== "/work" || hasPublicWork());
 
 export default function Nav() {
   const pathname = usePathname();

@@ -1,6 +1,15 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { CASE_STUDIES } from "@/lib/data/work";
 import { allRoutes } from "@/lib/routes";
+
+function walk(dir: string): string[] {
+  return readdirSync(dir).flatMap((name) => {
+    const full = join(dir, name);
+    return statSync(full).isDirectory() ? walk(full) : [full];
+  });
+}
 
 const hasOut = existsSync("out/index.html");
 const fileFor = (route: string) => (route === "/" ? "out/index.html" : `out${route}.html`);
@@ -32,6 +41,20 @@ describe.skipIf(!hasOut)("static export", () => {
     for (const route of allRoutes(false)) {
       const html = readFileSync(fileFor(route), "utf8");
       expect(html, route).not.toMatch(/Westmead Electrical|Parramatta Coffee|free audit|Founding client/i);
+    }
+  });
+
+  it("ships no draft case study, in pages or in public JS (build with drafts off)", () => {
+    const drafts = CASE_STUDIES.filter((c) => !c.published);
+    for (const c of drafts) {
+      const html = readFileSync(`out/work/${c.slug}.html`, "utf8");
+      expect(html, `${c.slug} holding page`).toMatch(/Not public yet/);
+      expect(html, `${c.slug} noindex`).toMatch(/noindex/);
+    }
+    const files = walk("out").filter((f) => /\.(html|js|txt|json)$/.test(f));
+    for (const f of files) {
+      const text = readFileSync(f, "utf8");
+      for (const c of drafts) expect(text.includes(c.summary.slice(0, 28)), `${f} leaks ${c.slug}`).toBe(false);
     }
   });
 });

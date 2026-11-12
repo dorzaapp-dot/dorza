@@ -3,11 +3,11 @@ import { LineReveal } from "@/components/motion/LineReveal";
 import { Reveal } from "@/components/motion/Reveal";
 import { Container } from "@/components/ui/Container";
 import { buttonClasses } from "@/components/ui/buttonClasses";
-import { visibleCaseStudies } from "@/lib/data/work";
+import { hasPublicWork } from "@/lib/data/workStatus";
 import { CTA_LABEL } from "@/lib/site";
 
 export default function HomeHero() {
-  const showWork = visibleCaseStudies().length > 0;
+  const showWork = hasPublicWork();
 
   return (
     <section className="bg-chalk pb-6 pt-16 md:pb-10 md:pt-24">
@@ -34,7 +34,7 @@ export default function HomeHero() {
               {CTA_LABEL}
             </Link>
             {showWork ? (
-              <Link href="/work" className="d-link text-[15px]">
+              <Link href="/work" className="d-link inline-block text-[15px]">
                 See the work
               </Link>
             ) : null}

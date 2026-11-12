@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { visibleCaseStudies } from "@/lib/data/work";
+import { hasPublicWork } from "@/lib/data/workStatus";
 import { CONTACT_EMAIL, PHONE_DISPLAY, PHONE_TEL } from "@/lib/seo";
 import { ABN, FOOTER_GROUPS, SOCIALS, TAGLINE } from "@/lib/site";
 
 export default function Footer() {
-  const showWork = visibleCaseStudies().length > 0;
+  const showWork = hasPublicWork();
   const year = new Date().getFullYear();
 
   return (
@@ -16,15 +16,14 @@ export default function Footer() {
               d<span className="text-ochre">o</span>rza
             </Link>
             <p className="d-lede mt-5 max-w-[22ch]">{TAGLINE}</p>
-            <p className="d-mono mt-8">
-              <a href={`tel:${PHONE_TEL}`} className="d-link" aria-label={`Call Dorza on ${PHONE_DISPLAY}`}>
+            <div className="d-mono mt-6">
+              <a href={`tel:${PHONE_TEL}`} className="d-link block w-fit py-[11px]" aria-label={`Call Dorza on ${PHONE_DISPLAY}`}>
                 {PHONE_DISPLAY}
               </a>
-              <br />
-              <a href={`mailto:${CONTACT_EMAIL}`} className="d-link">
+              <a href={`mailto:${CONTACT_EMAIL}`} className="d-link block w-fit py-[11px]">
                 {CONTACT_EMAIL}
               </a>
-            </p>
+            </div>
           </div>
 
           {FOOTER_GROUPS.map((group) => (

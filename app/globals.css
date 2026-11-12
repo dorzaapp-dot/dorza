@@ -214,8 +214,9 @@ h1, h2, h3, h4, h5, h6 {
     transition: color var(--duration-fast) var(--ease-dorza);
     position: relative;
   }
-  /* A 44px hit area without moving the layout. */
-  .d-link::after {
+  /* A 44px hit area without moving the layout. Only for links on their own line:
+     on inline links it would overlap the line above. */
+  .d-link.inline-block::after {
     content: "";
     position: absolute;
     inset: -11px 0;

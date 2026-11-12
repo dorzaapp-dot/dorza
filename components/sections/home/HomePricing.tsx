@@ -19,7 +19,7 @@ export default function HomePricing() {
             <Link href="#quote" className={buttonClasses("primary", "default")}>
               {CTA_LABEL}
             </Link>
-            <Link href="/website-cost" className="d-link text-[15px]">
+            <Link href="/website-cost" className="d-link inline-block text-[15px]">
               What a website costs, and why
             </Link>
           </div>

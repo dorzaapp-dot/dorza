@@ -11,6 +11,7 @@ import { WorkCard } from "@/components/work/WorkCard";
 import { cn } from "@/lib/cn";
 import { PILLARS, getPillar, type PillarSlug } from "@/lib/data/pillars";
 import { getCaseStudy } from "@/lib/data/work";
+import { routableHref } from "@/lib/routes";
 import { CTA_LABEL } from "@/lib/site";
 
 export default function PillarPage({ slug }: { slug: PillarSlug }) {
@@ -71,8 +72,8 @@ export default function PillarPage({ slug }: { slug: PillarSlug }) {
                         <StatusTag status={s.status} />
                       </div>
                       <p className="d-body mt-2">{s.blurb}</p>
-                      {s.href ? (
-                        <Link href={s.href} className="d-link mt-2 inline-block text-[14px]">
+                      {routableHref(s.href) ? (
+                        <Link href={routableHref(s.href)!} className="d-link mt-2 inline-block text-[14px]">
                           More on this
                         </Link>
                       ) : null}

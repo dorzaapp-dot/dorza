@@ -3,6 +3,7 @@ import { INDUSTRIES } from "@/lib/data/industries";
 import { PILLARS } from "@/lib/data/pillars";
 import { SERVICES } from "@/lib/data/services";
 import { visibleCaseStudies } from "@/lib/data/work";
+import { SHOW_DRAFTS } from "@/lib/data/workStatus";
 
 /** Every public, indexable route. Drafts are excluded unless asked for. */
 export function allRoutes(showDrafts = false): string[] {
@@ -21,4 +22,11 @@ export function allRoutes(showDrafts = false): string[] {
     ...AREAS.map((a) => `/areas/${a.slug}`),
     ...INDUSTRIES.map((i) => `/industries/${i.slug}`),
   ];
+}
+
+/** A link target only if it leads somewhere public: case-study links drop out while the study is a draft. */
+export function routableHref(href: string | undefined, showDrafts: boolean = SHOW_DRAFTS): string | undefined {
+  if (!href) return undefined;
+  if (href.startsWith("/work")) return allRoutes(showDrafts).includes(href) ? href : undefined;
+  return href;
 }

@@ -1,4 +1,7 @@
 import type { PillarSlug } from "@/lib/data/pillars";
+import { SHOW_DRAFTS, WORK_PUBLISHED } from "@/lib/data/workStatus";
+
+export { SHOW_DRAFTS };
 
 export interface CaseStudy {
   slug: string;
@@ -6,7 +9,7 @@ export interface CaseStudy {
   industry: string;
   location: string;
   pillar: PillarSlug;
-  /** Public only after the owner's written OK. See docs/proof-sources.md. */
+  /** Public only after the owner's written OK. Set it in lib/data/workStatus.ts. */
   published: boolean;
   liveUrl: string;
   headline: string;
@@ -32,7 +35,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     industry: "Physiotherapy",
     location: "Mays Hill and Westmead, NSW",
     pillar: "start",
-    published: false,
+    published: WORK_PUBLISHED["active-rise-health"],
     liveUrl: "https://www.activerisehealth.com.au/",
     headline: "One physio. Two clinics. One front door.",
     teaser: "A website for a physio working across two clinics and home visits, with a pathway for referrers.",
@@ -90,7 +93,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     industry: "Specialised vehicle hire",
     location: "Sydney, NSW",
     pillar: "grow",
-    published: false,
+    published: WORK_PUBLISHED.drivable,
     liveUrl: "https://drivablehire.com.au/",
     headline: "Open for bookings.",
     teaser: "A website and booking system for a specialised vehicle hire business.",
@@ -139,10 +142,6 @@ export const CASE_STUDIES: CaseStudy[] = [
       "How Dorza built Drivable's website and booking system: a fleet you can compare, dates you can see, and a booking request in three steps.",
   },
 ];
-
-/** Drafts show in `pnpm dev` and wherever NEXT_PUBLIC_SHOW_DRAFTS=1 (set it on Vercel Preview). */
-export const SHOW_DRAFTS =
-  process.env.NEXT_PUBLIC_SHOW_DRAFTS === "1" || process.env.NODE_ENV === "development";
 
 export function visibleCaseStudies(showDrafts: boolean = SHOW_DRAFTS): CaseStudy[] {
   return CASE_STUDIES.filter((c) => showDrafts || c.published);

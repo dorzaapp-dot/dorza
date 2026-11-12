@@ -18,12 +18,16 @@ const SECTIONS = [
     body: "When you send an enquiry we collect your name, email address, business type, suburb or town, what you're interested in, and anything you write in the message. If you call or email us, we keep that correspondence.",
   },
   {
+    title: "If you become a client.",
+    body: "We ask for a fuller brief about your business through our onboarding form, and you can upload your logo and photos through a private client page with its own login. We use these to build and run your site.",
+  },
+  {
     title: "Why we collect it.",
     body: "To reply to you, prepare a quote and, if you become a customer, do the work. We don't sell your details and we don't pass them on for anyone else's marketing.",
   },
   {
     title: "Where it's kept.",
-    body: "Enquiries are stored in a database hosted by Supabase, and we're notified by email through Google's Gmail. Both are services that hold the data on our behalf, and they may store it outside Australia.",
+    body: "Enquiries, briefs, uploads and client logins are stored with Supabase. A copy of each onboarding brief is kept in a GitHub repository we control and use to build your site. We're notified by email through Google's Gmail. These services hold the data on our behalf, and they may store it outside Australia.",
   },
   {
     title: "Analytics.",

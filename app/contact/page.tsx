@@ -57,7 +57,7 @@ export default function ContactPage() {
                     <dd className="m-0 mt-2">
                       <a
                         href={`tel:${PHONE_TEL}`}
-                        className="d-link font-mono text-[17px]"
+                        className="d-link inline-block font-mono text-[17px]"
                         aria-label={`Call Dorza on ${PHONE_DISPLAY}`}
                       >
                         {PHONE_DISPLAY}
@@ -67,7 +67,7 @@ export default function ContactPage() {
                   <div className="border-t border-rule-soft py-5">
                     <dt className="d-label">Email</dt>
                     <dd className="m-0 mt-2">
-                      <a href={`mailto:${CONTACT_EMAIL}`} className="d-link font-mono text-[17px]">
+                      <a href={`mailto:${CONTACT_EMAIL}`} className="d-link inline-block font-mono text-[17px]">
                         {CONTACT_EMAIL}
                       </a>
                     </dd>

@@ -30,13 +30,13 @@ export default function PageCTA({
               <button type="button" onClick={() => setEnquiryOpen(true)} className={buttonClasses("inverse", "lg")}>
                 {CTA_LABEL}
               </button>
-              <a href="/#pricing" className="d-link text-[15px]">
+              <a href="/#pricing" className="d-link inline-block text-[15px]">
                 See pricing
               </a>
             </div>
             <p className="d-body mx-auto mt-7">
               {"Prefer to talk? "}
-              <a href={`tel:${PHONE_TEL}`} className="d-link font-mono text-[14px]" aria-label={`Call Dorza on ${PHONE_DISPLAY}`}>
+              <a href={`tel:${PHONE_TEL}`} className="d-link inline-block font-mono text-[14px]" aria-label={`Call Dorza on ${PHONE_DISPLAY}`}>
                 {PHONE_DISPLAY}
               </a>
             </p>
