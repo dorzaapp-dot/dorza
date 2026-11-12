@@ -1,0 +1,598 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-12T19:58:50.008Z",
+  "title": "Design System: Dorza",
+  "extensions": {
+    "colorMeta": {
+      "forest": {
+        "role": "primary",
+        "displayName": "Forest",
+        "canonical": "oklch(29.9% 0.034 160.6)",
+        "tonalRamp": [
+          "#000F07",
+          "#14291F",
+          "#30453A",
+          "#4D6457",
+          "#6F877A",
+          "#93AC9E",
+          "#B8D2C3",
+          "#E5F2EB"
+        ]
+      },
+      "pine": {
+        "role": "primary",
+        "displayName": "Pine",
+        "canonical": "oklch(48.5% 0.076 148.8)",
+        "tonalRamp": [
+          "#001200",
+          "#002D0D",
+          "#1F4B28",
+          "#3E6946",
+          "#608D67",
+          "#84B28B",
+          "#A9D9B0",
+          "#DEF6E1"
+        ]
+      },
+      "moss": {
+        "role": "primary",
+        "displayName": "Moss",
+        "canonical": "oklch(56.9% 0.063 150.5)",
+        "tonalRamp": [
+          "#001200",
+          "#062C13",
+          "#25492E",
+          "#43684B",
+          "#658B6D",
+          "#89B090",
+          "#AED7B6",
+          "#E0F5E4"
+        ]
+      },
+      "sage": {
+        "role": "primary",
+        "displayName": "Sage",
+        "canonical": "oklch(70.6% 0.044 146.2)",
+        "tonalRamp": [
+          "#001002",
+          "#152A17",
+          "#304632",
+          "#4E654F",
+          "#708871",
+          "#93AD94",
+          "#B9D3BA",
+          "#E5F3E6"
+        ]
+      },
+      "haze": {
+        "role": "primary",
+        "displayName": "Haze",
+        "canonical": "oklch(88.2% 0.022 143.2)",
+        "tonalRamp": [
+          "#060E06",
+          "#1E271D",
+          "#394338",
+          "#576156",
+          "#798478",
+          "#9DA89C",
+          "#C3CEC2",
+          "#EAF0EA"
+        ]
+      },
+      "claret": {
+        "role": "secondary",
+        "displayName": "Claret",
+        "canonical": "oklch(41.7% 0.109 13.0)",
+        "tonalRamp": [
+          "#2A0001",
+          "#4B0014",
+          "#6D202F",
+          "#90404C",
+          "#B7636E",
+          "#E08791",
+          "#FFADB6",
+          "#FFE0E4"
+        ]
+      },
+      "ochre": {
+        "role": "tertiary",
+        "displayName": "Ochre",
+        "canonical": "oklch(73.1% 0.115 85.2)",
+        "tonalRamp": [
+          "#1F0100",
+          "#3C1A00",
+          "#5B3800",
+          "#7B5700",
+          "#9F7A19",
+          "#C69F46",
+          "#EDC56E",
+          "#FFECC3"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "oklch(98.4% 0.007 97.3)",
+        "tonalRamp": [
+          "#0C0B08",
+          "#252420",
+          "#41403C",
+          "#5E5E59",
+          "#81807C",
+          "#A6A5A0",
+          "#CBCBC6",
+          "#EFEEEC"
+        ]
+      },
+      "chalk": {
+        "role": "neutral",
+        "displayName": "Chalk",
+        "canonical": "oklch(95.5% 0.011 89.7)",
+        "tonalRamp": [
+          "#0D0B06",
+          "#26241E",
+          "#424039",
+          "#605D57",
+          "#838079",
+          "#A7A49D",
+          "#CDCAC3",
+          "#F0EEEA"
+        ]
+      },
+      "stone": {
+        "role": "neutral",
+        "displayName": "Stone",
+        "canonical": "oklch(90.7% 0.020 90.6)",
+        "tonalRamp": [
+          "#0E0B03",
+          "#282419",
+          "#443F34",
+          "#625D51",
+          "#858073",
+          "#A9A497",
+          "#CFCABD",
+          "#F1EEE7"
+        ]
+      },
+      "linen": {
+        "role": "neutral",
+        "displayName": "Linen",
+        "canonical": "oklch(83.4% 0.026 89.2)",
+        "tonalRamp": [
+          "#0F0A01",
+          "#292315",
+          "#453F30",
+          "#635D4D",
+          "#86806F",
+          "#ABA493",
+          "#D1CAB8",
+          "#F2EEE5"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "oklch(21.7% 0.011 99.4)",
+        "tonalRamp": [
+          "#0C0B06",
+          "#25241E",
+          "#414039",
+          "#5F5E57",
+          "#828079",
+          "#A6A59D",
+          "#CCCBC2",
+          "#EFEFEA"
+        ]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Ink Soft",
+        "canonical": "oklch(37.2% 0.011 84.6)",
+        "tonalRamp": [
+          "#0D0B06",
+          "#26241E",
+          "#423F39",
+          "#605D57",
+          "#838079",
+          "#A8A49D",
+          "#CECAC3",
+          "#F0EEEA"
+        ]
+      },
+      "ink-mute": {
+        "role": "neutral",
+        "displayName": "Ink Mute",
+        "canonical": "oklch(58.1% 0.021 86.2)",
+        "tonalRamp": [
+          "#0F0B03",
+          "#282319",
+          "#453F33",
+          "#635D51",
+          "#868073",
+          "#AAA496",
+          "#D0CABC",
+          "#F1EEE7"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Rule",
+        "canonical": "oklch(78.1% 0.028 87.9)",
+        "tonalRamp": [
+          "#100A01",
+          "#2A2314",
+          "#463F2F",
+          "#645D4C",
+          "#87806E",
+          "#ACA491",
+          "#D2CAB7",
+          "#F2EEE4"
+        ]
+      },
+      "rule-soft": {
+        "role": "neutral",
+        "displayName": "Rule Soft",
+        "canonical": "oklch(87.3% 0.027 90.1)",
+        "tonalRamp": [
+          "#0F0B01",
+          "#292415",
+          "#453F30",
+          "#635D4D",
+          "#86806E",
+          "#ABA492",
+          "#D1CAB7",
+          "#F2EEE5"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The page h1 only."
+      },
+      "display-md": {
+        "displayName": "Display MD",
+        "purpose": "Section h2s and inner-page h1s."
+      },
+      "display-italic": {
+        "displayName": "Display Italic",
+        "purpose": "One word per composition, in the ground's accent."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Card and sub-section titles."
+      },
+      "lede": {
+        "displayName": "Lede",
+        "purpose": "The one paragraph under a headline."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Running copy and list items, max 640px."
+      },
+      "mono": {
+        "displayName": "Mono",
+        "purpose": "Phone numbers and inline technical values."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Timeline markers, meta lines after CTAs, captions, breadcrumbs, footer group titles. Never an eyebrow above a heading."
+      }
+    },
+    "semanticAliases": {
+      "light": {
+        "--surface-page": "chalk",
+        "--surface-card": "paper",
+        "--surface-sunken": "stone",
+        "--surface-tint": "haze",
+        "--surface-inverse": "forest",
+        "--text-body": "ink",
+        "--text-secondary": "ink-soft",
+        "--text-muted": "ink-soft (ink-mute is 3.7:1 on chalk)",
+        "--text-heading": "pine",
+        "--text-accent": "claret",
+        "--text-link": "pine (forest inside .bg-haze)",
+        "--text-link-hover": "claret",
+        "--border-default": "rule-soft",
+        "--border-strong": "rule",
+        "--focus-ring": "claret"
+      },
+      "on-inverse": {
+        "--surface-page": "forest",
+        "--surface-card": "rgba(243, 240, 232, 0.06)",
+        "--text-body": "chalk",
+        "--text-secondary": "rgba(243, 240, 232, 0.72)",
+        "--text-muted": "rgba(243, 240, 232, 0.64)",
+        "--text-heading": "chalk",
+        "--text-accent": "ochre",
+        "--text-link": "haze",
+        "--text-link-hover": "ochre",
+        "--border-default": "rgba(243, 240, 232, 0.18)",
+        "--border-strong": "rgba(243, 240, 232, 0.30)",
+        "--focus-ring": "ochre"
+      }
+    },
+    "shadows": [
+      {
+        "name": "hair",
+        "value": "0 1px 0 rgba(27, 26, 20, 0.04)",
+        "purpose": "A single hairline lift."
+      },
+      {
+        "name": "card",
+        "value": "0 1px 0 rgba(27, 26, 20, 0.03), 0 8px 24px rgba(27, 26, 20, 0.06)",
+        "purpose": "Image frames around real screenshots."
+      },
+      {
+        "name": "modal",
+        "value": "0 32px 80px rgba(27, 26, 20, 0.12)",
+        "purpose": "The enquiry dialog. The 12% ceiling."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-dorza",
+        "value": "cubic-bezier(0.23, 1, 0.32, 1)",
+        "purpose": "The only ease. Exported as DORZA_EASE."
+      },
+      {
+        "name": "duration-fast",
+        "value": "160ms",
+        "purpose": "Hover, color and button lift."
+      },
+      {
+        "name": "duration-base",
+        "value": "280ms",
+        "purpose": "Mobile menu, FAQ accordion, form swaps."
+      },
+      {
+        "name": "duration-slow",
+        "value": "480ms",
+        "purpose": "Reveal scroll-in."
+      },
+      {
+        "name": "duration-reveal",
+        "value": "600ms",
+        "purpose": "LineReveal h1 set-down."
+      },
+      {
+        "name": "stagger",
+        "value": "45ms",
+        "purpose": "Gap between staggered children (Reveal stagger, mobile menu items)."
+      },
+      {
+        "name": "Reveal",
+        "value": "y 20px and opacity 0 to rest, 480ms, once, viewport margin -100px",
+        "purpose": "Scroll-in content. Reduced motion renders in place."
+      },
+      {
+        "name": "LineReveal",
+        "value": "y 105% to 0 behind an overflow mask, 600ms, delay 100ms plus 90ms per line",
+        "purpose": "h1 lines only. Reduced motion renders in place."
+      },
+      {
+        "name": "Spine",
+        "value": "scaleY bound to scroll progress, offset start 0.75 to end 0.55",
+        "purpose": "Homepage timeline. Reduced motion renders fully drawn."
+      },
+      {
+        "name": "no-js",
+        "value": "<noscript><style>[data-reveal]{opacity:1!important;transform:none!important}</style></noscript>",
+        "purpose": "Every animated element carries data-reveal so content shows without JavaScript."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "nav",
+        "value": "860px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      }
+    ],
+    "touchTarget": {
+      "min": "44px",
+      "ownLineLinkHitArea": ".d-link.inline-block::after { content: \"\"; position: absolute; inset: -11px 0; }"
+    },
+    "legacyAliases": {
+      "policy": "Never in new code. Kept only so /onboard, /admin, /upload and /demo stay on-palette without edits.",
+      "map": {
+        "primary": "pine (light sage, dark forest, tint haze)",
+        "accent": "moss (light sage, dark pine, tint haze)",
+        "dark": "forest",
+        "surface": "stone",
+        "warm": "paper",
+        "border": "rule-soft",
+        "border-strong": "rule",
+        "text-primary": "ink",
+        "text-secondary": "ink-soft",
+        "text-muted": "ink-mute",
+        "status": "pine",
+        "shadow-soft": "hair",
+        "shadow-medium": "card",
+        "shadow-glow": "none",
+        "shadow-glow-sm": "none"
+      }
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Pine pill for the single 'Get a quote' action on light grounds.",
+      "html": "<button class=\"ds-btn-primary\">Get a quote</button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 24px;border-radius:999px;font-family:var(--font-body);font-weight:600;font-size:14px;border:none;cursor:pointer;transition:transform 160ms cubic-bezier(0.23, 1, 0.32, 1),background-color 160ms cubic-bezier(0.23, 1, 0.32, 1),border-color 160ms cubic-bezier(0.23, 1, 0.32, 1),color 160ms cubic-bezier(0.23, 1, 0.32, 1);background:var(--pine);color:var(--chalk);} .ds-btn-primary:hover{transform:translateY(-1px);background:var(--forest);} .ds-btn-primary:active{transform:scale(0.98);} .ds-btn-primary:focus-visible{outline:2px solid var(--claret);outline-offset:2px;}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Paper pill with a hairline, for lesser actions in the modal and FAQ.",
+      "html": "<button class=\"ds-btn-secondary\">Talk to us</button>",
+      "css": ".ds-btn-secondary{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 24px;border-radius:999px;font-family:var(--font-body);font-weight:600;font-size:14px;border:none;cursor:pointer;transition:transform 160ms cubic-bezier(0.23, 1, 0.32, 1),background-color 160ms cubic-bezier(0.23, 1, 0.32, 1),border-color 160ms cubic-bezier(0.23, 1, 0.32, 1),color 160ms cubic-bezier(0.23, 1, 0.32, 1);background:var(--paper);color:var(--ink);border:1px solid var(--rule-soft);} .ds-btn-secondary:hover{transform:translateY(-1px);background:var(--stone);} .ds-btn-secondary:active{transform:scale(0.98);} .ds-btn-secondary:focus-visible{outline:2px solid var(--claret);outline-offset:2px;}"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Transparent pill for dismissive actions.",
+      "html": "<button class=\"ds-btn-ghost\">Close</button>",
+      "css": ".ds-btn-ghost{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 24px;border-radius:999px;font-family:var(--font-body);font-weight:600;font-size:14px;border:none;cursor:pointer;transition:transform 160ms cubic-bezier(0.23, 1, 0.32, 1),background-color 160ms cubic-bezier(0.23, 1, 0.32, 1),border-color 160ms cubic-bezier(0.23, 1, 0.32, 1),color 160ms cubic-bezier(0.23, 1, 0.32, 1);background:transparent;color:var(--ink);} .ds-btn-ghost:hover{transform:translateY(-1px);background:var(--stone);} .ds-btn-ghost:active{transform:scale(0.98);} .ds-btn-ghost:focus-visible{outline:2px solid var(--claret);outline-offset:2px;}"
+    },
+    {
+      "name": "Inverse Button",
+      "kind": "button",
+      "refersTo": "button-inverse",
+      "description": "Chalk pill, the primary action on forest grounds.",
+      "html": "<div class=\"ds-inv\"><button class=\"ds-btn-inverse\">Get a quote</button></div>",
+      "css": ".ds-inv{background:var(--forest);padding:24px;} .ds-btn-inverse{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 24px;border-radius:999px;font-family:var(--font-body);font-weight:600;font-size:14px;border:none;cursor:pointer;transition:transform 160ms cubic-bezier(0.23, 1, 0.32, 1),background-color 160ms cubic-bezier(0.23, 1, 0.32, 1),border-color 160ms cubic-bezier(0.23, 1, 0.32, 1),color 160ms cubic-bezier(0.23, 1, 0.32, 1);background:var(--chalk);color:var(--forest);} .ds-btn-inverse:hover{transform:translateY(-1px);background:var(--haze);} .ds-btn-inverse:active{transform:scale(0.98);} .ds-btn-inverse:focus-visible{outline:2px solid var(--ochre);outline-offset:2px;}"
+    },
+    {
+      "name": "Text Link",
+      "kind": "custom",
+      "refersTo": "d-link",
+      "description": "Pine link with a rule underline; on its own line it gains a 44px hit area.",
+      "html": "<a href=\"#\" class=\"ds-link\">See the work</a>",
+      "css": ".ds-link{position:relative;display:inline-block;font-family:var(--font-body);font-size:15px;color:var(--pine);text-decoration:underline;text-decoration-color:var(--rule);text-underline-offset:3px;transition:color 160ms cubic-bezier(0.23, 1, 0.32, 1);} .ds-link::after{content:\"\";position:absolute;inset:-11px 0;} .ds-link:hover{color:var(--claret);} .ds-link:focus-visible{outline:2px solid var(--claret);outline-offset:2px;}"
+    },
+    {
+      "name": "Status Tag",
+      "kind": "chip",
+      "refersTo": "status-tag-live",
+      "description": "The only two service states: Live and Ask us.",
+      "html": "<span class=\"ds-tag ds-tag-live\">Live</span> <span class=\"ds-tag ds-tag-ask\">Ask us</span>",
+      "css": ".ds-tag{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.14em;} .ds-tag-live{background:var(--haze);color:var(--forest);} .ds-tag-ask{border:1px solid var(--rule);color:var(--ink-soft);}"
+    },
+    {
+      "name": "PlusList",
+      "kind": "custom",
+      "refersTo": "plus-list",
+      "description": "The house list: mono plus sign, hairline rows, no ticks.",
+      "html": "<ul class=\"ds-plus\"><li><span aria-hidden=\"true\">+</span><span>A plan and a price within 72 hours.</span></li><li><span aria-hidden=\"true\">+</span><span>You own what we build.</span></li></ul>",
+      "css": ".ds-plus{list-style:none;margin:0;padding:0;} .ds-plus li{display:flex;gap:12px;border-top:1px solid var(--rule-soft);padding:12px 0;font-family:var(--font-body);font-size:15px;line-height:1.6;color:var(--ink-soft);} .ds-plus li:last-child{border-bottom:1px solid var(--rule-soft);} .ds-plus li>span:first-child{font-family:var(--font-mono);font-size:13px;color:var(--pine);}"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Paper field with a hairline; pine border and claret ring on focus.",
+      "html": "<label class=\"ds-label\" for=\"ds-name\">Your name</label><input id=\"ds-name\" class=\"ds-input\" placeholder=\"Sam\" />",
+      "css": ".ds-label{display:block;margin-bottom:6px;font-family:var(--font-mono);font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.14em;color:var(--ink-soft);} .ds-input{width:100%;height:48px;padding:0 16px;border-radius:2px;border:1px solid var(--rule-soft);background:var(--paper);color:var(--ink);font-size:16px;transition:border-color 160ms cubic-bezier(0.23, 1, 0.32, 1);} .ds-input:hover{border-color:var(--rule);} .ds-input:focus{outline:none;border-color:var(--pine);box-shadow:0 0 0 2px rgba(124,46,59,0.25);}"
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "refersTo": "nav",
+      "description": "68px sticky chalk bar: serif wordmark, mono links, small pine pill.",
+      "html": "<header class=\"ds-nav\"><a class=\"ds-wordmark\" href=\"#\">d<span>o</span>rza</a><nav><a href=\"#\" aria-current=\"page\">Start</a><a href=\"#\">Grow</a><a href=\"#\">Support</a><a href=\"#\">About</a><button class=\"ds-nav-cta\">Get a quote</button></nav></header>",
+      "css": ".ds-nav{display:flex;align-items:center;justify-content:space-between;height:68px;padding:0 24px;background:rgba(243,240,232,0.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule-soft);} .ds-wordmark{font-family:var(--font-display);font-size:28px;line-height:1;color:var(--forest);text-decoration:none;} .ds-wordmark span{color:var(--pine);} .ds-nav nav{display:flex;align-items:center;gap:28px;} .ds-nav nav a{display:inline-flex;align-items:center;min-height:44px;font-family:var(--font-mono);font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.14em;color:var(--ink-soft);text-decoration:none;transition:color 160ms cubic-bezier(0.23, 1, 0.32, 1);} .ds-nav nav a:hover{color:var(--forest);} .ds-nav nav a[aria-current=\"page\"]{color:var(--forest);text-decoration:underline;text-decoration-color:var(--pine);text-decoration-thickness:1.5px;text-underline-offset:6px;} .ds-nav-cta{min-height:44px;padding:0 16px;border-radius:999px;border:none;background:var(--pine);color:var(--chalk);font-family:var(--font-body);font-weight:600;font-size:13px;cursor:pointer;transition:background-color 160ms cubic-bezier(0.23, 1, 0.32, 1),transform 160ms cubic-bezier(0.23, 1, 0.32, 1);} .ds-nav-cta:hover{background:var(--forest);transform:translateY(-1px);} .ds-nav-cta:focus-visible{outline:2px solid var(--claret);outline-offset:2px;}"
+    },
+    {
+      "name": "Timeline Spine",
+      "kind": "custom",
+      "refersTo": "spine",
+      "description": "Hairline spine with a drawn pine line, a mono marker and a crossing tick.",
+      "html": "<div class=\"ds-spine\"><span class=\"ds-spine-rule\"></span><span class=\"ds-spine-draw\"></span><div class=\"ds-stage\"><p class=\"ds-marker\">Day one<span class=\"ds-tick\"></span></p><h2 class=\"ds-stage-h\">Get online properly.</h2></div></div>",
+      "css": ".ds-spine{position:relative;padding:32px 0;background:var(--chalk);} .ds-spine-rule,.ds-spine-draw{position:absolute;top:0;bottom:0;left:25%;width:1px;background:var(--rule-soft);} .ds-spine-draw{background:var(--pine);transform-origin:top;transform:scaleY(0.6);} .ds-stage{display:grid;grid-template-columns:25% 1fr;} .ds-marker{position:relative;margin:0;padding-right:44px;text-align:right;font-family:var(--font-mono);font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.18em;color:var(--ink-soft);} .ds-tick{position:absolute;right:-16px;top:0.45em;width:32px;height:1px;background:var(--pine);} .ds-stage-h{margin:0 0 0 32px;font-family:var(--font-display);font-weight:500;font-size:40px;line-height:0.96;letter-spacing:-0.022em;color:var(--pine);}"
+    },
+    {
+      "name": "Image Frame",
+      "kind": "card",
+      "refersTo": "card-frame",
+      "description": "Real screenshots in a 2px paper frame with a hairline and the Card shadow.",
+      "html": "<figure class=\"ds-frame\"><div class=\"ds-frame-box\"><div class=\"ds-frame-img\"></div></div><figcaption>Client · Industry</figcaption></figure>",
+      "css": ".ds-frame{margin:0;max-width:360px;} .ds-frame-box{overflow:hidden;border-radius:2px;border:1px solid var(--rule-soft);background:var(--paper);box-shadow:0 1px 0 rgba(27,26,20,0.03),0 8px 24px rgba(27,26,20,0.06);} .ds-frame-img{aspect-ratio:16/10;background:var(--stone);} .ds-frame figcaption{margin-top:12px;font-family:var(--font-mono);font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.18em;color:var(--ink-soft);}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Tightened Sage",
+    "overview": "Paper being set down on a desk. Forest, pine and moss greens on warm chalk and paper grounds, with hairline rules doing the work that boxes and shadows do elsewhere. The type is editorial. A Newsreader display at weight 500 carries every headline, Geist sets the reading text, and Geist Mono marks things: timeline stages, status, prices, navigation, small print. The page reads like a well-made printed brief, not a product dashboard.\n\nDensity is low and vertical. Sections are long, single-column or split 3:9 on a 12-column grid, and separated by changes of ground (chalk, haze, forest) rather than by borders or cards. Color is almost entirely green and neutral. Each screen gets one accent beat: claret on light grounds, ochre on forest. Depth is nearly flat: real screenshots sit in a 2px frame with a hairline and a soft shadow, and nothing else floats.\n\nMotion is quiet and one-directional. Things rise a few pixels into place once and stay put. The homepage's signature is the timeline spine: a pine line draws down a hairline as the journey scrolls through view.",
+    "keyCharacteristics": [
+      "Warm off-white grounds only (chalk page, paper cards). Never pure white.",
+      "Green carries headings, buttons, links and rules. One accent beat per screen.",
+      "Newsreader 500 display with at most one italic word per composition.",
+      "Geist Mono for markers, status, prices and nav. Lists use a mono plus sign.",
+      "2px corners, 3px chips, pills only on buttons. Hairline rules over boxes.",
+      "No gradients, no glows. Shadows at 12% opacity or less.",
+      "Every service carries a \"Live\" or \"Ask us\" tag, nothing else."
+    ],
+    "rules": [
+      {
+        "name": "The One Beat Rule",
+        "body": "Each screen gets a single accent beat: claret on light grounds, ochre on forest. If claret already appears in the frame (the hero's italic \"mind\"), nothing else on that screen is claret at rest. Hover, focus and error states are the only exceptions.",
+        "section": "colors"
+      },
+      {
+        "name": "The Never White Rule",
+        "body": "Grounds are chalk, paper, stone, haze or forest. Pure #FFFFFF never ships on the brand layer.",
+        "section": "colors"
+      },
+      {
+        "name": "The Ink Mute Rule",
+        "body": "Ink mute is for icons and rules. Any text that needs to be read uses ink-soft or darker.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Italic Rule",
+        "body": "At most one italic word per composition, and it carries the accent. Italics are never used for emphasis in body copy.",
+        "section": "typography"
+      },
+      {
+        "name": "The Mono Marks Rule",
+        "body": "Mono text marks a thing (a stage, a status, a price, a link destination). It never introduces a heading from above. A small uppercase label sitting directly over an h1 or h2 is an eyebrow, and eyebrows are banned. Markers in the spine's own column, meta lines after content, captions and footer group titles are the mono's native uses and stay.",
+        "section": "typography"
+      },
+      {
+        "name": "The Full Stop Rule",
+        "body": "Headlines are short declaratives that end in a full stop, set with balanced wrapping.",
+        "section": "typography"
+      },
+      {
+        "name": "The Ground Change Rule",
+        "body": "Sections are divided by switching ground (chalk to haze to forest), not by boxing content in cards. A forest section directly above the forest footer gets a hairline (chalk at 10%) between them.",
+        "section": "layout"
+      },
+      {
+        "name": "The Twelve Percent Rule",
+        "body": "No shadow exceeds 12% opacity, and none is colored. No gradients, no glows, no hard offset shadows.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Pill Is A Button Rule",
+        "body": "If it is pill-shaped, it is pressable and it is a button. Tags, chips, cards and images never round past 3px.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "**Do** use the v7 color names (forest, pine, chalk, ink-soft and the rest) or the semantic CSS aliases in all new brand-layer code.",
+      "**Do** keep one accent beat per screen: claret on light grounds, ochre on forest.",
+      "**Do** put forest sections in `.on-inverse` so headings, links, focus and accent re-point together.",
+      "**Do** keep a 44px minimum touch target on every link and control. Links on their own line use `.d-link` with `inline-block`; nav, footer and breadcrumb links use a 44px minimum height or negative-margin padding.",
+      "**Do** use PlusList (mono \"+\", hairline rows) for every list of points.",
+      "**Do** tag every service \"Live\" or \"Ask us\" with StatusTag, and leave out anything that is neither.",
+      "**Do** wrap scroll-in content in Reveal, h1 lines in LineReveal, and add `data-reveal` to any new animated element so the no-JS rule covers it.",
+      "**Do** frame real screenshots in ImageFrame: 2px corner, rule-soft hairline, Card shadow."
+    ],
+    "donts": [
+      "**Don't** use the legacy Tailwind aliases (primary, accent, dark, surface, warm, border, border-strong, text-primary, text-secondary, text-muted, status, shadow-soft, shadow-medium) in new code. They exist only so /onboard, /admin, /upload and /demo stay on-palette untouched.",
+      "**Don't** use ink-mute for text.",
+      "**Don't** put a mono eyebrow label above a heading. InnerHero's `eyebrow` prop is accepted and never rendered.",
+      "**Don't** use gradients, glows, colored shadows, or any shadow above 12% opacity.",
+      "**Don't** round anything except buttons past 3px.",
+      "**Don't** use tick or check icons in lists; use the mono plus sign.",
+      "**Don't** set more than one italic word in a composition, or use claret and ochre on the same screen.",
+      "**Don't** use pure white grounds.",
+      "**Don't** add CSS keyframe animation to elements already driven by framer-motion."
+    ]
+  }
+}

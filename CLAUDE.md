@@ -285,6 +285,6 @@ Don't treat it as current, and expect conflicts if you touch `create-client-user
 - Positioning copy and service status live in `lib/site.ts`, `lib/data/pillars.ts` and `lib/data/work.ts`. Change copy there, not in components.
 - A service is `live` or `ask`. Nothing else is shown. See spec §10.
 - Every number, quote and client name needs a row in `docs/proof-sources.md`.
-- Case studies are hidden in production until `published: true`. Set `NEXT_PUBLIC_SHOW_DRAFTS=1` to see drafts locally.
+- Case studies are hidden in production until their flag is `true` in `lib/data/workStatus.ts` (content-free, safe for client components; never import `lib/data/work.ts` from a `"use client"` file or draft text ships in public JS). Set `NEXT_PUBLIC_SHOW_DRAFTS=1` to see drafts locally. `pnpm test:export` must run against a build made without that variable.
 - Tests: `pnpm test` (Vitest). `pnpm test:export` checks the built `out/` folder.
 - `PRODUCT.md` and the Impeccable surface briefs carry the design direction. `DESIGN.md` is written by Impeccable's documenter from the finished build.
