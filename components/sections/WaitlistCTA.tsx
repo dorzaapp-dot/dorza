@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { Reveal, DORZA_EASE } from "@/components/motion/Reveal";
 import EnquiryFormFields from "@/components/forms/EnquiryFormFields";
@@ -47,8 +47,7 @@ export default function WaitlistCTA() {
               ) : (
                 <motion.form
                   key="form"
-                  data-reveal=""
-                  initial={{ opacity: 0, y: 8 }}
+                  initial={false}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -8 }}
                   transition={{ duration: 0.28, ease: DORZA_EASE }}
@@ -81,14 +80,14 @@ export default function WaitlistCTA() {
 }
 
 function Confirmation() {
+  const reduce = useReducedMotion();
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8 }}
+      initial={reduce ? false : { opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.28, ease: DORZA_EASE }}
       className="rounded-card border border-chalk/20 bg-chalk/5 p-10 text-center"
     >
-      <p className="d-label mb-3">Got it</p>
       <h3 className="d-heading mb-2">Thanks. We&rsquo;ve got your details.</h3>
       <p className="d-body mx-auto">You&rsquo;ll hear from us within 72 hours.</p>
     </motion.div>

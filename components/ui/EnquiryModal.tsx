@@ -161,13 +161,12 @@ export default function EnquiryModal({ open, onClose }: Props) {
                 {submitted ? (
                   <motion.div
                     key="confirmation"
-                    initial={{ opacity: 0, y: 8 }}
+                    initial={shouldReduce ? false : { opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.28, ease: DORZA_EASE }}
                     className="border-t border-rule-soft pt-6"
                   >
-                    <p className="d-label">Got it</p>
-                    <h3 className="d-heading mt-3">Thanks. We&rsquo;ve got your details.</h3>
+                    <h3 className="d-heading">Thanks. We&rsquo;ve got your details.</h3>
                     <p className="d-body mt-2">You&rsquo;ll hear from us within 72 hours.</p>
                     <div className="mt-6 flex justify-end">
                       <button type="button" onClick={handleClose} className={buttonClasses("secondary", "default")}>

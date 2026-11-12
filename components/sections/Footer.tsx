@@ -30,12 +30,12 @@ export default function Footer() {
           {FOOTER_GROUPS.map((group) => (
             <nav key={group.title} aria-label={group.title} className="md:col-span-2 md:first-of-type:col-start-7">
               <p className="d-label">{group.title}</p>
-              <ul className="m-0 mt-4 list-none space-y-3 p-0">
+              <ul className="m-0 mt-2 list-none p-0">
                 {group.links
                   .filter((l) => l.href !== "/work" || showWork)
                   .map((l) => (
                     <li key={l.href}>
-                      <Link href={l.href} className="text-[15px] text-chalk/80 transition-colors duration-fast ease-dorza hover:text-ochre">
+                      <Link href={l.href} className="inline-flex min-h-11 items-center text-[15px] text-chalk/80 transition-colors duration-fast ease-dorza hover:text-ochre">
                         {l.label}
                       </Link>
                     </li>
@@ -52,7 +52,7 @@ export default function Footer() {
           <ul className="m-0 flex list-none gap-6 p-0">
             {SOCIALS.map((s) => (
               <li key={s.href}>
-                <a href={s.href} className="d-label transition-colors duration-fast ease-dorza hover:text-ochre" rel="noopener noreferrer" target="_blank">
+                <a href={s.href} className="d-label inline-flex min-h-11 items-center transition-colors duration-fast ease-dorza hover:text-ochre" rel="noopener noreferrer" target="_blank">
                   {s.label}
                 </a>
               </li>

@@ -34,14 +34,14 @@ export default function PillarPage({ slug }: { slug: PillarSlug }) {
                   {CTA_LABEL}
                 </Link>
               </div>
-              <ol aria-label="Stages" className="m-0 mt-12 flex list-none gap-7 border-t border-rule-soft p-0 pt-5">
+              <ol aria-label="Stages" className="m-0 mt-12 flex list-none gap-7 border-t border-rule-soft p-0 pt-2">
                 {PILLARS.map((p) => (
                   <li key={p.slug}>
                     <Link
                       href={`/${p.slug}`}
                       aria-current={p.slug === slug ? "step" : undefined}
                       className={cn(
-                        "d-label transition-colors duration-fast ease-dorza hover:text-forest",
+                        "d-label inline-flex min-h-11 items-center transition-colors duration-fast ease-dorza hover:text-forest",
                         p.slug === slug && "!text-forest underline decoration-pine decoration-[1.5px] underline-offset-[6px]"
                       )}
                     >

@@ -40,7 +40,7 @@ export default function Nav() {
       <header className="sticky top-0 z-40 border-b border-rule-soft bg-chalk/[0.94] backdrop-blur-[8px]">
         <div className="mx-auto flex h-[68px] max-w-layout items-center justify-between px-6 lg:px-8">
           <Link href="/" aria-label="Dorza home" className="font-display text-[28px] leading-none text-forest">
-            d<span className="text-claret">o</span>rza
+            d<span className="text-pine">o</span>rza
           </Link>
 
           <nav aria-label="Main" className="hidden items-center gap-7 min-[860px]:flex">
@@ -50,7 +50,7 @@ export default function Nav() {
                 href={l.href}
                 aria-current={isActive(l.href) ? "page" : undefined}
                 className={cn(
-                  "font-mono text-[11px] font-medium uppercase tracking-[0.14em] transition-colors duration-fast ease-dorza",
+                  "inline-flex min-h-11 items-center font-mono text-[11px] font-medium uppercase tracking-[0.14em] transition-colors duration-fast ease-dorza",
                   isActive(l.href)
                     ? "text-forest underline decoration-pine decoration-[1.5px] underline-offset-[6px]"
                     : "text-ink-soft hover:text-forest"
@@ -59,7 +59,7 @@ export default function Nav() {
                 {l.label}
               </Link>
             ))}
-            <button type="button" onClick={() => setEnquiryOpen(true)} className={buttonClasses("primary", "sm")}>
+            <button type="button" onClick={() => setEnquiryOpen(true)} className={buttonClasses("primary", "sm", "min-h-11")}>
               {CTA_LABEL}
             </button>
           </nav>

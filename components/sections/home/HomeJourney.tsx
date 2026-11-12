@@ -29,7 +29,7 @@ export default function HomeJourney() {
                   <p className="d-lede mt-5 max-w-text">{pillar.lede}</p>
                 </Reveal>
 
-                <Reveal delay={0.09} className="mt-9 grid gap-10 lg:grid-cols-2 lg:gap-x-12">
+                <Reveal delay={0.09} className={proof ? "mt-9 grid gap-10 lg:grid-cols-2 lg:gap-x-12" : "mt-9 max-w-text"}>
                   <div>
                     <ul className="m-0 list-none p-0">
                       {live.map((s) => (

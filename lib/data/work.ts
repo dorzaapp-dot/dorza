@@ -75,7 +75,7 @@ export const CASE_STUDIES: CaseStudy[] = [
         body: "A privacy policy written for health information and a medical disclaimer, both linked in the footer.",
       },
     ],
-    closing: "Starting a practice? We'll set it up properly.",
+    closing: "We'll set your practice up properly.",
     shots: {
       desktop: "/images/work/active-rise-health/desktop.jpg",
       mobile: "/images/work/active-rise-health/mobile.jpg",
@@ -129,7 +129,7 @@ export const CASE_STUDIES: CaseStudy[] = [
         body: "Wheelchair accessible vehicle hire, 4WD hire, NDIS hire and Western Sydney each have their own page, with two hiring guides behind them.",
       },
     ],
-    closing: "Run a hire business? We'll build yours.",
+    closing: "Your hire business is next.",
     shots: {
       desktop: "/images/work/drivable/desktop.jpg",
       mobile: "/images/work/drivable/mobile.jpg",
