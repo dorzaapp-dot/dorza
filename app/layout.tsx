@@ -187,6 +187,9 @@ export default function RootLayout({
     <html lang="en-AU" className={`${newsreader.variable} ${GeistSans.variable} ${GeistMono.variable}`}>
       <head>
         <JsonLd />
+        <noscript>
+          <style>{`[data-reveal]{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
       </head>
       <body className="font-body antialiased">
         {children}
