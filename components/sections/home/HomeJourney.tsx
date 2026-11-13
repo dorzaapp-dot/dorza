@@ -19,7 +19,7 @@ export default function HomeJourney() {
     <section aria-label="Start, grow, support" className="bg-chalk pb-section-tight md:pb-section">
       <Container>
         <Spine>
-          {PILLARS.map((pillar, i) => {
+          {PILLARS.map((pillar) => {
             const proof = pillar.proofSlug ? getCaseStudy(pillar.proofSlug) : undefined;
             const live = pillar.services.filter((s) => s.status === "live");
 
@@ -49,7 +49,7 @@ export default function HomeJourney() {
                     </Link>
                   </div>
 
-                  {proof ? <WorkCard study={proof} priority={i === 0} /> : null}
+                  {proof ? <WorkCard study={proof} /> : null}
                 </Reveal>
               </SpineStage>
             );

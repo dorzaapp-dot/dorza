@@ -146,3 +146,13 @@ export function getPillar(slug: PillarSlug): Pillar {
   if (!pillar) throw new Error(`Unknown pillar: ${slug}`);
   return pillar;
 }
+
+/**
+ * What a pillar link leads to, taken from its meta title ("Start: get your business online").
+ * Nav, footer and stage links show only "Start", so this goes in as visually hidden text:
+ * screen readers and search engines get a link that says where it goes.
+ */
+export function pillarLinkHint(href: string): string | undefined {
+  const pillar = PILLARS.find((p) => `/${p.slug}` === href);
+  return pillar?.metaTitle.slice(pillar.name.length + 1).trim();
+}

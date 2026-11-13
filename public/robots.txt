@@ -3,30 +3,29 @@ Disallow: /admin
 Disallow: /upload
 Disallow: /onboard
 
-# Block AI training scrapers
+# AI search: the crawlers and fetchers behind answers in ChatGPT, Claude and Perplexity.
+# A crawler named in its own group skips the * group, so each group repeats the private paths.
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+Disallow: /admin
+Disallow: /upload
+Disallow: /onboard
+
+# AI training crawlers: allowed, so the models behind those answers know Dorza.
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: Google-Extended
+Disallow: /admin
+Disallow: /upload
+Disallow: /onboard
+
+# Open datasets: blocked.
 User-agent: CCBot
-Disallow: /
-
-User-agent: anthropic-ai
-Disallow: /
-
 User-agent: cohere-ai
 Disallow: /
-
-# Explicitly allow AI search crawlers
-User-agent: GPTBot
-Allow: /
-
-User-agent: OAI-SearchBot
-Allow: /
-
-User-agent: ClaudeBot
-Allow: /
-
-User-agent: PerplexityBot
-Allow: /
-
-User-agent: Google-Extended
-Allow: /
 
 Sitemap: https://www.dorza.com.au/sitemap.xml

@@ -77,6 +77,58 @@ describe.skipIf(!hasOut)("static export", () => {
     for (const route of allRoutes(false)) expect(existsSync(fileFor(route)), route).toBe(true);
   });
 
+  it("paints each page's opening section without waiting for JavaScript (LCP)", () => {
+    for (const route of allRoutes(false)) {
+      const first = readFileSync(fileFor(route), "utf8").match(/<main[\s\S]*?<section[\s\S]*?<\/section>/)?.[0] ?? "";
+      expect(first.length, route).toBeGreaterThan(0);
+      expect(first, `${route} hides its opening content until JS runs`).not.toMatch(/opacity:0|transform:translateY/);
+    }
+  });
+
+  it("doesn't rush a below-the-fold image ahead of the homepage hero", () => {
+    const home = readFileSync("out/index.html", "utf8");
+    expect(home).not.toMatch(/<link[^>]+as="image"/);
+    expect(home).not.toMatch(/fetchpriority="high"/i);
+  });
+
+  it("serves case study screenshots at phone and desktop sizes, in WebP as well as JPEG", () => {
+    for (const route of allRoutes(false)) {
+      const html = readFileSync(fileFor(route), "utf8");
+      const imgs = html.match(/<img[^>]+src="\/images\/work\/[^>]+>/g) ?? [];
+      for (const img of imgs) {
+        expect(img, route).toMatch(/srcset="[^"]+640w/i);
+        expect(img, route).toMatch(/sizes="/i);
+      }
+      const pictures = html.match(/<picture>[\s\S]*?<\/picture>/g) ?? [];
+      expect(pictures.length, route).toBe(imgs.length);
+      for (const p of pictures) expect(p, route).toMatch(/<source type="image\/webp" srcset="/i);
+      for (const set of Array.from(html.matchAll(/srcset="([^"]+)"/gi))) {
+        for (const entry of set[1].split(",")) {
+          const file = entry.trim().split(" ")[0];
+          if (file.startsWith("/images/work/")) expect(existsSync(`out${file}`), file).toBe(true);
+        }
+      }
+    }
+  });
+
+  it("ships a favicon.ico, an Apple touch icon and a square logo for search", () => {
+    expect(existsSync("out/favicon.ico")).toBe(true);
+    const home = readFileSync("out/index.html", "utf8");
+    expect(home).toMatch(/<link rel="apple-touch-icon" href="\/apple-icon\.png/);
+    expect(home).toContain('"logo":"https://www.dorza.com.au/images/logo.png"');
+  });
+
+  it("gives every link words that say where it goes", () => {
+    const vague = /^(start|grow|support|here|click here|more|read more|learn more|this|go)$/i;
+    for (const route of allRoutes(false)) {
+      const html = readFileSync(fileFor(route), "utf8").replace(/<script[\s\S]*?<\/script>/g, "");
+      for (const a of Array.from(html.matchAll(/<a\b[^>]*>([\s\S]*?)<\/a>/g))) {
+        const text = a[1].replace(/<[^>]+>/g, "").replace(/&[a-z]+;/g, " ").replace(/\s+/g, " ").trim();
+        expect(vague.test(text), `${route}: "${text}"`).toBe(false);
+      }
+    }
+  });
+
   it("gives every page one h1, one brand suffix and its own www canonical", () => {
     for (const route of allRoutes(false)) {
       const html = readFileSync(fileFor(route), "utf8");

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LinkLabel } from "@/components/ui/LinkLabel";
 import { hasPublicWork } from "@/lib/data/workStatus";
 import { CONTACT_EMAIL, PHONE_DISPLAY, PHONE_TEL } from "@/lib/seo";
 import { ABN, FOOTER_GROUPS, SOCIALS, TAGLINE } from "@/lib/site";
@@ -35,7 +36,7 @@ export default function Footer() {
                   .map((l) => (
                     <li key={l.href}>
                       <Link href={l.href} className="inline-flex min-h-11 items-center text-[15px] text-chalk/80 transition-colors duration-fast ease-dorza hover:text-ochre">
-                        {l.label}
+                        <LinkLabel label={l.label} href={l.href} />
                       </Link>
                     </li>
                   ))}
