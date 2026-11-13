@@ -1,4 +1,13 @@
+import { readFileSync, readdirSync, statSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+
+function tsx(dir: string): string[] {
+  return readdirSync(dir).flatMap((name) => {
+    const full = join(dir, name);
+    return statSync(full).isDirectory() ? tsx(full) : name.endsWith(".tsx") ? [full] : [];
+  });
+}
 import { buttonClasses } from "@/components/ui/buttonClasses";
 
 describe("buttonClasses", () => {
@@ -23,5 +32,15 @@ describe("buttonClasses", () => {
 
   it("appends a caller's classes", () => {
     expect(buttonClasses("primary", "default", "w-full")).toMatch(/w-full$/);
+  });
+});
+
+describe("motion placement (spec §8)", () => {
+  it("sets headline lines down on the homepage and pillar H1s only", () => {
+    const users = [...tsx("app"), ...tsx("components")]
+      .filter((f) => !f.endsWith("LineReveal.tsx") && /<LineReveal/.test(readFileSync(f, "utf8")))
+      .map((f) => f.split("\\").join("/"))
+      .sort();
+    expect(users).toEqual(["components/sections/PillarPage.tsx", "components/sections/home/HomeHero.tsx"]);
   });
 });

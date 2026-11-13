@@ -1,7 +1,7 @@
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { CASE_STUDIES } from "@/lib/data/work";
+import { CASE_STUDIES, visibleCaseStudies } from "@/lib/data/work";
 import { allRoutes } from "@/lib/routes";
 
 function walk(dir: string): string[] {
@@ -16,6 +16,24 @@ const fileFor = (route: string) => (route === "/" ? "out/index.html" : `out${rou
 const BRAND = ["/", "/start", "/grow", "/support", "/about", "/privacy"];
 
 describe.skipIf(!hasOut)("static export", () => {
+  it("lays the v7 grain over every page (spec §6, §9)", () => {
+    for (const route of allRoutes(false)) expect(readFileSync(fileFor(route), "utf8"), route).toMatch(/data-grain/);
+  });
+
+  it("proves Support with the published clients Dorza still looks after (spec §3)", () => {
+    const studies = visibleCaseStudies(false);
+    for (const route of ["/", "/support"]) {
+      const html = readFileSync(fileFor(route), "utf8");
+      expect(html.includes("We still look after"), route).toBe(studies.length > 0);
+      for (const c of studies) expect(html, `${route} ${c.slug}`).toContain(`href="/work/${c.slug}"`);
+    }
+  });
+
+  it("links the website cost guide from /start (spec §5)", () => {
+    const main = readFileSync("out/start.html", "utf8").match(/<main[\s\S]*<\/main>/)?.[0] ?? "";
+    expect(main).toContain('href="/website-cost"');
+  });
+
   it("builds a page for every public route", () => {
     for (const route of allRoutes(false)) expect(existsSync(fileFor(route)), route).toBe(true);
   });

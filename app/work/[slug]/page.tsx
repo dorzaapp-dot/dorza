@@ -3,7 +3,6 @@ import Link from "next/link";
 import Footer from "@/components/sections/Footer";
 import Nav from "@/components/sections/Nav";
 import PageCTA from "@/components/sections/PageCTA";
-import { LineReveal } from "@/components/motion/LineReveal";
 import { Reveal } from "@/components/motion/Reveal";
 import { Container } from "@/components/ui/Container";
 import { ImageFrame } from "@/components/ui/ImageFrame";
@@ -60,7 +59,7 @@ export default function CaseStudyPage({ params }: { params: { slug: string } }) 
         <section className="bg-chalk pb-section-tight pt-section-tight md:pb-section md:pt-section">
           <Container>
             <h1 className="d-display max-w-[16ch]">
-              <LineReveal lines={[study.headline]} />
+              {study.headline}
             </h1>
             <Reveal delay={0.2}>
               <p className="d-lede mt-7 max-w-text">{study.summary}</p>
