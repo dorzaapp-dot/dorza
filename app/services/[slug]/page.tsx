@@ -10,7 +10,10 @@ import PageCTA from "@/components/sections/PageCTA";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/motion/Reveal";
 import { SERVICES, getServiceBySlug, getRelatedServices } from "@/lib/data/services";
+import { RelatedWork } from "@/components/work/RelatedWork";
+import { visibleCaseStudies } from "@/lib/data/work";
 import { SITE_URL } from "@/lib/seo";
+import { pageMetadata } from "@/lib/site";
 
 /* ---------- static params ---------- */
 
@@ -28,19 +31,11 @@ export function generateMetadata({
   const service = getServiceBySlug(params.slug);
   if (!service) return {};
 
-  return {
+  return pageMetadata({
     title: service.metaTitle,
     description: service.metaDescription,
-    openGraph: {
-      title: service.metaTitle,
-      description: service.metaDescription,
-      url: `${SITE_URL}/services/${service.slug}`,
-      type: "website",
-    },
-    alternates: {
-      canonical: `${SITE_URL}/services/${service.slug}`,
-    },
-  };
+    path: `/services/${service.slug}`,
+  });
 }
 
 /* ---------- page ---------- */
@@ -243,6 +238,8 @@ export default function ServicePage({
             </Container>
           </section>
         )}
+
+        <RelatedWork studies={visibleCaseStudies().filter((c) => c.services.includes(service.slug))} />
 
         <PageCTA />
       </main>

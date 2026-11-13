@@ -15,8 +15,8 @@ describe("cleanTitle", () => {
 
 describe("canonical", () => {
   it("builds absolute URLs with no trailing slash", () => {
-    expect(canonical("/")).toBe("https://dorza.com.au");
-    expect(canonical("/work/drivable/")).toBe("https://dorza.com.au/work/drivable");
+    expect(canonical("/")).toBe("https://www.dorza.com.au");
+    expect(canonical("/work/drivable/")).toBe("https://www.dorza.com.au/work/drivable");
   });
 });
 
@@ -24,14 +24,14 @@ describe("pageMetadata", () => {
   it("cleans the title, sets the page's own canonical and a share image", () => {
     const m = pageMetadata({ title: "About | Dorza", description: "d", path: "/about" });
     expect(m.title).toBe("About");
-    expect(m.alternates?.canonical).toBe("https://dorza.com.au/about");
-    expect(JSON.stringify(m.openGraph)).toContain("https://dorza.com.au/images/og/default.png");
+    expect(m.alternates?.canonical).toBe("https://www.dorza.com.au/about");
+    expect(JSON.stringify(m.openGraph)).toContain("https://www.dorza.com.au/images/og/default.png");
     expect(JSON.stringify(m.openGraph)).toContain("About | Dorza");
   });
 
   it("accepts a page-specific share image", () => {
     const m = pageMetadata({ title: "Work", description: "d", path: "/work/drivable", image: "/images/og/drivable.png" });
-    expect(JSON.stringify(m.twitter)).toContain("https://dorza.com.au/images/og/drivable.png");
+    expect(JSON.stringify(m.twitter)).toContain("https://www.dorza.com.au/images/og/drivable.png");
   });
 });
 
