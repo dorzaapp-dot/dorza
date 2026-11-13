@@ -23,7 +23,8 @@ describe("security headers", () => {
 });
 
 describe("robots.txt", () => {
-  const robots = readFileSync("public/robots.txt", "utf8");
+  // Git's autocrlf can check this out with CRLF on Windows; Vercel builds the LF copy.
+  const robots = readFileSync("public/robots.txt", "utf8").replace(/\r\n/g, "\n");
 
   const groups = robots.split(/\n\s*\n/);
   const groupFor = (bot: string) => groups.find((g) => g.split("\n").includes(`User-agent: ${bot}`)) ?? "";
