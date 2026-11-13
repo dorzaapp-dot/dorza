@@ -33,7 +33,7 @@ Two founders, Mahir (customers, product, strategy) and Adi (build, infrastructur
 ## Capabilities and Constraints
 
 - Every service is `live` or `ask`, nothing else. No helpdesk, managed security or ERP is offered.
-- Case studies stay `published: false` until the owner gives written OK. `NEXT_PUBLIC_SHOW_DRAFTS=1` shows drafts in preview.
+- A case study is public only when its flag is `true` in `lib/data/workStatus.ts`, after the owner gives written OK. `NEXT_PUBLIC_SHOW_DRAFTS=1` shows unpublished ones in preview.
 - Static export only: no route handlers, server actions, middleware or `next/image` optimisation.
 - No URL that existed before the November 2026 reposition is removed.
 
@@ -46,7 +46,7 @@ Two founders, Mahir (customers, product, strategy) and Adi (build, infrastructur
 ## Evidence on Hand
 
 - Confirmed: websites from $499, a plan and a price within 72 hours, no lock-in. Sources in `docs/proof-sources.md`.
-- Case studies (unpublished until each owner gives written OK):
+- Case studies (published 13 November 2026):
   - Drivable, drivablehire.com.au: website and booking system.
   - Active Rise Health, activerisehealth.com.au: practice website.
 - **There are no testimonials, client counts, ratings or outcome statistics.** None may be shown. Every number, quote and client name needs a row in `docs/proof-sources.md` first.

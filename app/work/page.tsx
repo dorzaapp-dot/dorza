@@ -1,7 +1,6 @@
 import Footer from "@/components/sections/Footer";
 import Nav from "@/components/sections/Nav";
 import PageCTA from "@/components/sections/PageCTA";
-import { LineReveal } from "@/components/motion/LineReveal";
 import { Reveal } from "@/components/motion/Reveal";
 import { Container } from "@/components/ui/Container";
 import { WorkCard } from "@/components/work/WorkCard";
@@ -28,7 +27,7 @@ export default function WorkPage() {
         <section className="bg-chalk py-section-tight md:py-section">
           <Container>
             <h1 className="d-display">
-              <LineReveal lines={["The work."]} />
+              The work.
             </h1>
             <Reveal delay={0.2}>
               <p className="d-lede mt-7 max-w-text">

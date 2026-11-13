@@ -1,7 +1,6 @@
 import Footer from "@/components/sections/Footer";
 import Nav from "@/components/sections/Nav";
 import PageCTA from "@/components/sections/PageCTA";
-import { LineReveal } from "@/components/motion/LineReveal";
 import { Reveal } from "@/components/motion/Reveal";
 import { Container } from "@/components/ui/Container";
 import { pageMetadata } from "@/lib/site";
@@ -49,7 +48,7 @@ export default function AboutPage() {
         <section className="bg-chalk py-section-tight md:py-section">
           <Container>
             <h1 className="d-display max-w-[14ch]">
-              <LineReveal lines={["The tech team you don’t have."]} />
+              The tech team you don&rsquo;t have.
             </h1>
             <Reveal delay={0.2}>
               <p className="d-lede mt-7 max-w-text">

@@ -3,6 +3,7 @@ import { Reveal } from "@/components/motion/Reveal";
 import { Spine, SpineStage } from "@/components/motion/Spine";
 import { Container } from "@/components/ui/Container";
 import { StatusTag } from "@/components/ui/StatusTag";
+import { SupportProof } from "@/components/work/SupportProof";
 import { WorkCard } from "@/components/work/WorkCard";
 import { PILLARS, type PillarSlug } from "@/lib/data/pillars";
 import { getCaseStudy } from "@/lib/data/work";
@@ -42,6 +43,7 @@ export default function HomeJourney() {
                         </li>
                       ))}
                     </ul>
+                    {pillar.slug === "support" ? <SupportProof className="d-body mt-6" /> : null}
                     <Link href={`/${pillar.slug}`} className="d-link mt-6 inline-block text-[15px]">
                       {LINK_LABEL[pillar.slug]}
                     </Link>

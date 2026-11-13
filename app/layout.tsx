@@ -3,6 +3,7 @@ import { Newsreader } from "next/font/google";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import { Analytics } from "@vercel/analytics/next";
+import GrainOverlay from "@/components/ui/GrainOverlay";
 import "./globals.css";
 import { PILLARS } from "@/lib/data/pillars";
 import { ADDRESS, CONTACT_EMAIL, PHONE_TEL, SITE_URL } from "@/lib/seo";
@@ -126,6 +127,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           Skip to content
         </a>
         {children}
+        <GrainOverlay />
         <Analytics />
       </body>
     </html>

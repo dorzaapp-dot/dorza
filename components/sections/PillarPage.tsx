@@ -7,10 +7,11 @@ import { Reveal } from "@/components/motion/Reveal";
 import { Container } from "@/components/ui/Container";
 import { StatusTag } from "@/components/ui/StatusTag";
 import { buttonClasses } from "@/components/ui/buttonClasses";
+import { SupportProof } from "@/components/work/SupportProof";
 import { WorkCard } from "@/components/work/WorkCard";
 import { cn } from "@/lib/cn";
 import { PILLARS, getPillar, type PillarSlug } from "@/lib/data/pillars";
-import { getCaseStudy } from "@/lib/data/work";
+import { getCaseStudy, visibleCaseStudies } from "@/lib/data/work";
 import { routableHref } from "@/lib/routes";
 import { CTA_LABEL } from "@/lib/site";
 
@@ -61,6 +62,11 @@ export default function PillarPage({ slug }: { slug: PillarSlug }) {
               <Reveal className="md:col-span-5">
                 <h2 className="d-heading">What&rsquo;s in it.</h2>
                 <p className="d-body mt-5">{pillar.intro}</p>
+                {slug === "start" ? (
+                  <Link href="/website-cost" className="d-link mt-5 inline-block text-[15px]">
+                    What a website costs, and why
+                  </Link>
+                ) : null}
               </Reveal>
 
               <Reveal delay={0.09} className="md:col-span-7">
@@ -113,6 +119,17 @@ export default function PillarPage({ slug }: { slug: PillarSlug }) {
                   <WorkCard study={proof} />
                 </Reveal>
               </div>
+            </Container>
+          </section>
+        ) : null}
+
+        {slug === "support" && visibleCaseStudies().length > 0 ? (
+          <section className="bg-haze py-section-tight md:py-section">
+            <Container>
+              <Reveal className="max-w-text">
+                <h2 className="d-heading">Still looking after them.</h2>
+                <SupportProof className="d-lede mt-6" />
+              </Reveal>
             </Container>
           </section>
         ) : null}
