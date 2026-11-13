@@ -1,7 +1,7 @@
 import Footer from "@/components/sections/Footer";
 import Nav from "@/components/sections/Nav";
 import PageCTA from "@/components/sections/PageCTA";
-import { Reveal } from "@/components/motion/Reveal";
+import { HeroRise } from "@/components/motion/HeroRise";
 import { Container } from "@/components/ui/Container";
 import { WorkCard } from "@/components/work/WorkCard";
 import { visibleCaseStudies } from "@/lib/data/work";
@@ -29,20 +29,20 @@ export default function WorkPage() {
             <h1 className="d-display">
               The work.
             </h1>
-            <Reveal delay={0.2}>
+            <HeroRise delay={0.2}>
               <p className="d-lede mt-7 max-w-text">
                 {studies.length > 0
                   ? "Real businesses, live sites. Click through and use them."
                   : "We publish a case study once the business owner has said yes. The first ones are on their way."}
               </p>
-            </Reveal>
+            </HeroRise>
 
             {studies.length > 0 ? (
               <div className="mt-14 grid gap-x-12 gap-y-16 md:grid-cols-2">
                 {studies.map((study, i) => (
-                  <Reveal key={study.slug} delay={0.09 * i}>
-                    <WorkCard study={study} priority={i < 2} />
-                  </Reveal>
+                  <HeroRise key={study.slug} delay={0.09 * i}>
+                    <WorkCard study={study} priority={i === 0} />
+                  </HeroRise>
                 ))}
               </div>
             ) : null}

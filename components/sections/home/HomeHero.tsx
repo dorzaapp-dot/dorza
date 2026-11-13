@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { LineReveal } from "@/components/motion/LineReveal";
-import { Reveal } from "@/components/motion/Reveal";
+import { HeroRise } from "@/components/motion/HeroRise";
 import { Container } from "@/components/ui/Container";
 import { buttonClasses } from "@/components/ui/buttonClasses";
 import { hasPublicWork } from "@/lib/data/workStatus";
@@ -23,7 +23,7 @@ export default function HomeHero() {
           />
         </h1>
 
-        <Reveal delay={0.3}>
+        <HeroRise delay={0.3}>
           <p className="d-lede mt-7 max-w-text">
             Dorza gets Australian small businesses online, helps them grow, and looks after the tech that keeps
             them running. One team. No lock-in.
@@ -41,7 +41,7 @@ export default function HomeHero() {
           </div>
 
           <p className="d-label mt-7">Quote within 72 hours &middot; No lock-in</p>
-        </Reveal>
+        </HeroRise>
       </Container>
     </section>
   );

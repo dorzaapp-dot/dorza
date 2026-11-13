@@ -4,6 +4,7 @@ import Footer from "@/components/sections/Footer";
 import Nav from "@/components/sections/Nav";
 import PageCTA from "@/components/sections/PageCTA";
 import { Reveal } from "@/components/motion/Reveal";
+import { HeroRise } from "@/components/motion/HeroRise";
 import { Container } from "@/components/ui/Container";
 import { ImageFrame } from "@/components/ui/ImageFrame";
 import { getServiceBySlug } from "@/lib/data/services";
@@ -84,13 +85,20 @@ export default function CaseStudyPage({ params }: { params: { slug: string } }) 
             <h1 className="d-display max-w-[16ch]">
               {study.headline}
             </h1>
-            <Reveal delay={0.2}>
+            <HeroRise delay={0.2}>
               <p className="d-lede mt-7 max-w-text">{study.summary}</p>
-            </Reveal>
+            </HeroRise>
 
-            <Reveal delay={0.3} className="mt-14">
-              <ImageFrame src={study.shots.desktop} alt={study.shots.alt} width={2160} height={1350} priority />
-            </Reveal>
+            <HeroRise delay={0.3} className="mt-14">
+              <ImageFrame
+                src={study.shots.desktop}
+                alt={study.shots.alt}
+                width={2160}
+                height={1350}
+                sizes="(min-width: 1200px) 1152px, 100vw"
+                priority
+              />
+            </HeroRise>
 
             <dl className="m-0 mt-12 grid gap-x-8 gap-y-6 border-t border-rule-soft pt-8 sm:grid-cols-2 lg:grid-cols-5">
               {study.facts.map((fact) => (
@@ -154,6 +162,7 @@ export default function CaseStudyPage({ params }: { params: { slug: string } }) 
                     alt={`${study.client} on a phone`}
                     width={780}
                     height={1688}
+                    sizes="260px"
                   />
                 </Reveal>
               </div>

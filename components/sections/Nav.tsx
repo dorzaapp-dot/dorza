@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import EnquiryModal from "@/components/ui/EnquiryModal";
+import { LinkLabel } from "@/components/ui/LinkLabel";
 import { buttonClasses } from "@/components/ui/buttonClasses";
 import { DORZA_EASE } from "@/components/motion/Reveal";
 import { cn } from "@/lib/cn";
@@ -56,7 +57,7 @@ export default function Nav() {
                     : "text-ink-soft hover:text-forest"
                 )}
               >
-                {l.label}
+                <LinkLabel label={l.label} href={l.href} />
               </Link>
             ))}
             <button type="button" onClick={() => setEnquiryOpen(true)} className={buttonClasses("primary", "sm", "min-h-11")}>
@@ -98,7 +99,7 @@ export default function Nav() {
                     transition={{ duration: 0.28, delay: 0.045 * i, ease: DORZA_EASE }}
                   >
                     <Link href={l.href} className="block py-4 font-display text-[32px] leading-none text-forest">
-                      {l.label}
+                      <LinkLabel label={l.label} href={l.href} />
                     </Link>
                   </motion.li>
                 ))}

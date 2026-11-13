@@ -2,6 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Times New Roman resized to Newsreader's measured metrics, so headlines take the same space before
+   and after the web font loads. Measured in Chromium across 51 site headings: Newsreader runs 4.45%
+   wider; ascent 0.735em, descent 0.265em, no line gap. Overrides are divided by size-adjust. */
+@font-face {
+  font-family: "Newsreader Fallback";
+  src: local("Times New Roman"), local("TimesNewRomanPSMT");
+  size-adjust: 104.45%;
+  ascent-override: 70.37%;
+  descent-override: 25.37%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Newsreader Fallback";
+  font-style: italic;
+  src: local("Times New Roman Italic"), local("TimesNewRomanPS-ItalicMT");
+  size-adjust: 104.45%;
+  ascent-override: 70.37%;
+  descent-override: 25.37%;
+  line-gap-override: 0%;
+}
+
 :root {
   /* Green: the primary system */
   --forest: #1E3328;
@@ -234,5 +255,37 @@ h1, h2, h3, h4, h5, h6 {
   }
   html {
     scroll-behavior: auto;
+  }
+}
+
+/* Opening-section motion runs in CSS, not framer-motion, so the first paint
+   already shows the headline and lede (LCP). Text stays at full opacity; only
+   transform moves, which never counts as layout shift. */
+@keyframes d-line-rise {
+  from {
+    transform: translateY(105%);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes d-rise {
+  from {
+    transform: translateY(16px);
+  }
+  to {
+    transform: none;
+  }
+}
+.d-line-rise {
+  animation: d-line-rise var(--duration-reveal) var(--ease-dorza) both;
+}
+.d-rise {
+  animation: d-rise 480ms var(--ease-dorza) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .d-line-rise,
+  .d-rise {
+    animation: none;
   }
 }

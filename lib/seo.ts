@@ -32,3 +32,6 @@ export const INDUSTRY_PAGES = [
   { name: "Tradies", slug: "tradies" },
   { name: "Salons & Beauty", slug: "salons-beauty" },
 ] as const;
+
+/** IndexNow key. The same value sits in public/<key>.txt so Bing can verify pings from scripts/indexnow.mjs. */
+export const INDEXNOW_KEY = "1edde3b2879424e0a1e619ccf79d1e91";

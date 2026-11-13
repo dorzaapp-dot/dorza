@@ -1,0 +1,23 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "broken-image",
+        "value": "*",
+        "files": [
+          "tests/export.out.test.ts"
+        ],
+        "createdAt": "2026-11-13T08:10:25.487Z",
+        "reason": "Claude: the match is a regex string in a Vitest file that checks built HTML, not an img tag"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "newsreader fallback",
+        "createdAt": "2026-11-13T08:26:13.166Z",
+        "reason": "Claude: a resized Times New Roman @font-face that only stands in until Newsreader loads (CLS fix in abe26b1), not a new brand font"
+      }
+    ]
+  }
+}

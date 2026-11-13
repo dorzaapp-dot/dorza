@@ -14,7 +14,14 @@ const newsreader = Newsreader({
   style: ["normal", "italic"],
   axes: ["opsz"],
   variable: "--font-display",
-  display: "swap",
+  // "optional", not "swap": headlines sit close to the line-wrap edge on phones, and no system serif tracks
+  // Newsreader closely enough per line (Times, Georgia, Palatino, Cambria all vary ~1.7%), so a late swap
+  // rewraps the hero and moves the page (CLS 0.16 at 412px). The font is preloaded, so it usually makes the
+  // first paint; when it doesn't, the page keeps the sized fallback until the next load.
+  display: "optional",
+  // next/font can't find override values for Newsreader, so "Newsreader Fallback" in globals.css is sized by hand.
+  adjustFontFallback: false,
+  fallback: ["Newsreader Fallback", "Times New Roman", "serif"],
 });
 
 const OG_IMAGE = `${SITE_URL}/images/og/default.png`;
@@ -55,7 +62,7 @@ function JsonLd() {
     name: "Dorza",
     description: SITE_DESCRIPTION,
     url: SITE_URL,
-    logo: OG_IMAGE,
+    logo: `${SITE_URL}/images/logo.png`,
     image: OG_IMAGE,
     email: CONTACT_EMAIL,
     telephone: PHONE_TEL,

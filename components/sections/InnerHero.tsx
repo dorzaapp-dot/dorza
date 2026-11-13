@@ -1,8 +1,6 @@
-"use client";
-
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
-import { Reveal } from "@/components/motion/Reveal";
+import { HeroRise } from "@/components/motion/HeroRise";
 
 interface BreadcrumbItem {
   label: string;
@@ -47,10 +45,10 @@ export default function InnerHero({ title, description, breadcrumbs }: InnerHero
           </nav>
         )}
 
-        <Reveal>
+        <HeroRise>
           <h1 className="d-display d-display-md max-w-[18ch]">{title}</h1>
           <p className="d-lede mt-6 max-w-text">{description}</p>
-        </Reveal>
+        </HeroRise>
       </Container>
     </section>
   );

@@ -2,6 +2,7 @@ import Footer from "@/components/sections/Footer";
 import Nav from "@/components/sections/Nav";
 import PageCTA from "@/components/sections/PageCTA";
 import { Reveal } from "@/components/motion/Reveal";
+import { HeroRise } from "@/components/motion/HeroRise";
 import { Container } from "@/components/ui/Container";
 import { SITE_URL } from "@/lib/seo";
 import { canonical, pageMetadata } from "@/lib/site";
@@ -70,11 +71,11 @@ export default function AboutPage() {
             <h1 className="d-display max-w-[14ch]">
               The tech team you don&rsquo;t have.
             </h1>
-            <Reveal delay={0.2}>
+            <HeroRise delay={0.2}>
               <p className="d-lede mt-7 max-w-text">
                 Dorza is two founders in Sydney who look after the tech for small businesses across Australia.
               </p>
-            </Reveal>
+            </HeroRise>
           </Container>
         </section>
 

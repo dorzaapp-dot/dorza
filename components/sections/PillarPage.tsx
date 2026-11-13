@@ -4,7 +4,9 @@ import Nav from "@/components/sections/Nav";
 import PageCTA from "@/components/sections/PageCTA";
 import { LineReveal } from "@/components/motion/LineReveal";
 import { Reveal } from "@/components/motion/Reveal";
+import { HeroRise } from "@/components/motion/HeroRise";
 import { Container } from "@/components/ui/Container";
+import { LinkLabel } from "@/components/ui/LinkLabel";
 import { StatusTag } from "@/components/ui/StatusTag";
 import { buttonClasses } from "@/components/ui/buttonClasses";
 import { SupportProof } from "@/components/work/SupportProof";
@@ -29,7 +31,7 @@ export default function PillarPage({ slug }: { slug: PillarSlug }) {
             <h1 className="d-display">
               <LineReveal lines={[pillar.headline]} />
             </h1>
-            <Reveal delay={0.2}>
+            <HeroRise delay={0.2}>
               <p className="d-lede mt-7 max-w-text">{pillar.lede}</p>
               <div className="mt-9">
                 <Link href="/#quote" className={buttonClasses("primary", "lg")}>
@@ -47,12 +49,12 @@ export default function PillarPage({ slug }: { slug: PillarSlug }) {
                         p.slug === slug && "!text-forest underline decoration-pine decoration-[1.5px] underline-offset-[6px]"
                       )}
                     >
-                      {p.name}
+                      <LinkLabel label={p.name} href={`/${p.slug}`} />
                     </Link>
                   </li>
                 ))}
               </ol>
-            </Reveal>
+            </HeroRise>
           </Container>
         </section>
 
