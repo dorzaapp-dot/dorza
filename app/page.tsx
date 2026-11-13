@@ -1,39 +1,39 @@
 import Nav from "@/components/sections/Nav";
-import Hero from "@/components/sections/Hero";
-import SegmentMarquee from "@/components/sections/SegmentMarquee";
-import Services from "@/components/sections/Services";
-import HowItWorks from "@/components/sections/HowItWorks";
-import Thesis from "@/components/sections/Thesis";
-import SocialProof from "@/components/sections/SocialProof";
-import Pricing from "@/components/sections/Pricing";
-import TooGoodToBeTrue from "@/components/sections/TooGoodToBeTrue";
+import HomeHero from "@/components/sections/home/HomeHero";
+import HomeJourney from "@/components/sections/home/HomeJourney";
+import HomeHowWeWork from "@/components/sections/home/HomeHowWeWork";
+import HomePricing from "@/components/sections/home/HomePricing";
 import FAQ from "@/components/sections/FAQ";
-import FreeAudit from "@/components/sections/FreeAudit";
 import WaitlistCTA from "@/components/sections/WaitlistCTA";
 import Footer from "@/components/sections/Footer";
-import SectionDivider from "@/components/ui/SectionDivider";
+import type { Metadata } from "next";
+import { faqs } from "@/lib/data/faq";
+import { SITE_URL } from "@/lib/seo";
+
+export const metadata: Metadata = { alternates: { canonical: SITE_URL } };
+
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
 
 export default function Home() {
   return (
     <>
       <Nav />
-      <main>
-        <Hero />
-        <SegmentMarquee />
-        <Services />
-        <SectionDivider fill="#FFFFFF" />
-        <HowItWorks />
-        <SectionDivider fill="#FDFAF7" />
-        <Thesis />
-        <SocialProof />
-        <SectionDivider fill="#FFFFFF" />
-        <Pricing />
-        <SectionDivider fill="#FDFAF7" />
-        <TooGoodToBeTrue />
+      <main id="main">
+        {/* eslint-disable-next-line react/no-danger */}
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
+        <HomeHero />
+        <HomeJourney />
+        <HomeHowWeWork />
+        <HomePricing />
         <FAQ />
-        <SectionDivider fill="#FFFFFF" />
-        <FreeAudit />
-        <SectionDivider fill="#1A1A2E" />
         <WaitlistCTA />
       </main>
       <Footer />

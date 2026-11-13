@@ -1,0 +1,410 @@
+
+> dorza-app@0.1.0 test C:\Users\mahir\OneDrive\Desktop\Dorza v2\dorza-v2
+> vitest run "tests/marketing-lint.test.ts" "tests/legacy-data.test.ts"
+
+[33m(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (vitest.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.[39m
+
+ RUN  v5.1.0 C:/Users/mahir/OneDrive/Desktop/Dorza v2/dorza-v2
+
+ ❯ tests/legacy-data.test.ts (5 tests | 4 failed) 11ms
+   ❯ kept page data (5)
+     × has no brand suffix in any meta title 4ms
+     × is in the new voice 4ms
+     × keeps place names out of service and industry pages 1ms
+     × carries no unsourced outcome statistics 1ms
+ ❯ tests/marketing-lint.test.ts (3 tests | 1 failed) 65ms
+   ❯ marketing code (3)
+     × uses only v7 tokens, shapes and motion 42ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/legacy-data.test.ts > kept page data > has no brand suffix in any meta title
+AssertionError: web-design: expected 'Web Design for Small Businesses in We…' not to match /Dorza\s*$/
+
+- Expected:
+/Dorza\s*$/
+
++ Received:
+"Web Design for Small Businesses in Western Sydney | Dorza"
+
+ ❯ tests/legacy-data.test.ts:10:45
+      8|   it("has no brand suffix in any meta title", () => {
+      9|     for (const item of [...SERVICES, ...AREAS, ...INDUSTRIES]) {
+     10|       expect(item.metaTitle, item.slug).not.toMatch(/Dorza\s*$/);
+       |                                             ^
+     11|     }
+     12|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  tests/legacy-data.test.ts > kept page data > is in the new voice
+AssertionError: expected [ …(62) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "/\\bslapped\\b/i :: Not a Wix template with your logo slapped on. A proper website, hand-built for your business, designed to show up on Google and turn visitors into paying customers across Western Sydney.",
++   "/—/ :: Your site looks terrible on mobile — where most of your traffic comes from",
++   "/—/ :: Built for phones first, because that's where your customers are. Every tap target, every image, every layout — tested on real devices.",
++   "/—/ :: We don't just build the site — we connect it to your Google Business Profile so you show up on Maps and local search results across Western Sydney.",
++   "/—/ :: Fill out a quick brief — what you do, who your customers are, what suburb you're in. Takes about five minutes.",
++   "/—/ :: Most sites go live within 24 hours of receiving your brief and content. If you need custom photography or copywriting, it might take a couple of extra days — but we'll always give you a clear timeline upfront.",
++   "/—/ :: Social media that runs itself — and actually sounds like you",
++   "/—/ :: You post once a month when you remember — then nothing for weeks",
++   "/—/ :: We use smart tools to plan your content weeks ahead — local events, seasonal trends, industry moments. You always know what's coming.",
++   "/—/ :: Monthly reports showing what's working, what's not, and what we're changing. No vanity metrics — just the numbers that matter for your business.",
++   "/—/ :: Instagram, Facebook, Google Business posts — all managed from one place. We format and optimise content for each platform so it performs properly everywhere.",
++   "/—/ :: It helps, but it's not essential. We can work with what you've got — even phone photos from the job site or shop floor. We'll also create branded graphics and source stock imagery when needed.",
++   "/—/ :: Those tools help you schedule — but you still have to come up with the content, write the captions, design the graphics, and figure out what to post. We do all of that for you. You just approve and we handle the rest.",
++   "/—/ :: When someone in Parramatta Googles 'plumber near me', you either show up in the top three — or you don't exist. We set up, optimise, and manage your Google Business Profile so you're the one they call.",
++   "/—/ :: Your competitors are getting the calls because they show up first. Not because they're better — because their Google Business Profile is set up properly and yours isn't. Or worse, you don't have one at all.",
++   "/—/ :: You've got no reviews, no photos, and no posts — so Google doesn't trust you",
++   "/—/ :: We handle everything — from creating your profile to keeping it active with fresh photos, weekly posts, and a review strategy that builds trust. All so you rank higher in local search results across Western Sydney.",
++   "/—/ :: Regular photo uploads of your work, your team, and your premises. Profiles with photos get 42% more direction requests — we keep yours fresh.",
++   "/—/ :: Already have a GBP? We'll audit it and fix everything. Don't have one? We'll create and verify it for you — usually takes a few days.",
++   "/—/ :: No. If you're a service-area business — like a tradie, cleaner, or mobile mechanic — you can hide your address and just list the suburbs you serve. We'll set this up correctly so you still show up in local results.",
++   "/—/ :: Get found on Google by the people who matter most — locals",
++   "/—/ :: When someone searches 'electrician Blacktown' or 'cafe near Parramatta', your competitors show up and you don't. It's not because they're better at what they do — it's because they've invested in local SEO and you haven't.",
++   "/—/ :: Your competitors appear above you in Google and on Maps — every single time",
++   "/—/ :: Rank where it matters — your backyard",
++   "/—/ :: We build a local SEO strategy tailored to your business and your suburbs. On-page optimisation, Google Business Profile, local citations, review management, and suburb-targeted content — everything you need to outrank the competition in Western Sydney.",
++   "/—/ :: Full setup and ongoing management of your GBP — the single most important factor for showing up in the Map Pack when locals search for what you do.",
++   "/—/ :: We list your business on the directories that actually matter — Yellow Pages, True Local, Yelp, and industry-specific sites. Consistent name, address, and phone number everywhere.",
++   "/—/ :: A system to get more five-star reviews from your happy customers. We give you the tools and templates — you just have to ask. More reviews means more trust and higher rankings.",
++   "/—/ :: Landing pages and content that target the specific suburbs you serve across Western Sydney. 'Plumber Penrith' and 'plumber Castle Hill' are different searches — we cover them all.",
++   "/—/ :: We audit your current online presence and identify the exact local searches you should be ranking for. No guesswork — just data.",
++   "/—/ :: Monthly performance reviews, ranking tracking, and ongoing improvements. Local SEO is a long game — we keep pushing until you're at the top and then we keep you there.",
++   "/—/ :: You'll start seeing movement within 4-6 weeks, with meaningful ranking improvements by month 3. Local SEO in Western Sydney is less competitive than inner-city, so results tend to come faster — but it depends on your industry and how much ground you need to cover.",
++   "/—/ :: Regular SEO tries to rank you nationally or globally. Local SEO focuses specifically on geographic searches — the 'near me' and suburb-specific queries that your actual customers are typing. For most small businesses in Western Sydney, local SEO is the only SEO that matters.",
++   "/—/ :: It helps a lot, but we can start with just your Google Business Profile and local citations. That said, a proper website gives Google a lot more to work with. We can build one for you as part of a combined package — most clients do both.",
++   "/—/ :: No one can guarantee specific rankings — and anyone who does is either lying or using tactics that'll get you penalised. What we can guarantee is that we'll implement best-practice local SEO, track your progress monthly, and keep improving until you're ranking where you should be.",
++   "/—/ :: Cafe & Restaurant Websites Sydney — Menus, Booking & Social | Dorza",
++   "/—/ :: Your food is incredible — but if your website is a PDF menu from 2019 and your Instagram hasn't posted since last month, you're losing customers to the place down the road. We fix that.",
++   "/—/ :: People want to book a table in 10 seconds. If they have to call during service, most won't bother — they'll book the place that lets them tap a button.",
++   "/—/ :: Consistent social media — 3-5 posts per week",
++   "/—/ :: We integrate OpenTable, Quandoo, ResDiary, or whichever system you use — directly into your website. One tap, table booked. No phone calls required.",
++   "/—/ :: Tradie Websites Sydney — Get More Jobs Online | Dorza",
++   "/—/ :: You're great at what you do — but if no one can find you on Google, you're leaving jobs on the table. We build websites and marketing that get tradies found online and turn searches into enquiries.",
++   "/—/ :: Word of mouth is good — until it dries up. You need a steady stream of new enquiries, not feast-or-famine months where you're either flat out or twiddling your thumbs.",
++   "/—/ :: A proper website built to rank for '[your trade] + [your suburb]' searches. Service area pages, click-to-call buttons, and a design that says 'professional' — not 'my nephew built this'.",
++   "/—/ :: Show off your best work with a before/after gallery. Nothing sells a tradie better than proof of what you can do — and it builds the trust that gets people to pick up the phone.",
++   "/—/ :: Lead capture that works — click-to-call and forms",
++   "/—/ :: Salon & Beauty Websites Sydney — Booking & Instagram | Dorza",
++   "/—/ :: Your work speaks for itself — but only if people can actually see it. We build salon websites that showcase your portfolio, integrate your booking system, and keep your Instagram looking as polished as your clients.",
++   "/—/ :: DMs, phone calls, texts, voicemails — you're juggling five channels and still double-booking. Your clients want to book at 11pm on a Sunday, not call during business hours.",
++   "/—/ :: A beautiful website built around your best work. High-quality image galleries, service menus with pricing, team bios — everything a new client needs to book with confidence.",
++   "/—/ :: Instagram that sells — 3-5 posts per week",
++   "/—/ :: Review engine — automated requests",
++   "/invisible online/i :: From Parramatta to Penrith, most local businesses are invisible online. We help Western Sydney small businesses get a professional website, show up on Google, and turn local searches into real customers.",
++   "/invisible online/i :: Western Sydney is home to over 2.5 million residents and tens of thousands of small businesses that form the backbone of the local economy. From cafes on Church Street to tradies in Blacktown, these businesses serve their communities every day — but most are invisible online. With mobile searches for local services growing year on year, having a professional web presence is no longer optional. It is the difference between being found and being forgotten.",
++   "/—/ :: Western Sydney is home to over 2.5 million residents and tens of thousands of small businesses that form the backbone of the local economy. From cafes on Church Street to tradies in Blacktown, these businesses serve their communities every day — but most are invisible online. With mobile searches for local services growing year on year, having a professional web presence is no longer optional. It is the difference between being found and being forgotten.",
++   "/—/ :: Parramatta is Sydney's second CBD — a hub of commerce, dining and professional services. We help local businesses stand out against national chains with websites that convert and marketing that reaches the right customers.",
++   "/—/ :: Parramatta has transformed into Sydney's second CBD, with the new Parramatta Light Rail, the Powerhouse Parramatta arts precinct, and a skyline that grows every year. Church Street remains the beating heart of local business — from long-standing family restaurants to new cafes and boutiques. But as national chains move in and competition intensifies, local operators need more than foot traffic. A strong digital presence helps Parramatta businesses compete on Google, attract customers from surrounding suburbs, and build the kind of reputation that keeps people coming back.",
++   "/—/ :: The City of Blacktown is the most populated local government area in Australia, home to more than 400,000 people across a diverse, multicultural community. From the bustling Blacktown Markets on Sundays to the shops lining Main Street and the surrounding retail centres, small businesses are everywhere — but many still rely on word of mouth alone. With such a large and growing population, the opportunity for businesses to reach new customers online is enormous. A professional website and Google presence can connect a Blacktown business with thousands of nearby residents searching for exactly what they offer.",
++   "/—/ :: Penrith sits at the gateway to the Blue Mountains and the doorstep of the new Western Sydney Airport. We help local businesses get online and get found — from High Street shops to Panthers precinct services.",
++   "/—/ :: Penrith is undergoing one of the biggest transformations in Sydney's history. The new Western Sydney International Airport at Badgerys Creek is set to reshape the entire region, bringing jobs, infrastructure and a wave of new residents. High Street remains the commercial spine of the city, while the Panthers precinct has grown into a major entertainment and dining destination. For Penrith businesses, the next few years represent a once-in-a-generation opportunity — but only if potential customers can find them online. A professional website and strong local SEO ensure that when someone searches for a service in Penrith, your business is the one they call.",
++   "/—/ :: Liverpool is one of south-west Sydney's most important commercial centres, anchored by Westfield Liverpool, Liverpool Hospital — one of the busiest in NSW — and a growing CBD that attracts professionals, families and students alike. The area has one of the youngest median ages in Greater Sydney, which means a digitally native customer base that expects to find businesses online before they visit in person. From medical practices near the hospital to food outlets along Macquarie Street and trade services across the surrounding suburbs, Liverpool businesses that invest in their online presence reach customers that word of mouth alone cannot.",
++   "/—/ :: Campbelltown has evolved from a satellite town into one of Sydney's most dynamic growth corridors. The Western Sydney University campus brings a steady flow of students, the Queen Street mall remains the heart of local retail, and Macarthur Square draws shoppers from across the Macarthur region. With significant residential development in suburbs like Oran Park, Gregory Hills and Leppington, the local customer base is expanding rapidly. For businesses in Campbelltown, being online is no longer a nice-to-have — it is essential to capturing the attention of new residents and competing with the chains that are moving into the area.",
++ ]
+
+ ❯ tests/legacy-data.test.ts:15:83
+     13|
+     14|   it("is in the new voice", () => {
+     15|     expect(findViolations(collectStrings([SERVICES, INDUSTRIES, AREAS]…
+       |                                                                                   ^
+     16|   });
+     17|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  tests/legacy-data.test.ts > kept page data > keeps place names out of service and industry pages
+AssertionError: expected [ …(32) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "/Western Sydney/i :: Web Design for Small Businesses in Western Sydney | Dorza",
++   "/Western Sydney/i :: Custom, hand-coded websites built to get Western Sydney businesses found online. Mobile-first, SEO-ready, live in 24 hours. No templates, no lock-in.",
++   "/Western Sydney/i :: Not a Wix template with your logo slapped on. A proper website, hand-built for your business, designed to show up on Google and turn visitors into paying customers across Western Sydney.",
++   "/Western Sydney/i :: Most small businesses in Western Sydney either have no website, or one that looks like it was built in 2014. Either way, you're invisible to the people searching for what you do right now.",
++   "/Western Sydney/i :: We don't just build the site — we connect it to your Google Business Profile so you show up on Maps and local search results across Western Sydney.",
++   "/Western Sydney/i :: No worries. We can write your copy based on the brief you fill out, and we'll use professional stock images until you're ready with your own. Most of our Western Sydney clients start with what they have and upgrade later.",
++   "/Western Sydney/i :: Social Media Management for Western Sydney Businesses | Dorza",
++   "/Western Sydney/i :: Consistent, on-brand social media posts for your business. 3-5 posts per week, a done-for-you content calendar, performance tracking. Built for Western Sydney locals.",
++   "/Western Sydney/i :: We create and schedule 3 to 5 posts per week that actually sound like you, not some generic marketing agency. Real content ideas tailored to your business, your suburb, and your customers across Western Sydney.",
++   "/Penrith/i :: We learn your voice and stick to it. If you're a no-nonsense plumber in Penrith, your posts won't sound like a Surry Hills branding agency wrote them.",
++   "/Western Sydney/i :: Posts that reference your suburb, your local community, and the things your Western Sydney customers actually care about. Not generic stock photo content.",
++   "/Western Sydney/i :: Google Business Profile Setup & Management | Western Sydney | Dorza",
++   "/Western Sydney/i :: Get your business on Google Maps and local search. Full GBP setup, optimisation, photo management, and review strategy for Western Sydney businesses.",
++   "/Parramatta/i :: When someone in Parramatta Googles 'plumber near me', you either show up in the top three — or you don't exist. We set up, optimise, and manage your Google Business Profile so you're the one they call.",
++   "/Western Sydney/i :: We handle everything — from creating your profile to keeping it active with fresh photos, weekly posts, and a review strategy that builds trust. All so you rank higher in local search results across Western Sydney.",
++   "/Western Sydney/i :: We fill every field, upload photos, write your business description, set your service areas across Western Sydney, and publish your first posts.",
++   "/Western Sydney/i :: Most businesses start appearing within 1-2 weeks of verification. Ranking in the top 3 of the Map Pack depends on competition in your area, but we typically see strong improvements within the first month for Western Sydney suburbs.",
++   "/Western Sydney/i :: Local SEO Services for Western Sydney Small Businesses | Dorza",
++   "/Western Sydney/i :: Get found on Google by Western Sydney locals. On-page SEO, Google Business Profile, local citations, review strategy, and suburb-targeted content.",
++   "/Western Sydney/i :: You don't need to rank globally. You need to rank in Parramatta, Blacktown, Penrith, and the suburbs where your customers actually live. We make that happen with local SEO built specifically for Western Sydney businesses.",
++   "/Parramatta/i :: You don't need to rank globally. You need to rank in Parramatta, Blacktown, Penrith, and the suburbs where your customers actually live. We make that happen with local SEO built specifically for Western Sydney businesses.",
++   "/Blacktown/i :: You don't need to rank globally. You need to rank in Parramatta, Blacktown, Penrith, and the suburbs where your customers actually live. We make that happen with local SEO built specifically for Western Sydney businesses.",
++   "/Penrith/i :: You don't need to rank globally. You need to rank in Parramatta, Blacktown, Penrith, and the suburbs where your customers actually live. We make that happen with local SEO built specifically for Western Sydney businesses.",
++   "/Parramatta/i :: When someone searches 'electrician Blacktown' or 'cafe near Parramatta', your competitors show up and you don't. It's not because they're better at what they do — it's because they've invested in local SEO and you haven't.",
++   "/Blacktown/i :: When someone searches 'electrician Blacktown' or 'cafe near Parramatta', your competitors show up and you don't. It's not because they're better at what they do — it's because they've invested in local SEO and you haven't.",
++   "/Western Sydney/i :: We build a local SEO strategy tailored to your business and your suburbs. On-page optimisation, Google Business Profile, local citations, review management, and suburb-targeted content — everything you need to outrank the competition in Western Sydney.",
++   "/Western Sydney/i :: Landing pages and content that target the specific suburbs you serve across Western Sydney. 'Plumber Penrith' and 'plumber Castle Hill' are different searches — we cover them all.",
++   "/Penrith/i :: Landing pages and content that target the specific suburbs you serve across Western Sydney. 'Plumber Penrith' and 'plumber Castle Hill' are different searches — we cover them all.",
++   "/Castle Hill/i :: Landing pages and content that target the specific suburbs you serve across Western Sydney. 'Plumber Penrith' and 'plumber Castle Hill' are different searches — we cover them all.",
++   "/Western Sydney/i :: You'll start seeing movement within 4-6 weeks, with meaningful ranking improvements by month 3. Local SEO in Western Sydney is less competitive than inner-city, so results tend to come faster — but it depends on your industry and how much ground you need to cover.",
++   "/Western Sydney/i :: Regular SEO tries to rank you nationally or globally. Local SEO focuses specifically on geographic searches — the 'near me' and suburb-specific queries that your actual customers are typing. For most small businesses in Western Sydney, local SEO is the only SEO that matters.",
++   "/Parramatta/i :: When someone searches 'electrician Parramatta' or 'plumber near me', your competitors show up and you don't. You're invisible to the people actively looking for your trade.",
++ ]
+
+ ❯ tests/legacy-data.test.ts:19:76
+     17|
+     18|   it("keeps place names out of service and industry pages", () => {
+     19|     expect(findViolations(collectStrings([SERVICES, INDUSTRIES]), PLAC…
+       |                                                                            ^
+     20|   });
+     21|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  tests/legacy-data.test.ts > kept page data > carries no unsourced outcome statistics
+AssertionError: expected { slug: 'cafes-restaurants', …(11) } to not have property "outcomes"
+
+- Expected:
+undefined
+
++ Received:
+[
+  {
+    "label": "More Google profile views in 90 days",
+    "stat": "Up to 3-5x",
+  },
+  {
+    "label": "Instagram engagement growth",
+    "stat": "Up to 2x",
+  },
+  {
+    "label": "Of customers check your menu online before visiting",
+    "stat": "70%",
+  },
+]
+
+ ❯ tests/legacy-data.test.ts:23:61
+     21|
+     22|   it("carries no unsourced outcome statistics", () => {
+     23|     for (const industry of INDUSTRIES) expect(industry).not.toHaveProp…
+       |                                                             ^
+     24|     expect(findViolations(collectStrings(INDUSTRIES), [/\bup to \d/i, …
+     25|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  tests/marketing-lint.test.ts > marketing code > uses only v7 tokens, shapes and motion
+AssertionError: expected [ …(176) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "app\\areas\\[slug]\\page.tsx:162 legacy colour class",
++   "app\\areas\\[slug]\\page.tsx:165 legacy colour class",
++   "app\\areas\\[slug]\\page.tsx:166 eyebrow label",
++   "app\\areas\\[slug]\\page.tsx:168 legacy colour class",
++   "app\\areas\\[slug]\\page.tsx:175 legacy colour class",
++   "app\\areas\\[slug]\\page.tsx:184 legacy colour class",
++   "app\\areas\\[slug]\\page.tsx:187 legacy colour class",
++   "app\\areas\\[slug]\\page.tsx:197 pure white or black",
++   "app\\areas\\[slug]\\page.tsx:200 legacy colour class",
++   "app\\areas\\[slug]\\page.tsx:201 eyebrow label",
++   "app\\areas\\[slug]\\page.tsx:203 legacy colour class",
++   "app\\areas\\[slug]\\page.tsx:214 legacy colour class",
++   "app\\areas\\[slug]\\page.tsx:214 pure white or black",
++   "app\\areas\\[slug]\\page.tsx:216 legacy colour class",
++   "app\\areas\\[slug]\\page.tsx:221 legacy colour class",
++   "app\\areas\\[slug]\\page.tsx:231 legacy colour class",
++   "app\\areas\\[slug]\\page.tsx:234 legacy colour class",
++   "app\\areas\\[slug]\\page.tsx:235 eyebrow label",
++   "app\\areas\\[slug]\\page.tsx:237 legacy colour class",
++   "app\\areas\\[slug]\\page.tsx:248 legacy colour class",
++   "app\\areas\\[slug]\\page.tsx:248 pure white or black",
++   "app\\areas\\[slug]\\page.tsx:260 pure white or black",
++   "app\\areas\\[slug]\\page.tsx:263 legacy colour class",
++   "app\\areas\\[slug]\\page.tsx:264 eyebrow label",
++   "app\\areas\\[slug]\\page.tsx:266 legacy colour class",
++   "app\\areas\\[slug]\\page.tsx:277 legacy colour class",
++   "app\\areas\\[slug]\\page.tsx:277 pure white or black",
++   "app\\areas\\[slug]\\page.tsx:282 legacy colour class",
++   "app\\areas\\[slug]\\page.tsx:285 legacy colour class",
++   "app\\areas\\[slug]\\page.tsx:289 legacy colour class",
++   "app\\industries\\[slug]\\page.tsx:3 tick icon list",
++   "app\\industries\\[slug]\\page.tsx:106 legacy colour class",
++   "app\\industries\\[slug]\\page.tsx:109 legacy colour class",
++   "app\\industries\\[slug]\\page.tsx:110 eyebrow label",
++   "app\\industries\\[slug]\\page.tsx:112 legacy colour class",
++   "app\\industries\\[slug]\\page.tsx:121 legacy colour class",
++   "app\\industries\\[slug]\\page.tsx:121 pure white or black",
++   "app\\industries\\[slug]\\page.tsx:123 legacy colour class",
++   "app\\industries\\[slug]\\page.tsx:126 legacy colour class",
++   "app\\industries\\[slug]\\page.tsx:136 pure white or black",
++   "app\\industries\\[slug]\\page.tsx:139 legacy colour class",
++   "app\\industries\\[slug]\\page.tsx:140 eyebrow label",
++   "app\\industries\\[slug]\\page.tsx:142 legacy colour class",
++   "app\\industries\\[slug]\\page.tsx:151 legacy colour class",
++   "app\\industries\\[slug]\\page.tsx:151 pure white or black",
++   "app\\industries\\[slug]\\page.tsx:153 legacy colour class",
++   "app\\industries\\[slug]\\page.tsx:154 legacy colour class",
++   "app\\industries\\[slug]\\page.tsx:156 legacy colour class",
++   "app\\industries\\[slug]\\page.tsx:159 legacy colour class",
++   "app\\industries\\[slug]\\page.tsx:169 legacy colour class",
++   "app\\industries\\[slug]\\page.tsx:175 legacy colour class",
++   "app\\industries\\[slug]\\page.tsx:176 eyebrow label",
++   "app\\industries\\[slug]\\page.tsx:178 legacy colour class",
++   "app\\industries\\[slug]\\page.tsx:184 legacy colour class",
++   "app\\industries\\[slug]\\page.tsx:185 legacy colour class",
++   "app\\industries\\[slug]\\page.tsx:187 legacy colour class",
++   "app\\industries\\[slug]\\page.tsx:199 legacy colour class",
++   "app\\industries\\[slug]\\page.tsx:200 eyebrow label",
++   "app\\industries\\[slug]\\page.tsx:202 legacy colour class",
++   "app\\industries\\[slug]\\page.tsx:208 legacy colour class",
++   "app\\industries\\[slug]\\page.tsx:211 legacy colour class",
++   "app\\industries\\[slug]\\page.tsx:225 pure white or black",
++   "app\\industries\\[slug]\\page.tsx:228 legacy colour class",
++   "app\\industries\\[slug]\\page.tsx:229 eyebrow label",
++   "app\\industries\\[slug]\\page.tsx:231 legacy colour class",
++   "app\\industries\\[slug]\\page.tsx:241 legacy colour class",
++   "app\\industries\\[slug]\\page.tsx:241 pure white or black",
++   "app\\industries\\[slug]\\page.tsx:243 legacy colour class",
++   "app\\industries\\[slug]\\page.tsx:246 legacy colour class",
++   "app\\industries\\[slug]\\page.tsx:249 legacy colour class",
++   "app\\industries\\[slug]\\page.tsx:252 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:3 tick icon list",
++   "app\\services\\[slug]\\page.tsx:128 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:131 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:132 eyebrow label",
++   "app\\services\\[slug]\\page.tsx:134 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:137 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:148 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:150 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:161 pure white or black",
++   "app\\services\\[slug]\\page.tsx:164 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:165 eyebrow label",
++   "app\\services\\[slug]\\page.tsx:167 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:170 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:179 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:179 pure white or black",
++   "app\\services\\[slug]\\page.tsx:181 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:182 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:184 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:187 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:197 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:200 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:201 eyebrow label",
++   "app\\services\\[slug]\\page.tsx:203 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:211 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:214 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:217 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:227 pure white or black",
++   "app\\services\\[slug]\\page.tsx:230 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:231 eyebrow label",
++   "app\\services\\[slug]\\page.tsx:233 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:242 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:245 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:257 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:260 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:261 eyebrow label",
++   "app\\services\\[slug]\\page.tsx:263 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:273 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:273 pure white or black",
++   "app\\services\\[slug]\\page.tsx:275 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:278 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:281 legacy colour class",
++   "app\\services\\[slug]\\page.tsx:284 legacy colour class",
++   "app\\website-cost\\page.tsx:3 tick icon list",
++   "app\\website-cost\\page.tsx:130 eyebrow label",
++   "app\\website-cost\\page.tsx:137 legacy colour class",
++   "app\\website-cost\\page.tsx:140 legacy colour class",
++   "app\\website-cost\\page.tsx:141 eyebrow label",
++   "app\\website-cost\\page.tsx:143 legacy colour class",
++   "app\\website-cost\\page.tsx:146 legacy colour class",
++   "app\\website-cost\\page.tsx:160 legacy colour class",
++   "app\\website-cost\\page.tsx:160 pure white or black",
++   "app\\website-cost\\page.tsx:162 legacy colour class",
++   "app\\website-cost\\page.tsx:163 legacy colour class",
++   "app\\website-cost\\page.tsx:165 legacy colour class",
++   "app\\website-cost\\page.tsx:168 legacy colour class",
++   "app\\website-cost\\page.tsx:176 legacy colour class",
++   "app\\website-cost\\page.tsx:181 legacy colour class",
++   "app\\website-cost\\page.tsx:192 pure white or black",
++   "app\\website-cost\\page.tsx:195 legacy colour class",
++   "app\\website-cost\\page.tsx:196 eyebrow label",
++   "app\\website-cost\\page.tsx:198 legacy colour class",
++   "app\\website-cost\\page.tsx:205 legacy colour class",
++   "app\\website-cost\\page.tsx:211 legacy colour class",
++   "app\\website-cost\\page.tsx:223 legacy colour class",
++   "app\\website-cost\\page.tsx:226 legacy colour class",
++   "app\\website-cost\\page.tsx:227 eyebrow label",
++   "app\\website-cost\\page.tsx:229 legacy colour class",
++   "app\\website-cost\\page.tsx:232 legacy colour class",
++   "app\\website-cost\\page.tsx:248 legacy colour class",
++   "app\\website-cost\\page.tsx:249 legacy colour class",
++   "app\\website-cost\\page.tsx:251 legacy colour class",
++   "app\\website-cost\\page.tsx:260 legacy colour class",
++   "app\\website-cost\\page.tsx:264 legacy colour class",
++   "app\\website-cost\\page.tsx:271 legacy colour class",
++   "app\\website-cost\\page.tsx:282 pure white or black",
++   "app\\website-cost\\page.tsx:285 legacy colour class",
++   "app\\website-cost\\page.tsx:286 eyebrow label",
++   "app\\website-cost\\page.tsx:288 legacy colour class",
++   "app\\website-cost\\page.tsx:297 legacy colour class",
++   "app\\website-cost\\page.tsx:300 legacy colour class",
++   "components\\ui\\Badge.tsx:13 legacy colour class",
++   "components\\ui\\Card.tsx:12 legacy colour class",
++   "components\\ui\\Card.tsx:12 pure white or black",
++   "components\\ui\\EnquiryModal.tsx:121 legacy colour class",
++   "components\\ui\\EnquiryModal.tsx:129 legacy colour class",
++   "components\\ui\\EnquiryModal.tsx:129 pure white or black",
++   "components\\ui\\EnquiryModal.tsx:139 legacy colour class",
++   "components\\ui\\EnquiryModal.tsx:144 legacy colour class",
++   "components\\ui\\EnquiryModal.tsx:145 legacy colour class",
++   "components\\ui\\EnquiryModal.tsx:146 eyebrow label",
++   "components\\ui\\EnquiryModal.tsx:148 legacy colour class",
++   "components\\ui\\EnquiryModal.tsx:151 legacy colour class",
++   "components\\ui\\EnquiryModal.tsx:167 legacy colour class",
++   "components\\ui\\EnquiryModal.tsx:170 legacy colour class",
++   "components\\ui\\EnquiryModal.tsx:173 legacy colour class",
++   "components\\ui\\EnquiryModal.tsx:179 legacy colour class",
++   "components\\ui\\EnquiryModal.tsx:179 pure white or black",
++   "components\\ui\\EnquiryModal.tsx:204 legacy colour class",
++   "components\\ui\\EnquiryModal.tsx:204 pure white or black",
++   "components\\ui\\EnquiryModal.tsx:210 legacy colour class",
++   "components\\ui\\ScrollProgress.tsx:13 legacy colour class",
++   "components\\ui\\SectionHeader.tsx:37 legacy colour class",
++   "components\\ui\\SectionHeader.tsx:37 pure white or black",
++   "components\\ui\\SectionHeader.tsx:47 legacy colour class",
++   "components\\ui\\SectionHeader.tsx:47 pure white or black",
++ ]
+
+ ❯ tests/marketing-lint.test.ts:30:51
+     28| describe("marketing code", () => {
+     29|   it("uses only v7 tokens, shapes and motion", () => {
+     30|     expect(violations(marketingSources(), RULES)).toEqual([]);
+       |                                                   ^
+     31|   });
+     32|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  5 failed | 3 passed (8)
+   Start at  23:39:47
+   Duration  289ms (transform 38%, tests 35%, import 20%, worker 7%)
+
+ ELIFECYCLE  Test failed. See above for more details.

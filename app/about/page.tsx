@@ -1,208 +1,116 @@
-import type { Metadata } from "next";
-import { Check } from "lucide-react";
-import { SITE_URL } from "@/lib/seo";
-import Nav from "@/components/sections/Nav";
-import InnerHero from "@/components/sections/InnerHero";
-import PageCTA from "@/components/sections/PageCTA";
 import Footer from "@/components/sections/Footer";
-import { Container } from "@/components/ui/Container";
+import Nav from "@/components/sections/Nav";
+import PageCTA from "@/components/sections/PageCTA";
+import { LineReveal } from "@/components/motion/LineReveal";
 import { Reveal } from "@/components/motion/Reveal";
+import { Container } from "@/components/ui/Container";
+import { pageMetadata } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "About Dorza — Built for Western Sydney Small Business",
+export const metadata = pageMetadata({
+  title: "About",
   description:
-    "Dorza is a Western Sydney digital agency that builds websites, runs social media, and manages Google Business for local small businesses. Custom websites from $499.",
-  alternates: { canonical: `${SITE_URL}/about` },
-  openGraph: {
-    title: "About Dorza — Built for Western Sydney Small Business",
-    description:
-      "Dorza is a Western Sydney digital agency that builds websites, runs social media, and manages Google Business for local small businesses. Custom websites from $499.",
-    url: `${SITE_URL}/about`,
-    siteName: "Dorza",
-    locale: "en_AU",
-    type: "website",
-    images: [
-      {
-        url: `${SITE_URL}/images/og-default.png`,
-        width: 1200,
-        height: 630,
-      },
-    ],
+    "Dorza is two founders in Sydney who look after the tech for small businesses across Australia: websites, booking systems and support.",
+  path: "/about",
+});
+
+const FOUNDERS = [
+  {
+    name: "Mahir Mahbub",
+    role: "Customers, product and strategy",
+    line: "Mahir comes from product management and financial risk. He's the one you'll talk to first.",
   },
-};
-
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: SITE_URL,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "About",
-      item: `${SITE_URL}/about`,
-    },
-  ],
-};
-
-const differentiators = [
-  "No lock-in contracts — cancel any time",
-  "Live websites in 24 hours, not 8 weeks",
-  "Custom websites from $499 — a fraction of agency prices",
-  "Senior agency quality, delivered in days not weeks",
-  "You own everything we build",
-  "Real monthly reporting with real metrics",
+  {
+    name: "Adi Widodo",
+    role: "Build and infrastructure",
+    line: "Adi comes from building tracking and attribution systems for media companies. He builds what we ship and keeps it running.",
+  },
 ];
 
-const values = [
+const PRINCIPLES = [
   {
-    title: "Speed over perfection",
-    description:
-      "A good website live today beats a perfect one in 8 weeks.",
+    title: "We only promise what's live.",
+    body: "If we can't deliver something next week, the site says \"ask us\", or says nothing.",
   },
   {
-    title: "Transparency over jargon",
-    description:
-      "No buzzwords, no vague proposals. You know what you're getting.",
+    title: "You own what we build.",
+    body: "The site and everything on it are yours. If you leave, it goes with you.",
   },
   {
-    title: "Results over activity",
-    description:
-      "We measure success by customers you got, not posts we made.",
-  },
-  {
-    title: "Ownership over lock-in",
-    description:
-      "You own everything we build. If you leave, it comes with you.",
+    title: "No lock-in.",
+    body: "Monthly support runs month to month. We keep your business by being useful.",
   },
 ];
 
 export default function AboutPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-      />
-
       <Nav />
-
-      <main>
-        <InnerHero
-          eyebrow="// About Dorza"
-          title="Built for Western Sydney"
-          description="Dorza exists because small businesses in Western Sydney deserve better than overpriced agencies and DIY templates. We're here to give you a real digital presence — without the BS."
-          breadcrumbs={[{ label: "About", href: "/about" }]}
-        />
-
-        {/* Story section */}
-        <section className="py-20 md:py-[7.5rem] bg-warm">
+      <main id="main">
+        <section className="bg-chalk py-section-tight md:py-section">
           <Container>
-            <Reveal>
-              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-5">
-                {"// Why we exist"}
+            <h1 className="d-display max-w-[14ch]">
+              <LineReveal lines={["The tech team you don’t have."]} />
+            </h1>
+            <Reveal delay={0.2}>
+              <p className="d-lede mt-7 max-w-text">
+                Dorza is two founders in Sydney who look after the tech for small businesses across Australia.
               </p>
-              <h2 className="font-display text-[36px] md:text-[52px] leading-[1.02] tracking-[-0.025em] text-dark mb-10">
-                Small business got a raw deal
-              </h2>
-            </Reveal>
-
-            <Reveal>
-              <div className="max-w-2xl space-y-6">
-                <p className="text-[17px] leading-relaxed text-text-secondary">
-                  Walk down Church Street Parramatta, Main Street Blacktown,
-                  High Street Penrith — incredible cafes, tradies, salons.
-                  The owner knows every client by name.
-                </p>
-                <p className="text-[17px] leading-relaxed text-text-secondary">
-                  But online they&apos;re invisible. No website, no Google
-                  Business, Facebook page from 2022. Big chains are
-                  everywhere because they can afford agencies charging
-                  $5,000+ for a basic site.
-                </p>
-                <p className="text-[17px] leading-relaxed text-text-secondary">
-                  That&apos;s the gap Dorza fills. We&apos;ve built a faster,
-                  leaner way of working — so we deliver agency-quality work at
-                  a fraction of the price and the wait. No lock-in, no jargon,
-                  just results.
-                </p>
-              </div>
             </Reveal>
           </Container>
         </section>
 
-        {/* How We're Different */}
-        <section className="py-20 md:py-[7.5rem] bg-white">
+        <section className="bg-paper py-section-tight md:py-section">
           <Container>
-            <Reveal>
-              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-5">
-                {"// How we're different"}
+            <Reveal className="max-w-text space-y-5">
+              <p className="d-lede">
+                Big businesses have people for this. A web team, an IT desk, someone who knows why the email
+                stopped working. Small businesses have the owner, at night, with a search engine.
               </p>
-              <h2 className="font-display text-[36px] md:text-[52px] leading-[1.02] tracking-[-0.025em] text-dark mb-10">
-                Not your typical agency
-              </h2>
-            </Reveal>
-
-            <Reveal>
-              <ul className="max-w-2xl space-y-4">
-                {differentiators.map((item) => (
-                  <li key={item} className="flex items-start gap-3">
-                    <span className="mt-0.5 flex-shrink-0 w-5 h-5 rounded-full bg-accent/10 flex items-center justify-center">
-                      <Check size={13} className="text-accent" />
-                    </span>
-                    <span className="text-[17px] leading-relaxed text-text-secondary">
-                      {item}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+              <p className="d-lede">
+                We started Dorza to be those people for businesses that can&rsquo;t hire them. We help you start,
+                we help you grow, and we stay on to support you.
+              </p>
             </Reveal>
           </Container>
         </section>
 
-        {/* Values */}
-        <section className="py-20 md:py-[7.5rem] bg-warm">
+        <section className="bg-chalk py-section-tight md:py-section">
           <Container>
             <Reveal>
-              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-5">
-                {"// What we believe"}
-              </p>
-              <h2 className="font-display text-[36px] md:text-[52px] leading-[1.02] tracking-[-0.025em] text-dark mb-10">
-                Our values
-              </h2>
+              <h2 className="d-heading">Who you&rsquo;ll deal with.</h2>
             </Reveal>
-
-            <Reveal>
-              <div className="grid sm:grid-cols-2 gap-6 max-w-3xl">
-                {values.map((value) => (
-                  <div
-                    key={value.title}
-                    className="bg-white border border-border rounded-card p-6"
-                  >
-                    <h3 className="font-display text-[22px] leading-tight tracking-[-0.02em] text-dark mb-2">
-                      {value.title}
-                    </h3>
-                    <p className="text-[15px] leading-relaxed text-text-secondary">
-                      {value.description}
-                    </p>
-                  </div>
-                ))}
-              </div>
+            <Reveal stagger={0.045} className="mt-10 grid gap-y-10 md:grid-cols-2 md:gap-x-12">
+              {FOUNDERS.map((f) => (
+                <div key={f.name} className="border-t border-rule pt-6">
+                  <h3 className="font-display text-[26px] font-medium leading-[1.1] tracking-[-0.014em] text-pine">
+                    {f.name}
+                  </h3>
+                  <p className="d-body mt-3">{f.line}</p>
+                  <p className="d-label mt-4">{f.role}</p>
+                </div>
+              ))}
             </Reveal>
           </Container>
         </section>
 
-        <PageCTA
-          headline="Want to work with us?"
-          description="Tell us about your business. No pitch decks, no 4-week discovery phase — just a straight answer on what we can do for you."
-        />
+        <section className="bg-haze py-section-tight md:py-section">
+          <Container>
+            <Reveal>
+              <h2 className="d-heading">How we work.</h2>
+            </Reveal>
+            <Reveal stagger={0.045} className="mt-10 grid gap-y-8 md:grid-cols-3 md:gap-x-8">
+              {PRINCIPLES.map((p) => (
+                <div key={p.title} className="border-t border-forest/30 pt-5">
+                  <h3 className="font-body text-[17px] font-semibold text-forest">{p.title}</h3>
+                  <p className="d-body mt-2">{p.body}</p>
+                </div>
+              ))}
+            </Reveal>
+          </Container>
+        </section>
+
+        <PageCTA />
       </main>
-
       <Footer />
     </>
   );

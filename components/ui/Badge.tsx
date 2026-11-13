@@ -10,7 +10,7 @@ export function Badge({ children, className }: BadgeProps) {
     <span
       className={cn(
         "inline-flex items-center min-h-[28px] px-3 text-[13px] font-medium leading-none",
-        "bg-accent-tint text-accent-dark rounded-full border border-accent/20",
+        "bg-haze text-forest rounded-chip",
         className
       )}
     >

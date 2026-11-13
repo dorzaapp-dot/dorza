@@ -1,191 +1,64 @@
-import { Container } from "@/components/ui/Container";
-import { PHONE_DISPLAY, PHONE_TEL } from "@/lib/seo";
-
-const serviceLinks = [
-  { label: "Web Design", href: "/services/web-design" },
-  { label: "Social Media", href: "/services/social-media-management" },
-  { label: "Google Business", href: "/services/google-business-profile" },
-  { label: "Local SEO", href: "/services/local-seo" },
-];
-
-const areaLinks = [
-  { label: "Western Sydney", href: "/areas/western-sydney" },
-  { label: "Parramatta", href: "/areas/parramatta" },
-  { label: "Blacktown", href: "/areas/blacktown" },
-  { label: "Penrith", href: "/areas/penrith" },
-  { label: "Liverpool", href: "/areas/liverpool" },
-  { label: "Campbelltown", href: "/areas/campbelltown" },
-];
-
-const industryLinks = [
-  { label: "Cafes & Restaurants", href: "/industries/cafes-restaurants" },
-  { label: "Tradies", href: "/industries/tradies" },
-  { label: "Salons & Beauty", href: "/industries/salons-beauty" },
-];
-
-const companyLinks = [
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
-  { label: "Pricing", href: "/#pricing" },
-];
-
-const socialLinks = [
-  {
-    href: "https://www.instagram.com/dorza.ai/",
-    label: "Instagram",
-    svg: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-        <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-      </svg>
-    ),
-  },
-  {
-    href: "https://www.linkedin.com/company/dorzaai/",
-    label: "LinkedIn",
-    svg: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-        <rect width="4" height="12" x="2" y="9" />
-        <circle cx="4" cy="4" r="2" />
-      </svg>
-    ),
-  },
-];
+import Link from "next/link";
+import { hasPublicWork } from "@/lib/data/workStatus";
+import { CONTACT_EMAIL, PHONE_DISPLAY, PHONE_TEL } from "@/lib/seo";
+import { ABN, FOOTER_GROUPS, SOCIALS, TAGLINE } from "@/lib/site";
 
 export default function Footer() {
+  const showWork = hasPublicWork();
+  const year = new Date().getFullYear();
+
   return (
-    <footer className="bg-dark text-white">
-      <Container className="py-16 md:py-20">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-10">
-          {/* Brand */}
-          <div className="col-span-2 md:col-span-3 lg:col-span-1">
-            <a
-              href="/"
-              className="inline-block font-display text-[30px] leading-none"
-              aria-label="Dorza home"
-            >
-              d<span className="text-primary">o</span>rza
-            </a>
-            <p className="mt-3 text-white/50 text-sm leading-relaxed">
-              Web design and digital marketing for Western Sydney small business.
-            </p>
-            <p className="mt-2 text-white/45 font-mono text-[11px]">Parramatta, NSW 2150</p>
-          </div>
-
-          {/* Services */}
-          <div>
-            <h4 className="font-mono text-[11px] uppercase tracking-widest text-white/55 mb-4">
-              Services
-            </h4>
-            <ul className="space-y-2.5">
-              {serviceLinks.map((l) => (
-                <li key={l.label}>
-                  <a
-                    href={l.href}
-                    className="text-white/60 hover:text-white text-sm transition-colors duration-[160ms]"
-                  >
-                    {l.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Areas */}
-          <div>
-            <h4 className="font-mono text-[11px] uppercase tracking-widest text-white/55 mb-4">
-              Areas
-            </h4>
-            <ul className="space-y-2.5">
-              {areaLinks.map((l) => (
-                <li key={l.label}>
-                  <a
-                    href={l.href}
-                    className="text-white/60 hover:text-white text-sm transition-colors duration-[160ms]"
-                  >
-                    {l.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Industries */}
-          <div>
-            <h4 className="font-mono text-[11px] uppercase tracking-widest text-white/55 mb-4">
-              Industries
-            </h4>
-            <ul className="space-y-2.5">
-              {industryLinks.map((l) => (
-                <li key={l.label}>
-                  <a
-                    href={l.href}
-                    className="text-white/60 hover:text-white text-sm transition-colors duration-[160ms]"
-                  >
-                    {l.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Company + Contact */}
-          <div>
-            <h4 className="font-mono text-[11px] uppercase tracking-widest text-white/55 mb-4">
-              Company
-            </h4>
-            <ul className="space-y-2.5">
-              {companyLinks.map((l) => (
-                <li key={l.label}>
-                  <a
-                    href={l.href}
-                    className="text-white/60 hover:text-white text-sm transition-colors duration-[160ms]"
-                  >
-                    {l.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-            <a
-              href={`tel:${PHONE_TEL}`}
-              className="block mt-5 text-white/60 hover:text-white text-sm transition-colors duration-[160ms]"
-            >
-              {PHONE_DISPLAY}
-            </a>
-            <a
-              href="mailto:customer@dorza.com.au"
-              className="block mt-2 text-white/60 hover:text-white text-sm transition-colors duration-[160ms]"
-            >
-              customer@dorza.com.au
-            </a>
-            <div className="flex gap-4 mt-4">
-              {socialLinks.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  aria-label={s.label}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white/55 hover:text-accent-light transition-colors duration-300 ease-dorza"
-                >
-                  {s.svg}
-                </a>
-              ))}
+    <footer className="on-inverse border-t border-chalk/10">
+      <div className="mx-auto max-w-layout px-6 py-section-tight lg:px-8 md:py-section">
+        <div className="grid gap-12 md:grid-cols-12">
+          <div className="md:col-span-5">
+            <Link href="/" aria-label="Dorza home" className="font-display text-[32px] leading-none text-chalk">
+              d<span className="text-ochre">o</span>rza
+            </Link>
+            <p className="d-lede mt-5 max-w-[22ch]">{TAGLINE}</p>
+            <div className="d-mono mt-6">
+              <a href={`tel:${PHONE_TEL}`} className="d-link flex w-fit min-h-11 items-center" aria-label={`Call Dorza on ${PHONE_DISPLAY}`}>
+                {PHONE_DISPLAY}
+              </a>
+              <a href={`mailto:${CONTACT_EMAIL}`} className="d-link flex w-fit min-h-11 items-center">
+                {CONTACT_EMAIL}
+              </a>
             </div>
           </div>
+
+          {FOOTER_GROUPS.map((group) => (
+            <nav key={group.title} aria-label={group.title} className="md:col-span-2 md:first-of-type:col-start-7">
+              <p className="d-label">{group.title}</p>
+              <ul className="m-0 mt-2 list-none p-0">
+                {group.links
+                  .filter((l) => l.href !== "/work" || showWork)
+                  .map((l) => (
+                    <li key={l.href}>
+                      <Link href={l.href} className="inline-flex min-h-11 items-center text-[15px] text-chalk/80 transition-colors duration-fast ease-dorza hover:text-ochre">
+                        {l.label}
+                      </Link>
+                    </li>
+                  ))}
+              </ul>
+            </nav>
+          ))}
         </div>
 
-        <div className="mt-14 pt-6 border-t border-white/10 flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-          <p className="font-mono text-[11px] text-white/45 uppercase tracking-[0.18em]">
-            © 2026 dorza · made in sydney
+        <div className="mt-16 flex flex-col gap-4 border-t border-chalk/20 pt-6 md:flex-row md:items-center md:justify-between">
+          <p className="d-label">
+            &copy; {year} Dorza &middot; ABN {ABN} &middot; Sydney, Australia
           </p>
-          <p className="font-mono text-[11px] text-white/45 uppercase tracking-[0.18em]">
-            Built with care and good taste
-          </p>
+          <ul className="m-0 flex list-none gap-6 p-0">
+            {SOCIALS.map((s) => (
+              <li key={s.href}>
+                <a href={s.href} className="d-label inline-flex min-h-11 items-center transition-colors duration-fast ease-dorza hover:text-ochre" rel="noopener noreferrer" target="_blank">
+                  {s.label}
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
-      </Container>
+      </div>
     </footer>
   );
 }

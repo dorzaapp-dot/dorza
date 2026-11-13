@@ -8,16 +8,12 @@
 - Lucide React for icons
 - Google Fonts via `next/font`: Plus Jakarta Sans (body 400/500/600/700) + Instrument Serif (display 400)
 
-## Design tokens (current — terracotta + sage editorial palette)
-- Primary (terracotta): `#D4845A` · light `#E8A87C` · dark `#B8673F` · tint `#FBEDE3` — buttons, CTAs, accents
-- Accent (sage): `#6B8F71` · light `#A4C2A8` · dark `#4A6B4E` · tint `#E8EFE9` — eyebrow labels, secondary highlights
-- Dark: `#1A1A2E` — headings, dark sections (WaitlistCTA), footer
-- Surface: `#F9F7F5` · Warm: `#FDFAF7` · Border: `#F0EBE4`
-- Text: primary `#1A1A2E` · secondary `#555` · muted `#888`
-- Status: `#24CB71`
-- Radius: `rounded-card` 20px · `rounded-btn` / `rounded-full` 999px · `rounded-sm` 8px
-- Shadows: `shadow-soft` (1px hairline), `shadow-medium` / `shadow-card` (`0 12px 32px rgba(26,26,46,0.08)`)
-- Easing: `ease-dorza` = `cubic-bezier(0.23, 1, 0.32, 1)` (also exported as `DORZA_EASE` from `components/motion/Reveal`)
+## Design tokens (v7, "tightened sage")
+- Source of truth: `app/globals.css` (CSS variables) and `tailwind.config.ts`. Spec: `docs/superpowers/specs/2026-11-12-dorza-reposition-design.md`.
+- Use the v7 names in new code: `forest`, `pine`, `moss`, `sage`, `haze`, `paper`, `chalk`, `stone`, `linen`, `claret`, `ochre`, `ink`, `ink-soft`, `ink-mute`, `rule`, `rule-soft`.
+- `primary`, `accent`, `dark`, `surface`, `warm`, `border`, `text-*` and `status` still work as aliases for onboarding, admin and upload. Do not use them in new code.
+- 2px corners, hairline rules, no gradients, no glows, shadows at 12% or less. One accent per screen: claret on light, ochre on forest.
+- Fonts: Newsreader (display), Geist (body), Geist Mono (markers, status, prices, URLs, nav).
 
 ## Component patterns
 - All CTAs: pill-shaped (`rounded-full`), `h-12`, `bg-primary hover:bg-primary-dark text-white font-semibold text-sm`, hover `-translate-y-px hover:shadow-medium`
@@ -68,7 +64,7 @@
 ## Known gaps to be aware of
 - `components/Footer.tsx` and `components/Nav.tsx` at the top level are dead code (zero imports) — homepage uses the `components/sections/` versions. Safe to delete.
 - Design tokens are duplicated in `tailwind.config.ts` and `app/globals.css` — change both together
-- See `CODEBASE_INDEX.md` "Gaps and notable findings" for the full current list (validation disabled, no error UX on /onboard submission failure, etc.)
+- See `CODEBASE_INDEX.md` "Gaps and notable findings" for the full current list (validation disabled, no error UX on /onboard submission failure, etc.). **`CODEBASE_INDEX.md` itself is stale as of 2026-09-21** — it predates the contact, booking, chatbot and admin-workspace features. Trust this file over it where they disagree.
 
 ## Added by codebase-onboarding 2026-05-09
 
@@ -108,6 +104,8 @@
 ### Environment variables
 Frontend (Vercel + `.env.local`): `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_ONBOARD_SUBMIT_URL`, `NEXT_PUBLIC_CREATE_CLIENT_USER_URL`. Edge function secrets (Supabase dashboard): `GMAIL_USER`, `GMAIL_APP_PASSWORD`, `SITE_URL`. See `env.local.example` and `supabase/README.md`.
 
+**Superseded — see "Environment variables (current)" at the end of this file.** More `NEXT_PUBLIC_*` endpoint vars and edge secrets have been added since.
+
 ### Package manager
 - pnpm (`pnpm-lock.yaml` is the source of truth). `npm` scripts still work but prefer `pnpm dev` / `pnpm build` / `pnpm lint`.
 
@@ -116,9 +114,10 @@ Frontend (Vercel + `.env.local`): `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPAB
 - **No client-side error UX on submit failure** — if the edge function returns `{ success: false }`, the wizard just clears `submitting` and stays on Review. If editing, consider mirroring the toast pattern from `/admin` and `/upload`.
 
 ## Client website builds (future)
-- Each client site is a separate repo generated from templates in `/templates`
-- Client intake markdown goes in the repo root as `intake.md`
+- Each client site is a separate repo. **There is no `/templates` directory in this repo** — that was aspirational and was never created. Start client sites from scratch or from an existing client repo.
+- Client intake markdown is **not** hand-placed. `onboard-submit` pushes it to a GitHub repo at `outputs/user-profile-<submission-id>-<timestamp>.md` (see "Intake markdown → GitHub" below). Copy it into the client repo as `intake.md` when starting a build.
 - Claude Code reads `intake.md` + this file to build the site
+- To bolt Dorza's shared backend features onto a client site, follow the drop-in guides in `claude-for-clients/` (contact form, booking form, chat widget) — see "Client site drop-ins" below.
 - Always generate: sitemap.xml, robots.txt, JSON-LD LocalBusiness schema
 - Default font pairings by business type:
   - Tradie: Inter + Cabinet Grotesk (clean/tough)
@@ -166,6 +165,7 @@ Frontend (Vercel + `.env.local`): `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPAB
 - Frontend gate uses `ADMIN_EMAIL` from `lib/constants.ts`.
 - Both `enquiry-submit` and `onboard-submit` read `ADMIN_NOTIFICATION_EMAIL` from Supabase secrets (with `dorza.app@gmail.com` fallback). **Set this secret in Supabase.**
 - `create-client-user` still has a hardcoded `ADMIN_EMAILS` array — that's the JWT auth gate, separate concern.
+- `generate-brand-guidelines` reads a **`ADMIN_EMAIL`** secret (singular, `dorza.app@gmail.com` fallback) for its own JWT gate. That's a **fifth** location — keep it in sync too.
 - Migration seed in `20260516000000_admin_and_storage.sql` is canonical for the `admin_users` row. Changing the admin = update `lib/constants.ts` + the Supabase env secret + the `ADMIN_EMAILS` array in `create-client-user` + a new migration to update the seed row.
 
 ### New: `enquiries` table
@@ -208,8 +208,83 @@ Frontend (Vercel + `.env.local`): `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPAB
 ### AI chatbot for client websites
 - `supabase/functions/chat-respond/index.ts` — Edge function that orchestrates Claude API (Haiku 4.5) with tool use. Receives `{ clientId, messages }`, loads business context from `onboard_submissions.state_json`, calls Claude with two tools (`check_availability`, `create_booking`), runs the tool use loop server-side (max 5 rounds), returns `{ reply }`.
 - `check_availability` queries the `bookings` table directly (same logic as `booking-availability`). `create_booking` calls `booking-submit` via internal HTTP to reuse validation + email logic.
-- The chat widget is a self-contained client component (no Dorza internal deps). Bootstrapping instructions in `claude-for-clients/CHATBOT.md`.
-- Widget props: `clientId` (required), `businessName`, `accentColor`. Reads `NEXT_PUBLIC_DORZA_CHAT_URL` and `NEXT_PUBLIC_DORZA_ANON_KEY`.
+- The chat widget is a self-contained client component (no Dorza internal deps). Bootstrapping instructions in `claude-for-clients/CHATBOT-BOOTSTRAP.md`.
+- Widget props: `clientId` (required), `businessName`, `accentColor`. Reads `NEXT_PUBLIC_DORZA_CHAT_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
 - Requires `ANTHROPIC_API_KEY` as a Supabase secret (server-side only, never exposed to client).
 - Conversations are stateless — full message history sent each request. Rate limited to 40 messages (20 exchanges) per session.
 - System prompt is built dynamically from the client's onboard intake data (business name, type, services, location, hours, differentiator).
+
+## Added by doc catch-up 2026-09-21
+
+Everything below landed on `master` between 2026-06-02 and 2026-08-17 but was never written down. Dates are when the work merged.
+
+### The two audiences — read this first
+The repo now serves **two different products** and it's easy to confuse them:
+
+1. **Dorza's own marketing site** — homepage, `/about`, `/contact`, `/services/*`, `/industries/*`, `/areas/*`, `/website-cost`, `/onboard`, `/admin`, `/upload`. Uses the terracotta/sage design system, `Reveal`, `Container`, all the conventions above.
+2. **Client websites** — separate repos, built per client. They talk to Dorza's Supabase as a **shared central hub**: every client's contact messages, bookings and chat traffic land in the *same* tables, partitioned by `client_id`.
+
+`client_id` is **always the `onboard_submissions.id` UUID, as text.** Every client-facing edge function resolves the recipient's email by looking that row up. There is no separate clients table.
+
+### Client site drop-ins (`claude-for-clients/`)
+Three self-contained instruction docs, each telling Claude Code how to add one feature to a client repo. The components live here as the reference implementation and are copied out — they have **zero Dorza internal imports** by design (no `Container`, no `Reveal`, no `cn`). Keep it that way when editing them.
+
+| Doc | Component | Edge function(s) |
+|---|---|---|
+| `CLIENT-CONTACT-FORM.md` | `components/forms/ContactForm.tsx` | `contact-submit` |
+| `BOOKING-FORM.md` | `components/forms/BookingForm.tsx` | `booking-submit`, `booking-availability` |
+| `CHATBOT-BOOTSTRAP.md` | `components/ChatWidget.tsx` | `chat-respond` |
+
+Each is exercised in-repo by a demo page under `app/demo/` (`/demo/contactus`, `/demo/booking`, `/demo/chatbot`), all driven by a **`?clientId=<uuid>` query param** — they render a "missing clientId" notice without one. These pages are dev harnesses, not marketing pages.
+
+### Contact form for client sites (2026-06-12)
+- Table `contact_messages` — migration `20260602000000_contact_messages.sql`. Columns: id, created_at, `client_id text`, source (default `contact-form`), name, email, phone, message, metadata jsonb, raw_payload jsonb. Indexed on `(client_id, created_at desc)`.
+- RLS: admin SELECT + UPDATE via `is_admin()`. No insert policy — the edge function writes with the service role.
+- `contact-submit` requires `clientId`, `name`, `email`; resolves the business owner's email from `onboard_submissions.email` and emails **the client, not Dorza**. Same off-screen `website` honeypot as the enquiry form. All interpolated values go through a local `escapeHtml()` — **keep that up** when editing the email template.
+- `ContactForm` props: `{ clientId, endpoint, source = 'contact-form' }`.
+
+### Booking system for client sites (2026-06-19)
+- Table `bookings` — migration `20260612000000_bookings.sql`. Columns: id, created_at, `client_id text`, booking_date date, booking_time time, name, email, phone, message, status (`pending|confirmed|cancelled`, default `pending`), metadata, raw_payload.
+- **Double-booking is prevented in the database**, not the UI: a partial unique index `bookings_slot_unique on (client_id, booking_date, booking_time) where status != 'cancelled'`. `booking-submit` catches Postgres error `23505` and returns **HTTP 409** so the form can tell the user the slot just went. Don't re-solve this race in application code — the constraint is the mechanism.
+- `booking-availability` is a **GET** with `?client_id=&date=YYYY-MM-DD`, returning `{ bookedSlots: ["09:00", ...] }` — it normalises Postgres `HH:MM:SS` down to `HH:MM`. Every other edge function is a POST; this one isn't.
+- `booking-submit` emails both sides: the business owner ("New booking…") and the customer ("Booking confirmed…").
+- `TIME_SLOTS` is a **hardcoded array at the top of `BookingForm.tsx`** — not per-client configurable yet. Changing a client's hours means editing their copy of the component.
+- `BookingForm` props: `{ clientId, submitEndpoint, availabilityEndpoint }`.
+
+### Admin workspace (2026-06-02)
+- `app/admin/workspace/page.tsx`, reached from a submission row in `/admin` via `/admin/workspace?id=<submission-id>`. Not a tab — a separate route. Gated client-side on `session.user.email === ADMIN_EMAIL`, redirects to `/admin` otherwise.
+- A per-client "getting started" checklist with two tasks:
+  - **Domain Search** — `generateCandidates()` builds variants from the business name, then checks each against **`https://rdap.org/domain/<domain>` directly from the browser** (no API key, no backend). A 404 from RDAP means available. Runs sequentially with per-domain status badges.
+  - **Google Business Profile** — opens a Google Maps search in a new tab and asks the admin to self-report found/not-found. Deliberately manual; there is no GBP API call.
+- **Brand guidelines** — the `generate-brand-guidelines` edge function calls the Claude API with the submission's `state_json` and returns a markdown brand guide (currently `model: "claude-sonnet-4-6"`, `max_tokens: 1500`). Gated on the caller's JWT email matching its own `ADMIN_EMAIL` secret. Frontend reads `NEXT_PUBLIC_GENERATE_BRAND_GUIDELINES_URL`.
+
+### Intake markdown → GitHub (in `onboard-submit`)
+- After inserting the submission and sending emails, `onboard-submit` PUTs the intake markdown to the GitHub Contents API at `outputs/user-profile-<submission-id>-<timestamp>.md`.
+- Controlled by secrets `GITHUB_TOKEN`, `GITHUB_OWNER`, `GITHUB_REPO` (all three required) plus optional `GITHUB_BRANCH` (default `main`) and `GITHUB_EXPORT_DIR` (default `outputs`). **If any of the three required secrets is missing the push silently skips** and logs a `skippedReason` — the submission still succeeds. So "no file appeared in GitHub" usually means a missing secret, not a crash.
+- On the `feature/dashboard-client-my-bookings` branch this call is wrapped in try/catch; **on `master` it is not**, so a GitHub API throw currently fails the whole request *after* the DB insert and both emails have already succeeded.
+
+### Environment variables (current)
+Frontend (Vercel + `.env.local`) — all present in `env.local.example` **except the last, which is missing and should be added**:
+
+`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_ENQUIRY_SUBMIT_URL`, `NEXT_PUBLIC_ONBOARD_SUBMIT_URL`, `NEXT_PUBLIC_CREATE_CLIENT_USER_URL`, `NEXT_PUBLIC_CONTACT_SUBMIT_URL`, `NEXT_PUBLIC_BOOKING_SUBMIT_URL`, `NEXT_PUBLIC_BOOKING_AVAILABILITY_URL`, `NEXT_PUBLIC_DORZA_CHAT_URL`, and **`NEXT_PUBLIC_GENERATE_BRAND_GUIDELINES_URL`** — used by `app/admin/workspace/page.tsx`, absent from `env.local.example`.
+
+Edge function secrets (Supabase dashboard): `GMAIL_USER`, `GMAIL_APP_PASSWORD`, `SITE_URL`, `ADMIN_NOTIFICATION_EMAIL`, `ANTHROPIC_API_KEY`, `ADMIN_EMAIL` (brand-guidelines gate), `GITHUB_TOKEN`, `GITHUB_OWNER`, `GITHUB_REPO`, `GITHUB_BRANCH`, `GITHUB_EXPORT_DIR`. `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` are auto-injected. The GitHub and brand-guidelines secrets are **not** documented in `env.local.example`.
+
+### Edge function inventory (all 8)
+`onboard-submit`, `enquiry-submit`, `create-client-user`, `contact-submit`, `booking-submit`, `booking-availability`, `chat-respond`, `generate-brand-guidelines`. Shared conventions: `Deno.serve`, inline CORS const, `OPTIONS` short-circuit, service-role client (bypasses RLS), denomailer over Gmail SMTP port 465, bracketed `console.log` tags for log filtering, and `{ success: boolean }` JSON responses.
+
+### Migration inventory
+`20260514000000_onboard_submissions` · `20260516000000_admin_and_storage` · `20260518000000_enquiries` · `20260602000000_contact_messages` · `20260612000000_bookings`. Additive only — never edit one that has run in prod.
+
+### Unmerged work: `feature/dashboard-client-my-bookings`
+**Not on `master`.** 7 commits, ~1000 lines, adding a client-facing `/dashboard` (bookings list with confirm/cancel, `/dashboard/messages`, `/dashboard/reset-password`, a shared `layout.tsx`), two RLS migrations, and a **rewrite of `create-client-user` from magic-link invites to email + generated password**. Setup notes live on the branch at `supabase/setup-docs/20260620_dashboard-client-my-bookings.md`.
+
+Don't treat it as current, and expect conflicts if you touch `create-client-user` on `master`. Known issues to resolve before merging: `auth.admin.listUsers()` is unpaginated (silently breaks past 50 users), temp passwords are emailed in plaintext with no forced rotation, and the branch is behind `master` by the mobile-scroll fix.
+
+## Added by reposition 2026-11
+- Positioning copy and service status live in `lib/site.ts`, `lib/data/pillars.ts` and `lib/data/work.ts`. Change copy there, not in components.
+- A service is `live` or `ask`. Nothing else is shown. See spec §10.
+- Every number, quote and client name needs a row in `docs/proof-sources.md`.
+- Case studies are hidden in production until their flag is `true` in `lib/data/workStatus.ts` (content-free, safe for client components; never import `lib/data/work.ts` from a `"use client"` file or draft text ships in public JS). Set `NEXT_PUBLIC_SHOW_DRAFTS=1` to see drafts locally. `pnpm test:export` must run against a build made without that variable.
+- Tests: `pnpm test` (Vitest). `pnpm test:export` checks the built `out/` folder.
+- `PRODUCT.md` and the Impeccable surface briefs carry the design direction. `DESIGN.md` is written by Impeccable's documenter from the finished build.

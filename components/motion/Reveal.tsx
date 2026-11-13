@@ -15,8 +15,8 @@ interface RevealProps extends HTMLAttributes<HTMLDivElement> {
 
 export function Reveal({
   delay = 0,
-  duration = 0.6,
-  y = 24,
+  duration = 0.48,
+  y = 20,
   as = "div",
   stagger = false,
   className,
@@ -27,7 +27,7 @@ export function Reveal({
   const Tag = motion[as] as typeof motion.div;
 
   if (stagger) {
-    const staggerDelay = typeof stagger === "number" ? stagger : 0.1;
+    const staggerDelay = typeof stagger === "number" ? stagger : 0.045;
 
     const container: Variants = {
       hidden: {},
@@ -62,7 +62,7 @@ export function Reveal({
         {...(props as object)}
       >
         {items.map((child, i) => (
-          <motion.div key={isValidElement(child) && child.key != null ? child.key : i} variants={item}>
+          <motion.div data-reveal="" key={isValidElement(child) && child.key != null ? child.key : i} variants={item}>
             {child as ReactNode}
           </motion.div>
         ))}
@@ -72,6 +72,7 @@ export function Reveal({
 
   return (
     <Tag
+      data-reveal=""
       initial={shouldReduce ? {} : { opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}

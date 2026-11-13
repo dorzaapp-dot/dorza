@@ -1,145 +1,91 @@
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans, Instrument_Serif } from "next/font/google";
+import { Newsreader } from "next/font/google";
+import { GeistMono } from "geist/font/mono";
+import { GeistSans } from "geist/font/sans";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
-import GrainOverlay from "@/components/ui/GrainOverlay";
-import { faqs } from "@/lib/data/faq";
+import { PILLARS } from "@/lib/data/pillars";
+import { ADDRESS, CONTACT_EMAIL, PHONE_TEL, SITE_URL } from "@/lib/seo";
+import { DEFAULT_TITLE, SITE_DESCRIPTION, SOCIALS } from "@/lib/site";
 
-const jakarta = Plus_Jakarta_Sans({
+const newsreader = Newsreader({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-body",
-  display: "swap",
-  adjustFontFallback: true,
-});
-
-const instrument = Instrument_Serif({
-  weight: "400",
-  subsets: ["latin"],
+  style: ["normal", "italic"],
+  axes: ["opsz"],
   variable: "--font-display",
   display: "swap",
-  adjustFontFallback: true,
 });
 
-const SITE_URL = "https://dorza.com.au";
+const OG_IMAGE = `${SITE_URL}/images/og/default.png`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: {
-    default: "Web Design & Digital Marketing Western Sydney | Dorza",
-    template: "%s | Dorza",
-  },
-  description:
-    "Dorza builds websites, runs social media, and manages Google Business for small businesses across Western Sydney. Parramatta, Blacktown, Penrith, Liverpool. Custom websites from $499. No lock-in.",
-  alternates: { canonical: SITE_URL },
-  icons: {
-    icon: [{ url: "/images/mockups/favicon.svg", type: "image/svg+xml" }],
-    shortcut: "/images/mockups/favicon.svg",
-    apple: "/images/mockups/favicon.svg",
-  },
+  title: { default: DEFAULT_TITLE, template: "%s | Dorza" },
+  description: SITE_DESCRIPTION,
   openGraph: {
-    title: "Dorza — Web Design & Digital Marketing for Western Sydney Small Business",
-    description:
-      "Websites, social media, and Google Business done for you. Cafes, tradies, salons across Parramatta, Blacktown, Penrith, Liverpool. Custom websites from $499.",
+    title: DEFAULT_TITLE,
+    description: SITE_DESCRIPTION,
     url: SITE_URL,
     siteName: "Dorza",
     locale: "en_AU",
     type: "website",
-    images: [
-      {
-        url: `${SITE_URL}/images/og-default.png`,
-        width: 1200,
-        height: 630,
-        alt: "Dorza — Web design and digital marketing for Western Sydney small business",
-      },
-    ],
+    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: "Dorza. You run the business. We'll mind the tech." }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Dorza — Web Design & Digital Marketing Western Sydney",
-    description:
-      "Websites, social media, and Google Business done for you. Custom websites from $499. No lock-in.",
-    images: [`${SITE_URL}/images/og-default.png`],
+    title: DEFAULT_TITLE,
+    description: SITE_DESCRIPTION,
+    images: [OG_IMAGE],
   },
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  themeColor: "#1E3328",
 };
 
-const serviceOffers = [
-  { name: "Web Design", description: "Custom-designed, mobile-first websites for Western Sydney small businesses, built to get found by locals." },
-  { name: "Social Media Management", description: "Done-for-you Instagram and Facebook — content, scheduling, and posting." },
-  { name: "Google Business Profile Setup", description: "Google Business Profile setup and optimisation to help you show up on Google Maps." },
-  { name: "Local SEO", description: "Local SEO to help your business rank for nearby searches." },
-];
-
 function JsonLd() {
-  const localBusiness = {
+  // National brand, real local base: the address stays true so local search still has an anchor.
+  const business = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "@id": `${SITE_URL}/#business`,
     name: "Dorza",
-    description:
-      "Done-for-you web design, social media management, and Google Business setup for small businesses across Western Sydney. Parramatta, Blacktown, Penrith, Liverpool, Campbelltown.",
+    description: SITE_DESCRIPTION,
     url: SITE_URL,
-    logo: `${SITE_URL}/images/og-default.png`,
-    image: `${SITE_URL}/images/og-default.png`,
-    email: "customer@dorza.com.au",
-    telephone: "+61494436553",
+    logo: OG_IMAGE,
+    image: OG_IMAGE,
+    email: CONTACT_EMAIL,
+    telephone: PHONE_TEL,
     address: {
       "@type": "PostalAddress",
-      addressLocality: "Parramatta",
-      addressRegion: "NSW",
-      postalCode: "2150",
-      addressCountry: "AU",
+      addressLocality: ADDRESS.locality,
+      addressRegion: ADDRESS.region,
+      postalCode: ADDRESS.postcode,
+      addressCountry: ADDRESS.country,
     },
-    geo: {
-      "@type": "GeoCoordinates",
-      latitude: -33.8151,
-      longitude: 151.0011,
-    },
-    areaServed: [
-      { "@type": "City", name: "Parramatta", sameAs: "https://en.wikipedia.org/wiki/Parramatta" },
-      { "@type": "City", name: "Blacktown" },
-      { "@type": "City", name: "Penrith" },
-      { "@type": "City", name: "Liverpool", containedInPlace: { "@type": "State", name: "New South Wales" } },
-      { "@type": "City", name: "Campbelltown", containedInPlace: { "@type": "State", name: "New South Wales" } },
-      { "@type": "City", name: "Sydney", sameAs: "https://www.wikidata.org/wiki/Q3130" },
-    ],
-    contactPoint: {
-      "@type": "ContactPoint",
-      email: "customer@dorza.com.au",
-      telephone: "+61494436553",
-      contactType: "sales",
-      areaServed: "AU",
-      availableLanguage: "English",
-    },
-    sameAs: [
-      "https://www.instagram.com/dorza.ai/",
-      "https://www.linkedin.com/company/dorzaai/",
-    ],
+    areaServed: { "@type": "Country", name: "Australia" },
+    sameAs: SOCIALS.map((s) => s.href),
     knowsAbout: [
       "web design",
-      "social media management",
+      "search engine optimisation",
       "Google Business Profile",
-      "local SEO",
-      "digital marketing",
-      "AI marketing assistant",
+      "online booking systems",
+      "website hosting and support",
     ],
     hasOfferCatalog: {
       "@type": "OfferCatalog",
-      name: "Dorza Services",
-      itemListElement: serviceOffers.map((service) => ({
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: service.name,
-          description: service.description,
-        },
-        eligibleRegion: { "@type": "Country", name: "AU" },
-      })),
+      name: "Dorza services",
+      itemListElement: PILLARS.flatMap((p) =>
+        p.services
+          .filter((s) => s.status === "live")
+          .map((s) => ({
+            "@type": "Offer",
+            itemOffered: { "@type": "Service", name: s.name, description: s.blurb },
+            eligibleRegion: { "@type": "Country", name: "AU" },
+          }))
+      ),
     },
     priceRange: "$$",
   };
@@ -153,50 +99,33 @@ function JsonLd() {
     publisher: { "@type": "Organization", name: "Dorza", "@id": `${SITE_URL}/#business` },
   };
 
-  const faqPage = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqs.map((f) => ({
-      "@type": "Question",
-      name: f.q,
-      acceptedAnswer: { "@type": "Answer", text: f.a },
-    })),
-  };
-
   return (
     <>
       {/* eslint-disable-next-line react/no-danger */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusiness) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(business) }} />
       {/* eslint-disable-next-line react/no-danger */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(website) }}
-      />
-      {/* eslint-disable-next-line react/no-danger */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPage) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(website) }} />
     </>
   );
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en-AU" className={`${jakarta.variable} ${instrument.variable}`}>
+    <html lang="en-AU" className={`${newsreader.variable} ${GeistSans.variable} ${GeistMono.variable}`}>
       <head>
         <JsonLd />
+        <noscript>
+          <style>{`[data-reveal]{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
       </head>
       <body className="font-body antialiased">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-card focus:bg-paper focus:px-4 focus:py-2 focus:text-ink"
+        >
+          Skip to content
+        </a>
         {children}
-        <GrainOverlay />
         <Analytics />
       </body>
     </html>

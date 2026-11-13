@@ -1,6 +1,7 @@
 "use client";
 
-import { ChevronDown, Check } from "lucide-react";
+import { useId } from "react";
+import { ChevronDown } from "lucide-react";
 import { SERVICE_OPTIONS } from "@/lib/constants";
 import type { BusinessType, EnquiryFormData } from "@/lib/types";
 
@@ -25,33 +26,35 @@ const businessTypes: (BusinessType | "Other")[] = [
 
 function classes(theme: Theme) {
   const isDark = theme === "dark";
+  const field =
+    "w-full rounded-card border text-base transition-colors duration-fast ease-dorza focus:outline-none focus:ring-2";
   return {
     label: isDark
-      ? "block text-[12px] font-medium text-white/60 mb-1.5 ml-1 uppercase tracking-[0.12em] font-mono"
-      : "block text-[12px] font-medium text-text-secondary mb-1.5 ml-1 uppercase tracking-[0.12em] font-mono",
+      ? "mb-1.5 ml-px block font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-chalk/70"
+      : "mb-1.5 ml-px block font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-ink-soft",
     input: isDark
-      ? "w-full h-12 px-4 rounded-2xl md:rounded-full text-base text-white placeholder-white/40 bg-white/[0.06] border border-white/15 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 ease-dorza hover:bg-white/[0.08]"
-      : "w-full h-12 px-4 rounded-2xl md:rounded-full text-base text-dark placeholder-text-muted bg-white border border-border focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all duration-300 ease-dorza hover:border-[#E5DFD6]",
-    selectOption: isDark ? "bg-dark text-white" : "bg-white text-dark",
+      ? `${field} h-12 px-4 border-chalk/15 bg-chalk/[0.06] text-chalk placeholder-chalk/60 hover:bg-chalk/[0.09] focus:border-ochre focus:ring-ochre/40`
+      : `${field} h-12 px-4 border-rule-soft bg-paper text-ink placeholder-ink-soft/75 hover:border-rule focus:border-pine focus:ring-claret/25`,
+    selectOption: isDark ? "bg-forest text-chalk" : "bg-paper text-ink",
     chevron: isDark
-      ? "absolute right-4 bottom-3.5 text-white/40 pointer-events-none"
-      : "absolute right-4 bottom-3.5 text-text-muted pointer-events-none",
+      ? "pointer-events-none absolute bottom-4 right-4 text-chalk/60"
+      : "pointer-events-none absolute bottom-4 right-4 text-ink-mute",
     chipBase:
-      "inline-flex items-center gap-1.5 h-9 px-4 rounded-full font-medium text-[13px] border transition-all duration-300 ease-dorza select-none cursor-pointer",
+      "inline-flex h-11 cursor-pointer select-none items-center rounded-chip border px-4 text-[13px] font-medium transition-colors duration-fast ease-dorza",
     chipIdle: isDark
-      ? "bg-white/[0.04] border-white/15 text-white/70 hover:bg-white/[0.08] hover:border-white/25"
-      : "bg-white border-border text-text-secondary hover:border-[#E5DFD6] hover:bg-surface",
-    chipSelected: isDark
-      ? "bg-primary border-primary text-white shadow-soft"
-      : "bg-primary border-primary text-white shadow-soft",
+      ? "border-chalk/15 bg-chalk/[0.04] text-chalk/80 hover:border-chalk/30 hover:bg-chalk/[0.08]"
+      : "border-rule-soft bg-paper text-ink-soft hover:border-rule hover:bg-stone",
+    chipSelected: isDark ? "border-ochre bg-ochre text-forest" : "border-pine bg-pine text-chalk",
     textarea: isDark
-      ? "w-full px-4 py-3 rounded-2xl text-base text-white placeholder-white/40 bg-white/[0.06] border border-white/15 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 ease-dorza resize-none"
-      : "w-full px-4 py-3 rounded-2xl text-base text-dark placeholder-text-muted bg-white border border-border focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all duration-300 ease-dorza resize-none",
+      ? `${field} resize-none px-4 py-3 border-chalk/15 bg-chalk/[0.06] text-chalk placeholder-chalk/60 focus:border-ochre focus:ring-ochre/40`
+      : `${field} resize-none px-4 py-3 border-rule-soft bg-paper text-ink placeholder-ink-soft/75 focus:border-pine focus:ring-claret/25`,
   };
 }
 
 export default function EnquiryFormFields({ theme, value, onChange, showMessage = false }: Props) {
   const c = classes(theme);
+  const uid = useId();
+  const fid = (name: string) => `${uid}-${name}`;
 
   function patch(partial: Partial<EnquiryFormData>) {
     onChange({ ...value, ...partial });
@@ -67,8 +70,9 @@ export default function EnquiryFormFields({ theme, value, onChange, showMessage 
   return (
     <>
       <div>
-        <label className={c.label}>Name</label>
+        <label htmlFor={fid("name")} className={c.label}>Name</label>
         <input
+          id={fid("name")}
           type="text"
           required
           placeholder="Your name"
@@ -79,8 +83,9 @@ export default function EnquiryFormFields({ theme, value, onChange, showMessage 
       </div>
 
       <div>
-        <label className={c.label}>Email</label>
+        <label htmlFor={fid("email")} className={c.label}>Email</label>
         <input
+          id={fid("email")}
           type="email"
           required
           placeholder="you@business.com.au"
@@ -90,10 +95,11 @@ export default function EnquiryFormFields({ theme, value, onChange, showMessage 
         />
       </div>
 
-      <div className="grid sm:grid-cols-2 gap-3">
+      <div className="grid gap-3 sm:grid-cols-2">
         <div className="relative">
-          <label className={c.label}>Business type</label>
+          <label htmlFor={fid("type")} className={c.label}>Business type</label>
           <select
+            id={fid("type")}
             required
             value={value.businessType}
             onChange={(e) => patch({ businessType: e.target.value as BusinessType })}
@@ -109,11 +115,12 @@ export default function EnquiryFormFields({ theme, value, onChange, showMessage 
           <ChevronDown size={16} className={c.chevron} />
         </div>
         <div>
-          <label className={c.label}>Suburb</label>
+          <label htmlFor={fid("suburb")} className={c.label}>Suburb or town</label>
           <input
+            id={fid("suburb")}
             type="text"
             required
-            placeholder="e.g. Parramatta"
+            placeholder="Where you're based"
             value={value.suburb}
             onChange={(e) => patch({ suburb: e.target.value })}
             className={c.input}
@@ -134,7 +141,6 @@ export default function EnquiryFormFields({ theme, value, onChange, showMessage 
                 onClick={() => toggleService(service)}
                 className={`${c.chipBase} ${selected ? c.chipSelected : c.chipIdle}`}
               >
-                {selected && <Check size={13} aria-hidden />}
                 <span>{service}</span>
               </button>
             );
@@ -144,8 +150,9 @@ export default function EnquiryFormFields({ theme, value, onChange, showMessage 
 
       {showMessage && (
         <div>
-          <label className={c.label}>Anything else? (optional)</label>
+          <label htmlFor={fid("message")} className={c.label}>Anything else? (optional)</label>
           <textarea
+            id={fid("message")}
             rows={3}
             placeholder="What's on your mind?"
             value={value.message ?? ""}
@@ -155,7 +162,7 @@ export default function EnquiryFormFields({ theme, value, onChange, showMessage 
         </div>
       )}
 
-      {/* Honeypot — visually hidden, aria-hidden, off-screen. Bots fill it; humans don't. */}
+      {/* Honeypot: visually hidden, aria-hidden, off-screen. Bots fill it; humans don't. */}
       <div aria-hidden className="absolute -left-[9999px] top-auto w-px h-px overflow-hidden">
         <label>
           Website
