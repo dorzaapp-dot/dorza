@@ -16,8 +16,6 @@ export function generateStaticParams() {
   return CASE_STUDIES.map((c) => ({ slug: c.slug }));
 }
 
-export const dynamicParams = false;
-
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
   const study = getCaseStudy(params.slug);
   if (!study) {
