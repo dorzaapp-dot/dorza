@@ -3,7 +3,8 @@ import Nav from "@/components/sections/Nav";
 import PageCTA from "@/components/sections/PageCTA";
 import { Reveal } from "@/components/motion/Reveal";
 import { Container } from "@/components/ui/Container";
-import { pageMetadata } from "@/lib/site";
+import { SITE_URL } from "@/lib/seo";
+import { canonical, pageMetadata } from "@/lib/site";
 
 export const metadata = pageMetadata({
   title: "About",
@@ -40,9 +41,28 @@ const PRINCIPLES = [
   },
 ];
 
+const aboutLd = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  url: canonical("/about"),
+  mainEntity: {
+    "@type": "ProfessionalService",
+    "@id": `${SITE_URL}/#business`,
+    name: "Dorza",
+    founder: FOUNDERS.map((f) => ({
+      "@type": "Person",
+      name: f.name,
+      jobTitle: "Co-founder",
+      description: f.role,
+      worksFor: { "@id": `${SITE_URL}/#business` },
+    })),
+  },
+};
+
 export default function AboutPage() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutLd) }} />
       <Nav />
       <main id="main">
         <section className="bg-chalk py-section-tight md:py-section">

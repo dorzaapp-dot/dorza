@@ -13,6 +13,7 @@ import { Reveal } from "@/components/motion/Reveal";
 import { INDUSTRIES, getIndustryBySlug } from "@/lib/data/industries";
 import { SERVICES } from "@/lib/data/services";
 import { SITE_URL } from "@/lib/seo";
+import { pageMetadata } from "@/lib/site";
 
 /* ---------- static params ---------- */
 
@@ -30,19 +31,11 @@ export function generateMetadata({
   const industry = getIndustryBySlug(params.slug);
   if (!industry) return {};
 
-  return {
+  return pageMetadata({
     title: industry.metaTitle,
     description: industry.metaDescription,
-    openGraph: {
-      title: industry.metaTitle,
-      description: industry.metaDescription,
-      url: `${SITE_URL}/industries/${industry.slug}`,
-      type: "website",
-    },
-    alternates: {
-      canonical: `${SITE_URL}/industries/${industry.slug}`,
-    },
-  };
+    path: `/industries/${industry.slug}`,
+  });
 }
 
 /* ---------- page ---------- */

@@ -6,8 +6,10 @@ import PageCTA from "@/components/sections/PageCTA";
 import { Reveal } from "@/components/motion/Reveal";
 import { Container } from "@/components/ui/Container";
 import { ImageFrame } from "@/components/ui/ImageFrame";
-import { CASE_STUDIES, getCaseStudy } from "@/lib/data/work";
-import { pageMetadata } from "@/lib/site";
+import { getServiceBySlug } from "@/lib/data/services";
+import { CASE_STUDIES, getCaseStudy, type CaseStudy } from "@/lib/data/work";
+import { SITE_URL } from "@/lib/seo";
+import { canonical, pageMetadata } from "@/lib/site";
 
 export function generateStaticParams() {
   return CASE_STUDIES.map((c) => ({ slug: c.slug }));
@@ -48,12 +50,33 @@ function Holding() {
   );
 }
 
+function articleLd(study: CaseStudy) {
+  const dorza = { "@type": "Organization", "@id": `${SITE_URL}/#business`, name: "Dorza", url: SITE_URL };
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: study.headline,
+    description: study.metaDescription,
+    image: `${SITE_URL}${study.shots.desktop}`,
+    datePublished: study.publishedOn,
+    mainEntityOfPage: canonical(`/work/${study.slug}`),
+    author: dorza,
+    publisher: dorza,
+    about: { "@type": "Organization", name: study.client, url: study.liveUrl },
+  };
+}
+
 export default function CaseStudyPage({ params }: { params: { slug: string } }) {
   const study = getCaseStudy(params.slug);
   if (!study) return <Holding />;
+  const services = study.services.flatMap((slug) => {
+    const service = getServiceBySlug(slug);
+    return service ? [{ slug, label: service.metaTitle }] : [];
+  });
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd(study)) }} />
       <Nav />
       <main id="main">
         <section className="bg-chalk pb-section-tight pt-section-tight md:pb-section md:pt-section">
@@ -112,6 +135,19 @@ export default function CaseStudyPage({ params }: { params: { slug: string } }) 
                 <Reveal>
                   <h2 className="d-heading">What we built.</h2>
                 </Reveal>
+                {services.length > 0 ? (
+                  <Reveal delay={0.05} className="mt-5">
+                    <ul className="m-0 list-none p-0">
+                      {services.map((s) => (
+                        <li key={s.slug}>
+                          <Link href={`/services/${s.slug}`} className="d-link inline-block text-[15px]">
+                            {s.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </Reveal>
+                ) : null}
                 <Reveal delay={0.09} className="mt-8 hidden max-w-[260px] md:block">
                   <ImageFrame
                     src={study.shots.mobile}

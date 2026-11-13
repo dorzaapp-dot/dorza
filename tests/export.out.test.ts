@@ -34,18 +34,57 @@ describe.skipIf(!hasOut)("static export", () => {
     expect(main).toContain('href="/website-cost"');
   });
 
+  it("names only the www host, never the bare domain (one canonical host)", () => {
+    const files = walk("out").filter((f) => /\.(html|xml|txt)$/.test(f));
+    for (const f of files) expect(readFileSync(f, "utf8").includes("https://dorza.com.au"), f).toBe(false);
+    expect(readFileSync("out/robots.txt", "utf8")).toContain("Sitemap: https://www.dorza.com.au/sitemap.xml");
+  });
+
+  it("gives every public page a share image", () => {
+    for (const route of allRoutes(false)) {
+      expect(readFileSync(fileFor(route), "utf8"), route).toMatch(/<meta property="og:image" content="https:\/\/www\.dorza\.com\.au\/images\/og\//);
+    }
+  });
+
+  it("keeps the demo harnesses out of the index", () => {
+    for (const f of walk("out/demo").filter((x) => x.endsWith(".html"))) {
+      expect(readFileSync(f, "utf8"), f).toMatch(/<meta name="robots" content="noindex/);
+    }
+  });
+
+  it("marks up published case studies as articles and the founders as people", () => {
+    for (const c of visibleCaseStudies(false)) {
+      const html = readFileSync(`out/work/${c.slug}.html`, "utf8");
+      expect(html, c.slug).toContain('"@type":"Article"');
+      expect(html, c.slug).toContain(`"url":"${c.liveUrl}"`);
+    }
+    expect(readFileSync("out/about.html", "utf8").match(/"@type":"Person"/g)?.length).toBe(2);
+  });
+
+  it("links each case study to its service and its area pages, and back", () => {
+    const main = (route: string) => readFileSync(fileFor(route), "utf8").match(/<main[\s\S]*<\/main>/)?.[0] ?? "";
+    for (const c of visibleCaseStudies(false)) {
+      for (const s of c.services) {
+        expect(main(`/work/${c.slug}`), `${c.slug} -> ${s}`).toContain(`href="/services/${s}"`);
+        expect(main(`/services/${s}`), `${s} -> ${c.slug}`).toContain(`href="/work/${c.slug}"`);
+      }
+      for (const a of c.areas ?? []) expect(main(`/areas/${a}`), `${a} -> ${c.slug}`).toContain(`href="/work/${c.slug}"`);
+    }
+    expect(visibleCaseStudies(false).find((c) => c.slug === "active-rise-health")?.areas).toEqual(["parramatta", "western-sydney"]);
+  });
+
   it("builds a page for every public route", () => {
     for (const route of allRoutes(false)) expect(existsSync(fileFor(route)), route).toBe(true);
   });
 
-  it("gives every page one h1, one brand suffix and its own apex canonical", () => {
+  it("gives every page one h1, one brand suffix and its own www canonical", () => {
     for (const route of allRoutes(false)) {
       const html = readFileSync(fileFor(route), "utf8");
       const title = html.match(/<title>([^<]*)<\/title>/)?.[1] ?? "";
       expect(title.match(/Dorza/g)?.length ?? 0, `${route} title: ${title}`).toBeLessThanOrEqual(2);
       expect(title, route).not.toMatch(/\| Dorza \| Dorza/);
       expect(html.match(/<h1[\s>]/g)?.length, `${route} h1`).toBe(1);
-      const expected = route === "/" ? "https://dorza.com.au" : `https://dorza.com.au${route}`;
+      const expected = route === "/" ? "https://www.dorza.com.au" : `https://www.dorza.com.au${route}`;
       expect(html, `${route} canonical`).toMatch(new RegExp(`<link rel="canonical" href="${expected}/?"`));
     }
   });

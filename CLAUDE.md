@@ -288,3 +288,6 @@ Don't treat it as current, and expect conflicts if you touch `create-client-user
 - Case studies are hidden in production until their flag is `true` in `lib/data/workStatus.ts` (content-free, safe for client components; never import `lib/data/work.ts` from a `"use client"` file or draft text ships in public JS). Set `NEXT_PUBLIC_SHOW_DRAFTS=1` to see drafts locally. `pnpm test:export` must run against a build made without that variable.
 - Tests: `pnpm test` (Vitest). `pnpm test:export` checks the built `out/` folder.
 - `PRODUCT.md` and the Impeccable surface briefs carry the design direction. `DESIGN.md` is written by Impeccable's documenter from the finished build.
+- Canonical host is `https://www.dorza.com.au` (`SITE_URL` in `lib/seo.ts`). Vercel 308-redirects the bare domain to it. Canonicals, sitemap, schema, `llms.txt` and `robots.txt` all use `www`; `pnpm test:export` fails if a bare-domain URL appears in the build.
+- Case studies list the `/services/*` pages they prove (`services`) and the `/areas/*` pages where the client trades (`areas`). Those pages show the study through `RelatedWork`, and the study links back.
+- `/demo/*` is noindexed by `app/demo/layout.tsx`. Don't also block it in `robots.txt`, or Google can't see the noindex.

@@ -17,6 +17,12 @@ export interface CaseStudy {
   teaser: string;
   /** Opening paragraph on the case study page. May name places: they are facts about the client. */
   summary: string;
+  /** Slugs of the /services pages this build demonstrates. Each links here, and this page links to each. */
+  services: string[];
+  /** Date the case study went public, YYYY-MM-DD. Used as the article's datePublished. */
+  publishedOn: string;
+  /** Slugs of /areas pages where the client trades. Those pages link here as local proof. */
+  areas?: string[];
   facts: { label: string; value: string }[];
   problem: string[];
   built: { title: string; body: string }[];
@@ -37,6 +43,9 @@ export const CASE_STUDIES: CaseStudy[] = [
     pillar: "start",
     published: WORK_PUBLISHED["active-rise-health"],
     liveUrl: "https://www.activerisehealth.com.au/",
+    services: ["web-design"],
+    areas: ["parramatta", "western-sydney"],
+    publishedOn: "2026-11-13",
     headline: "One physio. Two clinics. One front door.",
     teaser: "A website for a physio working across two clinics and home visits, with a pathway for referrers.",
     summary:
@@ -95,6 +104,8 @@ export const CASE_STUDIES: CaseStudy[] = [
     pillar: "grow",
     published: WORK_PUBLISHED.drivable,
     liveUrl: "https://drivablehire.com.au/",
+    services: ["web-design"],
+    publishedOn: "2026-11-13",
     headline: "Open for bookings.",
     teaser: "A website and booking system for a specialised vehicle hire business.",
     summary:

@@ -4,7 +4,7 @@ import { visibleCaseStudies } from "@/lib/data/work";
 import { allRoutes } from "@/lib/routes";
 
 const sitemap = readFileSync("public/sitemap.xml", "utf8");
-const locs = Array.from(sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)).map((m) => m[1].replace("https://dorza.com.au", "") || "/");
+const locs = Array.from(sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)).map((m) => m[1].replace("https://www.dorza.com.au", "") || "/");
 const llms = readFileSync("public/llms.txt", "utf8");
 
 const LEGACY = [
@@ -48,7 +48,7 @@ describe("llms.txt", () => {
   });
 
   it("lists every published case study and no draft", () => {
-    for (const c of visibleCaseStudies(false)) expect(llms, c.slug).toContain(`https://dorza.com.au/work/${c.slug}`);
-    expect(llms.includes("https://dorza.com.au/work")).toBe(visibleCaseStudies(false).length > 0);
+    for (const c of visibleCaseStudies(false)) expect(llms, c.slug).toContain(`https://www.dorza.com.au/work/${c.slug}`);
+    expect(llms.includes("https://www.dorza.com.au/work")).toBe(visibleCaseStudies(false).length > 0);
   });
 });

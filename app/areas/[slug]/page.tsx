@@ -12,6 +12,9 @@ import Footer from "@/components/sections/Footer";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/motion/Reveal";
 import { PlusList } from "@/components/ui/PlusList";
+import { RelatedWork } from "@/components/work/RelatedWork";
+import { visibleCaseStudies } from "@/lib/data/work";
+import { pageMetadata } from "@/lib/site";
 
 /* ------------------------------------------------------------------ */
 /*  Static params                                                      */
@@ -34,20 +37,11 @@ export async function generateMetadata({
   const area = getAreaBySlug(slug);
   if (!area) return {};
 
-  return {
+  return pageMetadata({
     title: area.metaTitle,
     description: area.metaDescription,
-    openGraph: {
-      title: area.metaTitle,
-      description: area.metaDescription,
-      url: `${SITE_URL}/areas/${area.slug}`,
-      siteName: "Dorza",
-      type: "website",
-    },
-    alternates: {
-      canonical: `${SITE_URL}/areas/${area.slug}`,
-    },
-  };
+    path: `/areas/${area.slug}`,
+  });
 }
 
 /* ------------------------------------------------------------------ */
@@ -257,6 +251,8 @@ export default async function AreaPage({
             </Container>
           </section>
         )}
+
+        <RelatedWork studies={visibleCaseStudies().filter((c) => c.areas?.includes(area.slug))} />
 
         {/* CTA */}
         <PageCTA
