@@ -7,8 +7,8 @@
  * (see docs/proof-sources.md).
  */
 export const WORK_PUBLISHED: Record<string, boolean> = {
-  "active-rise-health": false,
-  drivable: false,
+  "active-rise-health": true,
+  drivable: true,
 };
 
 /** Drafts show in `pnpm dev` and wherever NEXT_PUBLIC_SHOW_DRAFTS=1 (set it on Vercel Preview). */

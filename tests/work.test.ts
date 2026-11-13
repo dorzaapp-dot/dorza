@@ -26,6 +26,10 @@ describe("case studies", () => {
     }
   });
 
+  it("publish both studies (owner OK recorded in docs/proof-sources.md)", () => {
+    expect(visibleCaseStudies(false).map((c) => c.slug).sort()).toEqual(["active-rise-health", "drivable"]);
+  });
+
   it("hide unpublished studies unless drafts are on", () => {
     expect(visibleCaseStudies(true)).toHaveLength(CASE_STUDIES.length);
     expect(visibleCaseStudies(false).every((c) => c.published)).toBe(true);

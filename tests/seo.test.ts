@@ -46,4 +46,9 @@ describe("llms.txt", () => {
     expect(llms).toMatch(/Start/);
     expect(llms).not.toMatch(/Western Sydney-based|\$199|\$349|\$549|Founding client/);
   });
+
+  it("lists every published case study and no draft", () => {
+    for (const c of visibleCaseStudies(false)) expect(llms, c.slug).toContain(`https://dorza.com.au/work/${c.slug}`);
+    expect(llms.includes("https://dorza.com.au/work")).toBe(visibleCaseStudies(false).length > 0);
+  });
 });
