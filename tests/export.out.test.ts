@@ -2,6 +2,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { CASE_STUDIES, visibleCaseStudies } from "@/lib/data/work";
+import { NEEDS, needStatus } from "@/lib/data/needs";
 import { allRoutes } from "@/lib/routes";
 
 function walk(dir: string): string[] {
@@ -83,6 +84,24 @@ describe.skipIf(!hasOut)("static export", () => {
       expect(first.length, route).toBeGreaterThan(0);
       expect(first, `${route} hides its opening content until JS runs`).not.toMatch(/opacity:0|transform:translateY/);
     }
+  });
+
+  it("opens the homepage on the 'I need' picker, every answer in the HTML so it works without JavaScript", () => {
+    const home = readFileSync("out/index.html", "utf8");
+    const first = home.match(/<main[\s\S]*?<section[\s\S]*?<\/section>/)?.[0] ?? "";
+    expect(first).toMatch(/<h1[^>]*>[\s\S]*Whatever the tech,[\s\S]*sort[\s\S]*<\/h1>/);
+    expect(first).toMatch(/<fieldset[\s\S]*<legend[^>]*>[\s\S]*I need/);
+    for (const need of NEEDS) {
+      expect(first, need.slug).toMatch(new RegExp(`<input[^>]+type="radio"[^>]+id="need-${need.slug}"`));
+      const panel = first.match(new RegExp(`<article[^>]*data-need-panel="${need.slug}"[\\s\\S]*?</article>`))?.[0] ?? "";
+      expect(panel, `${need.slug} panel`).toContain(need.headline.replace(/'/g, "&#x27;"));
+      if (needStatus(need) === "ask") expect(panel, `${need.slug} says Ask us`).toContain("Ask us");
+    }
+    expect(first.match(/checked=""/g)?.length, "exactly one need starts selected").toBe(1);
+  });
+
+  it("keeps case study screenshots off the homepage (they live in /work)", () => {
+    expect(readFileSync("out/index.html", "utf8")).not.toMatch(/<img[^>]+src="\/images\/work\//);
   });
 
   it("doesn't rush a below-the-fold image ahead of the homepage hero", () => {

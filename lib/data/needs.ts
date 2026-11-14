@@ -1,0 +1,130 @@
+import type { ServiceOption } from "@/lib/constants";
+import { PILLARS, type PillarService, type ServiceStatus } from "@/lib/data/pillars";
+
+/**
+ * The homepage's "I need…" picker. Each need is something an owner would say out loud,
+ * mapped to the pillar services that answer it. Status is never set here: it comes from
+ * lib/data/pillars.ts, so flipping a service to live there flips the picker too.
+ */
+export interface Need {
+  slug: string;
+  /** Finishes the sentence "I need …". */
+  phrase: string;
+  headline: string;
+  body: string;
+  /** What we'd set up, as PlusList rows. */
+  includes: string[];
+  /** Pillar service names, exactly as in lib/data/pillars.ts. */
+  services: string[];
+  link?: { href: string; label: string };
+  /** Only where Dorza has promised a price (spec §4 rule 6). */
+  price?: string;
+  /** Which enquiry form option this lands under. */
+  enquiryOption: ServiceOption;
+}
+
+export const NEEDS: Need[] = [
+  {
+    slug: "website",
+    phrase: "a website",
+    headline: "A website, built for your business.",
+    body: "Designed around what you do, built by hand, then hosted and kept current. You see the real site before it goes live.",
+    includes: ["Design and build, with your changes included", "Hosting, security and updates", "Your domain and your site, owned by you"],
+    services: ["Website and hosting"],
+    link: { href: "/services/web-design", label: "More on web design" },
+    price: "From $499",
+    enquiryOption: "Getting started",
+  },
+  {
+    slug: "google",
+    phrase: "to show up on Google",
+    headline: "Found on Google and Maps.",
+    body: "We set up your Google Business Profile properly, then write the pages that match what your customers actually search for.",
+    includes: ["Google Business Profile, filled in properly", "Pages written around real searches", "Your details the same everywhere they appear"],
+    services: ["Google Business Profile", "SEO and content"],
+    link: { href: "/services/local-seo", label: "More on local SEO" },
+    enquiryOption: "Getting more customers",
+  },
+  {
+    slug: "bookings",
+    phrase: "online bookings",
+    headline: "Bookings without the phone tag.",
+    body: "If a booking tool you can buy already fits your business, we'll set that up. If none does, we'll build one, like we did for Drivable.",
+    includes: ["Real availability, so nobody books a taken slot", "Confirmations to you and your customer", "A screen to manage it all"],
+    services: ["Booking systems and dashboards"],
+    link: { href: "/work/drivable", label: "See the Drivable build" },
+    enquiryOption: "A booking system or dashboard",
+  },
+  {
+    slug: "store",
+    phrase: "to sell online",
+    headline: "An online store, set up properly.",
+    body: "Products, payments, GST and shipping, on a platform you own. Tell us what you sell and we'll say plainly whether we're the right people for it.",
+    includes: ["Products, photos and stock", "Payments and GST", "Shipping and delivery options"],
+    services: ["Online stores"],
+    enquiryOption: "Getting more customers",
+  },
+  {
+    slug: "crm",
+    phrase: "my customers in one place",
+    headline: "Every customer and quote in one place.",
+    body: "We'll help you pick a CRM that suits your trade and set it up, so follow-ups stop living in your inbox.",
+    includes: ["A tool chosen for how your trade works", "Your existing contacts brought across", "Reminders for the quotes you're waiting on"],
+    services: ["CRM setup"],
+    enquiryOption: "Getting more customers",
+  },
+  {
+    slug: "ads",
+    phrase: "ads that pay their way",
+    headline: "Ads, once your site can convert them.",
+    body: "Search ads on Google, set up and watched. We check your site is ready first, so you aren't paying for clicks that go nowhere.",
+    includes: ["Search ads on Google", "Landing pages that match each ad", "A budget agreed before anything runs"],
+    services: ["Paid ads"],
+    enquiryOption: "Getting more customers",
+  },
+  {
+    slug: "email",
+    phrase: "email that matches my domain",
+    headline: "Your own domain, and email to match.",
+    body: "A web address registered to you, and business email on Google Workspace or Microsoft 365, set up for everyone on your team.",
+    includes: ["Your domain, in your name", "Email, calendars and shared files", "Set up on your team's phones and laptops"],
+    services: ["Domain and business email", "Google Workspace and Microsoft 365 setup"],
+    enquiryOption: "Getting started",
+  },
+  {
+    slug: "support",
+    phrase: "someone to look after it",
+    headline: "Someone picks up.",
+    body: "Hosting, updates and changes, handled by the people who built it. Send it through and it's done.",
+    includes: ["Hosting and security updates", "Changes on request", "No lock-in. Stop any time."],
+    services: ["Hosting and updates", "Changes on request"],
+    link: { href: "/support", label: "How support works" },
+    enquiryOption: "Ongoing support",
+  },
+  {
+    slug: "unsure",
+    phrase: "help working out what I need",
+    headline: "Not sure yet? Start there.",
+    body: "Tell us what's going on in the business and what keeps getting in the way. You'll get a plan and a price within 72 hours.",
+    includes: [],
+    services: [],
+    enquiryOption: "Not sure yet",
+  },
+];
+
+const ALL_SERVICES: PillarService[] = PILLARS.flatMap((p) => p.services);
+
+export function needServices(need: Need): PillarService[] {
+  return need.services.map((name) => {
+    const service = ALL_SERVICES.find((s) => s.name === name);
+    if (!service) throw new Error(`Need "${need.slug}" names an unknown service: ${name}`);
+    return service;
+  });
+}
+
+/** Live only when every service behind the need is live. Undefined when no service is named. */
+export function needStatus(need: Need): ServiceStatus | undefined {
+  const services = needServices(need);
+  if (services.length === 0) return undefined;
+  return services.every((s) => s.status === "live") ? "live" : "ask";
+}

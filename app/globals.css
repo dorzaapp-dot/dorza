@@ -289,3 +289,134 @@ h1, h2, h3, h4, h5, h6 {
     animation: none;
   }
 }
+
+/* The homepage "I need…" picker (components/sections/home/NeedPicker.tsx).
+   Real radio buttons: phones get 44px chips, tablets and up get an editorial list
+   hung off a hairline, where the chosen line is drawn in pine with a tick across it,
+   the same mark the old timeline spine used. */
+/* Phones: one row of chips that scrolls sideways, so the answer stays on screen
+   right under it. The chip cut off at the edge says there are more. */
+.need-options {
+  display: flex;
+  gap: 8px;
+  margin-inline: -24px;
+  padding: 0 24px 4px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: 24px;
+  scrollbar-width: none;
+}
+.need-options::-webkit-scrollbar {
+  display: none;
+}
+.need-option {
+  /* Keeps each visually hidden radio inside the scroller, or it widens the page. */
+  position: relative;
+  scroll-snap-align: start;
+}
+.need-option label {
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--border-default);
+  border-radius: 3px;
+  background: var(--paper);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease-dorza),
+    color var(--duration-fast) var(--ease-dorza),
+    border-color var(--duration-fast) var(--ease-dorza);
+}
+.need-option label:hover {
+  background: var(--stone);
+}
+.need-option input:checked + label {
+  background: var(--pine);
+  border-color: var(--pine);
+  color: var(--chalk);
+}
+.need-option input:focus-visible + label {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+@media (min-width: 768px) {
+  .need-options {
+    display: block;
+    margin-inline: 0;
+    padding: 0;
+    overflow: visible;
+    border-left: 1px solid var(--border-default);
+  }
+  .need-option label {
+    white-space: normal;
+  }
+  .need-option label {
+    position: relative;
+    display: flex;
+    width: 100%;
+    min-height: 48px;
+    padding: 4px 0 4px 24px;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-variation-settings: "opsz" 36;
+    font-size: clamp(20px, 1.9vw, 25px);
+    line-height: 1.15;
+    letter-spacing: -0.012em;
+  }
+  .need-option label:hover {
+    background: none;
+    color: var(--text-heading);
+  }
+  /* The pine run over the hairline, and the tick that crosses it. */
+  .need-option label::before,
+  .need-option label::after {
+    content: "";
+    position: absolute;
+    background: var(--pine);
+    transition: transform var(--duration-base) var(--ease-dorza);
+  }
+  .need-option label::before {
+    left: -1px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    transform: scaleY(0);
+  }
+  .need-option label::after {
+    left: -5px;
+    top: 50%;
+    width: 9px;
+    height: 1px;
+    transform: scaleX(0);
+  }
+  .need-option input:checked + label {
+    background: none;
+    color: var(--text-heading);
+  }
+  .need-option input:checked + label::before {
+    transform: scaleY(1);
+  }
+  .need-option input:checked + label::after {
+    transform: scaleX(1);
+  }
+  .need-option input:focus-visible + label {
+    outline-offset: -2px;
+  }
+}
+/* Each answer sets down like the headline did: the title rises out of its mask,
+   the rest follows a beat later. Showing a panel restarts its animations. */
+.need-panel .d-line-rise {
+  animation-delay: 60ms;
+}
+.need-panel-body {
+  animation-delay: 140ms;
+}
