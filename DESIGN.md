@@ -158,7 +158,7 @@ Paper being set down on a desk. Forest, pine and moss greens on warm chalk and p
 
 Density is low and vertical. Sections are long, single-column or split 3:9 on a 12-column grid, and separated by changes of ground (chalk, haze, forest) rather than by borders or cards. Color is almost entirely green and neutral. Each screen gets one accent beat: claret on light grounds, ochre on forest. Depth is nearly flat: real screenshots sit in a 2px frame with a hairline and a soft shadow, and nothing else floats.
 
-Motion is quiet and one-directional. Things rise a few pixels into place once and stay put. The homepage's signature is the timeline spine: a pine line draws down a hairline as the journey scrolls through view.
+Motion is quiet and one-directional. Things rise a few pixels into place once and stay put. The homepage's signature is the "I need…" picker: choose a need and its answer sets down like the headline did, while a pine run and tick mark the chosen line on its hairline.
 
 **Key Characteristics:**
 - Warm off-white grounds only (chalk page, paper cards). Never pure white.
@@ -175,7 +175,7 @@ A tight green family on warm neutrals, with two accents that never share a frame
 
 ### Primary
 - **Forest** (forest): the deepest green. Inverse grounds (PageCTA, the quote section, footer), the hover state of primary buttons, links on the haze band, the wordmark.
-- **Pine** (pine): the working green. Headings (`--text-heading`), primary buttons, links (`--text-link`), the drawn spine line, spine ticks, PlusList plus signs, selected chips, input focus border.
+- **Pine** (pine): the working green. Headings (`--text-heading`), primary buttons, links (`--text-link`), the picker's pine run and tick, PlusList plus signs, selected chips, input focus border.
 - **Moss** (moss) and **Sage** (sage): supporting greens in the tonal family. Rarely used directly on the brand layer; keep them for illustration-scale fills and secondary marks, never for text on chalk.
 - **Haze** (haze): the pale green ground. The pricing band, the "Live" status tag fill, text selection on light grounds, inverse-button hover.
 
@@ -194,7 +194,7 @@ A tight green family on warm neutrals, with two accents that never share a frame
 - **Ink Soft** (ink-soft): secondary text (`--text-secondary`) and muted text (`--text-muted`). Ledes, body copy, mono labels, nav links, the "Ask us" tag.
 - **Ink Mute** (ink-mute): icons and decorative marks only (the modal close icon, select chevrons). It is 3.7:1 on chalk, too faint for text.
 - **Rule** (rule): strong borders (`--border-strong`), link underlines, the "Ask us" tag outline, field hover border.
-- **Rule Soft** (rule-soft): default hairlines (`--border-default`). Nav bottom edge, list rules, card frames, FAQ dividers, the undrawn spine.
+- **Rule Soft** (rule-soft): default hairlines (`--border-default`). Nav bottom edge, list rules, card frames, FAQ dividers, the picker's hairline.
 
 ### Semantic aliases
 Components reference the aliases, not the raw names, so a section re-themes by class. `--text-muted` deliberately points at ink-soft, not ink-mute. Dropping `.on-inverse` on a forest section re-points every alias: page ground to forest, headings to chalk, body to chalk at 72%, muted text to chalk at 64%, links to haze, accent and focus to ochre, borders to chalk at 18% and 30%. `.bg-haze` re-points links to forest because pine on haze is only 4.35:1.
@@ -208,7 +208,7 @@ Components reference the aliases, not the raw names, so a section re-themes by c
 
 ## Typography
 
-**Display Font:** Newsreader (with Times New Roman, serif), loaded through next/font with the optical-size axis and italics.
+**Display Font:** Newsreader (with Times New Roman, serif), loaded through next/font with italics. The optical-size axis was dropped on 2026-11-15 to cut the font from 279KB to 123KB for mobile LCP, so the `opsz` values below are kept for the record but no longer change the rendering.
 **Body Font:** Geist (with system-ui, -apple-system, Helvetica Neue, sans-serif), from the geist package.
 **Label/Mono Font:** Geist Mono (with ui-monospace, SF Mono, Menlo, monospace), from the geist package.
 
@@ -227,7 +227,7 @@ Components reference the aliases, not the raw names, so a section re-themes by c
 ### Named Rules
 **The One Italic Rule.** At most one italic word per composition, and it carries the accent. Italics are never used for emphasis in body copy.
 
-**The Mono Marks Rule.** Mono text marks a thing (a stage, a status, a price, a link destination). It never introduces a heading from above. A small uppercase label sitting directly over an h1 or h2 is an eyebrow, and eyebrows are banned. Markers in the spine's own column, meta lines after content, captions and footer group titles are the mono's native uses and stay.
+**The Mono Marks Rule.** Mono text marks a thing (a stage, a status, a price, a link destination). It never introduces a heading from above. A small uppercase label sitting directly over an h1 or h2 is an eyebrow, and eyebrows are banned. Status tags, meta lines after content, captions and footer group titles are the mono's native uses and stay.
 
 **The Full Stop Rule.** Headlines are short declaratives that end in a full stop, set with balanced wrapping.
 
@@ -235,7 +235,7 @@ Components reference the aliases, not the raw names, so a section re-themes by c
 
 A 1200px container with 24px gutters (32px from 1024px). Reading measures cap at 640px for ledes and body. Sections stack vertically and are separated by a change of ground, not a border. Vertical rhythm comes from three section sizes: tight (56px), default (96px) and large (128px), typically tight on phones and one step up from 768px. The sticky nav is 68px tall; anchors and focus scroll with 84px of top padding so they clear it.
 
-The homepage timeline sits on a 12-column grid. The spine runs 11px in on phones and a quarter of the way across from 768px up; each stage puts its mono marker in the first 3 columns (right-aligned beside a tick that crosses the spine) and its content in the remaining 9. Stages are 56px of vertical padding on phones and 96px from 768px. When a stage has a case study, its service list and work card split into two columns from 1024px.
+The homepage picker sits on a 12-column grid: the "I need…" list takes 5 columns and the answer panel 7, from 768px. On phones the needs become one row of 44px chips that scrolls sideways, with the answer directly under it.
 
 The nav collapses to a full-height chalk sheet below 860px. Inverse CTA sections center their content in a narrow column (max 576px to 672px).
 
@@ -303,16 +303,17 @@ A 68px sticky bar on chalk at 94% opacity over an 8px blur, with a rule-soft bot
 ### Footer
 Forest ground via `.on-inverse`. Link rows have a 44px minimum height, chalk at 80%, hovering to ochre. Phone and email are mono links with 44px rows.
 
-### Timeline Spine (signature)
-A 1px rule-soft hairline runs the full height of the journey. A pine line of the same width draws down over it as the section scrolls through view. Each stage has a mono marker and a pine tick that crosses the line. With reduced motion the pine line is fully drawn and nothing moves.
+### Need picker (signature)
+`components/sections/home/NeedPicker.tsx`, fed by `lib/data/needs.ts`. Real radio buttons switched by CSS `:has()`, so it works on first paint and with JavaScript off; every answer is in the HTML. From 768px the needs are Newsreader lines hung off a 1px rule-soft hairline, and the chosen line turns pine with a pine run over the hairline and a 9px tick across it. On phones they are 44px chips (paper, rule-soft; chosen is pine with chalk text) in one sideways-scrolling row. The answer sits in one paper frame with a 2px corner and hairline, no shadow. On top is the stack drawing; below a hairline, the answer: a Headline-size title that rises out of its mask, a status tag, body, PlusList (screen readers only from 768px, where the drawing's callouts carry it), a primary button and a text link, then a mono meta line. The hero fits one screen at 1280×800, 1440×900, 390×844 and 375×667 (`HomeHero` sizes the h1 down to `clamp(38px, 4.6vw, 66px)` and the drawing's height follows the screen's height). From 768px the h1, lede and need list share the left column and the frame sits beside them. On a phone the frame comes first and the need chips sit under it, so the chips and the quote button land where a thumb reaches; a phone shorter than 740px drops the lede and the answer's sentence. The picker tours itself: every 6 seconds it moves to the next need, and the chosen need's mark (the pine run on desktop, a haze bar under the chip on a phone) fills over that time. A "Pause tour" button stops it; picking a need ends it; it pauses off screen and in a hidden tab, and never starts with reduced motion or a `/#need-` link. Status comes from the pillar data, never from the picker. With reduced motion nothing moves.
+
+**The stack drawing** (`NeedStack.tsx`, styles `.ns-*` in `globals.css`): the visitor's business as seven isometric layers, bottom to top in `STACK` order (email, website, bookings, store, CRM, Google, ads), on a field of rule-soft plus marks every 16 units. Layers are 1px pine line on paper, left edge haze, right edge sage; artwork on a face is drawn flat and set into the face with a 30° matrix. The picked need's layer rises 760ms out of the stack to float above it with its artwork; its slot is left dashed in claret on chalk, three dotted claret drafting lines join the two, and up to four mono callouts are drawn in one by one, each leader ending in a claret dot. Its name is set in Newsreader italic in claret, the same voice as the h1's italic. Support draws a solid claret bracket across every layer and tints them haze; "not sure" floats an empty dashed layer. Claret is the drawing's only accent. Below 640px the mono labels and callouts hide (they'd print at 6px) and the answer's own list carries them.
 
 ### Motion
-Three primitives, all on the house ease `cubic-bezier(0.23, 1, 0.32, 1)` (exported as `DORZA_EASE`):
+Two primitives, all on the house ease `cubic-bezier(0.23, 1, 0.32, 1)` (exported as `DORZA_EASE`):
 - **Reveal** for scroll-in content: rises 20px and fades in over 480ms, once, when 100px inside the viewport. Its stagger mode spaces children 45ms apart.
 - **LineReveal** for the h1 set-down only: each line rises from 105% behind a mask over 600ms, starting at 100ms with 90ms between lines.
-- **Spine** for the homepage timeline, tied to scroll progress.
 
-Durations: fast 160ms (hover, color), base 280ms (menus, accordions, form swaps), slow 480ms (Reveal), reveal 600ms (LineReveal). Every primitive checks reduced motion: Reveal and LineReveal render in place, Spine renders fully drawn, the FAQ accordion fades without height animation, and the global reduced-motion rule cuts CSS transitions to near zero. Every animated element carries `data-reveal`, and a `<noscript>` rule forces `[data-reveal]` to full opacity with no transform so nothing stays hidden without JavaScript.
+Durations: fast 160ms (hover, color), base 280ms (menus, accordions, form swaps), slow 480ms (Reveal), reveal 600ms (LineReveal). Every primitive checks reduced motion: Reveal, LineReveal and the picker's set-down render in place, the FAQ accordion fades without height animation, and the global reduced-motion rule cuts CSS transitions to near zero. Every animated element carries `data-reveal`, and a `<noscript>` rule forces `[data-reveal]` to full opacity with no transform so nothing stays hidden without JavaScript.
 
 ## Do's and Don'ts
 

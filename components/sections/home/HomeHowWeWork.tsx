@@ -2,6 +2,8 @@ import Link from "next/link";
 import { Reveal } from "@/components/motion/Reveal";
 import { Container } from "@/components/ui/Container";
 import { PlusList } from "@/components/ui/PlusList";
+import { SupportProof } from "@/components/work/SupportProof";
+import { hasPublicWork } from "@/lib/data/workStatus";
 
 export default function HomeHowWeWork() {
   return (
@@ -26,9 +28,17 @@ export default function HomeHowWeWork() {
                 "No lock-in. Stop any time.",
               ]}
             />
-            <Link href="/about" className="d-link mt-7 inline-block text-[15px]">
-              About Dorza
-            </Link>
+            <SupportProof className="d-body mt-7" />
+            <div className="mt-7 flex flex-wrap gap-x-7 gap-y-4">
+              <Link href="/about" className="d-link inline-block text-[15px]">
+                About Dorza
+              </Link>
+              {hasPublicWork() ? (
+                <Link href="/work" className="d-link inline-block text-[15px]">
+                  See the work
+                </Link>
+              ) : null}
+            </div>
           </Reveal>
         </div>
       </Container>

@@ -8,7 +8,7 @@ import { SITE_URL } from "@/lib/seo";
 import { canonical, pageMetadata } from "@/lib/site";
 
 export const metadata = pageMetadata({
-  title: "About",
+  title: "About us: two founders in Sydney",
   description:
     "Dorza is two founders in Sydney who look after the tech for small businesses across Australia: websites, booking systems and support.",
   path: "/about",

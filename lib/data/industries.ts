@@ -26,7 +26,7 @@ export const INDUSTRIES: IndustryPage[] = [
   {
     slug: "cafes-restaurants",
     name: "Cafes & Restaurants",
-    metaTitle: "Websites for cafes and restaurants: menus and bookings",
+    metaTitle: "Cafe and restaurant websites: menus and bookings",
     metaDescription:
       "Websites for cafes and restaurants. A menu that works on a phone, online bookings and a Google profile that's set up properly. Social media on request.",
     eyebrow: "// Cafes & restaurants",
@@ -96,7 +96,7 @@ export const INDUSTRIES: IndustryPage[] = [
     name: "Tradies",
     metaTitle: "Websites for tradies: get more jobs online",
     metaDescription:
-      "Websites and Google profiles for tradies. Service area pages, click-to-call buttons, before and after galleries, and quote forms that turn searches into enquiries.",
+      "Websites and Google profiles for tradies: service area pages, click-to-call buttons, before and after galleries and quote forms that bring in work.",
     eyebrow: "// Tradies",
     title: "Websites that help tradies get more jobs.",
     description:
@@ -162,9 +162,9 @@ export const INDUSTRIES: IndustryPage[] = [
   {
     slug: "salons-beauty",
     name: "Salons & Beauty",
-    metaTitle: "Websites for salons and beauty: bookings and portfolio",
+    metaTitle: "Salon and beauty websites: bookings and portfolio",
     metaDescription:
-      "Websites for salons and beauty businesses. A portfolio that shows your work, online booking through the system you already use, and a Google profile set up properly. Instagram on request.",
+      "Salon and beauty websites with a portfolio of your work, booking through the system you already use and a Google profile set up properly.",
     eyebrow: "// Salons & beauty",
     title: "Websites for salons and beauty businesses.",
     description:

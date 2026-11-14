@@ -1,6 +1,5 @@
 import Nav from "@/components/sections/Nav";
 import HomeHero from "@/components/sections/home/HomeHero";
-import HomeJourney from "@/components/sections/home/HomeJourney";
 import HomeHowWeWork from "@/components/sections/home/HomeHowWeWork";
 import HomePricing from "@/components/sections/home/HomePricing";
 import FAQ from "@/components/sections/FAQ";
@@ -30,7 +29,6 @@ export default function Home() {
         {/* eslint-disable-next-line react/no-danger */}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
         <HomeHero />
-        <HomeJourney />
         <HomeHowWeWork />
         <HomePricing />
         <FAQ />

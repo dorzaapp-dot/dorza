@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { NEED_EVENT, type NeedEventDetail } from "@/components/sections/home/NeedPickerEnhance";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { Reveal, DORZA_EASE } from "@/components/motion/Reveal";
@@ -23,6 +24,21 @@ const initialForm: EnquiryFormData = {
 export default function WaitlistCTA() {
   const [form, setForm] = useState<EnquiryFormData>(initialForm);
   const { submitting, submitted, error, submit } = useEnquirySubmit();
+
+  // A "Get a quote" inside the homepage picker hands its choice over, so the form
+  // arrives with the service ticked and "I need …" in the message.
+  useEffect(() => {
+    function prefill(e: Event) {
+      const { option, message } = (e as CustomEvent<NeedEventDetail>).detail;
+      setForm((f) => ({
+        ...f,
+        servicesInterested: !option || f.servicesInterested.includes(option) ? f.servicesInterested : [...f.servicesInterested, option],
+        message: f.message?.trim() ? f.message : message,
+      }));
+    }
+    window.addEventListener(NEED_EVENT, prefill);
+    return () => window.removeEventListener(NEED_EVENT, prefill);
+  }, []);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -54,7 +70,8 @@ export default function WaitlistCTA() {
                   onSubmit={handleSubmit}
                   className="relative space-y-3 text-left"
                 >
-                  <EnquiryFormFields theme="dark" value={form} onChange={setForm} />
+                  {/* The message box appears once the picker fills it, so nothing is sent unseen. */}
+                  <EnquiryFormFields theme="dark" value={form} onChange={setForm} showMessage={form.message !== undefined} />
 
                   <div className="relative pt-2">
                     <button type="submit" disabled={submitting} className={buttonClasses("inverse", "default", "w-full")}>

@@ -1,47 +1,38 @@
-import Link from "next/link";
 import { LineReveal } from "@/components/motion/LineReveal";
 import { HeroRise } from "@/components/motion/HeroRise";
+import { NeedPicker } from "@/components/sections/home/NeedPicker";
 import { Container } from "@/components/ui/Container";
-import { buttonClasses } from "@/components/ui/buttonClasses";
-import { hasPublicWork } from "@/lib/data/workStatus";
-import { CTA_LABEL } from "@/lib/site";
 
+/*
+ * Sized so the whole hero, choices and quote button included, fits one screen: 1280×800 and
+ * up on desktop, 390×844 on a phone (375×667 drops the answer's sentence; see globals.css).
+ */
 export default function HomeHero() {
-  const showWork = hasPublicWork();
-
   return (
-    <section className="bg-chalk pb-6 pt-16 md:pb-10 md:pt-24">
+    <section className="bg-chalk pb-section-tight pt-6 md:pb-section md:pt-10 lg:pt-12">
       <Container>
-        <h1 className="d-display">
-          <LineReveal
-            lines={[
-              "You run the business.",
-              <>
-                We&rsquo;ll <em className="d-display-italic">mind</em> the tech.
-              </>,
-            ]}
-          />
-        </h1>
+        <NeedPicker
+          intro={
+            <>
+              <h1 className="d-display hero-title">
+                <LineReveal
+                  lines={[
+                    "Whatever the tech,",
+                    <>
+                      we&rsquo;ll <em className="d-display-italic">sort</em> it.
+                    </>,
+                  ]}
+                />
+              </h1>
 
-        <HeroRise delay={0.3}>
-          <p className="d-lede mt-7 max-w-text">
-            Dorza gets Australian small businesses online, helps them grow, and looks after the tech that keeps
-            them running. One team. No lock-in.
-          </p>
-
-          <div className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-4">
-            <Link href="#quote" className={buttonClasses("primary", "lg")}>
-              {CTA_LABEL}
-            </Link>
-            {showWork ? (
-              <Link href="/work" className="d-link inline-block text-[15px]">
-                See the work
-              </Link>
-            ) : null}
-          </div>
-
-          <p className="d-label mt-7">Quote within 72 hours &middot; No lock-in</p>
-        </HeroRise>
+              <HeroRise delay={0.3}>
+                <p className="hero-lede d-lede mt-3 max-w-[30rem] md:mt-5">
+                  Pick what you need. One team builds it, then stays to look after it.
+                </p>
+              </HeroRise>
+            </>
+          }
+        />
       </Container>
     </section>
   );

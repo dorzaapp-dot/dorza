@@ -22,7 +22,7 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
     return { title: "Case study coming soon", robots: { index: false, follow: false } };
   }
   return pageMetadata({
-    title: `${study.client}: ${study.headline}`,
+    title: study.metaTitle ?? `${study.client}: ${study.headline}`,
     description: study.metaDescription,
     path: `/work/${study.slug}`,
     image: `/images/og/${study.slug}.png`,

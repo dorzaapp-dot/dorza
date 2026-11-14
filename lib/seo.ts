@@ -20,13 +20,6 @@ export const WESTERN_SYDNEY_SUBURBS = [
   { name: "Castle Hill", slug: "castle-hill", postcode: "2154" },
 ] as const;
 
-export const SERVICE_PAGES = [
-  { name: "Web Design", slug: "web-design" },
-  { name: "Social Media Management", slug: "social-media-management" },
-  { name: "Google Business Profile", slug: "google-business-profile" },
-  { name: "Local SEO", slug: "local-seo" },
-] as const;
-
 export const INDUSTRY_PAGES = [
   { name: "Cafes & Restaurants", slug: "cafes-restaurants" },
   { name: "Tradies", slug: "tradies" },

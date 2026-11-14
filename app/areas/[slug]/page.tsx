@@ -3,7 +3,9 @@ import { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
 
 import { AREAS, getAreaBySlug, getNearbySlugs } from "@/lib/data/areas";
-import { SITE_URL, SERVICE_PAGES, PHONE_TEL, CONTACT_EMAIL } from "@/lib/seo";
+import { SITE_URL, PHONE_TEL, CONTACT_EMAIL } from "@/lib/seo";
+import { SERVICES, servicePillar } from "@/lib/data/services";
+import { StatusTag } from "@/components/ui/StatusTag";
 
 import Nav from "@/components/sections/Nav";
 import InnerHero from "@/components/sections/InnerHero";
@@ -181,22 +183,32 @@ export default async function AreaPage({
               </h2>
             </Reveal>
             <Reveal stagger={0.045} className="mt-10 grid gap-x-12 md:grid-cols-2">
-              {SERVICE_PAGES.map((service) => (
-                <a
-                  key={service.slug}
-                  href={`/services/${service.slug}`}
-                  className="group flex items-center justify-between border-t border-rule py-5 transition-colors duration-fast ease-dorza"
-                >
-                  <span className="font-body text-[17px] font-semibold text-ink transition-colors duration-fast ease-dorza group-hover:text-pine">
-                    {service.name}
-                  </span>
-                  <ArrowRight
-                    size={18}
-                    className="text-ink-mute transition-transform duration-fast ease-dorza group-hover:translate-x-1 group-hover:text-pine"
-                    aria-hidden
-                  />
-                </a>
-              ))}
+              {SERVICES.map((service) => {
+                const pillar = servicePillar(service);
+                if (!pillar) return null;
+                return (
+                  <a
+                    key={service.slug}
+                    href={`/services/${service.slug}`}
+                    className="group block border-t border-rule py-5 transition-colors duration-fast ease-dorza"
+                  >
+                    <span className="flex items-start justify-between gap-4">
+                      <span className="font-body text-[17px] font-semibold text-ink transition-colors duration-fast ease-dorza group-hover:text-pine">
+                        {pillar.name}
+                      </span>
+                      <span className="flex shrink-0 items-center gap-3">
+                        <StatusTag status={pillar.status} />
+                        <ArrowRight
+                          size={18}
+                          className="text-ink-mute transition-transform duration-fast ease-dorza group-hover:translate-x-1 group-hover:text-pine"
+                          aria-hidden
+                        />
+                      </span>
+                    </span>
+                    <span className="d-body mt-2 block">{pillar.blurb}</span>
+                  </a>
+                );
+              })}
             </Reveal>
           </Container>
         </section>

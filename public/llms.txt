@@ -23,6 +23,21 @@ Owner-run Australian small businesses with nobody looking after their tech.
 - Changes on request, by the people who built the site.
 - On request: Google Workspace and Microsoft 365 setup.
 
+## Service pages
+
+Live means Dorza takes it on now. On request means ask first.
+
+- Web design (live): https://www.dorza.com.au/services/web-design
+- Google Business Profile (live): https://www.dorza.com.au/services/google-business-profile
+- Local SEO (live): https://www.dorza.com.au/services/local-seo
+- Booking systems (live): https://www.dorza.com.au/services/booking-systems
+- Online stores, usually Shopify (on request): https://www.dorza.com.au/services/online-store
+- CRM and job management setup (on request): https://www.dorza.com.au/services/crm-setup
+- Google Ads (on request): https://www.dorza.com.au/services/google-ads
+- Domain and business email on Google Workspace or Microsoft 365 (on request): https://www.dorza.com.au/services/business-email
+- Social media (on request): https://www.dorza.com.au/services/social-media-management
+- All services, grouped by stage: https://www.dorza.com.au/services
+
 ## Pricing
 
 Websites start from $499. Larger builds are quoted. Every enquiry gets an exact plan and price within 72 hours. There is no lock-in, and the client owns what is built.

@@ -1,12 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { faqs } from "@/lib/data/faq";
+import { NEEDS } from "@/lib/data/needs";
 import { PILLARS } from "@/lib/data/pillars";
 import { SERVICE_OPTIONS } from "@/lib/constants";
 import { DEFAULT_TITLE, FOOTER_GROUPS, NAV_LINKS, SITE_DESCRIPTION, TAGLINE } from "@/lib/site";
 import { BANNED, PLACES, collectStrings, findViolations } from "./helpers/voice";
 
 const brandStrings = collectStrings([
-  PILLARS, faqs, SERVICE_OPTIONS, TAGLINE, SITE_DESCRIPTION, DEFAULT_TITLE,
+  PILLARS, NEEDS, faqs, SERVICE_OPTIONS, TAGLINE, SITE_DESCRIPTION, DEFAULT_TITLE,
   NAV_LINKS.map((l) => l.label), FOOTER_GROUPS.map((g) => [g.title, g.links.map((l) => l.label)]),
 ]);
 

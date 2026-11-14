@@ -1,0 +1,88 @@
+import { describe, expect, it } from "vitest";
+import { NEEDS, STACK, needServices, needStatus } from "@/lib/data/needs";
+import { PILLARS } from "@/lib/data/pillars";
+import { SERVICES } from "@/lib/data/services";
+import { SERVICE_OPTIONS } from "@/lib/constants";
+import { isHeadline } from "./helpers/voice";
+
+const allServices = PILLARS.flatMap((p) => p.services);
+
+describe("homepage needs (the 'I need' picker)", () => {
+  it("names only services that exist on a pillar page, so the picker can't promise something the site doesn't list", () => {
+    for (const need of NEEDS) {
+      for (const name of need.services) {
+        expect(allServices.some((s) => s.name === name), `${need.slug}: ${name}`).toBe(true);
+      }
+    }
+  });
+
+  it("takes each need's status from the pillar data: live only when every service behind it is live", () => {
+    for (const need of NEEDS) {
+      const services = needServices(need);
+      if (services.length === 0) {
+        expect(needStatus(need), need.slug).toBeUndefined();
+      } else {
+        expect(needStatus(need), need.slug).toBe(services.every((s) => s.status === "live") ? "live" : "ask");
+      }
+    }
+  });
+
+  it("files every enquiry under an option the form already offers", () => {
+    for (const need of NEEDS) expect(SERVICE_OPTIONS, need.slug).toContain(need.enquiryOption);
+  });
+
+  it("gives each need a unique slug and a Dorza headline", () => {
+    expect(new Set(NEEDS.map((n) => n.slug)).size).toBe(NEEDS.length);
+    for (const need of NEEDS) {
+      expect(need.slug, need.slug).toMatch(/^[a-z]+(-[a-z]+)*$/);
+      expect(isHeadline(need.headline), need.headline).toBe(true);
+    }
+  });
+
+  it("shows a price only where Dorza has promised one (websites from $499)", () => {
+    for (const need of NEEDS) {
+      const text = JSON.stringify(need);
+      if (need.slug === "website") expect(need.price).toBe("From $499");
+      else expect(need.price, need.slug).toBeUndefined();
+      expect(text.replace("From $499", ""), need.slug).not.toMatch(/\$\d/);
+    }
+  });
+
+  it("covers what Mahir asked to lead with: stores, CRMs, web design, SEO and ads", () => {
+    const covered = new Set(NEEDS.flatMap((n) => n.services));
+    for (const name of ["Online stores", "CRM setup", "Website and hosting", "SEO and content", "Paid ads"]) {
+      expect(covered.has(name), name).toBe(true);
+    }
+  });
+
+  it("stacks each buildable need once, bottom to top, with support and 'not sure' drawn around it instead", () => {
+    expect(new Set(STACK).size).toBe(STACK.length);
+    for (const slug of STACK) expect(NEEDS.some((n) => n.slug === slug), slug).toBe(true);
+    expect(STACK).not.toContain("support");
+    expect(STACK).not.toContain("unsure");
+    expect(STACK.length).toBe(NEEDS.length - 2);
+  });
+
+  it("labels each layer of the drawing with a short name and two to four short callouts", () => {
+    for (const need of NEEDS) {
+      expect(need.short.length, need.slug).toBeGreaterThan(0);
+      expect(need.short.length, need.short).toBeLessThanOrEqual(10);
+      if (need.slug === "unsure") continue;
+      expect(need.parts.length, need.slug).toBeGreaterThanOrEqual(2);
+      expect(need.parts.length, need.slug).toBeLessThanOrEqual(4);
+      for (const part of need.parts) {
+        expect(part.length, part).toBeLessThanOrEqual(24);
+        expect(part, part).not.toMatch(/[—!]/);
+      }
+    }
+  });
+
+  it("branches every need except 'not sure' to a page with more detail that exists", () => {
+    const pages = new Set(["/support", ...SERVICES.map((s) => `/services/${s.slug}`)]);
+    for (const need of NEEDS) {
+      if (need.slug === "unsure") continue;
+      expect(need.link?.href, need.slug).toBeDefined();
+      expect(pages.has(need.link!.href), `${need.slug} -> ${need.link!.href}`).toBe(true);
+    }
+  });
+});

@@ -5,7 +5,7 @@ import { CONTACT_EMAIL } from "@/lib/seo";
 import { ABN, pageMetadata } from "@/lib/site";
 
 export const metadata = pageMetadata({
-  title: "Privacy",
+  title: "Privacy policy",
   description: "What Dorza collects when you get in touch, why, where it's kept and how to have it removed.",
   path: "/privacy",
 });
