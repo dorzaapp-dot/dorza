@@ -9,7 +9,7 @@ import { pageMetadata } from "@/lib/site";
 
 export const metadata = {
   ...pageMetadata({
-    title: "Work",
+    title: "Our work: websites and booking systems",
     description: "Real businesses and live sites built and looked after by Dorza. Click through and use them.",
     path: "/work",
   }),

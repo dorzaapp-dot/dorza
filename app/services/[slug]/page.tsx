@@ -67,7 +67,7 @@ export default function ServicePage({
         "@type": "ListItem",
         position: 2,
         name: "Services",
-        item: `${SITE_URL}/services/web-design`,
+        item: `${SITE_URL}/services`,
       },
       {
         "@type": "ListItem",
@@ -91,8 +91,19 @@ export default function ServicePage({
     })),
   };
 
+  const serviceLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: service.metaTitle,
+    description: service.metaDescription,
+    url: `${SITE_URL}/services/${service.slug}`,
+    provider: { "@id": `${SITE_URL}/#business` },
+    areaServed: { "@type": "Country", name: "Australia" },
+  };
+
   // JSON-LD is hardcoded data from our own data file, not user input
   const breadcrumbJson = JSON.stringify(breadcrumbLd);
+  const serviceJson = JSON.stringify(serviceLd);
   const faqJson = JSON.stringify(faqLd);
 
   return (
@@ -106,6 +117,10 @@ export default function ServicePage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: faqJson }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serviceJson }}
+      />
 
       <Nav />
 
@@ -115,7 +130,7 @@ export default function ServicePage({
           title={service.title}
           description={service.description}
           breadcrumbs={[
-            { label: "Services", href: "/services/web-design" },
+            { label: "Services", href: "/services" },
             { label: service.title.replace(/\.$/, ""), href: `/services/${service.slug}` },
           ]}
         />

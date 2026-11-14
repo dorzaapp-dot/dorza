@@ -20,9 +20,9 @@ export const AREAS: Area[] = [
     name: "Western Sydney",
     postcode: "2150",
     isHub: true,
-    metaTitle: "Web Design & Digital Marketing for Western Sydney Small Business",
+    metaTitle: "Web design and SEO for Western Sydney businesses",
     metaDescription:
-      "Dorza helps Western Sydney small businesses get found online with professional web design, local SEO and Google Business Profile setup. Social media is available on request.",
+      "Web design, local SEO and Google Business Profile setup for Western Sydney small businesses. A plan and a price within 72 hours. No lock-in.",
     eyebrow: "// Western Sydney",
     title: "Web design and digital marketing for Western Sydney small business",
     description:
@@ -52,9 +52,9 @@ export const AREAS: Area[] = [
     name: "Parramatta",
     postcode: "2150",
     isHub: false,
-    metaTitle: "Web Design & Digital Marketing for Parramatta Businesses",
+    metaTitle: "Web design and SEO for Parramatta businesses",
     metaDescription:
-      "Professional websites, local SEO and Google profiles for Parramatta businesses. Stand out from national chains on Church Street and across Sydney's second CBD.",
+      "Websites, local SEO and Google profiles for Parramatta businesses, so you stand out from the chains on Church Street and across Sydney's second CBD.",
     eyebrow: "// Parramatta",
     title: "Web design and digital marketing for Parramatta businesses",
     description:
@@ -82,7 +82,7 @@ export const AREAS: Area[] = [
     name: "Blacktown",
     postcode: "2148",
     isHub: false,
-    metaTitle: "Websites & Digital Marketing for Blacktown Businesses",
+    metaTitle: "Websites and SEO for Blacktown businesses",
     metaDescription:
       "Dorza builds professional websites and runs digital marketing for Blacktown businesses. Reach customers across a big, diverse and growing community.",
     eyebrow: "// Blacktown",
@@ -112,9 +112,9 @@ export const AREAS: Area[] = [
     name: "Penrith",
     postcode: "2750",
     isHub: false,
-    metaTitle: "Web Design & Marketing for Penrith Small Businesses",
+    metaTitle: "Web design and SEO for Penrith small businesses",
     metaDescription:
-      "Professional web design, local SEO and Google profiles for Penrith businesses. Reach customers across the gateway to the Blue Mountains and the new Western Sydney Airport corridor.",
+      "Web design, local SEO and Google profiles for Penrith businesses, from the foot of the Blue Mountains to the new Western Sydney Airport corridor.",
     eyebrow: "// Penrith",
     title: "Web design and marketing for Penrith small businesses",
     description:
@@ -142,7 +142,7 @@ export const AREAS: Area[] = [
     name: "Liverpool",
     postcode: "2170",
     isHub: false,
-    metaTitle: "Websites & Digital Marketing for Liverpool Businesses",
+    metaTitle: "Websites and SEO for Liverpool businesses",
     metaDescription:
       "Dorza builds professional websites and manages digital marketing for Liverpool businesses. Reach a young and growing local population.",
     eyebrow: "// Liverpool",
@@ -172,7 +172,7 @@ export const AREAS: Area[] = [
     name: "Campbelltown",
     postcode: "2560",
     isHub: false,
-    metaTitle: "Web Design & Marketing for Campbelltown Businesses",
+    metaTitle: "Web design and SEO for Campbelltown businesses",
     metaDescription:
       "Professional web design, local SEO and Google Business Profile for Campbelltown businesses. Reach customers across a growing part of south-west Sydney.",
     eyebrow: "// Campbelltown",

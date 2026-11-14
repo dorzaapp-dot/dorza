@@ -208,7 +208,7 @@ Components reference the aliases, not the raw names, so a section re-themes by c
 
 ## Typography
 
-**Display Font:** Newsreader (with Times New Roman, serif), loaded through next/font with the optical-size axis and italics.
+**Display Font:** Newsreader (with Times New Roman, serif), loaded through next/font with italics. The optical-size axis was dropped on 2026-11-15 to cut the font from 279KB to 123KB for mobile LCP, so the `opsz` values below are kept for the record but no longer change the rendering.
 **Body Font:** Geist (with system-ui, -apple-system, Helvetica Neue, sans-serif), from the geist package.
 **Label/Mono Font:** Geist Mono (with ui-monospace, SF Mono, Menlo, monospace), from the geist package.
 

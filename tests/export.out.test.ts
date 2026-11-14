@@ -113,6 +113,26 @@ describe.skipIf(!hasOut)("static export", () => {
     for (const slug of ["support", "unsure"]) expect(svg, slug).toContain(`data-lift="${slug}"`);
   });
 
+  it("has a /services hub that links every service page, and every service breadcrumb points at it", () => {
+    expect(allRoutes(false)).toContain("/services");
+    const hub = readFileSync("out/services.html", "utf8").match(/<main[\s\S]*<\/main>/)?.[0] ?? "";
+    for (const service of SERVICES) expect(hub, service.slug).toContain(`href="/services/${service.slug}"`);
+    for (const service of SERVICES) {
+      const html = readFileSync(`out/services/${service.slug}.html`, "utf8");
+      expect(html, `${service.slug} breadcrumb schema`).toContain('"position":2,"name":"Services","item":"https://www.dorza.com.au/services"');
+      const nav = html.match(/<nav[^>]*aria-label="Breadcrumb"[\s\S]*?<\/nav>/i)?.[0] ?? "";
+      expect(nav, `${service.slug} visible breadcrumb`).toContain('href="/services"');
+    }
+  });
+
+  it("marks up every service page as a Service from Dorza", () => {
+    for (const service of SERVICES) {
+      const html = readFileSync(`out/services/${service.slug}.html`, "utf8");
+      expect(html, service.slug).toContain('"@type":"Service"');
+      expect(html, service.slug).toContain(`"url":"https://www.dorza.com.au/services/${service.slug}"`);
+    }
+  });
+
   it("says 'Ask us first' on a service page only while that service is still 'ask'", () => {
     for (const service of SERVICES) {
       const main = readFileSync(`out/services/${service.slug}.html`, "utf8").match(/<main[\s\S]*<\/main>/)?.[0] ?? "";
@@ -165,6 +185,19 @@ describe.skipIf(!hasOut)("static export", () => {
         const text = a[1].replace(/<[^>]+>/g, "").replace(/&[a-z]+;/g, " ").replace(/\s+/g, " ").trim();
         expect(vague.test(text), `${route}: "${text}"`).toBe(false);
       }
+    }
+  });
+
+  it("keeps every title and description inside what Google shows (title 20-60, description 70-155)", () => {
+    const decode = (x: string) => x.replace(/&amp;/g, "&").replace(/&#x27;/g, "'").replace(/&quot;/g, '"');
+    for (const route of allRoutes(false)) {
+      const html = readFileSync(fileFor(route), "utf8");
+      const title = decode(html.match(/<title>([^<]*)<\/title>/)?.[1] ?? "");
+      const description = decode(html.match(/<meta name="description" content="([^"]*)"/)?.[1] ?? "");
+      expect(title.length, `${route} title: ${title}`).toBeGreaterThanOrEqual(20);
+      expect(title.length, `${route} title: ${title}`).toBeLessThanOrEqual(60);
+      expect(description.length, `${route} description (${description.length})`).toBeGreaterThanOrEqual(70);
+      expect(description.length, `${route} description (${description.length})`).toBeLessThanOrEqual(155);
     }
   });
 

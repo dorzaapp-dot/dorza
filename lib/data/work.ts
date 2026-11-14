@@ -32,6 +32,8 @@ export interface CaseStudy {
   closing: string;
   shots: { desktop: string; mobile: string; alt: string };
   metaDescription: string;
+  /** Overrides "Client: headline" when that runs past 52 characters (60 with " | Dorza"). */
+  metaTitle?: string;
 }
 
 export const CASE_STUDIES: CaseStudy[] = [
@@ -93,6 +95,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       mobile: "/images/work/active-rise-health/mobile.jpg",
       alt: "The Active Rise Health homepage, with the headline Move again, with confidence.",
     },
+    metaTitle: "Active Rise Health: a physio website case study",
     metaDescription:
       "How Dorza set up Active Rise Health online: one website for a physio working across two clinics and home visits, with a pathway for referrers.",
   },

@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { visibleCaseStudies } from "@/lib/data/work";
 import { allRoutes } from "@/lib/routes";
+import { SERVICES, serviceStatus } from "@/lib/data/services";
 
 const sitemap = readFileSync("public/sitemap.xml", "utf8");
 const locs = Array.from(sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)).map((m) => m[1].replace("https://www.dorza.com.au", "") || "/");
@@ -45,6 +46,14 @@ describe("llms.txt", () => {
     expect(llms).toMatch(/Australia/);
     expect(llms).toMatch(/Start/);
     expect(llms).not.toMatch(/Western Sydney-based|\$199|\$349|\$549|Founding client/);
+  });
+
+  it("lists every service page with the status the pillar data gives it", () => {
+    for (const service of SERVICES) {
+      const line = llms.split(/\r?\n/).find((l) => l.endsWith(`https://www.dorza.com.au/services/${service.slug}`)) ?? "";
+      expect(line, service.slug).not.toBe("");
+      expect(line, service.slug).toContain(serviceStatus(service) === "live" ? "(live)" : "(on request)");
+    }
   });
 
   it("lists every published case study and no draft", () => {

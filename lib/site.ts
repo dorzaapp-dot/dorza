@@ -4,9 +4,9 @@ import { SITE_URL } from "@/lib/seo";
 export const TAGLINE = "You run the business. We'll mind the tech.";
 
 export const SITE_DESCRIPTION =
-  "Dorza helps Australian small businesses get started online, grow, and keep their tech running. Websites, booking systems and ongoing support from one team. No lock-in.";
+  "Websites, booking systems, Google setup and ongoing support for Australian small businesses, from one team. A plan and a price in 72 hours. No lock-in.";
 
-export const DEFAULT_TITLE = "Dorza | Websites, systems and support for Australian small business";
+export const DEFAULT_TITLE = "Dorza | Small business websites, systems and support";
 
 export const CTA_LABEL = "Get a quote";
 
@@ -50,9 +50,15 @@ export const FOOTER_GROUPS: FooterGroup[] = [
   {
     title: "Services",
     links: [
+      { label: "All services", href: "/services" },
       { label: "Web design", href: "/services/web-design" },
       { label: "Local SEO", href: "/services/local-seo" },
       { label: "Google Business Profile", href: "/services/google-business-profile" },
+      { label: "Booking systems", href: "/services/booking-systems" },
+      { label: "Online stores", href: "/services/online-store" },
+      { label: "CRM setup", href: "/services/crm-setup" },
+      { label: "Google Ads", href: "/services/google-ads" },
+      { label: "Business email", href: "/services/business-email" },
       { label: "Social media", href: "/services/social-media-management" },
       { label: "What a website costs", href: "/website-cost" },
     ],

@@ -12,7 +12,8 @@ import { DEFAULT_TITLE, SITE_DESCRIPTION, SOCIALS } from "@/lib/site";
 const newsreader = Newsreader({
   subsets: ["latin"],
   style: ["normal", "italic"],
-  axes: ["opsz"],
+  // No optical-size axis: it nearly doubled the files (274KB for roman and italic) and was the
+  // main cost in mobile LCP. The "opsz" settings in globals.css are now no-ops.
   variable: "--font-display",
   // "optional", not "swap": headlines sit close to the line-wrap edge on phones, and no system serif tracks
   // Newsreader closely enough per line (Times, Georgia, Palatino, Cambria all vary ~1.7%), so a late swap

@@ -17,6 +17,7 @@ export function allRoutes(showDrafts = false): string[] {
     "/contact",
     "/website-cost",
     "/privacy",
+    "/services",
     ...SERVICES.map((s) => `/services/${s.slug}`),
     "/areas",
     ...AREAS.map((a) => `/areas/${a.slug}`),

@@ -1,4 +1,4 @@
-import { PILLARS, type ServiceStatus } from "@/lib/data/pillars";
+import { PILLARS, type PillarService, type ServiceStatus } from "@/lib/data/pillars";
 
 export interface ServiceFeature {
   title: string;
@@ -38,9 +38,10 @@ export interface ServicePage {
 export const SERVICES: ServicePage[] = [
   {
     slug: "web-design",
+    pillarService: "Website and hosting",
     metaTitle: "Web design for small businesses",
     metaDescription:
-      "Websites built by hand for your business, set up to be found on Google and easy to use on a phone. From $499, with a plan and a price within 72 hours. No lock-in.",
+      "Websites built by hand for your business, found on Google and easy to use on a phone. From $499, with a plan and a price in 72 hours. No lock-in.",
     eyebrow: "// Web design",
     title: "Websites that bring in work.",
     description:
@@ -124,10 +125,11 @@ export const SERVICES: ServicePage[] = [
         a: "You cancel. That's it. No exit fees and no lock-in. You keep your domain, your content and your code, and it all goes with you if you go elsewhere.",
       },
     ],
-    relatedSlugs: ["local-seo", "google-business-profile", "social-media-management"],
+    relatedSlugs: ["local-seo", "online-store", "booking-systems"],
   },
   {
     slug: "social-media-management",
+    pillarService: "Social media",
     metaTitle: "Social media help for small businesses",
     metaDescription:
       "Need help with social media? Dorza can plan and write posts in your voice for Instagram and Facebook, and nothing goes out without your OK. Ask us.",
@@ -218,9 +220,10 @@ export const SERVICES: ServicePage[] = [
   },
   {
     slug: "google-business-profile",
+    pillarService: "Google Business Profile",
     metaTitle: "Google Business Profile setup and management",
     metaDescription:
-      "Show up on Google Maps and in local search. Dorza sets up your Google Business Profile properly, keeps it current with photos and posts, and helps you get reviews.",
+      "Show up on Google Maps and in local search. We set up your Google Business Profile properly, keep it current and help you get reviews.",
     eyebrow: "// Google Business Profile",
     title: "Show up on Google Maps.",
     description:
@@ -308,9 +311,10 @@ export const SERVICES: ServicePage[] = [
   },
   {
     slug: "local-seo",
+    pillarService: "SEO and content",
     metaTitle: "Local SEO for small businesses",
     metaDescription:
-      "Get found on Google by people near you. Dorza handles on-page SEO, your Google Business Profile, directory listings, reviews and pages for the areas you serve.",
+      "Get found on Google by people near you: on-page SEO, your Google Business Profile, directory listings, reviews and pages for the areas you serve.",
     eyebrow: "// Local SEO",
     title: "Get found by people near you.",
     description:
@@ -394,14 +398,14 @@ export const SERVICES: ServicePage[] = [
         a: "No. Google decides rankings, so we don't guarantee them. What we do: set up the foundations properly, track where you stand, keep working on it and tell you plainly how it's going.",
       },
     ],
-    relatedSlugs: ["google-business-profile", "web-design", "social-media-management"],
+    relatedSlugs: ["google-business-profile", "google-ads", "web-design"],
   },
   {
     slug: "booking-systems",
     pillarService: "Booking systems and dashboards",
     metaTitle: "Online booking systems for small businesses",
     metaDescription:
-      "Online bookings that show real availability and confirm both ways. We set up a booking app if one fits your business, and build the system if none does, like we did for Drivable.",
+      "Online bookings with real availability and confirmations both ways. We set up a booking app if one fits, and build one if none does, like Drivable's.",
     eyebrow: "// Booking systems",
     title: "Bookings without the phone tag.",
     description:
@@ -479,7 +483,7 @@ export const SERVICES: ServicePage[] = [
     pillarService: "Online stores",
     metaTitle: "Shopify store setup for small businesses",
     metaDescription:
-      "Selling online? We set up your store on Shopify, or the platform that suits what you sell, with products, payments, GST and shipping, on an account in your name.",
+      "We set up your online store on Shopify, or the platform that suits what you sell, with products, payments, GST and shipping on an account you own.",
     eyebrow: "// Online stores",
     title: "An online store, set up properly.",
     description:
@@ -562,7 +566,7 @@ export const SERVICES: ServicePage[] = [
     pillarService: "CRM setup",
     metaTitle: "CRM setup for small businesses and tradies",
     metaDescription:
-      "Quotes going cold in your inbox? We help you pick a CRM or job management app that fits your trade, bring your contacts across and set up reminders for every open quote.",
+      "Quotes going cold? We help you pick a CRM or job management app that fits your trade, bring your contacts across and set up quote reminders.",
     eyebrow: "// CRM setup",
     title: "Every customer and quote in one place.",
     description:
@@ -641,7 +645,7 @@ export const SERVICES: ServicePage[] = [
     pillarService: "Paid ads",
     metaTitle: "Google Ads management for small businesses",
     metaDescription:
-      "Google search ads set up and watched for small businesses. We check your site can turn clicks into enquiries first, agree a budget with you and report back in plain English.",
+      "Google search ads set up and watched for small businesses. We check your site can turn clicks into enquiries first, then agree a budget with you.",
     eyebrow: "// Google Ads",
     title: "Ads, once your site can convert them.",
     description:
@@ -722,9 +726,9 @@ export const SERVICES: ServicePage[] = [
   {
     slug: "business-email",
     pillarService: "Domain and business email",
-    metaTitle: "Business email setup with Google Workspace or Microsoft 365",
+    metaTitle: "Business email: Google Workspace or Microsoft 365",
     metaDescription:
-      "Email at your own domain, set up on Google Workspace or Microsoft 365 for your whole team: domain in your name, old emails moved across and every phone signed in.",
+      "Email at your own domain on Google Workspace or Microsoft 365, set up for your whole team, with old emails moved across and every phone signed in.",
     eyebrow: "// Business email",
     title: "Your own domain, and email to match.",
     description:
@@ -809,9 +813,13 @@ export function getRelatedServices(slugs: string[]): ServicePage[] {
     .filter((s): s is ServicePage => typeof s === "object");
 }
 
+/** The pillar service a page sells: its name, status and one-line blurb. */
+export function servicePillar(page: ServicePage): PillarService | undefined {
+  return PILLARS.flatMap((p) => p.services).find((s) => s.name === page.pillarService);
+}
+
 /** Live unless the pillar service behind the page is still "ask". */
 export function serviceStatus(page: ServicePage): ServiceStatus {
   if (!page.pillarService) return "live";
-  const service = PILLARS.flatMap((p) => p.services).find((s) => s.name === page.pillarService);
-  return service?.status ?? "ask";
+  return servicePillar(page)?.status ?? "ask";
 }

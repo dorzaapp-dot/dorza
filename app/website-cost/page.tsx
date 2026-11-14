@@ -11,7 +11,7 @@ import { Reveal } from "@/components/motion/Reveal";
 
 const PAGE_TITLE = "How much does a small business website cost?";
 const PAGE_DESCRIPTION =
-  "What a small business website costs in Australia, and what changes the price. Dorza builds custom sites from $499, with an exact quote within 72 hours. No lock-in.";
+  "What a small business website costs in Australia and what changes the price. Dorza builds custom sites from $499, with an exact quote in 72 hours.";
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,
