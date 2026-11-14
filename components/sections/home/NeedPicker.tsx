@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { NeedPickerEnhance } from "@/components/sections/home/NeedPickerEnhance";
+import { NeedStack, STACK_CSS } from "@/components/sections/home/NeedStack";
 import { PlusList } from "@/components/ui/PlusList";
 import { StatusTag } from "@/components/ui/StatusTag";
 import { buttonClasses } from "@/components/ui/buttonClasses";
@@ -9,19 +10,20 @@ import { CTA_LABEL } from "@/lib/site";
 /*
  * The picker is real radio buttons plus CSS :has(), so it works on first paint and with
  * JavaScript off. Browsers without :has() skip the @supports block and show every answer
- * stacked, which still reads fine. Every answer is in the HTML for search engines either way.
+ * stacked under the drawing, which still reads fine. Every answer is in the HTML for search
+ * engines either way. The drawing (NeedStack) follows the same radios.
  */
 const SHOW_SELECTED = NEEDS.map(
   (n) => `.need-picker:has(#need-${n.slug}:checked) [data-need-panel="${n.slug}"]`
 ).join(",");
-const PICKER_CSS = `@supports selector(:has(*)){.need-picker [data-need-panel]{display:none}${SHOW_SELECTED}{display:block}}`;
+const PICKER_CSS = `@supports selector(:has(*)){.need-picker [data-need-panel]{display:none}${SHOW_SELECTED}{display:block}${STACK_CSS}}`;
 
 export function NeedPicker() {
   return (
     <div className="need-picker mt-12 grid gap-8 md:mt-16 md:grid-cols-12 md:gap-x-8">
       <style dangerouslySetInnerHTML={{ __html: PICKER_CSS }} />
 
-      <fieldset className="m-0 min-w-0 border-0 p-0 md:col-span-5">
+      <fieldset className="m-0 min-w-0 border-0 p-0 md:sticky md:top-28 md:col-span-5 md:self-start">
         <legend className="d-heading p-0">I need&hellip;</legend>
         <div className="need-options mt-6">
           {NEEDS.map((need, i) => (
@@ -40,7 +42,10 @@ export function NeedPicker() {
         </div>
       </fieldset>
 
-      <div className="md:col-span-7">
+      <div className="need-stage rounded-card border border-rule-soft bg-paper md:col-span-7">
+        <figure className="m-0 border-b border-rule-soft">
+          <NeedStack />
+        </figure>
         {NEEDS.map((need) => (
           <NeedPanel key={need.slug} need={need} />
         ))}
@@ -58,7 +63,7 @@ function NeedPanel({ need }: { need: Need }) {
   return (
     <article
       data-need-panel={need.slug}
-      className="need-panel rounded-card border border-rule-soft bg-paper p-6 sm:p-8 md:min-h-[29rem] md:p-10"
+      className="need-panel p-6 sm:p-8 md:min-h-[19rem] md:px-10 md:pb-10 md:pt-8"
     >
       <div className="flex items-start justify-between gap-6">
         <h2 className="d-heading">
@@ -75,7 +80,8 @@ function NeedPanel({ need }: { need: Need }) {
 
       <div className="need-panel-body d-rise">
         <p className="d-body mt-4">{need.body}</p>
-        {need.includes.length > 0 ? <PlusList className="mt-6" items={need.includes} /> : null}
+        {/* The drawing's callouts carry this on wider screens, so there it's for screen readers only. */}
+        {need.includes.length > 0 ? <PlusList className="mt-6 md:sr-only" items={need.includes} /> : null}
 
         <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-4">
           <Link

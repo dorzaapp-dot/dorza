@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { NEEDS, needServices, needStatus } from "@/lib/data/needs";
+import { NEEDS, STACK, needServices, needStatus } from "@/lib/data/needs";
 import { PILLARS } from "@/lib/data/pillars";
 import { SERVICE_OPTIONS } from "@/lib/constants";
 import { isHeadline } from "./helpers/voice";
@@ -51,6 +51,28 @@ describe("homepage needs (the 'I need' picker)", () => {
     const covered = new Set(NEEDS.flatMap((n) => n.services));
     for (const name of ["Online stores", "CRM setup", "Website and hosting", "SEO and content", "Paid ads"]) {
       expect(covered.has(name), name).toBe(true);
+    }
+  });
+
+  it("stacks each buildable need once, bottom to top, with support and 'not sure' drawn around it instead", () => {
+    expect(new Set(STACK).size).toBe(STACK.length);
+    for (const slug of STACK) expect(NEEDS.some((n) => n.slug === slug), slug).toBe(true);
+    expect(STACK).not.toContain("support");
+    expect(STACK).not.toContain("unsure");
+    expect(STACK.length).toBe(NEEDS.length - 2);
+  });
+
+  it("labels each layer of the drawing with a short name and two to four short callouts", () => {
+    for (const need of NEEDS) {
+      expect(need.short.length, need.slug).toBeGreaterThan(0);
+      expect(need.short.length, need.short).toBeLessThanOrEqual(10);
+      if (need.slug === "unsure") continue;
+      expect(need.parts.length, need.slug).toBeGreaterThanOrEqual(2);
+      expect(need.parts.length, need.slug).toBeLessThanOrEqual(4);
+      for (const part of need.parts) {
+        expect(part.length, part).toBeLessThanOrEqual(24);
+        expect(part, part).not.toMatch(/[—!]/);
+      }
     }
   });
 });

@@ -420,3 +420,135 @@ h1, h2, h3, h4, h5, h6 {
 .need-panel-body {
   animation-delay: 140ms;
 }
+
+/* The drawing beside the picker (components/sections/home/NeedStack.tsx): the business as
+   stacked layers in pine ink on paper, edges in haze and sage. The picked layer lifts clear,
+   its slot left dashed in claret, the one accent. Lengths are SVG user units. */
+.need-stack {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.need-stack .ns-grid-mark {
+  stroke: var(--rule-soft);
+  stroke-width: 1;
+}
+.need-stack .ns-face {
+  stroke: var(--pine);
+  stroke-width: 1;
+  stroke-linejoin: round;
+  transition: fill var(--duration-base) var(--ease-dorza), stroke var(--duration-base) var(--ease-dorza);
+}
+.need-stack .ns-top { fill: var(--paper); }
+.need-stack .ns-left { fill: var(--haze); }
+.need-stack .ns-right { fill: var(--sage); }
+.need-stack .ns-face--empty {
+  fill: var(--chalk);
+  stroke: var(--claret);
+  stroke-dasharray: 3 3;
+}
+.need-stack .ns-art { vector-effect: non-scaling-stroke; }
+.need-stack .ns-ink {
+  fill: none;
+  stroke: var(--pine);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.need-stack .ns-ink--soft { stroke: var(--sage); }
+.need-stack .ns-ink--paper { stroke: var(--paper); }
+.need-stack .ns-road { stroke: var(--sage); stroke-width: 3; }
+.need-stack .ns-fill-paper { fill: var(--paper); }
+.need-stack .ns-fill-haze { fill: var(--haze); }
+.need-stack .ns-fill-pine { fill: var(--pine); }
+.need-stack .ns-fill-claret { fill: var(--claret); }
+.need-stack .ns-shadow { fill: rgba(27, 26, 20, 0.07); stroke: none; }
+.need-stack .ns-cast { fill: rgba(27, 26, 20, 0.035); }
+.need-stack .ns-faint { opacity: 0.4; }
+.need-stack .ns-micro {
+  font-family: var(--font-mono);
+  font-size: 5.6px;
+  fill: var(--ink-soft);
+}
+.need-stack .ns-tick,
+.need-stack .ns-leader {
+  fill: none;
+  stroke: var(--ink-mute);
+  stroke-width: 0.75;
+}
+.need-stack .ns-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  fill: var(--ink-mute);
+  transition: fill var(--duration-base) var(--ease-dorza);
+}
+.need-stack .ns-label--on { fill: var(--ink); }
+.need-stack .ns-dot { fill: var(--claret); }
+.need-stack .ns-name {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 23px;
+  letter-spacing: -0.01em;
+  fill: var(--claret);
+}
+.need-stack .ns-rails path {
+  fill: none;
+  stroke: var(--claret);
+  stroke-width: 0.75;
+  stroke-dasharray: 2 3;
+}
+.need-stack .ns-rails--solid path { stroke-dasharray: none; }
+
+/* Only the picked need's layer is drawn lifted. Showing it restarts these animations:
+   the layer rises out of its slot, the drafting lines appear, then each callout is drawn. */
+.need-stack .ns-lift { display: none; }
+.need-stack .ns-lift-layer { animation: ns-lift 760ms var(--ease-dorza) both; }
+.need-stack .ns-rails,
+.need-stack .ns-cast { animation: ns-fade 420ms var(--ease-dorza) 180ms both; }
+.need-stack .ns-leader {
+  stroke-dasharray: 1;
+  animation: ns-draw 520ms var(--ease-dorza) both;
+  animation-delay: calc(360ms + var(--k, 0) * 80ms);
+}
+.need-stack .ns-callouts circle,
+.need-stack .ns-callouts text,
+.need-stack .ns-name {
+  animation: ns-fade 360ms var(--ease-dorza) both;
+  animation-delay: calc(520ms + var(--k, 0) * 80ms);
+}
+@keyframes ns-lift {
+  from { translate: 0 var(--drop, 0); }
+}
+@keyframes ns-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes ns-fade {
+  from { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .need-stack .ns-lift-layer,
+  .need-stack .ns-rails,
+  .need-stack .ns-cast,
+  .need-stack .ns-leader,
+  .need-stack .ns-callouts circle,
+  .need-stack .ns-callouts text,
+  .need-stack .ns-name {
+    animation: none;
+  }
+}
+/* On a phone the mono labels would print at 6px, so the answer's own list carries them
+   and the drawing keeps only the lifted layer's name, set larger. */
+@media (max-width: 639px) {
+  .need-stack .ns-label,
+  .need-stack .ns-tick,
+  .need-stack .ns-callouts {
+    display: none;
+  }
+  .need-stack .ns-name { font-size: 28px; }
+}
+

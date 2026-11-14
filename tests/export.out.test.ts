@@ -2,7 +2,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { CASE_STUDIES, visibleCaseStudies } from "@/lib/data/work";
-import { NEEDS, needStatus } from "@/lib/data/needs";
+import { NEEDS, STACK, needStatus } from "@/lib/data/needs";
 import { allRoutes } from "@/lib/routes";
 
 function walk(dir: string): string[] {
@@ -98,6 +98,18 @@ describe.skipIf(!hasOut)("static export", () => {
       if (needStatus(need) === "ask") expect(panel, `${need.slug} says Ask us`).toContain("Ask us");
     }
     expect(first.match(/checked=""/g)?.length, "exactly one need starts selected").toBe(1);
+  });
+
+  it("draws the business as a stack, with a lifted layer for every need, in the first paint", () => {
+    const first = readFileSync("out/index.html", "utf8").match(/<main[\s\S]*?<section[\s\S]*?<\/section>/)?.[0] ?? "";
+    const svg = first.match(/<svg[^>]*class="need-stack[\s\S]*?<\/svg>/)?.[0] ?? "";
+    expect(svg, "stack drawing").toMatch(/role="img"/);
+    expect(svg).toMatch(/<title[^>]*>[^<]+<\/title>/);
+    for (const slug of STACK) {
+      expect(svg, `${slug} slot`).toContain(`data-slot="${slug}"`);
+      expect(svg, `${slug} lift`).toContain(`data-lift="${slug}"`);
+    }
+    for (const slug of ["support", "unsure"]) expect(svg, slug).toContain(`data-lift="${slug}"`);
   });
 
   it("keeps case study screenshots off the homepage (they live in /work)", () => {
