@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 import { CASE_STUDIES, visibleCaseStudies } from "@/lib/data/work";
 import { NEEDS, STACK, needStatus } from "@/lib/data/needs";
 import { allRoutes } from "@/lib/routes";
+import { SERVICES, serviceStatus } from "@/lib/data/services";
 
 function walk(dir: string): string[] {
   return readdirSync(dir).flatMap((name) => {
@@ -110,6 +111,13 @@ describe.skipIf(!hasOut)("static export", () => {
       expect(svg, `${slug} lift`).toContain(`data-lift="${slug}"`);
     }
     for (const slug of ["support", "unsure"]) expect(svg, slug).toContain(`data-lift="${slug}"`);
+  });
+
+  it("says 'Ask us first' on a service page only while that service is still 'ask'", () => {
+    for (const service of SERVICES) {
+      const main = readFileSync(`out/services/${service.slug}.html`, "utf8").match(/<main[\s\S]*<\/main>/)?.[0] ?? "";
+      expect(main.includes("Ask us first"), service.slug).toBe(serviceStatus(service) === "ask");
+    }
   });
 
   it("keeps case study screenshots off the homepage (they live in /work)", () => {

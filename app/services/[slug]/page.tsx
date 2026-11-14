@@ -9,7 +9,8 @@ import InnerHero from "@/components/sections/InnerHero";
 import PageCTA from "@/components/sections/PageCTA";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/motion/Reveal";
-import { SERVICES, getServiceBySlug, getRelatedServices } from "@/lib/data/services";
+import { SERVICES, getServiceBySlug, getRelatedServices, serviceStatus } from "@/lib/data/services";
+import { StatusTag } from "@/components/ui/StatusTag";
 import { RelatedWork } from "@/components/work/RelatedWork";
 import { visibleCaseStudies } from "@/lib/data/work";
 import { SITE_URL } from "@/lib/seo";
@@ -118,6 +119,23 @@ export default function ServicePage({
             { label: service.title.replace(/\.$/, ""), href: `/services/${service.slug}` },
           ]}
         />
+
+        {/* A service that isn't live yet says so before anything else. */}
+        {serviceStatus(service) === "ask" ? (
+          <section className="border-y border-rule-soft bg-paper">
+            <Container>
+              <div className="flex items-start gap-4 py-5">
+                <span className="mt-0.5 shrink-0">
+                  <StatusTag status="ask" />
+                </span>
+                <p className="d-body max-w-text">
+                  Ask us first. We take this on case by case, so tell us what you need and we&rsquo;ll say plainly
+                  whether we&rsquo;re the right people for it.
+                </p>
+              </div>
+            </Container>
+          </section>
+        ) : null}
 
         {/* problem */}
         <section className="bg-paper py-section-tight md:py-section">

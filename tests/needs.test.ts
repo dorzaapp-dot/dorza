@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { NEEDS, STACK, needServices, needStatus } from "@/lib/data/needs";
 import { PILLARS } from "@/lib/data/pillars";
+import { SERVICES } from "@/lib/data/services";
 import { SERVICE_OPTIONS } from "@/lib/constants";
 import { isHeadline } from "./helpers/voice";
 
@@ -73,6 +74,15 @@ describe("homepage needs (the 'I need' picker)", () => {
         expect(part.length, part).toBeLessThanOrEqual(24);
         expect(part, part).not.toMatch(/[—!]/);
       }
+    }
+  });
+
+  it("branches every need except 'not sure' to a page with more detail that exists", () => {
+    const pages = new Set(["/support", ...SERVICES.map((s) => `/services/${s.slug}`)]);
+    for (const need of NEEDS) {
+      if (need.slug === "unsure") continue;
+      expect(need.link?.href, need.slug).toBeDefined();
+      expect(pages.has(need.link!.href), `${need.slug} -> ${need.link!.href}`).toBe(true);
     }
   });
 });

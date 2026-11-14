@@ -24,9 +24,9 @@ describe("kept page data", () => {
     expect(findViolations(collectStrings(INDUSTRIES), [/\bup to \d/i, /\d+\s?%/, /\d+x\b/])).toEqual([]);
   });
 
-  it("keeps all six areas, four services and three industries", () => {
+  it("keeps all six areas, nine services and three industries", () => {
     expect(AREAS).toHaveLength(6);
-    expect(SERVICES).toHaveLength(4);
+    expect(SERVICES).toHaveLength(9);
     expect(INDUSTRIES).toHaveLength(3);
   });
 });

@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { NeedPickerEnhance } from "@/components/sections/home/NeedPickerEnhance";
 import { NeedStack, STACK_CSS } from "@/components/sections/home/NeedStack";
@@ -12,20 +13,35 @@ import { CTA_LABEL } from "@/lib/site";
  * JavaScript off. Browsers without :has() skip the @supports block and show every answer
  * stacked under the drawing, which still reads fine. Every answer is in the HTML for search
  * engines either way. The drawing (NeedStack) follows the same radios.
+ *
+ * Layout: on a phone the answer sits above the choices, so the choices and the quote button
+ * land in the bottom half of the screen, where a thumb reaches. From 768px the intro and the
+ * choices share the left column, and the drawing and answer sit beside them.
  */
 const SHOW_SELECTED = NEEDS.map(
   (n) => `.need-picker:has(#need-${n.slug}:checked) [data-need-panel="${n.slug}"]`
 ).join(",");
 const PICKER_CSS = `@supports selector(:has(*)){.need-picker [data-need-panel]{display:none}${SHOW_SELECTED}{display:block}${STACK_CSS}}`;
 
-export function NeedPicker() {
+export function NeedPicker({ intro }: { intro: ReactNode }) {
   return (
-    <div className="need-picker mt-12 grid gap-8 md:mt-16 md:grid-cols-12 md:gap-x-8">
+    <div className="need-picker flex flex-col md:grid md:grid-cols-12 md:gap-x-8 lg:gap-x-12">
       <style dangerouslySetInnerHTML={{ __html: PICKER_CSS }} />
 
-      <fieldset className="m-0 min-w-0 border-0 p-0 md:sticky md:top-28 md:col-span-5 md:self-start">
-        <legend className="d-heading p-0">I need&hellip;</legend>
-        <div className="need-options mt-6">
+      <div className="md:col-span-6 md:col-start-1 md:row-start-1 lg:col-span-5">{intro}</div>
+
+      <fieldset className="order-3 m-0 mt-5 min-w-0 border-0 p-0 md:order-none md:col-span-6 md:col-start-1 md:row-start-2 md:mt-8 lg:col-span-5">
+        <legend className="sr-only">I need</legend>
+        <div className="flex min-h-[44px] items-center justify-between gap-4">
+          <p className="need-legend" aria-hidden="true">
+            I need&hellip;
+          </p>
+          {/* Shown by NeedPickerEnhance once the tour can run. */}
+          <button type="button" data-tour-toggle hidden className="need-tour-toggle">
+            Pause tour
+          </button>
+        </div>
+        <div className="need-options mt-1 md:mt-2">
           {NEEDS.map((need, i) => (
             <div key={need.slug} className="need-option">
               <input
@@ -42,7 +58,7 @@ export function NeedPicker() {
         </div>
       </fieldset>
 
-      <div className="need-stage rounded-card border border-rule-soft bg-paper md:col-span-7">
+      <div className="need-stage order-2 mt-6 rounded-card border border-rule-soft bg-paper md:order-none md:col-span-6 md:col-start-7 md:row-span-2 md:row-start-1 md:mt-0 md:self-start lg:col-span-7 lg:col-start-6">
         <figure className="m-0 border-b border-rule-soft">
           <NeedStack />
         </figure>
@@ -63,27 +79,27 @@ function NeedPanel({ need }: { need: Need }) {
   return (
     <article
       data-need-panel={need.slug}
-      className="need-panel p-6 sm:p-8 md:min-h-[19rem] md:px-10 md:pb-10 md:pt-8"
+      className="need-panel px-5 pb-5 pt-4 sm:px-7 sm:pb-6 sm:pt-5 md:min-h-[15.5rem] lg:px-8"
     >
-      <div className="flex items-start justify-between gap-6">
-        <h2 className="d-heading">
+      <div className="flex items-start justify-between gap-4">
+        <h2 className="need-title">
           <span className="block overflow-hidden pb-[0.08em]">
             <span className="d-line-rise block">{need.headline}</span>
           </span>
         </h2>
         {status ? (
-          <span className="mt-1.5 shrink-0">
+          <span className="mt-1 shrink-0">
             <StatusTag status={status} />
           </span>
         ) : null}
       </div>
 
       <div className="need-panel-body d-rise">
-        <p className="d-body mt-4">{need.body}</p>
-        {/* The drawing's callouts carry this on wider screens, so there it's for screen readers only. */}
-        {need.includes.length > 0 ? <PlusList className="mt-6 md:sr-only" items={need.includes} /> : null}
+        <p className="need-panel-text d-body mt-2">{need.body}</p>
+        {/* The drawing's callouts and the service page carry this for sighted readers. */}
+        {need.includes.length > 0 ? <PlusList className="sr-only" items={need.includes} /> : null}
 
-        <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-4">
+        <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-3">
           <Link
             href="#quote"
             data-need-quote=""
@@ -100,7 +116,7 @@ function NeedPanel({ need }: { need: Need }) {
           ) : null}
         </div>
 
-        <p className="d-label mt-7">{meta}</p>
+        <p className="d-label mt-4 hidden md:block">{meta}</p>
       </div>
     </article>
   );

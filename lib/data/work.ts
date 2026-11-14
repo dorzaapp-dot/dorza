@@ -104,7 +104,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     pillar: "grow",
     published: WORK_PUBLISHED.drivable,
     liveUrl: "https://drivablehire.com.au/",
-    services: ["web-design"],
+    services: ["web-design", "booking-systems"],
     publishedOn: "2026-11-13",
     headline: "Open for bookings.",
     teaser: "A website and booking system for a specialised vehicle hire business.",

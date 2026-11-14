@@ -20,7 +20,7 @@ const GAP = 20; // between layers in the stack
 const BASE = 306; // top corner of the bottom layer
 const LIFT = 30; // top corner of a lifted layer
 const LABEL_X = CX + 156; // callout text column
-const W = 560;
+const W = 580;
 const H = 452;
 
 const slotY = (i: number) => BASE - GAP * i;

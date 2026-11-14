@@ -55,6 +55,7 @@ export const PILLARS: Pillar[] = [
         name: "Domain and business email",
         status: "ask",
         blurb: "Your own web address, and an email address that matches it.",
+        href: "/services/business-email",
       },
       {
         name: "Brand basics",
@@ -91,7 +92,7 @@ export const PILLARS: Pillar[] = [
         name: "Booking systems and dashboards",
         status: "live",
         blurb: "Custom builds, like online booking and the admin screen that runs it.",
-        href: "/work/drivable",
+        href: "/services/booking-systems",
       },
       {
         name: "Social media",
@@ -99,9 +100,9 @@ export const PILLARS: Pillar[] = [
         blurb: "Regular posts in your voice, planned and published for you.",
         href: "/services/social-media-management",
       },
-      { name: "Paid ads", status: "ask", blurb: "Search and social ads, once the site is ready to convert them." },
-      { name: "Online stores", status: "ask", blurb: "Selling products online, with payments and stock handled." },
-      { name: "CRM setup", status: "ask", blurb: "One place for your customers, quotes and follow-ups." },
+      { name: "Paid ads", status: "ask", blurb: "Search and social ads, once the site is ready to convert them.", href: "/services/google-ads" },
+      { name: "Online stores", status: "ask", blurb: "Selling products online, with payments and stock handled.", href: "/services/online-store" },
+      { name: "CRM setup", status: "ask", blurb: "One place for your customers, quotes and follow-ups.", href: "/services/crm-setup" },
     ],
     steps: [
       { title: "We look at where you are", body: "Your site, your search results and how enquiries reach you today." },
@@ -128,6 +129,7 @@ export const PILLARS: Pillar[] = [
         name: "Google Workspace and Microsoft 365 setup",
         status: "ask",
         blurb: "Business email, shared files and calendars set up for your team.",
+        href: "/services/business-email",
       },
     ],
     steps: [
