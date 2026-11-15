@@ -13,6 +13,8 @@ export async function submitEnquiry(
     endpoint: string | undefined;
     send: (endpoint: string, data: Record<string, unknown>) => Promise<{ success: boolean }>;
     timeoutMs?: number;
+    /** Called if a request we already gave up on turns out to have succeeded. */
+    onLateSuccess?: () => void;
   },
 ): Promise<SubmitResult> {
   if (!deps.endpoint) return { ok: false, error: "Submission endpoint not configured." };
@@ -23,8 +25,12 @@ export async function submitEnquiry(
   });
 
   try {
-    const outcome = await Promise.race([deps.send(deps.endpoint, data as unknown as Record<string, unknown>), timeout]);
-    if (outcome === "timeout") return { ok: false, error: TIMEOUT_MESSAGE };
+    const request = deps.send(deps.endpoint, data as unknown as Record<string, unknown>);
+    const outcome = await Promise.race([request, timeout]);
+    if (outcome === "timeout") {
+      request.then((late) => late.success && deps.onLateSuccess?.()).catch(() => {});
+      return { ok: false, error: TIMEOUT_MESSAGE };
+    }
     return outcome.success ? { ok: true } : { ok: false, error: "Something went wrong. Please try again." };
   } catch {
     return { ok: false, error: "Network error. Please try again." };

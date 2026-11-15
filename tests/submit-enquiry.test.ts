@@ -5,7 +5,7 @@ import type { EnquiryFormData } from "@/lib/types";
 const data: EnquiryFormData = {
   name: "Sam Lee",
   email: "sam@example.com",
-  businessType: "Cafe",
+  businessType: "Cafe/Restaurant",
   suburb: "Parramatta",
   servicesInterested: [],
   source: "modal",
@@ -61,6 +61,45 @@ describe("submitEnquiry", () => {
     await vi.advanceTimersByTimeAsync(SUBMIT_TIMEOUT_MS);
 
     expect(await pending).toEqual({ ok: true });
+  });
+
+  it("reports a late success after the timeout so the visitor is not left with a false failure", async () => {
+    vi.useFakeTimers();
+    let answer!: (v: { success: boolean }) => void;
+    const send = vi.fn(() => new Promise<{ success: boolean }>((r) => { answer = r; }));
+    const onLateSuccess = vi.fn();
+
+    const pending = submitEnquiry(data, { endpoint: "https://x", send, onLateSuccess });
+    await vi.advanceTimersByTimeAsync(SUBMIT_TIMEOUT_MS);
+    expect((await pending).ok).toBe(false);
+    expect(onLateSuccess).not.toHaveBeenCalled();
+
+    answer({ success: true });
+    await vi.advanceTimersByTimeAsync(0);
+
+    expect(onLateSuccess).toHaveBeenCalledTimes(1);
+  });
+
+  it("stays quiet when a request that already timed out later fails, or when it answers in time", async () => {
+    vi.useFakeTimers();
+    let fail!: (e: Error) => void;
+    const slow = vi.fn(() => new Promise<{ success: boolean }>((_, rej) => { fail = rej; }));
+    const lateFailure = vi.fn();
+    const pending = submitEnquiry(data, { endpoint: "https://x", send: slow, onLateSuccess: lateFailure });
+    await vi.advanceTimersByTimeAsync(SUBMIT_TIMEOUT_MS);
+    await pending;
+    fail(new Error("socket closed"));
+    await vi.advanceTimersByTimeAsync(0);
+    expect(lateFailure).not.toHaveBeenCalled();
+
+    const inTime = vi.fn();
+    const result = await submitEnquiry(data, {
+      endpoint: "https://x",
+      send: vi.fn().mockResolvedValue({ success: true }),
+      onLateSuccess: inTime,
+    });
+    expect(result).toEqual({ ok: true });
+    expect(inTime).not.toHaveBeenCalled();
   });
 
   it('a missing endpoint returns "Submission endpoint not configured." and never calls send', async () => {

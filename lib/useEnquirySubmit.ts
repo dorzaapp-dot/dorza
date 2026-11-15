@@ -21,6 +21,7 @@ export function useEnquirySubmit() {
     const result = await submitEnquiry(data, {
       endpoint: process.env.NEXT_PUBLIC_ENQUIRY_SUBMIT_URL,
       send: submitForm,
+      onLateSuccess: () => setState({ submitting: false, submitted: true, error: null }),
     });
     if (!result.ok) {
       setState({ submitting: false, submitted: false, error: result.error });
