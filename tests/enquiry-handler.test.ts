@@ -32,6 +32,18 @@ describe("handleEnquiry", () => {
     expect(deps.runInBackground).toHaveBeenCalledTimes(1);
   });
 
+  it("waits for the emails when the runtime hands the task back instead of running it in the background", async () => {
+    let finished = false;
+    const deps = makeDeps({
+      sendEmail: vi.fn(() => new Promise<void>((r) => setTimeout(() => { finished = true; r(); }, 20))),
+      runInBackground: (task) => task.then(() => undefined),
+    });
+
+    await handleEnquiry(post(valid), deps);
+
+    expect(finished).toBe(true);
+  });
+
   it("sends the admin email and the confirmation without waiting for one another", async () => {
     const deps = makeDeps({ sendEmail: vi.fn(() => new Promise<void>(() => {})) });
 

@@ -106,7 +106,7 @@ export async function handleEnquiry(req: Request, deps: EnquiryDeps): Promise<Re
         <p>— The Dorza team</p>
       `;
 
-  deps.runInBackground(
+  await deps.runInBackground(
     Promise.allSettled([
       deps.sendEmail({
         to: deps.adminEmail,
