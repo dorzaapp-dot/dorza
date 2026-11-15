@@ -6,7 +6,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { Reveal, DORZA_EASE } from "@/components/motion/Reveal";
 import EnquiryFormFields from "@/components/forms/EnquiryFormFields";
-import { buttonClasses } from "@/components/ui/buttonClasses";
+import SubmitButton from "@/components/forms/SubmitButton";
 import { useEnquirySubmit } from "@/lib/useEnquirySubmit";
 import { CTA_LABEL } from "@/lib/site";
 import type { EnquiryFormData } from "@/lib/types";
@@ -66,7 +66,7 @@ export default function WaitlistCTA() {
                   initial={false}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.28, ease: DORZA_EASE }}
+                  transition={{ duration: 0.12, ease: DORZA_EASE }}
                   onSubmit={handleSubmit}
                   className="relative space-y-3 text-left"
                 >
@@ -74,9 +74,7 @@ export default function WaitlistCTA() {
                   <EnquiryFormFields theme="dark" value={form} onChange={setForm} showMessage={form.message !== undefined} />
 
                   <div className="relative pt-2">
-                    <button type="submit" disabled={submitting} className={buttonClasses("inverse", "default", "w-full")}>
-                      {submitting ? "Sending…" : CTA_LABEL}
-                    </button>
+                    <SubmitButton submitting={submitting} variant="inverse" idleLabel={CTA_LABEL} className="w-full" />
                   </div>
 
                   {error && (
@@ -102,7 +100,8 @@ function Confirmation() {
     <motion.div
       initial={reduce ? false : { opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.28, ease: DORZA_EASE }}
+      transition={{ duration: 0.2, ease: DORZA_EASE }}
+      role="status"
       className="rounded-card border border-chalk/20 bg-chalk/5 p-10 text-center"
     >
       <h3 className="d-heading mb-2">Thanks. We&rsquo;ve got your details.</h3>

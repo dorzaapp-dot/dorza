@@ -6,6 +6,7 @@ import { X } from "lucide-react";
 import { DORZA_EASE } from "@/components/motion/Reveal";
 import EnquiryFormFields from "@/components/forms/EnquiryFormFields";
 import { buttonClasses } from "@/components/ui/buttonClasses";
+import SubmitButton from "@/components/forms/SubmitButton";
 import { useEnquirySubmit } from "@/lib/useEnquirySubmit";
 import { CTA_LABEL } from "@/lib/site";
 import type { EnquiryFormData } from "@/lib/types";
@@ -163,7 +164,8 @@ export default function EnquiryModal({ open, onClose }: Props) {
                     key="confirmation"
                     initial={shouldReduce ? false : { opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.28, ease: DORZA_EASE }}
+                    transition={{ duration: 0.2, ease: DORZA_EASE }}
+                    role="status"
                     className="border-t border-rule-soft pt-6"
                   >
                     <h3 className="d-heading">Thanks. We&rsquo;ve got your details.</h3>
@@ -194,9 +196,7 @@ export default function EnquiryModal({ open, onClose }: Props) {
                       <button type="button" onClick={handleClose} className={buttonClasses("ghost", "default")}>
                         Cancel
                       </button>
-                      <button type="submit" disabled={submitting} className={buttonClasses("primary", "default")}>
-                        {submitting ? "Sending…" : CTA_LABEL}
-                      </button>
+                      <SubmitButton submitting={submitting} variant="primary" idleLabel={CTA_LABEL} />
                     </div>
                   </motion.form>
                 )}
