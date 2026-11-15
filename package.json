@@ -10,7 +10,8 @@
     "test": "vitest run",
     "test:export": "vitest run tests/export.out.test.ts",
     "check": "tsc --noEmit && next lint && vitest run",
-    "indexnow": "node scripts/indexnow.mjs"
+    "indexnow": "node scripts/indexnow.mjs",
+    "check:enquiry": "node scripts/check-enquiry-ui.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.105.4",
